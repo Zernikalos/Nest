@@ -1,0 +1,14 @@
+{
+  "name": "MrRobotto.js",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "git-cz": "^3.2.1",
+    "lerna": "^3.16.4",
+    "typescript": "^3.7.0-beta"
+  },
+  "scripts": {
+    "commit": "git-cz"
+  }
+}
