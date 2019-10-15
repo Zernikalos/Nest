@@ -1,14 +1,20 @@
 {
   "name": "MrRobotto.js",
   "version": "0.0.1",
-  "main": "index.js",
   "license": "MIT",
   "devDependencies": {
+    "@webpack-cli/init": "^0.2.2",
     "git-cz": "^3.2.1",
     "lerna": "^3.16.4",
-    "typescript": "^3.7.0-beta"
+    "ts-loader": "^6.2.0",
+    "typescript": "^3.7.0-beta",
+    "webpack": "^4.41.1",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.2"
   },
   "scripts": {
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "build": "webpack",
+    "start": "webpack-dev-server"
   }
 }

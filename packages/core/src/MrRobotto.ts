@@ -1,5 +1,5 @@
 
-class MrRobotto {
+export class MrRobotto {
 
     private _context!: WebGLRenderingContext;
 
@@ -8,7 +8,6 @@ class MrRobotto {
     }
 
     public start() {
-        this._context
     }
 
     private setContext(canvas: HTMLCanvasElement) {
