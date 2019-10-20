@@ -17,6 +17,6 @@
     "commit": "git-cz",
     "build": "webpack",
     "start": "webpack-dev-server",
-    "lint": "tslint ./packages/**/src/**.ts"
+    "lint": "tslint ./packages/**/src/**/*.ts"
   }
 }

@@ -15,6 +15,7 @@ function config({libraryName, entryName, packageName}) {
   const outputPath = path.join(packageDir, 'dist');
 
   const config = {
+    mode: 'development',
     devtool: debug ? "inline-sourcemap" : null,
     entry: {
       [entryName]: entries
@@ -30,7 +31,6 @@ function config({libraryName, entryName, packageName}) {
     plugins: debug ? [] : [
       new webpack.optimize.DedupePlugin(),
       new webpack.optimize.OccurenceOrderPlugin(),
-      new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
     ],
     resolve: {
       extensions: ['.ts', '.js'],
