@@ -14,15 +14,7 @@ export class MrShaderProgram extends MrComponent {
         attributes?: MrAttribute[]) {
         super(name, ctx);
         this.data = new MrShaderProgramData(vertexShaderSource, fragmentShaderSource, attributes);
-        this.view = new MrShaderProgramView(ctx, this.data);
-    }
-
-    public initialize() {
-        this.view.initialize();
-    }
-
-    public bind() {
-        this.view.bind();
+        this.view = new MrShaderProgramView();
     }
 
 }
@@ -51,12 +43,11 @@ class MrShaderProgramData extends MrComponentData {
 
 class MrShaderProgramView extends MrComponentView {
 
-    public initialize() {
-        const data = this.data as MrShaderProgramData;
-        const gl = this.ctx.gl;
+    public initialize(ctx: MrRenderingContext, data: MrShaderProgramData) {
+        const gl = ctx.gl;
 
-        this.initializeShader(data.vertexShader);
-        this.initializeShader(data.fragmentShader);
+        this.initializeShader(ctx, data.vertexShader);
+        this.initializeShader(ctx, data.fragmentShader);
 
         const program = gl.createProgram();
         if (!program) {
@@ -73,14 +64,13 @@ class MrShaderProgramView extends MrComponentView {
         data.program = program;
     }
 
-    public bind() {
-        const data = this.data as MrShaderProgramData;
-        const gl = this.ctx.gl;
+    public bind(ctx: MrRenderingContext, data: MrShaderProgramData) {
+        const gl = ctx.gl;
         gl.useProgram(data.program);
     }
 
-    private initializeShader(mrShader: MrShader) {
-        const gl = this.ctx.gl;
+    private initializeShader(ctx: MrRenderingContext, mrShader: MrShader) {
+        const gl = ctx.gl;
         const shader = gl.createShader(mrShader.type);
         if (!shader) {
             throw new Error("Error creating shader");

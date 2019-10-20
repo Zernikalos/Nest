@@ -16,19 +16,11 @@ export class MrMesh extends MrComponent {
         vertexBufferSource: number[]) {
         super(name, ctx);
         this.data = new MrMeshData(drawInfo, keys, indexBufferSource, vertexBufferSource);
-        this.view = new MrMeshView(ctx, this.data);
-    }
-
-    public initialize() {
-        this.view.initialize();
-    }
-
-    public bind() {
-        this.view.bind();
+        this.view = new MrMeshView();
     }
 
     public draw() {
-        this.view.draw();
+        this.view.draw(this.ctx, this.data);
     }
 }
 
@@ -58,10 +50,9 @@ class MrMeshData extends MrComponentData {
 
 class MrMeshView extends MrComponentView {
 
-    public initialize() {
-        const data = this.data as MrMeshData;
-        const gl = this.ctx.gl;
-        this.initializeBuffer(data.vertexBuffer);
+    public initialize(ctx: MrRenderingContext, data: MrMeshData) {
+        const gl = ctx.gl;
+        this.initializeBuffer(ctx, data.vertexBuffer);
 
         const vao = gl.createVertexArray();
         gl.bindVertexArray(vao);
@@ -69,24 +60,22 @@ class MrMeshView extends MrComponentView {
         if (!vao) {
             throw new Error("Unable to create Mesh");
         }
-        data.keys.forEach((key) => this.intitializeBufferKey(key));
+        data.keys.forEach((key) => this.intitializeBufferKey(ctx, key));
         data.vao = vao;
     }
 
-    public bind() {
-        const data = this.data as MrMeshData;
-        const gl = this.ctx.gl;
+    public bind(ctx: MrRenderingContext, data: MrMeshData) {
+        const gl = ctx.gl;
         gl.bindVertexArray(data.vao);
     }
 
-    public draw() {
-        const data = this.data as MrMeshData;
-        const gl = this.ctx.gl;
+    public draw(ctx: MrRenderingContext, data: MrMeshData) {
+        const gl = ctx.gl;
         gl.drawArrays(data.drawInfo.drawMode, 0, data.drawInfo.count);
     }
 
-    private initializeBuffer(mrBuffer: MrBuffer) {
-        const gl = this.ctx.gl;
+    private initializeBuffer(ctx: MrRenderingContext, mrBuffer: MrBuffer) {
+        const gl = ctx.gl;
         const buffer = gl.createBuffer();
         if (!buffer) {
             throw new Error("Unable to create buffer");
@@ -96,8 +85,8 @@ class MrMeshView extends MrComponentView {
         mrBuffer.buffer = buffer;
     }
 
-    private intitializeBufferKey(mrBufferKey: MrBufferKey) {
-        const gl = this.ctx.gl;
+    private intitializeBufferKey(ctx: MrRenderingContext, mrBufferKey: MrBufferKey) {
+        const gl = ctx.gl;
         gl.enableVertexAttribArray(mrBufferKey.attributeType);
         gl.vertexAttribPointer(
             mrBufferKey.attributeType,
