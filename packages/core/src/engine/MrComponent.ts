@@ -1,32 +1,18 @@
 import { MrRenderingContext } from "../ui/MrRenderingContext";
-
 export abstract class MrComponent {
 
-    protected abstract data: MrComponentData;
-    protected abstract view: MrComponentView;
+    protected readonly compData: any = {};
 
-    constructor(public readonly name: string, protected readonly ctx: MrRenderingContext) {
+    constructor(
+        protected readonly ctx: MrRenderingContext,
+        protected readonly data: any = {}) {
         // Context should be passed in
     }
 
-    public initialize(): void {
-        this.view.initialize(this.ctx, this.data);
+    public initialize(_compData?: any): void {
     }
 
-    public bind(): void {
-        this.view.bind(this.ctx, this.data);
+    public render(_compData?: any): void {
     }
-
-}
-
-export abstract class MrComponentData {
-
-}
-
-export abstract class MrComponentView {
-
-    public abstract initialize(ctx: MrRenderingContext, data: MrComponentData): void;
-
-    public abstract bind(ctx: MrRenderingContext, data: MrComponentData): void;
 
 }

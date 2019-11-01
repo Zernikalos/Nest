@@ -1,155 +1,89 @@
-import { MrRenderingContext } from "./../ui/MrRenderingContext";
-import { MrComponent, MrComponentData, MrComponentView } from "./MrComponent";
-import { MrAttributeType } from "./MrShaderProgram";
+import { MrRenderingContext } from "../ui/MrRenderingContext";
+import { MrDataType } from "./constants";
+import { MrBuffer } from "./MrBuffer";
+import { MrBufferIndex } from "./MrBufferIndex";
+import { MrComponent } from "./MrComponent";
+import { MrVertexArrayObject } from "./MrVertexArrayObject";
 
 export class MrMesh extends MrComponent {
 
-    protected data: MrMeshData;
-    protected view: MrMeshView;
+    public readonly data: MrMesh.Data;
 
     constructor(
-        name: string,
         ctx: MrRenderingContext,
-        drawInfo: MrDrawInfo,
-        keys: MrBufferKey[],
-        indexBufferSource: number[],
-        vertexBufferSource: number[]) {
-        super(name, ctx);
-        this.data = new MrMeshData(drawInfo, keys, indexBufferSource, vertexBufferSource);
-        this.view = new MrMeshView();
+        data: {
+            drawMode: MrMesh.DrawMode,
+            numFaces: number,
+            indexBufferDataArray: number[],
+            vertexBufferDataArray: number[],
+            bufferIndices: MrBufferIndex.Data[],
+        }) {
+        super(ctx);
+
+        const vertexArrayObject = new MrVertexArrayObject(this.ctx);
+        const indexBuffer = new MrBuffer(
+            ctx,
+            {
+                target: MrBuffer.TargetType.ELEMENT_ARRAY_BUFFER,
+                usage: MrBuffer.UsageType.STATIC_DRAW,
+                dataType: MrDataType.UNSIGNED_SHORT,
+                dataArray: new Uint16Array(data.indexBufferDataArray),
+            });
+
+        const vertexBuffer = new MrBuffer(
+            ctx,
+            {
+                target: MrBuffer.TargetType.ARRAY_BUFFER,
+                usage: MrBuffer.UsageType.STATIC_DRAW,
+                dataType: MrDataType.FLOAT,
+                dataArray: new Float32Array(data.vertexBufferDataArray),
+            });
+        const bufferIndices: MrBufferIndex[] = [];
+        data.bufferIndices.forEach((bufferIndexData) => {
+            bufferIndices.push(new MrBufferIndex(this.ctx, bufferIndexData));
+        });
+
+        this.data = {
+            drawMode: data.drawMode,
+            numFaces: data.numFaces,
+            vertexArrayObject,
+            indexBuffer,
+            vertexBuffer,
+            bufferIndices,
+        };
     }
 
-    public draw() {
-        this.view.draw(this.ctx, this.data);
-    }
-}
+    public initialize() {
+        this.data.vertexArrayObject.initialize();
 
-class MrMeshData extends MrComponentData {
+        this.data.indexBuffer.initialize();
+        this.data.vertexBuffer.initialize();
 
-    public readonly indexBuffer: MrBuffer;
-    public readonly vertexBuffer: MrBuffer;
-    public vao: WebGLVertexArrayObject = -1;
-
-    constructor(
-        public readonly drawInfo: MrDrawInfo,
-        public readonly keys: MrBufferKey[],
-        indexBufferSource: number[],
-        vertexBufferSource: number[]) {
-        super();
-        this.indexBuffer = new MrBuffer(
-            MrBufferTargetType.ELEMENT_ARRAY_BUFFER,
-            MrBufferUsageType.STATIC_DRAW,
-            new Uint8Array(indexBufferSource));
-        this.vertexBuffer = new MrBuffer(
-            MrBufferTargetType.ARRAY_BUFFER,
-            MrBufferUsageType.STATIC_DRAW,
-            new Float32Array(vertexBufferSource));
+        this.data.bufferIndices.forEach((index) => {
+            index.initialize();
+        });
     }
 
-}
-
-class MrMeshView extends MrComponentView {
-
-    public initialize(ctx: MrRenderingContext, data: MrMeshData) {
-        const gl = ctx.gl;
-        this.initializeBuffer(ctx, data.vertexBuffer);
-
-        const vao = gl.createVertexArray();
-        gl.bindVertexArray(vao);
-
-        if (!vao) {
-            throw new Error("Unable to create Mesh");
-        }
-        data.keys.forEach((key) => this.intitializeBufferKey(ctx, key));
-        data.vao = vao;
-    }
-
-    public bind(ctx: MrRenderingContext, data: MrMeshData) {
-        const gl = ctx.gl;
-        gl.bindVertexArray(data.vao);
-    }
-
-    public draw(ctx: MrRenderingContext, data: MrMeshData) {
-        const gl = ctx.gl;
-        gl.drawArrays(data.drawInfo.drawMode, 0, data.drawInfo.count);
-    }
-
-    private initializeBuffer(ctx: MrRenderingContext, mrBuffer: MrBuffer) {
-        const gl = ctx.gl;
-        const buffer = gl.createBuffer();
-        if (!buffer) {
-            throw new Error("Unable to create buffer");
-        }
-        gl.bindBuffer(mrBuffer.target, buffer);
-        gl.bufferData(mrBuffer.target, mrBuffer.data, mrBuffer.usage);
-        mrBuffer.buffer = buffer;
-    }
-
-    private intitializeBufferKey(ctx: MrRenderingContext, mrBufferKey: MrBufferKey) {
-        const gl = ctx.gl;
-        gl.enableVertexAttribArray(mrBufferKey.attributeType);
-        gl.vertexAttribPointer(
-            mrBufferKey.attributeType,
-            mrBufferKey.size,
-            mrBufferKey.dataType,
-            false,
-            mrBufferKey.stride,
-            mrBufferKey.pointer);
-    }
-
-}
-
-class MrDrawInfo {
-
-    constructor(public readonly drawMode: MrDrawMode, public readonly count: number) {
-
+    public render() {
+        const gl = this.ctx.gl;
+        this.data.vertexArrayObject.render();
+        gl.drawElements(this.data.drawMode, this.data.numFaces, this.data.indexBuffer.data.dataType, 0);
     }
 }
 
-export enum MrDrawMode {
-    TRIANGLES = WebGL2RenderingContext.TRIANGLES,
-}
+export namespace MrMesh {
 
-enum MrBufferTargetType {
-    /**
-     * Target type for VBO
-     */
-    ARRAY_BUFFER = WebGL2RenderingContext.ARRAY_BUFFER,
-    /**
-     * Target type for IBO
-     */
-    ELEMENT_ARRAY_BUFFER = WebGL2RenderingContext.ELEMENT_ARRAY_BUFFER,
-}
-
-enum MrBufferUsageType {
-    STATIC_DRAW = WebGL2RenderingContext.STATIC_DRAW,
-}
-
-class MrBuffer {
-
-    public buffer: WebGLBuffer = -1;
-
-    constructor(
-        public readonly target: MrBufferTargetType,
-        public readonly usage: MrBufferUsageType,
-        public readonly data: ArrayBuffer) {
+    export interface Data {
+        drawMode: MrMesh.DrawMode;
+        numFaces: number;
+        vertexArrayObject: MrVertexArrayObject;
+        indexBuffer: MrBuffer;
+        vertexBuffer: MrBuffer;
+        bufferIndices: MrBufferIndex[];
     }
 
-}
-
-export enum MrDataType {
-    UNSIGNED_SHORT = WebGL2RenderingContext.UNSIGNED_SHORT,
-    FLOAT = WebGL2RenderingContext.FLOAT,
-}
-
-class MrBufferKey {
-
-    constructor(
-        public readonly attributeType: MrAttributeType,
-        public readonly dataType: MrDataType,
-        public readonly size: number,
-        public readonly stride: number,
-        public readonly pointer: number,
-    ) {}
-
+    export enum DrawMode {
+        TRIANGLES = WebGL2RenderingContext.TRIANGLES,
+        LINES = WebGL2RenderingContext.LINES,
+    }
 }
