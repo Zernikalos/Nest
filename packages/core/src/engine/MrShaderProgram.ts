@@ -3,15 +3,17 @@ import { MrAttribute } from "./MrAttribute";
 import { MrComponent } from "./MrComponent";
 import { MrProgram } from "./MrProgram";
 import { MrShader } from "./MrShader";
+import { MrUniform } from './MrUniform';
 
 export class MrShaderProgram extends MrComponent {
 
-    protected readonly data: MrShaderProgram.Data;
+    public readonly data: MrShaderProgram.Data;
 
     constructor(
         ctx: MrRenderingContext,
         data: {
-            attributes?: MrAttribute.Data[]
+            attributes?: MrAttribute.Data[],
+            uniforms?: MrUniform.Data[],
             vertexShaderSource: string,
             fragmentShaderSource: string,
         }) {
@@ -33,9 +35,17 @@ export class MrShaderProgram extends MrComponent {
                     attributes.push(mrAttr);
                 }
             }
+            const uniforms = [];
+            if (data.uniforms) {
+                for (const uniform of data.uniforms) {
+                    const mrUniform = new MrUniform(ctx, uniform);
+                    uniforms.push(mrUniform);
+                }
+            }
             this.data = {
                 program,
                 attributes,
+                uniforms,
                 vertexShader,
                 fragmentShader,
             };
@@ -51,10 +61,16 @@ export class MrShaderProgram extends MrComponent {
             attr.initialize(programData);
         }
         this.data.program.link();
+        for (const unif of this.data.uniforms) {
+            unif.initialize(programData);
+        }
     }
 
     public render() {
         this.data.program.render();
+        for (const unif of this.data.uniforms) {
+            unif.render();
+        }
     }
 
 }
@@ -63,6 +79,7 @@ export namespace MrShaderProgram {
     export interface Data {
         program: MrProgram;
         attributes: MrAttribute[];
+        uniforms: MrUniform[];
         vertexShader: MrShader;
         fragmentShader: MrShader;
     }
