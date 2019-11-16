@@ -1,8 +1,8 @@
 import { MrRenderingContext } from "../ui/MrRenderingContext";
 import { MrDataType } from "./constants";
 import { MrBuffer } from "./MrBuffer";
-import { MrBufferIndex } from "./MrBufferIndex";
 import { MrComponent } from "./MrComponent";
+import { MrIndexedBuffer } from "./MrIndexedBuffer";
 import { MrVertexArrayObject } from "./MrVertexArrayObject";
 
 export class MrMesh extends MrComponent {
@@ -16,7 +16,7 @@ export class MrMesh extends MrComponent {
             numFaces: number,
             indexBufferDataArray: number[],
             vertexBufferDataArray: number[],
-            bufferIndices: MrBufferIndex.Data[],
+            bufferIndices: MrIndexedBuffer.Key[],
         }) {
         super(ctx);
 
@@ -30,18 +30,15 @@ export class MrMesh extends MrComponent {
                 dataArray: new Uint16Array(data.indexBufferDataArray),
             });
 
-        const vertexBuffer = new MrBuffer(
+        const vertexBuffer = new MrIndexedBuffer(
             ctx,
             {
                 target: MrBuffer.TargetType.ARRAY_BUFFER,
                 usage: MrBuffer.UsageType.STATIC_DRAW,
                 dataType: MrDataType.FLOAT,
                 dataArray: new Float32Array(data.vertexBufferDataArray),
+                keys: data.bufferIndices,
             });
-        const bufferIndices: MrBufferIndex[] = [];
-        data.bufferIndices.forEach((bufferIndexData) => {
-            bufferIndices.push(new MrBufferIndex(this.ctx, bufferIndexData));
-        });
 
         this.data = {
             drawMode: data.drawMode,
@@ -49,7 +46,6 @@ export class MrMesh extends MrComponent {
             vertexArrayObject,
             indexBuffer,
             vertexBuffer,
-            bufferIndices,
         };
     }
 
@@ -58,10 +54,6 @@ export class MrMesh extends MrComponent {
 
         this.data.indexBuffer.initialize();
         this.data.vertexBuffer.initialize();
-
-        this.data.bufferIndices.forEach((index) => {
-            index.initialize();
-        });
     }
 
     public render() {
@@ -78,8 +70,7 @@ export namespace MrMesh {
         numFaces: number;
         vertexArrayObject: MrVertexArrayObject;
         indexBuffer: MrBuffer;
-        vertexBuffer: MrBuffer;
-        bufferIndices: MrBufferIndex[];
+        vertexBuffer: MrBuffer | MrIndexedBuffer;
     }
 
     export enum DrawMode {

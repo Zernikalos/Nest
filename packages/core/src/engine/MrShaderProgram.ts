@@ -3,7 +3,7 @@ import { MrAttribute } from "./MrAttribute";
 import { MrComponent } from "./MrComponent";
 import { MrProgram } from "./MrProgram";
 import { MrShader } from "./MrShader";
-import { MrUniform } from './MrUniform';
+import { MrUniform } from "./MrUniform";
 
 export class MrShaderProgram extends MrComponent {
 

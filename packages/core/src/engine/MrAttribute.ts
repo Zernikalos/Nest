@@ -19,17 +19,6 @@ export namespace MrAttribute {
 
     export interface Data {
         index: number;
-        type: MrAttribute.Type;
         attrName: string;
-    }
-
-    export const enum Type {
-        VERTICES,
-        NORMALS,
-        COLOR,
-        MATERIAL_INDEX,
-        TEXTURE,
-        WEIGHT,
-        BONE_INDICES,
     }
 }

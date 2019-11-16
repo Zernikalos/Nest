@@ -1,5 +1,4 @@
 import { MrDataType } from "./engine/constants";
-import { MrAttribute } from "./engine/MrAttribute";
 import { MrMesh } from "./engine/MrMesh";
 import { MrShaderProgram} from "./engine/MrShaderProgram";
 import { MrRenderingContext } from "./ui/MrRenderingContext";
@@ -131,7 +130,7 @@ export class MrRobotto {
             throw new Error("Unable to start a GL context");
         }
 
-        const attributes = [{index: 0, type: MrAttribute.Type.VERTICES, attrName: "a_position"}];
+        const attributes = [{index: 0, attrName: "a_position"}];
         const uniforms = [{uniformName: "u_offset", dataType: MrDataType.FLOAT}];
         const program = new MrShaderProgram(
           ctx,
@@ -154,7 +153,7 @@ export class MrRobotto {
         program2.initialize();
 
         const bufferIndices = [{
-          index: MrAttribute.Type.VERTICES,
+          index: 0,
           dataType: MrDataType.FLOAT,
           size: 3,
           stride: 0,
