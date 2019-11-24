@@ -1,5 +1,5 @@
-import { MrRenderingContext } from "../ui/MrRenderingContext";
 import { MrComponent } from "./MrComponent";
+import { MrRenderingContext } from "./MrRenderingContext";
 
 export class MrVertexArrayObject extends MrComponent {
 

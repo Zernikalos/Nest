@@ -1,7 +1,7 @@
-import { MrRenderingContext } from "../ui/MrRenderingContext";
-export abstract class MrComponent {
 
-    protected readonly compData: any = {};
+import { MrRenderingContext } from "./MrRenderingContext";
+
+export abstract class MrComponent {
 
     constructor(
         protected readonly ctx: MrRenderingContext,

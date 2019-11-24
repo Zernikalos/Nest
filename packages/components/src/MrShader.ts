@@ -1,4 +1,5 @@
-import { MrRenderingContext } from "../ui/MrRenderingContext";
+import { MrRenderingContext } from "./MrRenderingContext";
+
 import { MrComponent } from "./MrComponent";
 import { MrProgram } from "./MrProgram";
 

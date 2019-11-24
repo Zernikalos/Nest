@@ -1,6 +1,6 @@
-import { MrRenderingContext } from "../ui/MrRenderingContext";
 import { MrDataType } from "./constants";
 import { MrComponent } from "./MrComponent";
+import { MrRenderingContext } from "./MrRenderingContext";
 
 export class MrBuffer extends MrComponent {
 

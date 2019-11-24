@@ -1,4 +1,5 @@
-import { MrRenderingContext } from "../ui/MrRenderingContext";
+import { MrRenderingContext } from "./MrRenderingContext";
+
 import { MrDataType } from "./constants";
 import { MrBuffer } from "./MrBuffer";
 import { MrComponent } from "./MrComponent";

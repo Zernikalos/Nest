@@ -1,4 +1,4 @@
 
-import {MrRobotto} from './src/MrRobotto';
+import {MrRobotto} from "./src/MrRobotto";
 
 export default MrRobotto;

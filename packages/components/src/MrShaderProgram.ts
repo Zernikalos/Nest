@@ -1,7 +1,7 @@
-import { MrRenderingContext } from "../ui/MrRenderingContext";
 import { MrAttribute } from "./MrAttribute";
 import { MrComponent } from "./MrComponent";
 import { MrProgram } from "./MrProgram";
+import { MrRenderingContext } from "./MrRenderingContext";
 import { MrShader } from "./MrShader";
 import { MrUniform } from "./MrUniform";
 

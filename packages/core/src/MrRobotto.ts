@@ -1,7 +1,5 @@
-import { MrDataType } from "./engine/constants";
-import { MrMesh } from "./engine/MrMesh";
-import { MrShaderProgram} from "./engine/MrShaderProgram";
-import { MrRenderingContext } from "./ui/MrRenderingContext";
+import {MrDataType, MrMesh, MrShaderProgram} from "@mrrobotto/components";
+import { MrContext } from "./MrContext";
 
 const vertexShaderSource = `#version 300 es
 
@@ -112,7 +110,7 @@ const indices2 = [
 export class MrRobotto {
 
     public initialize(canvas: HTMLCanvasElement) {
-        const ctx = new MrRenderingContext(canvas);
+        const ctx = new MrContext(canvas);
 
         /* function get_projection(angle: number, a: number, zMin: number, zMax: number) {
           const ang = Math.tan((angle * .5) * Math.PI / 180);
@@ -187,12 +185,12 @@ export class MrRobotto {
         ctx.gl.clearColor(0, 0, 0, 0);
         ctx.gl.clear(ctx.gl.COLOR_BUFFER_BIT);
 
+        program.data.uniforms[0].data.value = [1, 0, 0, 0];
         program.render();
 
         // const someProgram = program.data.program.data.program;
         // const offsetLoc = ctx.gl.getUniformLocation(someProgram, "u_offset");
         // ctx.gl.uniform4fv(offsetLoc, [1, 0, 0, 0]);
-        program.data.uniforms[0].data.value = [1, 0, 0, 0];
 
         mesh.render();
 

@@ -1,5 +1,6 @@
+import { MrRenderingContext } from "@mrrobotto/components";
 
-export class MrRenderingContext {
+export class MrContext implements MrRenderingContext {
 
     private _nativeCtx: WebGL2RenderingContext;
 
