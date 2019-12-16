@@ -1,6 +1,6 @@
 import {MrComponent} from "./MrComponent";
-import { MrProgram } from "./MrProgram";
-import { MrRenderingContext } from "./MrRenderingContext";
+import {MrProgram} from "./MrProgram";
+import {MrRenderingContext} from "./MrRenderingContext";
 
 export class MrAttribute extends MrComponent {
 

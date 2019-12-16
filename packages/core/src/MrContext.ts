@@ -1,4 +1,4 @@
-import { MrRenderingContext } from "@mrrobotto/components";
+import {MrRenderingContext} from "@mrrobotto/components";
 
 export class MrContext implements MrRenderingContext {
 

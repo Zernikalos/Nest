@@ -1,7 +1,7 @@
-import { MrRenderingContext } from "./MrRenderingContext";
+import {MrRenderingContext} from "./MrRenderingContext";
 
-import { MrComponent } from "./MrComponent";
-import { MrProgram } from "./MrProgram";
+import {MrComponent} from "./MrComponent";
+import {MrProgram} from "./MrProgram";
 
 export class MrShader extends MrComponent {
 

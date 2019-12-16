@@ -1,7 +1,7 @@
-import { MrDataType } from "./constants";
-import { MrComponent } from "./MrComponent";
-import { MrProgram } from "./MrProgram";
-import { MrRenderingContext } from "./MrRenderingContext";
+import {MrDataType} from "./constants";
+import {MrComponent} from "./MrComponent";
+import {MrProgram} from "./MrProgram";
+import {MrRenderingContext} from "./MrRenderingContext";
 
 export class MrUniform extends MrComponent {
     constructor(

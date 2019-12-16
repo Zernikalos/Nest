@@ -1,9 +1,9 @@
-import { MrAttribute } from "./MrAttribute";
-import { MrComponent } from "./MrComponent";
-import { MrProgram } from "./MrProgram";
-import { MrRenderingContext } from "./MrRenderingContext";
-import { MrShader } from "./MrShader";
-import { MrUniform } from "./MrUniform";
+import {MrAttribute} from "./MrAttribute";
+import {MrComponent} from "./MrComponent";
+import {MrProgram} from "./MrProgram";
+import {MrRenderingContext} from "./MrRenderingContext";
+import {MrShader} from "./MrShader";
+import {MrUniform} from "./MrUniform";
 
 export class MrShaderProgram extends MrComponent {
 
@@ -17,39 +17,39 @@ export class MrShaderProgram extends MrComponent {
             vertexShaderSource: string,
             fragmentShaderSource: string,
         }) {
-            super(ctx);
+        super(ctx);
 
-            const program = new MrProgram(ctx);
-            const vertexShader = new MrShader(ctx, {
-                source: data.vertexShaderSource,
-                type: MrShader.Type.VERTEX_SHADER,
-            });
-            const fragmentShader = new MrShader(ctx, {
-                source: data.fragmentShaderSource,
-                type: MrShader.Type.FRAGMENT_SHADER,
-            });
-            const attributes = [];
-            if (data.attributes) {
-                for (const attr of data.attributes) {
-                    const mrAttr = new MrAttribute(ctx, attr);
-                    attributes.push(mrAttr);
-                }
+        const program = new MrProgram(ctx);
+        const vertexShader = new MrShader(ctx, {
+            source: data.vertexShaderSource,
+            type: MrShader.Type.VERTEX_SHADER,
+        });
+        const fragmentShader = new MrShader(ctx, {
+            source: data.fragmentShaderSource,
+            type: MrShader.Type.FRAGMENT_SHADER,
+        });
+        const attributes = [];
+        if (data.attributes) {
+            for (const attr of data.attributes) {
+                const mrAttr = new MrAttribute(ctx, attr);
+                attributes.push(mrAttr);
             }
-            const uniforms = [];
-            if (data.uniforms) {
-                for (const uniform of data.uniforms) {
-                    const mrUniform = new MrUniform(ctx, uniform);
-                    uniforms.push(mrUniform);
-                }
-            }
-            this.data = {
-                program,
-                attributes,
-                uniforms,
-                vertexShader,
-                fragmentShader,
-            };
         }
+        const uniforms = [];
+        if (data.uniforms) {
+            for (const uniform of data.uniforms) {
+                const mrUniform = new MrUniform(ctx, uniform);
+                uniforms.push(mrUniform);
+            }
+        }
+        this.data = {
+            program,
+            attributes,
+            uniforms,
+            vertexShader,
+            fragmentShader,
+        };
+    }
 
     public initialize(): void {
         this.data.program.initialize();

@@ -1,5 +1,4 @@
-
-import { MrRenderingContext } from "./MrRenderingContext";
+import {MrRenderingContext} from "./MrRenderingContext";
 
 export abstract class MrComponent {
 

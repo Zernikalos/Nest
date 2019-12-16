@@ -1,10 +1,10 @@
-import { MrRenderingContext } from "./MrRenderingContext";
+import {MrRenderingContext} from "./MrRenderingContext";
 
-import { MrDataType } from "./constants";
-import { MrBuffer } from "./MrBuffer";
-import { MrComponent } from "./MrComponent";
-import { MrIndexedBuffer } from "./MrIndexedBuffer";
-import { MrVertexArrayObject } from "./MrVertexArrayObject";
+import {MrDataType} from "./constants";
+import {MrBuffer} from "./MrBuffer";
+import {MrComponent} from "./MrComponent";
+import {MrIndexedBuffer} from "./MrIndexedBuffer";
+import {MrVertexArrayObject} from "./MrVertexArrayObject";
 
 export class MrMesh extends MrComponent {
 
@@ -15,9 +15,13 @@ export class MrMesh extends MrComponent {
         data: {
             drawMode: MrMesh.DrawMode,
             numFaces: number,
-            indexBufferDataArray: number[],
-            vertexBufferDataArray: number[],
-            bufferIndices: MrIndexedBuffer.Key[],
+            indexBufferData: {
+                array: number[],
+            },
+            vertexBufferData: {
+                array: number[],
+                indices: MrIndexedBuffer.Key[],
+            },
         }) {
         super(ctx);
 
@@ -28,7 +32,7 @@ export class MrMesh extends MrComponent {
                 target: MrBuffer.TargetType.ELEMENT_ARRAY_BUFFER,
                 usage: MrBuffer.UsageType.STATIC_DRAW,
                 dataType: MrDataType.UNSIGNED_SHORT,
-                dataArray: new Uint16Array(data.indexBufferDataArray),
+                dataArray: new Uint16Array(data.indexBufferData.array),
             });
 
         const vertexBuffer = new MrIndexedBuffer(
@@ -37,8 +41,8 @@ export class MrMesh extends MrComponent {
                 target: MrBuffer.TargetType.ARRAY_BUFFER,
                 usage: MrBuffer.UsageType.STATIC_DRAW,
                 dataType: MrDataType.FLOAT,
-                dataArray: new Float32Array(data.vertexBufferDataArray),
-                keys: data.bufferIndices,
+                dataArray: new Float32Array(data.vertexBufferData.array),
+                keys: data.vertexBufferData.indices,
             });
 
         this.data = {

@@ -1,5 +1,5 @@
 import {MrDataType, MrMesh, MrShaderProgram} from "@mrrobotto/components";
-import { MrContext } from "./MrContext";
+import {MrContext} from "./MrContext";
 
 const vertexShaderSource = `#version 300 es
 
@@ -51,61 +51,61 @@ void main() {
 `;
 
 const vertices = [
-  // Front face
-  -1.0, -1.0,  1.0,
-   1.0, -1.0,  1.0,
-   1.0,  1.0,  1.0,
-  -1.0,  1.0,  1.0,
+    // Front face
+    -1.0, -1.0, 1.0,
+    1.0, -1.0, 1.0,
+    1.0, 1.0, 1.0,
+    -1.0, 1.0, 1.0,
 
-  // Back face
-  -1.0, -1.0, -1.0,
-  -1.0,  1.0, -1.0,
-   1.0,  1.0, -1.0,
-   1.0, -1.0, -1.0,
+    // Back face
+    -1.0, -1.0, -1.0,
+    -1.0, 1.0, -1.0,
+    1.0, 1.0, -1.0,
+    1.0, -1.0, -1.0,
 
-  // Top face
-  -1.0,  1.0, -1.0,
-  -1.0,  1.0,  1.0,
-   1.0,  1.0,  1.0,
-   1.0,  1.0, -1.0,
+    // Top face
+    -1.0, 1.0, -1.0,
+    -1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0,
+    1.0, 1.0, -1.0,
 
-  // Bottom face
-  -1.0, -1.0, -1.0,
-   1.0, -1.0, -1.0,
-   1.0, -1.0,  1.0,
-  -1.0, -1.0,  1.0,
+    // Bottom face
+    -1.0, -1.0, -1.0,
+    1.0, -1.0, -1.0,
+    1.0, -1.0, 1.0,
+    -1.0, -1.0, 1.0,
 
-  // Right face
-   1.0, -1.0, -1.0,
-   1.0,  1.0, -1.0,
-   1.0,  1.0,  1.0,
-   1.0, -1.0,  1.0,
+    // Right face
+    1.0, -1.0, -1.0,
+    1.0, 1.0, -1.0,
+    1.0, 1.0, 1.0,
+    1.0, -1.0, 1.0,
 
-  // Left face
-  -1.0, -1.0, -1.0,
-  -1.0, -1.0,  1.0,
-  -1.0,  1.0,  1.0,
-  -1.0,  1.0, -1.0,
+    // Left face
+    -1.0, -1.0, -1.0,
+    -1.0, -1.0, 1.0,
+    -1.0, 1.0, 1.0,
+    -1.0, 1.0, -1.0,
 ];
 
 const indices = [
-    0,  1,  2,      0,  2,  3,    // front
-    4,  5,  6,      4,  6,  7,    // back
-    8,  9,  10,     8,  10, 11,   // top
-    12, 13, 14,     12, 14, 15,   // bottom
-    16, 17, 18,     16, 18, 19,   // right
-    20, 21, 22,     20, 22, 23,   // left
-  ];
+    0, 1, 2, 0, 2, 3,    // front
+    4, 5, 6, 4, 6, 7,    // back
+    8, 9, 10, 8, 10, 11,   // top
+    12, 13, 14, 12, 14, 15,   // bottom
+    16, 17, 18, 16, 18, 19,   // right
+    20, 21, 22, 20, 22, 23,   // left
+];
 
 const indices2 = [
-    0,  1,  2,  3,    // front
-    4,  5,  6,  7,    // back
-    8,  9,  10, 11,   // top
+    0, 1, 2, 3,    // front
+    4, 5, 6, 7,    // back
+    8, 9, 10, 11,   // top
     12, 13, 14, 15,   // bottom
     16, 17, 18, 19,   // right
     20, 21, 22, 23,   // left
     23, 6,
-  ];
+];
 
 export class MrRobotto {
 
@@ -131,52 +131,60 @@ export class MrRobotto {
         const attributes = [{index: 0, attrName: "a_position"}];
         const uniforms = [{uniformName: "u_offset", dataType: MrDataType.FLOAT}];
         const program = new MrShaderProgram(
-          ctx,
-          {
-            vertexShaderSource,
-            fragmentShaderSource,
-            attributes,
-            uniforms,
-          });
+            ctx,
+            {
+                vertexShaderSource,
+                fragmentShaderSource,
+                attributes,
+                uniforms,
+            });
 
         const program2 = new MrShaderProgram(
-          ctx,
-          {
-            vertexShaderSource,
-            fragmentShaderSource: fragmentShaderSource2,
-            attributes,
-          });
+            ctx,
+            {
+                vertexShaderSource,
+                fragmentShaderSource: fragmentShaderSource2,
+                attributes,
+            });
 
         program.initialize();
         program2.initialize();
 
         const bufferIndices = [{
-          index: 0,
-          dataType: MrDataType.FLOAT,
-          size: 3,
-          stride: 0,
-          pointer: 0,
+            index: 0,
+            dataType: MrDataType.FLOAT,
+            size: 3,
+            stride: 0,
+            pointer: 0,
         }];
 
         const mesh = new MrMesh(
-          ctx,
-          {
-            drawMode: MrMesh.DrawMode.TRIANGLES,
-            numFaces: 36,
-            bufferIndices,
-            indexBufferDataArray: indices,
-            vertexBufferDataArray: vertices,
-          });
+            ctx,
+            {
+                drawMode: MrMesh.DrawMode.TRIANGLES,
+                numFaces: 36,
+                indexBufferData: {
+                    array: indices,
+                },
+                vertexBufferData: {
+                    indices: bufferIndices,
+                    array: vertices,
+                },
+            });
 
         const mesh2 = new MrMesh(
-          ctx,
-          {
-            drawMode: MrMesh.DrawMode.LINES,
-            numFaces: indices2.length,
-            bufferIndices,
-            indexBufferDataArray: indices2,
-            vertexBufferDataArray: vertices,
-          });
+            ctx,
+            {
+                drawMode: MrMesh.DrawMode.LINES,
+                numFaces: indices2.length,
+                indexBufferData: {
+                    array: indices2,
+                },
+                vertexBufferData: {
+                    indices: bufferIndices,
+                    array: vertices,
+                },
+            });
         mesh.initialize();
         mesh2.initialize();
 
@@ -200,12 +208,12 @@ export class MrRobotto {
 
     private resizeCanvas(canvas: HTMLCanvasElement, multiplier?: number) {
         multiplier = multiplier || 1;
-        const width  = canvas.clientWidth  * multiplier | 0;
+        const width = canvas.clientWidth * multiplier | 0;
         const height = canvas.clientHeight * multiplier | 0;
-        if (canvas.width !== width ||  canvas.height !== height) {
-          canvas.width  = width;
-          canvas.height = height;
-          return true;
+        if (canvas.width !== width || canvas.height !== height) {
+            canvas.width = width;
+            canvas.height = height;
+            return true;
         }
         return false;
     }

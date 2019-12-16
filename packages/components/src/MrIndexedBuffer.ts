@@ -1,7 +1,7 @@
-import { MrRenderingContext } from "./MrRenderingContext";
+import {MrRenderingContext} from "./MrRenderingContext";
 
-import { MrDataType } from "./constants";
-import { MrBuffer } from "./MrBuffer";
+import {MrDataType} from "./constants";
+import {MrBuffer} from "./MrBuffer";
 
 export class MrIndexedBuffer extends MrBuffer {
 

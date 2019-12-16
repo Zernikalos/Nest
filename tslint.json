@@ -1,17 +1,23 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+    "max-classes-per-file": false,
+    "no-empty": [
+      true,
+      "allow-empty-functions"
     ],
-    "jsRules": {},
-    "rules": {
-        "max-classes-per-file": false,
-        "no-empty": [true, "allow-empty-functions"],
-        "variable-name": [true, "allow-leading-underscore"],
-        "no-bitwise": false,
-        "no-namespace": false,
-        "interface-name": false,
-        "object-literal-sort-keys": false
-    },
-    "rulesDirectory": []
+    "variable-name": [
+      true,
+      "allow-leading-underscore"
+    ],
+    "no-bitwise": false,
+    "no-namespace": false,
+    "interface-name": false,
+    "object-literal-sort-keys": false
+  },
+  "rulesDirectory": []
 }

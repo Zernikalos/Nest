@@ -1,6 +1,6 @@
-import { MrRenderingContext } from "./MrRenderingContext";
+import {MrRenderingContext} from "./MrRenderingContext";
 
-import { MrComponent } from "./MrComponent";
+import {MrComponent} from "./MrComponent";
 
 export class MrProgram extends MrComponent {
 
@@ -8,7 +8,7 @@ export class MrProgram extends MrComponent {
 
     constructor(
         ctx: MrRenderingContext,
-        ) {
+    ) {
         super(ctx);
         this.data = {
             program: -1,
