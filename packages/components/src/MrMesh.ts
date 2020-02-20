@@ -75,7 +75,7 @@ export namespace MrMesh {
         numFaces: number;
         vertexArrayObject: MrVertexArrayObject;
         indexBuffer: MrBuffer;
-        vertexBuffer: MrBuffer | MrIndexedBuffer;
+        vertexBuffer: MrIndexedBuffer;
     }
 
     export enum DrawMode {

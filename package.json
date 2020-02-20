@@ -18,6 +18,7 @@
     "commit": "git-cz",
     "build": "webpack",
     "start": "webpack-dev-server",
+    "bootstrap": "lerna bootstrap",
     "lint": "tslint ./packages/**/src/**/*.ts",
     "clean": "rimraf build && lerna exec rimraf node_modules dist && rimraf node_modules "
   }

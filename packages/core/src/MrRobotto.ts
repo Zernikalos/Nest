@@ -1,3 +1,4 @@
+import {MrScene} from "@mrrobotto/components";
 import {MrDataType, MrMesh, MrShaderProgram} from "@mrrobotto/components";
 import {MrContext} from "./MrContext";
 
@@ -185,21 +186,20 @@ export class MrRobotto {
                     array: vertices,
                 },
             });
+
+        const scene = new MrScene(ctx, {
+            viewPort: {x: 0, y: 0, width: ctx.gl.canvas.width, height: ctx.gl.canvas.height},
+            clearColor: {x: 0.5, y: 0.5, z: 0.5, w: 0.75},
+            clearMask: ctx.gl.COLOR_BUFFER_BIT | ctx.gl.DEPTH_BUFFER_BIT,
+        });
         mesh.initialize();
         mesh2.initialize();
 
-        ctx.gl.viewport(0, 0, ctx.gl.canvas.width, ctx.gl.canvas.height);
-
-        ctx.gl.clearColor(0, 0, 0, 0);
-        ctx.gl.clear(ctx.gl.COLOR_BUFFER_BIT);
+        scene.initialize();
+        scene.render();
 
         program.data.uniforms[0].data.value = [1, 0, 0, 0];
         program.render();
-
-        // const someProgram = program.data.program.data.program;
-        // const offsetLoc = ctx.gl.getUniformLocation(someProgram, "u_offset");
-        // ctx.gl.uniform4fv(offsetLoc, [1, 0, 0, 0]);
-
         mesh.render();
 
         program2.render();

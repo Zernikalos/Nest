@@ -3,5 +3,8 @@
   "version": "0.0.1",
   "main": "index.ts",
   "license": "MIT",
-  "author": "Aaron Negrin"
+  "author": "Aaron Negrin",
+  "dependencies": {
+    "@mrrobotto/linalg": "0.0.1"
+  }
 }

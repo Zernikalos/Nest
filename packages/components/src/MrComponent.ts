@@ -2,7 +2,7 @@ import {MrRenderingContext} from "./MrRenderingContext";
 
 export abstract class MrComponent {
 
-    constructor(
+    protected constructor(
         protected readonly ctx: MrRenderingContext,
         protected readonly data: any = {}) {
         // Context should be passed in
