@@ -64,7 +64,16 @@ export class MrMesh extends MrComponent {
     public render() {
         const gl = this.ctx.gl;
         this.data.vertexArrayObject.render();
-        gl.drawElements(this.data.drawMode, this.data.numFaces, this.data.indexBuffer.data.dataType, 0);
+        let numIndices = 0;
+        switch (this.data.drawMode) {
+            case MrMesh.DrawMode.TRIANGLES:
+                numIndices = 3 * this.data.numFaces;
+                break;
+            case MrMesh.DrawMode.LINES:
+                numIndices = 1 * this.data.numFaces;
+                break;
+        }
+        gl.drawElements(this.data.drawMode, numIndices, this.data.indexBuffer.data.dataType, 0);
     }
 }
 

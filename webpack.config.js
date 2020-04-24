@@ -37,7 +37,7 @@ function config({libraryName, entryName, packageName}) {
         },
         devServer: {
             host: '0.0.0.0',
-            port: 8080,
+            port: 7070,
             progress: true,
             headers: {
                 'Access-Control-Allow-Origin': '*'

@@ -163,7 +163,7 @@ export class MrRobotto {
             ctx,
             {
                 drawMode: MrMesh.DrawMode.TRIANGLES,
-                numFaces: 36,
+                numFaces: 12,
                 indexBufferData: {
                     array: indices,
                 },
