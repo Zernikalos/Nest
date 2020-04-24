@@ -1,4 +1,7 @@
 
+/**
+ * Vector of 4 components
+ */
 export class MrVector4 {
     public x: number;
     public y: number;

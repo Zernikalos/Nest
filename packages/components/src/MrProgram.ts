@@ -2,6 +2,10 @@ import {MrRenderingContext} from "./MrRenderingContext";
 
 import {MrComponent} from "./MrComponent";
 
+/**
+ * This represents program, this means the bindable element
+ * ,this works alongsider {{MrShader}} and {{MrShaderProgram}}
+ */
 export class MrProgram extends MrComponent {
 
     public data: MrProgram.Data;
@@ -39,6 +43,9 @@ export class MrProgram extends MrComponent {
 
 export namespace MrProgram {
     export interface Data {
+        /**
+         * Internal program
+         */
         program: WebGLProgram;
     }
 }

@@ -5,6 +5,10 @@ import {MrRenderingContext} from "./MrRenderingContext";
 import {MrShader} from "./MrShader";
 import {MrUniform} from "./MrUniform";
 
+/**
+ * This is the combination of the two shaders, vertex + fragment
+ * and a program
+ */
 export class MrShaderProgram extends MrComponent {
 
     public readonly data: MrShaderProgram.Data;
@@ -77,10 +81,29 @@ export class MrShaderProgram extends MrComponent {
 
 export namespace MrShaderProgram {
     export interface Data {
+        /**
+         * Related program
+         */
         program: MrProgram;
+
+        /**
+         * Attributes exposed by the program
+         */
         attributes: MrAttribute[];
+
+        /**
+         * Uniforms exposed by the program
+         */
         uniforms: MrUniform[];
+
+        /**
+         * Vertex Shader
+         */
         vertexShader: MrShader;
+
+        /**
+         * Fragment Shader
+         */
         fragmentShader: MrShader;
     }
 }

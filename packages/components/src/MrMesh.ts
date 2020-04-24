@@ -6,6 +6,9 @@ import {MrComponent} from "./MrComponent";
 import {MrIndexedBuffer} from "./MrIndexedBuffer";
 import {MrVertexArrayObject} from "./MrVertexArrayObject";
 
+/**
+ * Class for representing meshes
+ */
 export class MrMesh extends MrComponent {
 
     public readonly data: MrMesh.Data;
@@ -80,9 +83,21 @@ export class MrMesh extends MrComponent {
 export namespace MrMesh {
 
     export interface Data {
-        drawMode: MrMesh.DrawMode;
-        numFaces: number;
+        /**
+         * VAO object, this should not be accessed from outside
+         */
         vertexArrayObject: MrVertexArrayObject;
+
+        /**
+         * How data is going to be rendered
+         */
+        drawMode: MrMesh.DrawMode;
+
+        /**
+         * Number of total faces (it depends on the selected drawMode)
+         */
+        numFaces: number;
+
         indexBuffer: MrBuffer;
         vertexBuffer: MrIndexedBuffer;
     }

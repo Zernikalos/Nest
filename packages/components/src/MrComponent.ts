@@ -1,5 +1,8 @@
 import {MrRenderingContext} from "./MrRenderingContext";
 
+/**
+ * Base class for components
+ */
 export abstract class MrComponent {
 
     protected constructor(

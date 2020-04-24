@@ -3,6 +3,9 @@ import {MrRenderingContext} from "./MrRenderingContext";
 import {MrComponent} from "./MrComponent";
 import {MrProgram} from "./MrProgram";
 
+/**
+ * Represents a Shader, this means, the compiled source
+ */
 export class MrShader extends MrComponent {
 
     constructor(ctx: MrRenderingContext, public readonly data: MrShader.Data) {
@@ -34,8 +37,19 @@ export class MrShader extends MrComponent {
 export namespace MrShader {
 
     export interface Data {
+        /**
+         * Type of shader, VERTEX or FRAGMENT
+         */
         type: MrShader.Type;
+
+        /**
+         * Source code of this shader
+         */
         source: string;
+
+        /**
+         * Internal shader representation
+         */
         shader?: WebGLShader;
     }
 

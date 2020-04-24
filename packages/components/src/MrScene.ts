@@ -2,6 +2,9 @@ import { MrVector4 } from "@mrrobotto/linalg";
 import {MrComponent} from "./MrComponent";
 import { MrRenderingContext } from "./MrRenderingContext";
 
+/**
+ * Base class component for representing scene graphics calls
+ */
 export class MrScene extends MrComponent {
 
     constructor(
@@ -35,6 +38,7 @@ export class MrScene extends MrComponent {
 export namespace MrScene {
 
     export interface Data {
+        // TODO: Migrate this
         viewPort: {
             x: number,
             y: number,

@@ -2,6 +2,9 @@ import {MrDataType} from "./constants";
 import {MrComponent} from "./MrComponent";
 import {MrRenderingContext} from "./MrRenderingContext";
 
+/**
+ * Class for storage graphic buffers
+ */
 export class MrBuffer extends MrComponent {
 
     constructor(
@@ -26,10 +29,29 @@ export class MrBuffer extends MrComponent {
 export namespace MrBuffer {
 
     export interface Data {
+        /**
+         * Native buffer (internal use)
+         */
         buffer?: WebGLBuffer;
+
+        /**
+         * Type of Buffer, for indices or geometry
+         */
         target: MrBuffer.TargetType;
+
+        /**
+         * Notifies if the internal data would be modified over the time
+         */
         usage: MrBuffer.UsageType;
+
+        /**
+         * Native data type
+         */
         dataType: MrDataType;
+
+        /**
+         * Raw data
+         */
         dataArray: ArrayBuffer;
     }
 

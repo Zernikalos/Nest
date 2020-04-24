@@ -1,6 +1,9 @@
 import {MrComponent} from "./MrComponent";
 import {MrRenderingContext} from "./MrRenderingContext";
 
+/**
+ * Vertex array object representation
+ */
 export class MrVertexArrayObject extends MrComponent {
 
     constructor(
@@ -25,6 +28,9 @@ export class MrVertexArrayObject extends MrComponent {
 
 export namespace MrVertexArrayObject {
     export interface Data {
+        /**
+         * Internal use, VAO associated
+         */
         vao?: WebGLVertexArrayObject;
     }
 }

@@ -3,6 +3,9 @@ import {MrRenderingContext} from "./MrRenderingContext";
 import {MrDataType} from "./constants";
 import {MrBuffer} from "./MrBuffer";
 
+/**
+ * Buffer class with indice keys
+ */
 export class MrIndexedBuffer extends MrBuffer {
 
     constructor(
@@ -31,14 +34,36 @@ export class MrIndexedBuffer extends MrBuffer {
 
 export namespace MrIndexedBuffer {
     export interface Data extends MrBuffer.Data {
+        /**
+         * Keys of this buffer
+         */
         keys: MrIndexedBuffer.Key[];
     }
 
     export interface Key {
+        /**
+         * Index of the data to be used
+         */
         index: number;
+
+        /**
+         * Native data type
+         */
         dataType: MrDataType;
+
+        /**
+         * Number of components of the buffer attribute
+         */
         size: number;
+
+        /**
+         * Byte offset between values
+         */
         stride: number;
+
+        /**
+         * Offset of the first element related to the index
+         */
         pointer: number;
     }
 }
