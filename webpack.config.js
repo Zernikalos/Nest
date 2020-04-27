@@ -24,7 +24,6 @@ function config({libraryName, entryName, packageName}) {
             filename: "[name].js",
             library: libraryName,
             libraryTarget: 'umd',
-            libraryExport: 'default',
             umdNamedDefine: true,
         },
         plugins: debug ? [] : [
@@ -61,4 +60,4 @@ function config({libraryName, entryName, packageName}) {
     return config;
 }
 
-module.exports = config({libraryName: 'MrRobotto', entryName: 'mrrobotto-core', packageName: 'core'});
+module.exports = config({libraryName: 'mrrobotto', entryName: 'mrrobotto-core', packageName: 'core'});
