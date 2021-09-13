@@ -1,8 +1,8 @@
 import {MrRenderingContext} from "./MrRenderingContext";
 
-import {MrDataType} from "./constants";
 import {MrBuffer} from "./MrBuffer";
 import {MrComponent} from "./MrComponent";
+import {MrDataType} from "./MrConstants";
 import {MrIndexedBuffer} from "./MrIndexedBuffer";
 import {MrVertexArrayObject} from "./MrVertexArrayObject";
 
@@ -23,7 +23,7 @@ export class MrMesh extends MrComponent {
             },
             vertexBufferData: {
                 array: number[],
-                indices: MrIndexedBuffer.Key[],
+                keys: MrIndexedBuffer.Key[],
             },
         }) {
         super(ctx);
@@ -45,7 +45,7 @@ export class MrMesh extends MrComponent {
                 usage: MrBuffer.UsageType.STATIC_DRAW,
                 dataType: MrDataType.FLOAT,
                 dataArray: new Float32Array(data.vertexBufferData.array),
-                keys: data.vertexBufferData.indices,
+                keys: data.vertexBufferData.keys,
             });
 
         this.data = {

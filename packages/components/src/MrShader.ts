@@ -23,7 +23,7 @@ export class MrShader extends MrComponent {
 
         const compileStatus = gl.getShaderInfoLog(shader);
         const compileError = gl.getError();
-        if (compileStatus && compileError) {
+        if (compileStatus || compileError) {
             gl.deleteShader(shader);
             throw new Error("Error compiling shader");
         }

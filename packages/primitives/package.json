@@ -1,11 +1,11 @@
 {
-  "name": "@mrrobotto/core",
+  "name": "@mrrobotto/primitives",
   "version": "0.0.1",
   "main": "index.ts",
   "license": "MIT",
   "author": "Aaron Negrin",
   "dependencies": {
-    "@mrrobotto/components": "^0.0.1",
-    "@mrrobotto/primitives": "^0.0.1"
+      "@mrrobotto/components": "^0.0.1",
+      "@mrrobotto/objects": "^0.0.1"
   }
 }

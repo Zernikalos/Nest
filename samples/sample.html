@@ -58,50 +58,37 @@ void main() {
 `;
 
     const vertices = [
-        // Front face
-        -1.0, -1.0, 1.0,
-        1.0, -1.0, 1.0,
-        1.0, 1.0, 1.0,
-        -1.0, 1.0, 1.0,
-
-        // Back face
-        -1.0, -1.0, -1.0,
-        -1.0, 1.0, -1.0,
-        1.0, 1.0, -1.0,
-        1.0, -1.0, -1.0,
-
-        // Top face
-        -1.0, 1.0, -1.0,
-        -1.0, 1.0, 1.0,
-        1.0, 1.0, 1.0,
-        1.0, 1.0, -1.0,
-
-        // Bottom face
-        -1.0, -1.0, -1.0,
-        1.0, -1.0, -1.0,
-        1.0, -1.0, 1.0,
-        -1.0, -1.0, 1.0,
-
-        // Right face
-        1.0, -1.0, -1.0,
-        1.0, 1.0, -1.0,
-        1.0, 1.0, 1.0,
-        1.0, -1.0, 1.0,
-
-        // Left face
-        -1.0, -1.0, -1.0,
-        -1.0, -1.0, 1.0,
-        -1.0, 1.0, 1.0,
-        -1.0, 1.0, -1.0,
+    // front
+    -1.0, -1.0,  1.0,
+     1.0, -1.0,  1.0,
+     1.0,  1.0,  1.0,
+    -1.0,  1.0,  1.0,
+    // back
+    -1.0, -1.0, -1.0,
+     1.0, -1.0, -1.0,
+     1.0,  1.0, -1.0,
+    -1.0,  1.0, -1.0
     ];
 
     const indices = [
-        0, 1, 2, 0, 2, 3,    // front
-        4, 5, 6, 4, 6, 7,    // back
-        8, 9, 10, 8, 10, 11,   // top
-        12, 13, 14, 12, 14, 15,   // bottom
-        16, 17, 18, 16, 18, 19,   // right
-        20, 21, 22, 20, 22, 23,   // left
+		// front
+		0, 1, 2,
+		2, 3, 0,
+		// right
+		1, 5, 6,
+		6, 2, 1,
+		// back
+		7, 6, 5,
+		5, 4, 7,
+		// left
+		4, 0, 3,
+		3, 7, 4,
+		// bottom
+		4, 5, 1,
+		1, 0, 4,
+		// top
+		3, 2, 6,
+		6, 7, 3
     ];
 
     const indices2 = [
@@ -130,16 +117,16 @@ void main() {
             uniforms,
         });
 
-    const program2 = new mrrobotto.MrShaderProgram(
+    /* const program2 = new mrrobotto.MrShaderProgram(
         ctx,
         {
             vertexShaderSource,
             fragmentShaderSource: fragmentShaderSource2,
             attributes,
-        });
+        }); */
 
-    program.initialize();
-    program2.initialize();
+    // program.initialize();
+    // program2.initialize();
 
     const bufferIndices = [{
         index: 0,
@@ -158,12 +145,14 @@ void main() {
                 array: indices,
             },
             vertexBufferData: {
-                indices: bufferIndices,
+                keys: bufferIndices,
                 array: vertices,
             },
         });
 
-    const mesh2 = new mrrobotto.MrMesh(
+    const cube = new mrrobotto.MrCube(ctx);
+
+    /* const mesh2 = new mrrobotto.MrMesh(
         ctx,
         {
             drawMode: mrrobotto.MrMesh.DrawMode.LINES,
@@ -175,25 +164,26 @@ void main() {
                 indices: bufferIndices,
                 array: vertices,
             },
-        });
+        }); */
 
     const scene = new mrrobotto.MrScene(ctx, {
         viewPort: { x: 0, y: 0, width: canvas.width, height: canvas.height },
         clearColor: { x: 0.5, y: 0.5, z: 0.5, w: 0.75 },
         clearMask: ctx.gl.COLOR_BUFFER_BIT | ctx.gl.DEPTH_BUFFER_BIT,
     });
-    mesh.initialize();
-    mesh2.initialize();
+    cube.initialize();
+    // mesh.initialize();
+    //mesh2.initialize();
 
     scene.initialize();
     scene.render();
 
-    program.data.uniforms[0].data.value = [1, 0, 0, 0];
-    program.render();
-    mesh.render();
+    // program.render();
+    // mesh.render();
+    cube.render();
 
-    program2.render();
-    mesh2.render();
+    // program2.render();
+    // mesh2.render();
 
 </script>
 

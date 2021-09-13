@@ -1,5 +1,5 @@
-import {MrDataType} from "./constants";
 import {MrComponent} from "./MrComponent";
+import {MrDataType} from "./MrConstants";
 import {MrProgram} from "./MrProgram";
 import {MrRenderingContext} from "./MrRenderingContext";
 
