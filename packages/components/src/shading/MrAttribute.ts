@@ -1,6 +1,6 @@
-import {MrComponent} from "./MrComponent";
+import {MrComponent} from "../MrComponent";
 import {MrProgram} from "./MrProgram";
-import {MrRenderingContext} from "./MrRenderingContext";
+import {MrRenderingContext} from "../MrRenderingContext";
 
 /**
  * Class for represent Program attributes

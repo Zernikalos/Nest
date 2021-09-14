@@ -1,5 +1,5 @@
-import {MrComponent} from "./MrComponent";
-import {MrRenderingContext} from "./MrRenderingContext";
+import {MrComponent} from "../MrComponent";
+import {MrRenderingContext} from "../MrRenderingContext";
 
 /**
  * Vertex array object representation

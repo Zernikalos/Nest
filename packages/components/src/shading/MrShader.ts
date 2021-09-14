@@ -1,6 +1,6 @@
-import {MrRenderingContext} from "./MrRenderingContext";
+import {MrRenderingContext} from "../MrRenderingContext";
 
-import {MrComponent} from "./MrComponent";
+import {MrComponent} from "../MrComponent";
 import {MrProgram} from "./MrProgram";
 
 /**

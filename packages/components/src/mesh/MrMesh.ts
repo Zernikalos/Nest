@@ -1,8 +1,8 @@
-import {MrRenderingContext} from "./MrRenderingContext";
+import {MrRenderingContext} from "../MrRenderingContext";
 
 import {MrBuffer} from "./MrBuffer";
-import {MrComponent} from "./MrComponent";
-import {MrDataType} from "./MrConstants";
+import {MrComponent} from "../MrComponent";
+import {MrDataType} from "../MrConstants";
 import {MrIndexedBuffer} from "./MrIndexedBuffer";
 import {MrVertexArrayObject} from "./MrVertexArrayObject";
 

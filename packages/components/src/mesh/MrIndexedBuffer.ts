@@ -1,7 +1,7 @@
-import {MrRenderingContext} from "./MrRenderingContext";
+import {MrRenderingContext} from "../MrRenderingContext";
 
 import {MrBuffer} from "./MrBuffer";
-import {MrDataType} from "./MrConstants";
+import {MrDataType} from "../MrConstants";
 
 /**
  * Buffer class with indice keys

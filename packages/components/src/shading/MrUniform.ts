@@ -1,7 +1,7 @@
-import {MrComponent} from "./MrComponent";
-import {MrDataType} from "./MrConstants";
+import {MrComponent} from "../MrComponent";
+import {MrDataType} from "../MrConstants";
 import {MrProgram} from "./MrProgram";
-import {MrRenderingContext} from "./MrRenderingContext";
+import {MrRenderingContext} from "../MrRenderingContext";
 
 /**
  * Representation for uniform of shader programs

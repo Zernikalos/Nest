@@ -1,6 +1,6 @@
-import {MrComponent} from "./MrComponent";
-import {MrDataType} from "./MrConstants";
-import {MrRenderingContext} from "./MrRenderingContext";
+import {MrComponent} from "../MrComponent";
+import {MrDataType} from "../MrConstants";
+import {MrRenderingContext} from "../MrRenderingContext";
 
 /**
  * Class for storage graphic buffers
