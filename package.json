@@ -1,5 +1,5 @@
 {
-  "name": "MrRobotto.js",
+  "name": "mrrobotto.js",
   "version": "0.0.1",
   "license": "MIT",
   "devDependencies": {
@@ -20,7 +20,6 @@
     "build": "webpack",
     "start": "webpack-dev-server",
     "samples": "pushstate-server -d ./samples -p 9000",
-    "bootstrap": "lerna bootstrap",
     "lint": "tslint ./packages/**/src/**/*.ts",
     "clean": "rimraf build && lerna exec rimraf node_modules dist && rimraf node_modules "
   }
