@@ -11,6 +11,7 @@ importers:
       '@webpack-cli/init': ^0.2.2
       babel-jest: ^27.2.1
       eslint: ^7.32.0
+      eslint-plugin-jest: ^24.4.2
       git-cz: ^4.7.6
       jest: ^27.2.1
       jest-circus: ^27.2.1
@@ -32,6 +33,7 @@ importers:
       '@webpack-cli/init': 0.2.2_webpack-cli@4.8.0
       babel-jest: 27.2.1_@babel+core@7.15.5
       eslint: 7.32.0
+      eslint-plugin-jest: 24.4.2_b6f5bcfc4b76ab93ae66fe8a264c7480
       git-cz: 4.7.6
       jest: 27.2.1
       jest-circus: 27.2.1
@@ -5527,6 +5529,24 @@ packages:
       optionator: 0.8.3
     optionalDependencies:
       source-map: 0.6.1
+    dev: true
+
+  /eslint-plugin-jest/24.4.2_b6f5bcfc4b76ab93ae66fe8a264c7480:
+    resolution: {integrity: sha512-jNMnqwX75z0RXRMXkxwb/+9ylKJYJLJ8nT8nBT0XFM5qx4IQGxP4edMawa0qGkSbHae0BDPBmi8I2QF0/F04XQ==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      '@typescript-eslint/eslint-plugin': '>= 4'
+      eslint: '>=5'
+    peerDependenciesMeta:
+      '@typescript-eslint/eslint-plugin':
+        optional: true
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 4.31.2_3815fab247b4312be6d1f55eb1f81298
+      '@typescript-eslint/experimental-utils': 4.31.2_eslint@7.32.0+typescript@4.4.3
+      eslint: 7.32.0
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
     dev: true
 
   /eslint-scope/4.0.3:
