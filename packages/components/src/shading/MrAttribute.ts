@@ -11,9 +11,13 @@ export class MrAttribute extends MrComponent {
         super(ctx);
     }
 
-    public initialize(compData: MrProgram.Data) {
+    public initialize(compData: MrProgram.Data): void {
         const gl = this.ctx.gl;
         gl.bindAttribLocation(compData.program, this.data.index, this.data.attrName);
+    }
+
+    public render(): void {
+        return;
     }
 
 }

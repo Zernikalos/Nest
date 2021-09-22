@@ -32,6 +32,10 @@ export class MrShader extends MrComponent {
         gl.attachShader(compData.program, this.data.shader);
     }
 
+    public render(): void {
+        return;
+    }
+
 }
 
 export namespace MrShader {

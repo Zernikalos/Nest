@@ -14,7 +14,7 @@ export class MrUniform extends MrComponent {
         super(ctx);
     }
 
-    public initialize(compData: MrProgram.Data) {
+    public initialize(compData: MrProgram.Data): void {
         const gl = this.ctx.gl;
         const uniformLocation = gl.getUniformLocation(compData.program, this.data.uniformName);
         if (!uniformLocation) {
@@ -23,7 +23,7 @@ export class MrUniform extends MrComponent {
         this.data.uniformLocation = uniformLocation;
     }
 
-    public render() {
+    public render(): void {
         const gl = this.ctx.gl;
         if (!this.data.uniformLocation || !this.data.value) {
             return;

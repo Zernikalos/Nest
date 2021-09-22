@@ -11,5 +11,8 @@
   "env": {
     "jest/globals": true
   },
-  "ignorePatterns": ["*.config.js"]
+  "ignorePatterns": ["*.config.js"],
+  "rules": {
+    "@typescript-eslint/no-namespace": "off"
+  }
 }

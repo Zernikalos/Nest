@@ -14,7 +14,7 @@ export class MrScene extends MrComponent {
         super(ctx);
     }
 
-    public initialize() {
+    public initialize(): void {
         this.ctx.gl.viewport(
             this.data.viewPort.x,
             this.data.viewPort.y,
@@ -23,7 +23,7 @@ export class MrScene extends MrComponent {
             );
     }
 
-    public render() {
+    public render(): void {
         this.ctx.gl.clearColor(
             this.data.clearColor.x,
             this.data.clearColor.y,

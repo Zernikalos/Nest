@@ -4,11 +4,11 @@ export class MrRobotto {
 
     private _ctx?: MrContext;
 
-    get ctx() {
+    public get ctx(): MrContext | undefined {
         return this._ctx;
     }
 
-    public initialize(canvas: HTMLCanvasElement) {
+    public initialize(canvas: HTMLCanvasElement): void {
         this._ctx = new MrContext(canvas);
 
         /* function get_projection(angle: number, a: number, zMin: number, zMax: number) {

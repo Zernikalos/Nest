@@ -15,7 +15,7 @@ export class MrIndexedBuffer extends MrBuffer {
         super(ctx, data);
     }
 
-    public initialize() {
+    public initialize(): void {
         super.initialize();
         const gl = this.ctx.gl;
         for (const key of this.data.keys) {
@@ -29,6 +29,10 @@ export class MrIndexedBuffer extends MrBuffer {
                 key.pointer,
             );
         }
+    }
+
+    public render(): void {
+        return;
     }
 }
 

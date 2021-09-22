@@ -57,14 +57,14 @@ export class MrMesh extends MrComponent {
         };
     }
 
-    public initialize() {
+    public initialize(): void {
         this.data.vertexArrayObject.initialize();
 
         this.data.indexBuffer.initialize();
         this.data.vertexBuffer.initialize();
     }
 
-    public render() {
+    public render(): void {
         const gl = this.ctx.gl;
         this.data.vertexArrayObject.render();
         let numIndices = 0;

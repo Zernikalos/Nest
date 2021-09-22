@@ -70,7 +70,7 @@ export class MrShaderProgram extends MrComponent {
         }
     }
 
-    public render() {
+    public render(): void {
         this.data.program.render();
         for (const unif of this.data.uniforms) {
             unif.render();

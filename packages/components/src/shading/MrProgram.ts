@@ -19,12 +19,12 @@ export class MrProgram extends MrComponent {
         };
     }
 
-    public render() {
+    public render(): void {
         const gl = this.ctx.gl;
         gl.useProgram(this.data.program);
     }
 
-    public initialize() {
+    public initialize(): void {
         const gl = this.ctx.gl;
 
         const program = gl.createProgram();
@@ -35,7 +35,7 @@ export class MrProgram extends MrComponent {
         this.data.program = program;
     }
 
-    public link() {
+    public link(): void {
         this.ctx.gl.linkProgram(this.data.program);
     }
 

@@ -9,12 +9,12 @@ export class MrBuffer extends MrComponent {
 
     constructor(
         ctx: MrRenderingContext,
-        public readonly data: MrBuffer.Data,
+        readonly data: MrBuffer.Data,
     ) {
         super(ctx);
     }
 
-    public initialize() {
+    public initialize(): void {
         const gl = this.ctx.gl;
         const buffer = gl.createBuffer();
         if (!buffer) {
@@ -23,6 +23,10 @@ export class MrBuffer extends MrComponent {
         this.data.buffer = buffer;
         gl.bindBuffer(this.data.target, this.data.buffer);
         gl.bufferData(this.data.target, this.data.dataArray, this.data.usage);
+    }
+
+    public render(): void {
+        return;
     }
 }
 

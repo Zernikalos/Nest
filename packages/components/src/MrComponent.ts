@@ -5,16 +5,11 @@ import {MrRenderingContext} from "./MrRenderingContext";
  */
 export abstract class MrComponent {
 
-    protected constructor(
-        protected readonly ctx: MrRenderingContext,
-        protected readonly data: any = {}) {
-        // Context should be passed in
+    protected constructor(public readonly ctx: MrRenderingContext) {
     }
 
-    public initialize(_compData?: any): void {
-    }
+    public abstract initialize(compData?: unknown): void;
 
-    public render(_compData?: any): void {
-    }
+    public abstract render(compData?: unknown): void
 
 }
