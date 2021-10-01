@@ -1,6 +1,6 @@
 
 const {defaults} = require("jest-config");
-const { jsWithBabel: tsjPreset } = require('ts-jest/presets')
+const { jsWithBabel: tsjPreset } = require("ts-jest/presets");
 
 
 module.exports = {
