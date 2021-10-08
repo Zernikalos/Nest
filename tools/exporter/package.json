@@ -1,0 +1,18 @@
+{
+  "name": "@mrrobotto/exporter",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "Aaron Negrin",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "parse": "babel-node index.js"
+  },
+  "dependencies": {
+    "three": "^0.133.0",
+    "@mrrobotto/mrr": "0.0.1"
+  },
+  "devDependencies": {
+    "babel-loader": "^8.2.2"
+  }
+}
