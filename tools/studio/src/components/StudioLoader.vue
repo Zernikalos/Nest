@@ -1,13 +1,11 @@
 <template>
     <div>
         <input type="file" id="file" ref="file" v-on:change="handleFileUpload"/>
-
         <button @click="submitFile">Load file</button>
     </div>
 </template>
 
 <script>
-import {ref} from 'vue'
 import {parseObj} from "@mrrobotto/exporter"
 
 const handleFileUpload = async (ev) => {
@@ -34,5 +32,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
