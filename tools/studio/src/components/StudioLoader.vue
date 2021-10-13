@@ -1,34 +1,36 @@
 <template>
     <div>
-        <input type="file" id="file" ref="file" v-on:change="handleFileUpload"/>
-        <button @click="submitFile">Load file</button>
+        <SingleFileInput v-on:file-upload="handleFileUpload" />
+        <FileDownload ref="fileDownload" v-bind:file="mrrFile"/>
     </div>
 </template>
 
-<script>
+<script setup>
+import {reactive} from "vue"
+
 import {parseObj} from "@mrrobotto/exporter"
 
+import SingleFileInput from "./SingleFileInput.vue"
+import FileDownload from "./FileDownload.vue"
+
+const mrrFile = reactive({})
+
 const handleFileUpload = async (ev) => {
-    const f = ev.target.files[0]
+    const f = ev.file
     const content = await f.arrayBuffer()
     const decoder = new TextDecoder()
     const fileContent = decoder.decode(content)
     const obj3d = parseObj(fileContent)
-    debugger
+
+    const blob = new Blob([obj3d.mrr], {type: "application/mrr"})
+    mrrFile.name = f.name
+    mrrFile.blob = blob
     return obj3d
 }
 
-const submitFile = () => {
-    console.log("submit")
-}
-
-export default {
-    name: "StudioLoader",
-    methods: {
-        handleFileUpload,
-        submitFile
-    }
-}
+defineExpose({
+    handleFileUpload
+})
 </script>
 
 <style scoped>
