@@ -9,10 +9,12 @@
     "parse": "babel-node index.js"
   },
   "dependencies": {
-    "three": "^0.133.0",
+    "three": "0.142.0",
     "@mrrobotto/mrr": "0.0.1"
   },
   "devDependencies": {
-    "babel-loader": "^8.2.2"
+    "@babel/core": "7.18.6",
+    "webpack": "5.73.0",
+    "babel-loader": "8.2.5"
   }
 }

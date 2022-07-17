@@ -1,5 +1,5 @@
 {
-  "name": "@mrrobotto/mrrobotto-studio",
+  "name": "@mrrobotto/studio",
   "version": "0.0.1",
   "scripts": {
     "dev": "vite",
@@ -8,10 +8,10 @@
   },
   "dependencies": {
     "@mrrobotto/exporter": "0.0.1",
-    "vue": "^3.2.16"
+    "vue": "3.2.37"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.9.2",
-    "vite": "^2.6.0"
+    "@vitejs/plugin-vue": "2.3.3",
+    "vite": "2.9.14"
   }
 }
