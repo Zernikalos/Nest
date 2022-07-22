@@ -6,18 +6,24 @@ function parseMesh(meshThreeObj) {
 function parseGeometry(geometryThree) {
     const attributesThree = geometryThree.attributes;
     const index = geometryThree.index;
-    const positionThree = attributesThree.position;
-    const normalThree = attributesThree.normal;
-    const uvThree = attributesThree.uv;
-    const attributes = {
-        position: parseAttributes(positionThree),
-        normal: parseAttributes(normalThree),
-        uv: parseAttributes(uvThree)
+    const attributes = {};
+    const attrNames = ['position', 'normal', 'uv'];
+    for (let name of attrNames) {
+        const attrThree = attributesThree[name];
+        attributes[name] = parseAttributes(attrThree)
     }
+
     return {attributes, index};
 }
 
 function parseAttributes(attribThree) {
+    if (!attribThree) {
+        return {
+            array: [],
+            count: 0,
+            size: 0
+        }
+    }
     return {
         array: attribThree.array,
         count: attribThree.count,

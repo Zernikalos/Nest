@@ -26,10 +26,8 @@ const props = defineProps({
     file: {blob: Blob, name: String}
 })
 
-// const downloadUrl = ref(null)
 
 watch(props.file, (file, prevFile) => {
-    console.log(file)
     createDownload(file.name, file.blob)
 })
 
