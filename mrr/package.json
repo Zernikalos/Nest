@@ -8,8 +8,9 @@
     "build": "pbjs --target static-module --wrap es6 --out build/mrr.js proto/mrr.proto && pbts --no-comments --out build/mrr.d.ts build/mrr.js"
   },
   "dependencies": {
-    "protobufjs": "^6.11.2"
+    "protobufjs": "7.0.0"
   },
   "devDependencies": {
+    "protobufjs-cli": "1.0.0"
   }
 }
