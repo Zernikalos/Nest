@@ -9,7 +9,8 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "env": {
-    "jest/globals": true
+    "jest/globals": true,
+    "browser": true
   },
   "ignorePatterns": ["*.config.js"],
   "rules": {

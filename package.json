@@ -29,7 +29,7 @@
     "build": "webpack",
     "start": "webpack-dev-server",
     "samples": "pushstate-server -d ./samples -p 9000",
-    "studio:dev": "pnpm run --filter @mrrobotto/studio dev",
+    "studio": "pnpm run --filter @mrrobotto/studio dev",
     "lint": "eslint ./packages/**/src/**/*.ts",
     "clean": "rimraf build && lerna exec rimraf node_modules dist && rimraf node_modules",
     "test": "jest"
