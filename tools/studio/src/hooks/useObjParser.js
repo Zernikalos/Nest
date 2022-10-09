@@ -1,8 +1,8 @@
-import {parseObj} from "@mrrobotto/exporter";
+import {objParser} from "@mrrobotto/exporter";
 
 export default async function (file) {
     const content = await file.arrayBuffer()
     const decoder = new TextDecoder()
     const fileContent = decoder.decode(content)
-    return parseObj(fileContent)
+    return objParser(fileContent)
 }

@@ -1,2 +1,2 @@
-import {mrr} from "./build/mrr";
-export {mrr};
+import {Mrr} from "./build/mrr";
+export {Mrr};

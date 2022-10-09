@@ -1,16 +1,16 @@
-import {mrr} from "@mrrobotto/mrr";
+import {Mrr} from "@mrrobotto/mrr";
 
 function writeGroupNode(obj) {
-    const group = mrr.Group.create({});
-    return mrr.Node.create({
+    const group = Mrr.Group.create({});
+    return Mrr.Node.create({
         name: obj.name,
-        type: mrr.Node.Type.GROUP,
+        type: Mrr.Node.Type.GROUP,
         group
     });
 }
 
 function writeAttribute(name, attr) {
-    return mrr.Attribute.create({
+    return Mrr.Attribute.create({
         name,
         array: attr.array,
         size: attr.size,
@@ -23,20 +23,20 @@ function writeMeshNode(obj) {
     const normal = writeAttribute("normal", obj.geometry.attributes.normal);
     const uv = writeAttribute("uv", obj.geometry.attributes.uv);
 
-    const attributes = new Map();
-    attributes.set("position", position);
-    attributes.set("normal", normal);
-    attributes.set("uv", uv);
+    const attributes = {};
+    attributes["position"] = position;
+    attributes["normal"] = normal;
+    attributes["uv"] = uv;
 
     // TODO: Review
-    const mesh = mrr.Mesh.create({
+    const mesh = Mrr.Mesh.create({
         attributes,
         index: obj.index
     });
 
-    return mrr.Node.create({
+    return Mrr.Node.create({
         name: obj.name,
-        type: mrr.Node.Type.MESH,
+        type: Mrr.Node.Type.MESH,
         mesh
     });
 }
@@ -58,8 +58,8 @@ function writeTree(obj) {
     return node;
 }
 
-export function write(parsed) {
+export function writeMrr(parsed) {
     const root = writeTree(parsed);
-    const rootWriter = mrr.Node.encode(root);
+    const rootWriter = Mrr.Node.encode(root);
     return rootWriter.finish();
 }

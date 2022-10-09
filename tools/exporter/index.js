@@ -1,3 +1,3 @@
-import {parseObj} from "./src/parseObj";
+import {objParser} from "./src/parsers/objParser";
 
-export {parseObj};
+export {objParser};
