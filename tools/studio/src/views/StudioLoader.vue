@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import MrrConverter from "./MrrConverter.vue";
+import MrrConverter from "../components/MrrConverter.vue";
 
 </script>
 
