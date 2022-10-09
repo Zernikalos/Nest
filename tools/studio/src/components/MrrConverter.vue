@@ -1,5 +1,5 @@
 <template>
-    <input type="file" id="file" @change="handleUploadFile">
+    <input type="file" id="file" @change="handleUploadFile" />
     <a
         v-if="mrrFile.name"
         :href="`${mrrFile.url}`"
@@ -11,7 +11,7 @@
 <script setup>
 import {reactive} from "vue"
 import {merge} from "lodash";
-import useMrrFile from "../hooks/useMrrFile"
+import useMrrExporter from "../hooks/useMrrExporter"
 
 const mrrFile = reactive({
     url: undefined,
@@ -25,7 +25,7 @@ async function handleUploadFile(ev) {
     if (file === undefined) {
         return
     }
-    merge(mrrFile, await useMrrFile(file))
+    merge(mrrFile, await useMrrExporter(file))
 }
 
 </script>
