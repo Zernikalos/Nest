@@ -10,7 +10,7 @@ const tsLoaderRule = {
 };
 
 function config({libraryName, entryName, packageName}) {
-    const packageDir = path.join(ROOT_PATH, 'packages', packageName);
+    const packageDir = path.join(ROOT_PATH, 'engine', packageName);
     const entries = [path.join(packageDir, INDEX_DIR)];
     const outputPath = path.join(packageDir, 'dist');
 
