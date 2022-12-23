@@ -10,6 +10,7 @@ export function parseAttribute(name: string, attr: InterleavedBufferAttribute | 
     attribute.name = name
     attribute.size = attr.itemSize
     attribute.count = attr.count
-    attribute.data = attr.array
+    // @ts-ignore
+    attribute.data = new Int8Array(attr.array.buffer)
     return attribute
 }

@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 const ROOT_PATH = path.join(__dirname, '.');
-const INDEX_DIR = 'index.js';
+const INDEX_DIR = 'index.ts';
 
 const babelLoaderRule = {
     loader: 'babel-loader',

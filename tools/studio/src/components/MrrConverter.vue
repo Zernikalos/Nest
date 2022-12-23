@@ -14,7 +14,7 @@
         {{ mrrFile.hex }}
     </div>
 
-    <textarea>{{mrrFile.hex}}</textarea>
+    <textarea>{{mrrFile.data}}</textarea>
 
     <label>
         <input type="file" class="
@@ -46,7 +46,7 @@ const mrrFile = reactive({
     url: undefined,
     name: undefined,
     blob: undefined,
-    hex: undefined
+    data: undefined
 })
 
 async function handleUploadFile(ev) {
