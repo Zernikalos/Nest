@@ -8,8 +8,8 @@
 
 <script setup>
 import {RouterView} from 'vue-router'
-import Navbar from "@/components/Navbar.vue";
-import Sidebar from "@/components/Sidebar.vue";
+import Navbar from "@studio/components/Navbar.vue";
+import Sidebar from "@studio/components/Sidebar.vue";
 </script>
 
 <style scoped>

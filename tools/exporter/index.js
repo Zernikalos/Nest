@@ -1,3 +1,5 @@
-import {objParser} from "./src/parsers/objParser";
+import {objParser} from "./src/formats/objParser";
 
-export {objParser};
+export const mrrExporter = {objParser}
+
+export default mrrExporter;

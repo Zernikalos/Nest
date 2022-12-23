@@ -6,7 +6,12 @@ const router = createRouter({
     {
       path: '/exporter',
       name: 'exporter',
-      component: () => import('@/views/StudioLoader.vue')
+      component: () => import('@studio/views/Exporter.vue')
+    },
+    {
+      path: '/studio',
+      name: 'studio',
+      component: () => import('@studio/views/Studio.vue')
     }
   ]
 })

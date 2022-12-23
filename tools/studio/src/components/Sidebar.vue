@@ -1,5 +1,5 @@
 <template>
-    <div class="w-60 h-screen shadow-md bg-gray-900 px-1 border-r border-opacity-40 border-gray-400">
+    <div class="w-40 h-screen shadow-md bg-gray-900 px-1 border-r border-opacity-40 border-gray-400">
         <ul class="relative">
             <li>
                 <RouterLink class="sidebar-item" to="/studio">Studio</RouterLink>
