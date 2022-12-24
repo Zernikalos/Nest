@@ -1,10 +1,9 @@
 <template>
-    <div>
+    <div class="flex flex-col">
         <FileLoader v-model:file-content="editorText"></FileLoader>
-        <div class="flex flex-row">
-            <MonacoEditor class="h-screen w-1/2" v-model:editor-text="editorText"></MonacoEditor>
-            <span class="pl-2 pr-2"></span>
-            <MonacoEditor class="h-screen w-1/2" v-model:editor-text="editorText"></MonacoEditor>
+        <div class="flex h-full space-x-5">
+            <MonacoEditor class="grow w-1/2" v-model:editor-text="editorText"></MonacoEditor>
+            <MonacoEditor class="grow w-1/2" v-model:editor-text="editorText"></MonacoEditor>
         </div>
     </div>
 </template>
