@@ -1,4 +1,4 @@
-import {MrObject} from "../mrr/MrObject";
+import {MrObject} from "../mrr/MrObject"
 
 function jsonReplacer(_key: string, value: any) {
     if (value instanceof Map) {
@@ -12,6 +12,6 @@ function jsonReplacer(_key: string, value: any) {
 }
 
 export function jsonWrite(node: MrObject): string {
-    const json = JSON.stringify(node, jsonReplacer);
+    const json = JSON.stringify(node, jsonReplacer)
     return json
 }

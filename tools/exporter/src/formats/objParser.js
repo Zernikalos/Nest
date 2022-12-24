@@ -1,7 +1,6 @@
 import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader'
-import {cborWrite} from "../writer/cborWriter"
 import {parseObject} from "../parsers"
-import {postProcess} from "../post";
+import {postProcess} from "../post"
 
 export function objParser(fileContent) {
     // instantiate a loader

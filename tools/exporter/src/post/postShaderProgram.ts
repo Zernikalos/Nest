@@ -1,5 +1,5 @@
-import {MrShaderProgram} from "../mrr/MrShaderProgram";
-import {postShader} from "./postShader";
+import {MrShaderProgram} from "../mrr/MrShaderProgram"
+import {postShader} from "./postShader"
 
 export function postShaderProgram(): MrShaderProgram {
     const shaderProgram = new MrShaderProgram()

@@ -1,4 +1,4 @@
 export class MrMesh {
-    indices: ArrayLike<number> = [];
-    attributes = new Map();
+    indices: ArrayLike<number> = []
+    attributes = new Map()
 }

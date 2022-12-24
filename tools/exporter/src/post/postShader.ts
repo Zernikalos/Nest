@@ -1,4 +1,4 @@
-import {MrShader, ShaderType} from "../mrr/MrShader";
+import {MrShader, ShaderType} from "../mrr/MrShader"
 
 export function postShader(type: ShaderType): MrShader {
     const shader = new MrShader()
@@ -22,7 +22,7 @@ void main() {
   mat4 m = mat4(-0.24608959655537704, 0.8207303996723887, 0.5155982171427886, 0, -0.9688824099139265, -0.22289419717298997, -0.10763388233266194, 0, 0.02658545140868853, -0.5260416218515593, 0.8500431905810325, 0, 0, 0, 0, 1);
   gl_Position = p*v*m * (a_position + u_offset);
 }
-`;
+`
 
 const fragmentShaderSource = `#version 300 es
 
@@ -33,4 +33,4 @@ out vec4 outColor;
 void main() {
   outColor = vec4(0.5, 0.5, 0.5, 1);
 }
-`;
+`

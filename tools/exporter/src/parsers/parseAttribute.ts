@@ -1,6 +1,6 @@
-import {BufferAttribute, InterleavedBufferAttribute} from "three";
-import {isNil} from "lodash";
-import {MrAttribute} from "../mrr/MrAttribute";
+import {BufferAttribute, InterleavedBufferAttribute} from "three"
+import {isNil} from "lodash"
+import {MrAttribute} from "../mrr/MrAttribute"
 
 export function parseAttribute(name: string, attr: InterleavedBufferAttribute | BufferAttribute): MrAttribute {
     if (isNil(attr)) {

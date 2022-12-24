@@ -1,5 +1,5 @@
-import {MrShader} from "./MrShader";
-import {MrShaderAttribute} from "./MrShaderAttribute";
+import {MrShader} from "./MrShader"
+import {MrShaderAttribute} from "./MrShaderAttribute"
 
 export class MrShaderProgram {
     vertexShader: MrShader

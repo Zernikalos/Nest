@@ -1,24 +1,24 @@
-import {MrObject} from "../mrr/MrObject";
-import {isNil} from "lodash";
-import {postModel} from "./postModel";
-import {MrModel} from "../mrr/MrModel";
+import {MrObject} from "../mrr/MrObject"
+import {isNil} from "lodash"
+import {postModel} from "./postModel"
+import {MrModel} from "../mrr/MrModel"
 
 export function postProcess(obj: MrObject) {
-    let postObj: MrObject;
+    let postObj: MrObject
     switch (obj.type) {
         case "Group":
             postObj = obj
-            break;
+            break
         case "Model":
-            postObj = postModel(obj as MrModel);
-            break;
+            postObj = postModel(obj as MrModel)
+            break
     }
     if (!postObj || !postObj.type) {
-        console.error("Error post processing node");
-        return;
+        console.error("Error post processing node")
+        return
     }
     postObj.children = obj.children
         .map((child: MrObject)=> postProcess(child))
         .filter((child: MrObject) => !isNil(child))
-    return postObj;
+    return postObj
 }
