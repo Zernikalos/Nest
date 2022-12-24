@@ -1,7 +1,6 @@
 <template>
     <input type="file" id="file"
            class=""
-
            @change="handleUploadFile" />
     <a
         v-if="mrrFile.name"
