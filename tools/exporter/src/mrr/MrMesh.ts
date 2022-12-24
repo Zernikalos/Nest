@@ -1,4 +1,7 @@
+import {MrAttributeKey} from "./MrAttributeKey";
+import {MrShape} from "./MrShape";
+
 export class MrMesh {
-    indices: ArrayLike<number> = []
-    attributes = new Map()
+    attributes: Map<string, MrAttributeKey> = new Map()
+    shape: MrShape
 }

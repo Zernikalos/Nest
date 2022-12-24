@@ -1,6 +1,6 @@
 <template>
     <div>
-        <MrrConverter></MrrConverter>
+        <MrrConverter/>
     </div>
 </template>
 

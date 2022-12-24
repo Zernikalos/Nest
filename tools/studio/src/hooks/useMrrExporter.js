@@ -8,7 +8,7 @@ async function parseFile(file) {
     const content = await file.arrayBuffer()
     const decoder = new TextDecoder()
     const fileContent = decoder.decode(content)
-    return mrrExport(fileContent, {importFormat: 'obj', exportFormat: 'hex'})
+    return mrrExport(fileContent, {importFormat: 'obj', exportFormat: 'json'})
 }
 
 export default async function (file) {

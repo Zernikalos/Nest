@@ -16,25 +16,6 @@
 
     <textarea>{{mrrFile.data}}</textarea>
 
-    <label>
-        <input type="file" class="
-        file:mr-5 file:py-2 file:px-6
-        file:rounded file:border
-        file:bg-gray-700
-        hover:file:cursor-pointer hover:file:bg-gray-600
-        file:text-gray-400
-      " />
-    </label>
-
-    <div class="justify-center items-center w-1/3 h-60">
-        <label class="flex justify-center items-center h-full w-full rounded-lg border-2 cursor-pointer hover:bg-bray-800 bg-gray-700 hover:bg-gray-10 border-gray-600 hover:border-gray-500 hover:bg-gray-600" for="dropzone-file">
-            <div class="flex flex-col justify-center items-center pt-5 pb-6">
-                <svg aria-hidden="true" class="mb-3 w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                <p class="mb-2 text-sm text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-            </div>
-            <input id="dropzone-file" class="hidden" type="file" />
-        </label>
-    </div>
 </template>
 
 <script setup>

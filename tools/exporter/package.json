@@ -10,7 +10,7 @@
     "parse": "babel-node index.js"
   },
   "dependencies": {
-    "three": "0.148.0",
+    "three": "0.146.0",
     "@mrrobotto/mrr": "0.0.1",
     "lodash": "4.17.21",
     "cborg": "1.9.6"
