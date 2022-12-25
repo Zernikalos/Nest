@@ -6,7 +6,7 @@
 
 <script setup>
 import {defineEmits} from "vue"
-import useFile from "@studio/hooks/useFile"
+import useReadFile from "@studio/hooks/useReadFile"
 
 const emit = defineEmits(['update:fileContent'])
 
@@ -16,7 +16,7 @@ async function handleUploadFile(ev) {
     if (file === undefined) {
         return
     }
-    const fileContent = await useFile(file)
+    const fileContent = await useReadFile(file)
     emit('update:fileContent', fileContent)
 }
 </script>

@@ -11,7 +11,8 @@ function jsonReplacer(_key: string, value: any) {
     return value
 }
 
-export function jsonWrite(node: MrObject): string {
-    const json = JSON.stringify(node, jsonReplacer)
+export function jsonWrite(node: MrObject, {beauty}: {beauty?: boolean}): string {
+    const padding = beauty ? 4 : null
+    const json = JSON.stringify(node, jsonReplacer, padding)
     return json
 }

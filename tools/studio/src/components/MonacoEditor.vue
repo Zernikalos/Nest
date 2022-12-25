@@ -1,16 +1,22 @@
 <template>
-    <div ref="refEditor"></div>
+    <div ref="refEditor" class="w-1"></div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import * as monaco from 'monaco-editor'
+import {editor} from "monaco-editor";
 import {onMounted, ref, watch} from "vue"
 
 const refEditor = ref()
-let editor
+let editor: editor.IStandaloneCodeEditor
 
-const props = defineProps({
-    editorText: String
+interface Props {
+    editorText: string,
+    format?: 'json' | undefined
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    editorText: "", format: undefined
 })
 
 watch(() => props.editorText, (newValue) => {
@@ -20,9 +26,12 @@ watch(() => props.editorText, (newValue) => {
 onMounted(() => {
     editor = monaco.editor.create(refEditor.value, {
         value: props.editorText,
-        // language: 'javascript',
-        theme: 'vs-dark'
+        language: props?.format ?? undefined,
+        theme: 'vs-dark',
+        automaticLayout: true
     })
+
+    window.onresize = () => editor.layout()
 })
 
 </script>
