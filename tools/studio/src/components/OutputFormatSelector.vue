@@ -23,28 +23,29 @@
     <ul class="flex">
         <li class="">
             <div class="">
-                <input id="horizontal-list-radio-license" type="radio" value="" name="list-radio" class="">
-                <label for="horizontal-list-radio-license" class="">JSON</label>
+                <input id="json" type="radio" value="" v-model="picked" name="list-radio" class="" >
+                <label for="json" class="">JSON</label>
             </div>
         </li>
         <li class="">
             <div class="">
-                <input id="horizontal-list-radio-id" type="radio" value="" name="list-radio" class="">
-                <label for="horizontal-list-radio-id" class="">Cbor Hex</label>
+                <input id="hexcbor" type="radio" value="" v-model="picked" name="list-radio" class="">
+                <label for="hexcbor" class="">Cbor Hex</label>
             </div>
         </li>
         <li class="">
             <div class="">
-                <input id="horizontal-list-radio-millitary" type="radio" value="" name="list-radio" class="">
-                <label for="horizontal-list-radio-millitary" class="">Cbor</label>
+                <input id="cbor" type="radio" value="" v-model="picked" name="list-radio" class="">
+                <label for="cbor" class="">Cbor</label>
             </div>
         </li>
     </ul>
 </template>
 
 <script setup>
+import {ref} from "vue";
 
-const emit = defineEmits(['exportFormat'])
+const picked = ref()
 
 </script>
 

@@ -1,7 +1,9 @@
 import {MrAttributeKey} from "./MrAttributeKey";
-import {MrShape} from "./MrShape";
+import {MrIndexBuffer} from "./MrIndexBuffer";
+import {MrVertexBuffer} from "./MrVertexBuffer";
 
 export class MrMesh {
-    attributes: Map<string, MrAttributeKey> = new Map()
-    shape: MrShape
+    attributeKeys: Map<string, MrAttributeKey> = new Map()
+    indices: MrIndexBuffer = new MrIndexBuffer()
+    vertices: Map<string, MrVertexBuffer> = new Map()
 }
