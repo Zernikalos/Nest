@@ -44,6 +44,8 @@
 
 <script setup>
 
+const emit = defineEmits(['exportFormat'])
+
 </script>
 
 <style scoped>

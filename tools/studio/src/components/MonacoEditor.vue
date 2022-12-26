@@ -28,7 +28,8 @@ onMounted(() => {
         value: props.editorText,
         language: props?.format ?? undefined,
         theme: 'vs-dark',
-        automaticLayout: true
+        automaticLayout: true,
+        wordWrap: "on",
     })
 
     window.onresize = () => editor.layout()

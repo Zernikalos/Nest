@@ -1,3 +1,5 @@
+import stringifyObject from '../utils/stringifyObject';
+
 import {MrObject} from "../mrr/MrObject"
 
 function jsonReplacer(_key: string, value: any) {
@@ -11,8 +13,10 @@ function jsonReplacer(_key: string, value: any) {
     return value
 }
 
+
 export function jsonWrite(node: MrObject, {beauty}: {beauty?: boolean}): string {
-    const padding = beauty ? 4 : null
-    const json = JSON.stringify(node, jsonReplacer, padding)
-    return json
+    if (beauty) {
+        return stringifyObject(node)
+    }
+    return JSON.stringify(node, jsonReplacer)
 }
