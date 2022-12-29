@@ -1,4 +1,4 @@
 packages:
-  - 'engine/**'
-  - 'tools/**'
-  - 'mrr'
+  - 'electron'
+  - 'exporter'
+  - 'studio'

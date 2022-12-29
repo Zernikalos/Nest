@@ -1,5 +1,5 @@
 {
-  "name": "electron",
+  "name": "@mrrobotto/electron",
   "version": "0.0.1",
   "description": "Electron app for MrRobotto Studio",
   "main": "src/main.ts",
@@ -13,7 +13,7 @@
     "ts": "tsc",
     "watch": "tsc -w",
     "lint": "eslint -c .eslintrc --ext .ts ./src",
-    "app:dev": "tsc && concurrently electron .",
+    "dev": "tsc && electron ./dist/main.js",
     "app:build": "npm run vite:build && tsc && electron-builder",
     "app:preview": "npm run vite:build && tsc && electron ."
   },

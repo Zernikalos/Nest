@@ -1,8 +1,8 @@
 {
   "packages": [
-    "packages/*",
-    "tools/*",
-    "mrr"
+    "electron",
+    "exporter",
+    "studio"
   ],
   "version": "0.0.1"
 }
