@@ -1,0 +1,62 @@
+{
+  "name": "@mrrobotto/electron",
+  "version": "0.0.1",
+  "description": "Electron app for MrRobotto Studio",
+  "main": "src/main.ts",
+  "scripts": {
+    "test": "test",
+    "start": "tsc && electron ./dist/main.js",
+
+    "vite:dev": "vite",
+    "vite:build": "vue-tsc --noEmit && vite build",
+    "vite:preview": "vite preview",
+    "ts": "tsc",
+    "watch": "tsc -w",
+    "lint": "eslint -c .eslintrc --ext .ts ./src",
+    "dev": "tsc && electron ./dist/main.js",
+    "app:build": "npm run vite:build && tsc && electron-builder",
+    "app:preview": "npm run vite:build && tsc && electron ."
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "concurrently": "7.6.0",
+    "typescript": "4.9.4",
+    "electron": "22.0.0",
+    "@types/node": "18.11.18"
+  },
+  "build": {
+    "appId": "YourAppID",
+    "asar": true,
+    "directories": {
+      "buildResources": "assets",
+      "output": "release/${version}"
+    },
+    "files": [
+      "dist"
+    ],
+    "mac": {
+      "artifactName": "${productName}_${version}.${ext}",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [{
+        "target": "nsis",
+        "arch": [
+          "x64"
+        ]
+      }],
+      "artifactName": "${productName}_${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false
+    }
+  },
+  "author": "Aarón Negrín",
+  "license": "ISC"
+}

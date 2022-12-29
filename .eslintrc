@@ -9,10 +9,12 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "env": {
-    "jest/globals": true
+    "jest/globals": true,
+    "browser": true
   },
   "ignorePatterns": ["*.config.js"],
   "rules": {
-    "@typescript-eslint/no-namespace": "off"
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
   }
 }
