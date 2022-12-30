@@ -1,4 +1,4 @@
-import {MrShaderProgram} from "../mrr/MrShaderProgram"
+import {MrShaderProgram} from "../mrr/shader/MrShaderProgram"
 import {postShader} from "./postShader"
 import {MrModel} from "../mrr/MrModel";
 

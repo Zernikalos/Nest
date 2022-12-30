@@ -1,5 +1,5 @@
 import {MrModel} from "../../mrr/MrModel";
-import {MrAttributeKey} from "../../mrr/MrAttributeKey";
+import {MrAttributeKey} from "../../mrr/mesh/MrAttributeKey";
 import {
     ANAME_NORMAL,
     ANAME_POSITION,

@@ -1,4 +1,4 @@
-import {MrShaderAttribute} from "../mrr/MrShaderAttribute"
+import {MrShaderAttribute} from "../mrr/shader/MrShaderAttribute"
 
 export function postShaderAttribute(): MrShaderAttribute {
     const shaderAttrib = new MrShaderAttribute()

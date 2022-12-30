@@ -1,6 +1,6 @@
-import {MrShader, ShaderType} from "../mrr/MrShader"
+import {MrShader, ShaderType} from "../mrr/shader/MrShader"
 import {MrModel} from "../mrr/MrModel";
-import {generateVertexShaderSource} from "./shadergenerator";
+import {generateVertexShaderSource} from "./shadersourcegenerator";
 
 export function postShader(type: ShaderType, obj: MrModel): MrShader {
     const shader = new MrShader()

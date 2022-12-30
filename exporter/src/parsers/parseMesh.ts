@@ -1,8 +1,8 @@
 import {BufferGeometry} from "three"
 // import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils"
 import {parseAttributeKeys} from "./parseAttributeKeys"
-import {MrMesh} from "../mrr/MrMesh"
-import {MrVertexBuffer} from "../mrr/MrVertexBuffer";
+import {MrMesh} from "../mrr/mesh/MrMesh"
+import {MrVertexBuffer} from "../mrr/mesh/MrVertexBuffer";
 
 export function parseMesh(geometry: BufferGeometry) {
     // const b = BufferGeometryUtils

@@ -1,6 +1,6 @@
 import {MrObject, MrObjectType} from "./MrObject"
-import {MrMesh} from "./MrMesh"
-import {MrShaderProgram} from "./MrShaderProgram"
+import {MrMesh} from "./mesh/MrMesh"
+import {MrShaderProgram} from "./shader/MrShaderProgram"
 
 export class MrModel extends MrObject {
     type: MrObjectType = "Model"

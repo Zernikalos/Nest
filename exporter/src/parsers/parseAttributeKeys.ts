@@ -1,6 +1,6 @@
 import {BufferAttribute, BufferGeometry, InterleavedBufferAttribute} from "three"
 import {isNil} from "lodash"
-import {MrAttributeKey} from "../mrr/MrAttributeKey"
+import {MrAttributeKey} from "../mrr/mesh/MrAttributeKey"
 
 function parseAttributeKey(attr: InterleavedBufferAttribute | BufferAttribute): MrAttributeKey {
     if (isNil(attr)) {
