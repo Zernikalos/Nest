@@ -4,14 +4,16 @@ import {
     ANAME_NORMAL,
     ANAME_POSITION,
     ANAME_UV,
+    UNAME_MVP_MATRIX
+} from "../common";
+import {
     BR,
     CLOSE_MAIN,
     HEADER,
     l,
     OPEN_MAIN,
     T,
-    UNAME_MVP_MATRIX
-} from "./common";
+} from "./shadersourcecommon"
 
 export function generateVertexShaderSource(obj: MrModel): string {
     const source = [
@@ -53,7 +55,7 @@ function genUniforms(): string[] {
 }
 
 function genOutPosition() {
-    return `gl_Position = ${UNAME_MVP_MATRIX} * vec4(${ANAME_POSITION},1);`
+    return `gl_Position = mat4(1.3737387097273113, 0, 0, 0, 0, 1.3844710433970557, 0, 0, 0, 0, -1.02020202020202, -1, 0, 0, -2.0202020202020203, 0) * ${UNAME_MVP_MATRIX} * vec4(${ANAME_POSITION},1);`
 }
 
 // const vertexShaderSource = `#version 300 es
