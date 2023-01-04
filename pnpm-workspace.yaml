@@ -1,4 +1,5 @@
 packages:
-  - 'electron'
+  - 'electronapp'
   - 'exporter'
   - 'studio'
+  - 'studioserver'

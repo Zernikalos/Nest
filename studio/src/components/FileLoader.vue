@@ -5,7 +5,6 @@
 </template>
 
 <script setup>
-import {defineEmits} from "vue"
 import useReadFile from "@studio/hooks/useReadFile"
 
 const emit = defineEmits(['update:fileContent'])

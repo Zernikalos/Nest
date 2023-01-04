@@ -1,0 +1,22 @@
+{
+  "name": "@mrrobotto/studioserver",
+  "version": "0.0.1",
+  "description": "Server side for the MrRobotto Studio App",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "nodemon"
+  },
+  "author": "Aarón Negrín",
+  "license": "ISC",
+  "dependencies": {
+    "express": "5.0.0-beta.1"
+  },
+  "devDependencies": {
+    "typescript": "4.9.4",
+    "nodemon": "2.0.20",
+    "ts-node": "10.9.1",
+    "@types/node": "18.11.18"
+  }
+}

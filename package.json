@@ -30,6 +30,8 @@
     "commit": "git-cz",
     "samples": "pushstate-server -d ./samples -p 9000",
 
+    "start": "pnpm --parallel --if-present -r run start",
+
     "studio": "pnpm run --filter @mrrobotto/studio dev",
     "electron": "pnpm run --filter @mrrobotto/electron dev",
 

@@ -1,9 +1,10 @@
 // src/electron/main/main.ts
-import { join } from "path";
+import { join } from "path"
 import {
     app,
     BrowserWindow
-} from 'electron';
+} from 'electron'
+import {startFileServer} from "@mrrobotto/studioserver"
 
 // const isDev = process.env.npm_lifecycle_event === "app:dev" ? true : false;
 const isDev = true
@@ -16,7 +17,7 @@ function createWindow() {
         webPreferences: {
             preload: join(__dirname, '../preload/preload.js'),
         },
-    });
+    })
 
     // and load the index.html of the app.
     // mainWindow.loadURL(
@@ -31,12 +32,19 @@ function createWindow() {
     }
 }
 
+function startStudioServer() {
+    if (!isDev) {
+        startFileServer()
+    }
+}
+
 async function setup() {
     // This method will be called when Electron has finished
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
     await app.whenReady()
     createWindow()
+    startStudioServer()
     app.on('activate', function () {
         // On macOS it's common to re-create a window in the app when the
         // dock icon is clicked and there are no other windows open.
@@ -47,9 +55,9 @@ async function setup() {
     // explicitly with Cmd + Q.
     app.on('window-all-closed', () => {
         if (process.platform !== 'darwin') {
-            app.quit();
+            app.quit()
         }
-    });
+    })
 }
 
 setup()
