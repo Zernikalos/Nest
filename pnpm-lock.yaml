@@ -50,7 +50,7 @@ importers:
       webpack-cli: 4.10.0_vnmgq7jx5zjkzolvtfp7mdf5ri
       webpack-dev-server: 4.11.1_5v66e2inugklgvlh4huuavolfq
 
-  electronapp:
+  packages/electronapp:
     specifiers:
       '@mrrobotto/studioserver': 0.0.1
       '@types/node': 18.11.18
@@ -65,7 +65,7 @@ importers:
       electron: 22.0.0
       typescript: 4.9.4
 
-  exporter:
+  packages/exporter:
     specifiers:
       '@babel/core': 7.19.3
       '@babel/plugin-proposal-export-default-from': 7.18.10
@@ -98,7 +98,7 @@ importers:
       babel-loader: 8.2.5_wfdvla2jorjoj23kkavho2upde
       webpack: 5.74.0
 
-  studio:
+  packages/studio:
     specifiers:
       '@mrrobotto/exporter': 0.0.1
       '@vitejs/plugin-vue': 4.0.0
@@ -129,7 +129,7 @@ importers:
       vite-plugin-monaco-editor: 1.1.0_monaco-editor@0.34.1
       vitest: 0.26.2
 
-  studioserver:
+  packages/studioserver:
     specifiers:
       '@types/node': 18.11.18
       express: 5.0.0-beta.1

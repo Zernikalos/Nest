@@ -1,5 +1,2 @@
 packages:
-  - 'electronapp'
-  - 'exporter'
-  - 'studio'
-  - 'studioserver'
+  - 'packages/**'
