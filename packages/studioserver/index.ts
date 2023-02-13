@@ -1,7 +1,7 @@
 // @ts-ignore
 import express from "express"
 
-export function startFileServer() {
+export function startStudioServer() {
     const app = express()
     const PORT = 3000
 
@@ -15,4 +15,4 @@ export function startFileServer() {
 }
 
 
-startFileServer()
+startStudioServer()
