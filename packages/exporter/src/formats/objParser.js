@@ -2,11 +2,11 @@ import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader'
 import {parseObject} from "../parsers"
 import {postProcess} from "../post"
 
-export function objParser(fileContent) {
+export async function objParser(filePath) {
     // instantiate a loader
     const loader = new OBJLoader()
 
-    const threeObj = loader.parse(fileContent)
+    const threeObj = await loader.loadAsync(filePath)
     let mrrObj = parseObject(threeObj)
     mrrObj = postProcess(mrrObj)
     return mrrObj

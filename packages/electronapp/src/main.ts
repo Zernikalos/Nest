@@ -4,7 +4,7 @@ import {
     app,
     BrowserWindow
 } from 'electron'
-import {startStudioServer} from "@mrrobotto/studioserver"
+// import {studioServerBootstrap} from "@mrrobotto/studioserver"
 
 // const isDev = process.env.npm_lifecycle_event === "app:dev" ? true : false;
 const isDev = true
@@ -38,7 +38,7 @@ async function setup() {
     // Some APIs can only be used after this event occurs.
     await app.whenReady()
     createWindow()
-    !isDev && startStudioServer()
+    // !isDev && await studioServerBootstrap()
     app.on('activate', function () {
         // On macOS it's common to re-create a window in the app when the
         // dock icon is clicked and there are no other windows open.

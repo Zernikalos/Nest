@@ -3,9 +3,10 @@ import {objParser} from "./formats/objParser";
 import {MrObject} from "./mrr/MrObject";
 import {jsonWrite} from "./writer/jsonWriter";
 import {cborHexWrite, cborWrite} from "./writer/cborWriter";
+import {gltfParser} from "./formats/gltfParser";
 
 interface ParseOptions {
-    format: 'obj'
+    format: 'obj' | 'gltf'
 }
 
 interface ExportOptions {
@@ -22,7 +23,7 @@ const DEFAULT_EXPORT_OPTIONS: ExportOptions = {
     beauty: false
 }
 
-function _parseToMrr(data: string, options: ParseOptions = DEFAULT_PARSE_OPTIONS): MrObject {
+async function _parseToMrr(filePath: string, options: ParseOptions = DEFAULT_PARSE_OPTIONS): Promise<MrObject> {
     let result
 
     const mergedOptions = merge({}, DEFAULT_PARSE_OPTIONS, options)
@@ -30,7 +31,10 @@ function _parseToMrr(data: string, options: ParseOptions = DEFAULT_PARSE_OPTIONS
 
     switch (format) {
         case "obj":
-            result = objParser(data)
+            result = await objParser(filePath)
+            break
+        case "gltf":
+            result = await gltfParser(filePath)
             break
     }
     return result
@@ -55,8 +59,8 @@ function _exportAs(obj: MrObject, options: ExportOptions = DEFAULT_EXPORT_OPTION
     return result
 }
 
-export function parseToMrr(data: string, options: ParseOptions = DEFAULT_PARSE_OPTIONS) {
-    const result = _parseToMrr(data, options)
+export async function parseToMrr(data: string, options: ParseOptions = DEFAULT_PARSE_OPTIONS) {
+    const result = await _parseToMrr(data, options)
     return {
         mrRoot: result,
         exportAs: (options: ExportOptions) => _exportAs(result, options)
