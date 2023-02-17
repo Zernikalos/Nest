@@ -1,8 +1,6 @@
 {
   "packages": [
-    "electron",
-    "exporter",
-    "studio"
+    "packages/*"
   ],
   "version": "0.0.1"
 }
