@@ -5,16 +5,14 @@
   "main": "src/main.ts",
   "scripts": {
     "test": "test",
-    "start": "tsc && electron ./dist/main.js",
+    "start": "tsc && NODE_ENV=dev electron ./dist/main.js",
 
     "vite:dev": "vite",
     "vite:build": "vue-tsc --noEmit && vite build",
     "vite:preview": "vite preview",
     "ts": "tsc",
     "watch": "tsc -w",
-    "lint": "eslint -c .eslintrc --ext .ts ./src",
-    "app:build": "npm run vite:build && tsc && electron-builder",
-    "app:preview": "npm run vite:build && tsc && electron ."
+    "lint": "eslint -c .eslintrc --ext .ts ./src"
   },
   "dependencies": {
     "@mrrobotto/studioserver": "0.0.1"
