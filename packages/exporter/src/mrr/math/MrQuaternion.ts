@@ -1,3 +1,4 @@
+import {Float} from "../../utils/Float";
 
 export class MrQuaternion {
     w: number
@@ -13,7 +14,13 @@ export class MrQuaternion {
         this.z = z
     }
 
-    public toJSON() {
-        return [this.w, this.x, this.y, this.z]
+    encodeCBOR(encoder: any): boolean {
+        return encoder.pushAny({
+            w: new Float(this.w),
+            x: new Float(this.x),
+            y: new Float(this.y),
+            z: new Float(this.z),
+        })
     }
+
 }

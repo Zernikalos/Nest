@@ -14,7 +14,7 @@
     "@babel/runtime": "7.20.13",
     "three": "0.149.0",
     "lodash": "4.17.21",
-    "cborg": "1.10.0",
+    "cbor-web": "8.1.0",
     "is-obj": "3.0.0",
     "is-regexp": "3.1.0",
     "get-own-enumerable-property-symbols": "3.0.2"
@@ -27,6 +27,7 @@
     "webpack": "5.75.0",
     "babel-loader": "9.1.2",
     "@types/lodash": "4.14.191",
-    "@types/three": "0.149.0"
+    "@types/three": "0.149.0",
+    "@types/cbor": "6.0.0"
   }
 }

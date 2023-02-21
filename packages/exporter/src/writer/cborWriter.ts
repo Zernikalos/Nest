@@ -1,5 +1,5 @@
-import {encode as cborEncode} from "cborg"
 import {MrObject, MrObjectType} from "../mrr/MrObject"
+import {CborEncoder} from "../utils/CborEncoder";
 
 interface CborMrObject {
     [key: string]: any
@@ -24,10 +24,12 @@ function writeTree(node: MrObject): [MrObjectType, CborMrObject] {
 
 export function cborWrite(node: MrObject) {
     const root = writeTree(node)
-    return cborEncode(root)
+    const encoder = new CborEncoder()
+    return encoder.encode(root)
 }
 
 export function cborHexWrite(node: MrObject) {
     const encoded = cborWrite(node)
     return buf2hex(encoded)
 }
+
