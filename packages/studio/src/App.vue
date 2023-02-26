@@ -1,17 +1,11 @@
 <template>
     <div class="flex flex-col h-screen">
-        <Navbar class="row-span-full"></Navbar>
+        <Navbar></Navbar>
         <div class="h-full flex space-x-4">
             <Sidebar></Sidebar>
             <RouterView class="mt-5 pr-5 pb-5 grow"/>
         </div>
     </div>
-
-<!--    <Navbar></Navbar>-->
-<!--    <div class="flex">-->
-<!--        <Sidebar></Sidebar>-->
-<!--        <RouterView class="p-5 w-full"/>-->
-<!--    </div>-->
 </template>
 
 <script setup>
