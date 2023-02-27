@@ -1,9 +1,9 @@
 <template>
     <div class="flex flex-col h-screen">
         <Navbar></Navbar>
-        <div class="h-full flex space-x-4">
+        <div class="h-full flex">
             <Sidebar></Sidebar>
-            <RouterView class="mt-5 pr-5 pb-5 grow"/>
+            <RouterView id="router-view" class="wrapper"/>
         </div>
     </div>
 </template>
@@ -15,5 +15,8 @@ import Sidebar from "@studio/components/sidebar/Sidebar.vue";
 </script>
 
 <style scoped>
+.wrapper {
+    @apply mt-5 pr-5 pb-5 grow
+}
 
 </style>
