@@ -1,6 +1,6 @@
 <template>
-    <div ref="wrapperDiv" class="wrapper">
-        <div :style="`width: ${dividerPosition}%`">
+    <div ref="wrapperDiv" class="wrapper-div">
+        <div :style="`width: ${dividerPosition}%`" class="panel1">
             <slot name="panel1"></slot>
         </div>
 
@@ -41,15 +41,24 @@ function handleDragging(ev: MouseEvent) {
     }
 
     const percentage = (ev.pageX - rect.left) / rect.width * 100
+
+    if (percentage <= 2) {
+        dividerPosition.value = "0"
+        return
+    }
+
     dividerPosition.value = percentage.toFixed(2)
 }
 </script>
 
 <style scoped>
-.wrapper {
-    @apply h-full flex m-0
+.wrapper-div {
+    @apply h-full flex m-0 pb-0
 }
 .divider {
-    @apply h-screen w-1 cursor-ew-resize border-l border-l-gray-400
+    @apply h-full w-1 cursor-ew-resize border-l border-l-gray-400
+}
+.panel1 {
+    @apply overflow-x-auto
 }
 </style>
