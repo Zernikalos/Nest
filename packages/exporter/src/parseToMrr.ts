@@ -5,20 +5,25 @@ import {jsonWrite} from "./writer/jsonWriter";
 import {cborHexWrite, cborWrite} from "./writer/cborWriter";
 import {gltfParser} from "./formats/gltfParser";
 
-interface ParseOptions {
+export interface ParseOptions {
     format: 'obj' | 'gltf'
 }
 
-interface ExportOptions {
-    format: 'json' | 'cbor' | 'hexcbor',
+export interface ExportOptions {
+    format: 'json' | 'cbor' | 'hexcbor'
     beauty?: boolean
 }
 
-const DEFAULT_PARSE_OPTIONS: ParseOptions = {
+export interface ExportableMrObject {
+    root: MrObject
+    exportAs: (options: ExportOptions) => string | Uint8Array
+}
+
+export const DEFAULT_PARSE_OPTIONS: ParseOptions = {
     format: "obj",
 }
 
-const DEFAULT_EXPORT_OPTIONS: ExportOptions = {
+export const DEFAULT_EXPORT_OPTIONS: ExportOptions = {
     format: "json",
     beauty: false
 }
@@ -59,10 +64,10 @@ function _exportAs(obj: MrObject, options: ExportOptions = DEFAULT_EXPORT_OPTION
     return result
 }
 
-export async function parseToMrr(data: string, options: ParseOptions = DEFAULT_PARSE_OPTIONS) {
+export async function parseToMrr(data: string, options: ParseOptions = DEFAULT_PARSE_OPTIONS): Promise<ExportableMrObject> {
     const result = await _parseToMrr(data, options)
     return {
-        mrRoot: result,
+        root: result,
         exportAs: (options: ExportOptions) => _exportAs(result, options)
     }
 }
