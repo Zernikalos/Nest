@@ -105,6 +105,7 @@ importers:
   packages/studio:
     specifiers:
       '@mrrobotto/exporter': 0.0.1
+      '@types/lodash': 4.14.191
       '@vitejs/plugin-vue': 4.0.0
       '@vue/test-utils': 2.2.10
       autoprefixer: 10.4.13
@@ -128,6 +129,7 @@ importers:
       vue: 3.2.47
       vue-router: 4.1.6_vue@3.2.47
     devDependencies:
+      '@types/lodash': 4.14.191
       '@vitejs/plugin-vue': 4.0.0_vite@4.1.1+vue@3.2.47
       '@vue/test-utils': 2.2.10_vue@3.2.47
       autoprefixer: 10.4.13_postcss@8.4.21
