@@ -6,12 +6,6 @@ interface CborMrObject {
     children: [MrObjectType, CborMrObject][]
 }
 
-const buf2hex = (buffer: ArrayBuffer) => { // buffer is an ArrayBuffer
-    return [...new Uint8Array(buffer)]
-        .map(x => x.toString(16).padStart(2, '0'))
-        .join('')
-}
-
 function writeTree(node: MrObject): [MrObjectType, CborMrObject] {
     const auxNode: CborMrObject = {...node, children: []}
     const type = auxNode.type
@@ -27,9 +21,3 @@ export function cborWrite(node: MrObject) {
     const encoder = new CborEncoder()
     return encoder.encode(root)
 }
-
-export function cborHexWrite(node: MrObject) {
-    const encoded = cborWrite(node)
-    return buf2hex(encoded)
-}
-

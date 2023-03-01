@@ -2,8 +2,15 @@
     <div class="flex flex-col">
         <div class="flex">
             <FileSelector class="w-1/2" v-model:file-selected="inputFile"></FileSelector>
-            <OutputFormatSelector class="w-1/2" :selected="selectedFormat" @update:selected="updateFormat"></OutputFormatSelector>
+            <DropDownSelector v-model:selected="selectedInputFormat" :options="inputFormats"></DropDownSelector>
+            <Toggle
+                    left-label="CBOR" left-value="cbor"
+                    right-label="JSON" right-value="json"
+                    v-model:selected="selectedOutputFormat"
+                    @update:selected="updateFormat"
+            ></Toggle>
         </div>
+
         <div class="flex h-full space-x-5">
             <MonacoEditor class="grow" v-model:editor-text="editorText" format="json"></MonacoEditor>
         </div>
@@ -11,18 +18,28 @@
 </template>
 
 <script setup>
+import {ref, watch} from "vue"
 import MonacoEditor from "@studio/components/MonacoEditor.vue"
 import {exportAs, parseMrr} from "@studio/hooks/useParseToMrr"
-import {ref, watch} from "vue"
-import OutputFormatSelector from "@studio/components/OutputFormatSelector.vue";
 import FileSelector from "@studio/components/FileSelector.vue"
 import * as fileApi from "@studio/hooks/useFileApi"
+import Toggle from "@studio/components/toggle/Toggle.vue";
+import DropDownSelector from "@studio/components/dropdownselector/DropDownSelector.vue";
 
 const inputFile = ref()
 const editorText = ref()
-const selectedFormat = ref('json')
+/**
+ * @type {Ref<UnwrapRef<'json'|'cbor'>>}
+ */
+const selectedOutputFormat = ref('json')
+/**
+ * @type {Ref<UnwrapRef<'obj'|'gltf'>>}
+ */
+const selectedInputFormat = ref('obj')
 
-const exported = ref()
+const inputFormats = ['obj', 'gltf']
+
+const mrr = ref()
 
 watch(inputFile, async () => {
     if (!inputFile.value) {
@@ -30,16 +47,19 @@ watch(inputFile, async () => {
     }
     const {path, name} = inputFile.value
     const fileUrl = await fileApi.getUrlForFile(path, name)
-    exported.value = await parseMrr(fileUrl)
-    editorText.value = exportAs(exported.value, {format: selectedFormat.value, beauty: true})
+    mrr.value = await parseMrr(fileUrl, {format: selectedInputFormat.value})
+    updateEditor()
 })
 
-function updateFormat(format) {
-    selectedFormat.value = format
-    if (!exported.value) {
+function updateFormat() {
+    if (!mrr.value) {
         return
     }
-    editorText.value = exportAs(exported.value, {format: selectedFormat.value, beauty: true})
+    updateEditor()
+}
+
+function updateEditor() {
+    editorText.value = exportAs(mrr.value, {format: selectedOutputFormat.value, beauty: true, stringify: true})
 }
 
 </script>
