@@ -1,11 +1,11 @@
 import {MrModel} from "../../mrr/MrModel";
 import {MrAttributeKey} from "../../mrr/mesh/MrAttributeKey";
 import {
-    ANAME_NORMAL,
-    ANAME_POSITION,
-    ANAME_UV,
-    UNAME_MVP_MATRIX
-} from "../common";
+    ANAME_SHADER_POSITION,
+    ANAME_SHADER_NORMAL,
+    ANAME_SHADER_UV,
+    UNAME_SHADER_MVP_MATRIX
+} from "../constants";
 import {
     BR,
     CLOSE_MAIN,
@@ -39,11 +39,11 @@ function genAttributes(attributes: Map<string, MrAttributeKey>): string[] {
     function genAttribute(name: string): string {
         switch (name) {
             case "position":
-                return `in vec3 ${ANAME_POSITION};`
+                return `in vec3 ${ANAME_SHADER_POSITION};`
             case "normal":
-                return `in vec3 ${ANAME_NORMAL};`
+                return `in vec3 ${ANAME_SHADER_NORMAL};`
             case "uv":
-                return `in vec2 ${ANAME_UV};`
+                return `in vec2 ${ANAME_SHADER_UV};`
         }
     }
 
@@ -51,11 +51,11 @@ function genAttributes(attributes: Map<string, MrAttributeKey>): string[] {
 }
 
 function genUniforms(): string[] {
-    return [`uniform mat4 ${UNAME_MVP_MATRIX};`]
+    return [`uniform mat4 ${UNAME_SHADER_MVP_MATRIX};`]
 }
 
 function genOutPosition() {
-    return `gl_Position = mat4(1.3737387097273113, 0, 0, 0, 0, 1.3844710433970557, 0, 0, 0, 0, -1.02020202020202, -1, 0, 0, -2.0202020202020203, 0) * ${UNAME_MVP_MATRIX} * vec4(${ANAME_POSITION},1);`
+    return `gl_Position = mat4(1.3737387097273113, 0, 0, 0, 0, 1.3844710433970557, 0, 0, 0, 0, -1.02020202020202, -1, 0, 0, -2.0202020202020203, 0) * ${UNAME_SHADER_MVP_MATRIX} * vec4(${ANAME_SHADER_POSITION},1);`
 }
 
 // const vertexShaderSource = `#version 300 es

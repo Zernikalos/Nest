@@ -1,6 +1,7 @@
 import {BufferAttribute, BufferGeometry, InterleavedBufferAttribute} from "three"
 import {isNil} from "lodash"
 import {MrAttributeKey} from "../mrr/mesh/MrAttributeKey"
+import {filterAttributes} from "./filterAttributes";
 
 function parseAttributeKey(attr: BufferAttribute | InterleavedBufferAttribute): MrAttributeKey {
     if (isNil(attr)) {
@@ -17,7 +18,9 @@ function parseAttributeKey(attr: BufferAttribute | InterleavedBufferAttribute): 
 
 export function parseAttributeKeys(geometry: BufferGeometry): Map<string, MrAttributeKey> {
     const keys = new Map()
-    for (const [key, attr] of Object.entries(geometry.attributes)) {
+
+    const filteredAttributes = filterAttributes(geometry)
+    for (const [key, attr] of filteredAttributes) {
         if (attr instanceof BufferAttribute || attr instanceof InterleavedBufferAttribute) {
             const parsedAttr = parseAttributeKey(attr)
             keys.set(key, parsedAttr)
