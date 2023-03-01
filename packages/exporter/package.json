@@ -4,6 +4,7 @@
   "license": "MIT",
   "author": "Aaron Negrin",
   "main": "index.ts",
+  "types": "./build/index.d.ts",
   "browser": {},
   "scripts": {
     "build": "webpack",

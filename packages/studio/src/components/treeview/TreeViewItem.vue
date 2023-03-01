@@ -5,7 +5,7 @@
                 :class="{bold : hasChildren, 'item-text': true}"
                 @click="toggle"
         >
-            <span :class="{'bi-caret-right-fill': !isOpen, 'bi-caret-down': isOpen, invisible: !hasChildren}"></span>
+            <span :class="{'bi-chevron-right': !isOpen, 'bi-chevron-down': isOpen, invisible: !hasChildren}"></span>
             <span :class="props.item.icon" v-if="props.item.icon"></span>
             <span>
                  {{props.item.name}}
