@@ -4,7 +4,7 @@ export class Float {
     }
 
     encodeCBOR(encoder: any) {
-        return encoder._pushFloat(this.value)
+        return encoder._pushFloat(Math.fround(this.value))
     }
 }
 
