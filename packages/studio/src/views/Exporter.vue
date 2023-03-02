@@ -12,14 +12,14 @@
         </div>
 
         <div class="flex h-full space-x-5">
-            <MonacoEditor class="grow" v-model:editor-text="editorText" format="json"></MonacoEditor>
+            <MonacoEditor class="grow" v-model:editor-text="editorText" :language="selectedOutputFormat === 'cbor' ? 'text' : 'json'" format="json"></MonacoEditor>
         </div>
     </div>
 </template>
 
 <script setup>
 import {ref, watch} from "vue"
-import MonacoEditor from "@studio/components/MonacoEditor.vue"
+import MonacoEditor from "@studio/components/monacoeditor/MonacoEditor.vue"
 import {exportAs, parseMrr} from "@studio/hooks/useParseToMrr"
 import FileSelector from "@studio/components/FileSelector.vue"
 import * as fileApi from "@studio/hooks/useFileApi"
