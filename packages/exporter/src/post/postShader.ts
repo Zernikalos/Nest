@@ -17,9 +17,11 @@ const fragmentShaderSource = `#version 300 es
 
 precision mediump float;
 
+smooth in vec3 color;
+
 out vec4 outColor;
 
 void main() {
-  outColor = vec4(0.5, 0.5, 0.5, 1);
+  outColor = vec4(color.xyz, 1);
 }
 `

@@ -1,0 +1,23 @@
+syntax = "proto2";
+
+package Mrr;
+
+message MrTransform {
+  required MrVector3 location = 1;
+  required MrQuaternion rotation = 2;
+  required MrVector3 scale = 3;
+}
+
+message MrVector3 {
+  required float x = 1;
+  required float y = 2;
+  required float z = 3;
+}
+
+message MrQuaternion {
+  required float w = 1;
+
+  required float x = 2;
+  required float y = 3;
+  required float z = 4;
+}

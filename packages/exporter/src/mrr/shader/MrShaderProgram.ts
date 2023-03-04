@@ -6,7 +6,7 @@ export class MrShaderProgram {
     vertexShader: MrShader
     fragmentShader: MrShader
 
-    attributes: Map<string, MrShaderAttribute> = new Map()
-    uniforms: Map<string, MrShaderUniform> = new Map()
+    attributes: {[key: string]: MrShaderAttribute} = {}
+    uniforms: {[key: string]: MrShaderUniform} = {}
 }
 

@@ -13,7 +13,6 @@ function jsonReplacer(_key: string, value: any) {
     return value
 }
 
-
 export function jsonWrite(node: MrObject, {beauty}: {beauty?: boolean}): string {
     if (beauty) {
         return stringifyObject(node)

@@ -20,10 +20,12 @@ export function generateVertexShaderSource(obj: MrModel): string {
         HEADER,
         BR,
         ...genUniforms(),
-        ...genAttributes(obj.mesh.attributeKeys),
+        ...genInputAttributes(obj.mesh.attributeKeysAsMap),
+        genOutAttributes(),
         BR,
         OPEN_MAIN,
         [T, genOutPosition()],
+        [T, genOutColor()],
         CLOSE_MAIN
     ]
 
@@ -35,7 +37,7 @@ export function generateVertexShaderSource(obj: MrModel): string {
     }).map(l).join('')
 }
 
-function genAttributes(attributes: Map<string, MrAttributeKey>): string[] {
+function genInputAttributes(attributes: Map<string, MrAttributeKey>): string[] {
     function genAttribute(name: string): string {
         switch (name) {
             case "position":
@@ -48,6 +50,14 @@ function genAttributes(attributes: Map<string, MrAttributeKey>): string[] {
     }
 
     return [...attributes.entries()].map(([name, _]) => genAttribute(name))
+}
+
+function genOutAttributes() {
+    return 'out vec3 color;'
+}
+
+function genOutColor() {
+    return 'color = normalize(gl_Position.xyz);'
 }
 
 function genUniforms(): string[] {

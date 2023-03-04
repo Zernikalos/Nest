@@ -4,7 +4,7 @@
             <FileSelector class="w-1/2" v-model:file-selected="inputFile"></FileSelector>
             <DropDownSelector v-model:selected="selectedInputFormat" :options="inputFormats"></DropDownSelector>
             <Toggle
-                    left-label="CBOR" left-value="cbor"
+                    left-label="PROTO" left-value="proto"
                     right-label="JSON" right-value="json"
                     v-model:selected="selectedOutputFormat"
                     @update:selected="updateFormat"
@@ -12,7 +12,7 @@
         </div>
 
         <div class="flex h-full space-x-5">
-            <MonacoEditor class="grow" v-model:editor-text="editorText" :language="selectedOutputFormat === 'cbor' ? 'text' : 'json'" format="json"></MonacoEditor>
+            <MonacoEditor class="grow" v-model:editor-text="editorText" :language="selectedOutputFormat === 'proto' ? 'text' : 'json'" format="json"></MonacoEditor>
         </div>
     </div>
 </template>
@@ -29,7 +29,7 @@ import DropDownSelector from "@studio/components/dropdownselector/DropDownSelect
 const inputFile = ref()
 const editorText = ref()
 /**
- * @type {Ref<UnwrapRef<'json'|'cbor'>>}
+ * @type {Ref<UnwrapRef<'json'|'proto'>>}
  */
 const selectedOutputFormat = ref('json')
 /**
