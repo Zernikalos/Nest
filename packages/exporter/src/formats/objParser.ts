@@ -2,7 +2,7 @@ import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader'
 import {parseObject} from "../parsers"
 import {postProcess} from "../post"
 
-export async function objParser(filePath) {
+export async function objParser(filePath: string) {
     // instantiate a loader
     const loader = new OBJLoader()
 
