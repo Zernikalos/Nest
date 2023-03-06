@@ -1,3 +1,4 @@
+import { MrGroup } from "./../mrr/MrGroup";
 import {MrObject} from "../mrr/MrObject"
 import {parseGroup} from "./parseGroup"
 import {parseModel} from "./parseModel"
@@ -19,7 +20,8 @@ export function parseObject(threeObj: Object3D): MrObject | undefined {
 
     if (!mrrObj || !mrrObj.type) {
         console.warn(`Error detecting object of type ${threeObj.type}, setting a default MrObject`)
-        mrrObj = new MrObject()
+        // TODO: Fix this type
+        mrrObj = new MrGroup()
     }
     mrrObj.name = threeObj.name
     mrrObj.transform = parseTransform(threeObj)
