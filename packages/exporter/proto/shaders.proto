@@ -1,0 +1,39 @@
+syntax = "proto2";
+
+package Mrr;
+
+message MrShaderProgram {
+  required MrShader vertexShader = 1;
+  required MrShader fragmentShader = 2;
+
+  map<string, MrShaderAttribute> attributes = 3;
+  map<string, MrShaderUniform> uniforms = 4;
+}
+
+message MrShader {
+  required string type = 1;
+  required string source = 2;
+}
+
+message MrShaderAttribute {
+  required uint32 index = 1;
+  required string attributeName = 2;
+}
+
+message MrShaderUniform {
+  required string uniformName = 1;
+  required uint32 count = 2;
+  required MrUniformType type = 3;
+}
+
+enum MrUniformType {
+  SCALAR = 0;
+
+  VEC2 = 1;
+  VEC3 = 2;
+  VEC4 = 3;
+
+  MAT2 = 4;
+  MAT3 = 5;
+  MAT4 = 6;
+}

@@ -1,6 +1,7 @@
 import stringifyObject from '../utils/stringifyObject';
 
 import {MrObject} from "../mrr/MrObject"
+import {protoTree} from "./protoWriter";
 
 function jsonReplacer(_key: string, value: any) {
     if (value instanceof Map) {
@@ -13,10 +14,9 @@ function jsonReplacer(_key: string, value: any) {
     return value
 }
 
-
 export function jsonWrite(node: MrObject, {beauty}: {beauty?: boolean}): string {
     if (beauty) {
-        return stringifyObject(node)
+        return stringifyObject(protoTree(node))
     }
     return JSON.stringify(node, jsonReplacer)
 }
