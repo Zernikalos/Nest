@@ -1,0 +1,43 @@
+import {MrModel} from "../../mrr/MrModel";
+import {BR, buildSource, CLOSE_MAIN, FLOAT_PRECISSION, HEADER, OPEN_MAIN} from "./shadersourcecommon";
+import {MrAttributeKey} from "../../mrr/mesh/MrAttributeKey";
+import {ANAME_OUT_FRAG_SHADER_COLOR, ANAME_IN_FRAG_SHADER_COLOR} from "../constants";
+
+export function generateFragmentShaderSource(obj: MrModel) {
+    const source: string[] = [
+        HEADER,
+        BR,
+        FLOAT_PRECISSION,
+        BR,
+        ...genInAttributes(obj.mesh.attributeKeysAsMap),
+        genOutAttributes(obj.mesh.attributeKeysAsMap),
+        BR,
+        OPEN_MAIN,
+        genOutColor(obj.mesh.attributeKeysAsMap),
+        CLOSE_MAIN
+    ]
+
+    return buildSource(source)
+}
+
+function genInAttributes(attributes: Map<string, MrAttributeKey>): string[] {
+    function genAttribute(name: string): string {
+        switch (name) {
+            case "color":
+                return `smooth in vec3 ${ANAME_IN_FRAG_SHADER_COLOR};`
+        }
+    }
+
+    return [...attributes.entries()].map(([name, _]) => genAttribute(name))
+}
+
+function genOutAttributes(_attributes: Map<string, MrAttributeKey>) {
+    return `out vec4 ${ANAME_OUT_FRAG_SHADER_COLOR};`
+}
+
+function genOutColor(attributes: Map<string, MrAttributeKey>) {
+    if (attributes.has("color")) {
+        return `${ANAME_OUT_FRAG_SHADER_COLOR} = vec4(${ANAME_IN_FRAG_SHADER_COLOR}.xyz, 1);`
+    }
+    return `${ANAME_OUT_FRAG_SHADER_COLOR} = vec4(0.5, 0.5, 0.5, 1.0);`
+}

@@ -4,40 +4,34 @@ import {
     ANAME_SHADER_POSITION,
     ANAME_SHADER_NORMAL,
     ANAME_SHADER_UV,
-    UNAME_SHADER_MVP_MATRIX
+    UNAME_SHADER_MVP_MATRIX, ANAME_IN_VERT_SHADER_COLOR, ANAME_OUT_VERT_SHADER_COLOR
 } from "../constants";
 import {
-    BR,
+    BR, buildSource,
     CLOSE_MAIN,
     HEADER,
-    l,
     OPEN_MAIN,
     T,
 } from "./shadersourcecommon"
 
 export function generateVertexShaderSource(obj: MrModel): string {
-    const source = [
+    const source: (string | string[])[] = [
         HEADER,
         BR,
         ...genUniforms(),
-        ...genInputAttributes(obj.mesh.attributeKeysAsMap),
-        genOutAttributes(),
+        ...genInAttributes(obj.mesh.attributeKeysAsMap),
+        genOutAttributes(obj.mesh.attributeKeysAsMap),
         BR,
         OPEN_MAIN,
         [T, genOutPosition()],
-        [T, genOutColor()],
+        [T, genOutColor(obj.mesh.attributeKeysAsMap)],
         CLOSE_MAIN
     ]
 
-    return source.flatMap((e) => {
-        if (Array.isArray(e)) {
-            return e.join('')
-        }
-        return e
-    }).map(l).join('')
+    return buildSource(source)
 }
 
-function genInputAttributes(attributes: Map<string, MrAttributeKey>): string[] {
+function genInAttributes(attributes: Map<string, MrAttributeKey>): string[] {
     function genAttribute(name: string): string {
         switch (name) {
             case "position":
@@ -46,18 +40,26 @@ function genInputAttributes(attributes: Map<string, MrAttributeKey>): string[] {
                 return `in vec3 ${ANAME_SHADER_NORMAL};`
             case "uv":
                 return `in vec2 ${ANAME_SHADER_UV};`
+            case "color":
+                return `in vec3 ${ANAME_IN_VERT_SHADER_COLOR};`
         }
     }
 
     return [...attributes.entries()].map(([name, _]) => genAttribute(name))
 }
 
-function genOutAttributes() {
-    return 'out vec3 color;'
+function genOutAttributes(attributes: Map<string, MrAttributeKey>) {
+    if (!attributes.has("color")) {
+        return ""
+    }
+    return `out vec3 ${ANAME_OUT_VERT_SHADER_COLOR};`
 }
 
-function genOutColor() {
-    return 'color = normalize(gl_Position.xyz);'
+function genOutColor(attributes: Map<string, MrAttributeKey>) {
+    if (!attributes.has("color")) {
+        return ""
+    }
+    return `${ANAME_OUT_VERT_SHADER_COLOR} = ${ANAME_IN_VERT_SHADER_COLOR};`
 }
 
 function genUniforms(): string[] {
