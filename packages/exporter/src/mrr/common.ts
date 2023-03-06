@@ -1,2 +1,12 @@
 
-export type MrType = "scalar" | "vec2" | "vec3" | "vec4" | "mat2" | "mat3" | "mat4"
+export enum MrType {
+    SCALAR,
+
+    VEC2,
+    VEC3,
+    VEC4,
+
+    MAT2,
+    MAT3,
+    MAT4
+}

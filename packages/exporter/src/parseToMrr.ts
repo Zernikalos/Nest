@@ -2,16 +2,16 @@ import merge from "lodash/merge";
 import {objParser} from "./formats/objParser";
 import {MrObject} from "./mrr/MrObject";
 import {jsonWrite} from "./writer/jsonWriter";
-import {cborWrite} from "./writer/cborWriter";
 import {gltfParser} from "./formats/gltfParser";
 import {buf2hex} from "./utils/buf2hex";
+import {protoWrite} from "./writer/protoWriter";
 
 export interface ParseOptions {
     format: 'obj' | 'gltf'
 }
 
 export interface ExportOptions {
-    format: 'json' | 'cbor'
+    format: 'json' | 'proto'
     beauty?: boolean
     stringify?: boolean
 }
@@ -57,8 +57,8 @@ function _exportAs(obj: MrObject, options: ExportOptions = DEFAULT_EXPORT_OPTION
         case "json":
             result = jsonWrite(obj, {beauty})
             break
-        case "cbor":
-            result = cborWrite(obj)
+        case "proto":
+            result = protoWrite(obj)
             break
     }
     if (options.stringify) {

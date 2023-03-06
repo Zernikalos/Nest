@@ -1,10 +1,13 @@
+import {Mrr} from "../../proto";
 
 export class MrBuffer {
-    targetBuffer: 'array' | 'element'
-    usage: 'static-draw'
+    targetBuffer: Mrr.BufferTargetType
+    usage: Mrr.BufferUsageType
+    count: number
+    itemSize: number
     dataArray: Uint8Array | ArrayLike<number>
 
     constructor() {
-        this.usage = "static-draw"
+        this.usage = Mrr.BufferUsageType.STATIC_DRAW
     }
 }
