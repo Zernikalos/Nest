@@ -1,0 +1,14 @@
+{
+  "name": "@mrrobotto/store",
+  "version": "0.0.1",
+  "scripts": {
+
+  },
+  "dependencies": {
+    "pinia": "2.0.33",
+    "vue": "3.2.47"
+  },
+  "devDependencies": {
+    "@types/vue": "2.0.0"
+  }
+}

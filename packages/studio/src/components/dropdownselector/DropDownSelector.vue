@@ -1,12 +1,9 @@
 <template>
-    <div>
-        <select class="selector" @change="(ev) => emit('update:selected', ev.target.value)">
-            <option :value="option" v-for="option in props.options">
-                {{option}}
-            </option>
-        </select>
-    </div>
-
+    <select class="selector" @change="(ev) => emit('update:selected', ev.target.value)">
+        <option :selected="props.selected === option" :value="option" v-for="option in props.options">
+            {{option}}
+        </option>
+    </select>
 </template>
 
 <script setup lang="ts">
@@ -16,14 +13,12 @@ const props = defineProps<{
     selected?: string
 }>()
 
-const log = console.log
-
 const emit = defineEmits(['update:selected'])
 
 </script>
 
 <style scoped>
 .selector {
-    @apply bg-gray-900
+    @apply bg-gray-700 border border-gray-600
 }
 </style>

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mrrobotto/exporter": "0.0.1",
+    "@mrrobotto/store": "0.0.1",
     "lodash": "4.17.21",
     "vue": "3.2.47",
     "vue-router": "4.1.6",

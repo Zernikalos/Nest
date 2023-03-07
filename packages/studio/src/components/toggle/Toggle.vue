@@ -50,7 +50,7 @@ watch(toggleValue, (newValue) => {
 
 <style scoped>
 .toggle-wrapper {
-    @apply flex items-center justify-center w-full mb-12
+    @apply flex items-center justify-center w-full
 }
 .toggle {
     @apply flex items-center cursor-pointer
