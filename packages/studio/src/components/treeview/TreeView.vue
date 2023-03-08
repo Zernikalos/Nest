@@ -1,5 +1,5 @@
 <template>
-    <ul>
+    <ul v-if="props.items.length > 0">
         <TreeViewItem :item="props.items[0]" />
     </ul>
 </template>

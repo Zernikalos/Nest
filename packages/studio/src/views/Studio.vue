@@ -14,27 +14,25 @@
 <script setup>
 import ResizablePanel from "@studio/components/resizablepanel/ResizablePanel.vue"
 import TreeView from "@studio/components/treeview/TreeView.vue"
+import {useMrrLoaderStore} from "@mrrobotto/store/src";
+import {MrObject} from "@mrrobotto/exporter";
 
-const treeViewItems = [
-    {
-        name: "sample1",
-        icon: "bi-folder",
-        children: [
-            {
-                name: "sample2"
-            },
-            {
-                name: "sample3",
-                icon: "bi-folder",
-                children: [
-                    {
-                        name: "sample31"
-                    }
-                ]
-            }
-        ]
+const mrrStore = useMrrLoaderStore()
+
+function convertToHierarchy(obj) {
+    if (!obj) {
+        return []
     }
-]
+    const result = {
+        name: `[${obj.type}] ${obj.name}`,
+        icon: obj.children.length > 0 ? "bi-folder" : undefined
+    }
+    result.children = obj.children.map((c) => convertToHierarchy(c))
+    return result
+}
+
+const treeViewItems = [convertToHierarchy(mrrStore.root)]
+
 
 </script>
 

@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import {ref} from "vue"
+import {onMounted, ref} from "vue"
 
 import MonacoEditor from "@studio/components/monacoeditor/MonacoEditor.vue"
 import Toggle from "@studio/components/toggle/Toggle.vue"
@@ -33,7 +33,7 @@ import Button from "@studio/components/Button.vue"
 import FileSelectorFormat from "@studio/components/fileselector/FileSelectorFormat.vue"
 
 import * as fileApi from "@studio/hooks/useFileApi"
-import {exportAs, parseMrr} from "@studio/hooks/useParseToMrr"
+import {useMrrLoaderStore} from "@mrrobotto/store/src";
 
 const inputFile = ref()
 const editorText = ref()
@@ -50,20 +50,26 @@ const inputFormats = [{label: 'obj', extensions: ['obj']}, {label: 'gltf', exten
 
 const mrr = ref()
 
+const mrrStore = useMrrLoaderStore()
+
+onMounted(() => {
+    updateEditor()
+})
+
 function handleUpdateFileSelected(ev) {
     inputFile.value = ev
     editorText.value = ""
 }
 
 function updateFormat() {
-    if (!mrr.value) {
+    if (!mrrStore.root) {
         return
     }
     updateEditor()
 }
 
 function updateEditor() {
-    editorText.value = exportAs(mrr.value, {format: selectedOutputFormat.value, beauty: true, stringify: true})
+    editorText.value = mrrStore.exportAs({format: selectedOutputFormat.value, beauty: true, stringify: true})
 }
 
 async function exportToMrr() {
@@ -72,7 +78,8 @@ async function exportToMrr() {
     }
     const {path, name} = inputFile.value
     const fileUrl = await fileApi.getUrlForFile(path, name)
-    mrr.value = await parseMrr(fileUrl, {format: selectedInputFormat.value})
+
+    await mrrStore.loadFromFile({filePath: fileUrl, format: selectedInputFormat.value})
     updateEditor()
 }
 

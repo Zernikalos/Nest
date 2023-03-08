@@ -1,19 +1,26 @@
 import {
-    DEFAULT_EXPORT_OPTIONS,
-    DEFAULT_PARSE_OPTIONS,
-    ExportableMrObject,
-    ExportOptions,
+    loadMrrParseable,
+    parseToMrr,
+    exportMrrAs,
+    LoadOptions,
     ParseOptions,
-    parseToMrr
+    ExportOptions,
+    MrrParseableObject,
+    MrObject
 } from "@mrrobotto/exporter"
 import {merge} from "lodash"
 
-export async function parseMrr(filePath: string, parseOptions?: ParseOptions) {
-    const mergeParseOptions = merge({}, DEFAULT_PARSE_OPTIONS, parseOptions)
-    return await parseToMrr(filePath, mergeParseOptions)
+export async function load3DFile(loadOptions: LoadOptions): Promise<MrrParseableObject> {
+    const mergedOptions = merge({}, loadOptions)
+    return await loadMrrParseable(mergedOptions)
 }
 
-export function exportAs(exportableMrObject: ExportableMrObject, exportOptions?: ExportOptions) {
-    const mergedExportOptions = merge({}, DEFAULT_EXPORT_OPTIONS, exportOptions)
-    return exportableMrObject.exportAs(mergedExportOptions)
+export function parseMrr(parseableObject: MrrParseableObject, parseOptions?: ParseOptions): MrObject {
+    const mergeParseOptions: ParseOptions = merge({}, parseOptions)
+    return parseToMrr(parseableObject, mergeParseOptions)
+}
+
+export function exportAs(mrObject: MrObject, exportOptions?: ExportOptions) {
+    const mergedExportOptions: ExportOptions = merge({}, exportOptions)
+    return exportMrrAs(mrObject, mergedExportOptions)
 }
