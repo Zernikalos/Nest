@@ -48,7 +48,16 @@ async function _parseToMrr(filePath: string, options: ParseOptions = DEFAULT_PAR
     return result
 }
 
-function _exportAs(obj: MrObject, options: ExportOptions = DEFAULT_EXPORT_OPTIONS): string | Uint8Array {
+export function exportAs(obj: MrObject, options: ExportOptions = DEFAULT_EXPORT_OPTIONS): string | Uint8Array {
+
+    function stringify(parsed: string | Uint8Array): string {
+        if (typeof parsed === 'string') {
+            return parsed
+        } else if (parsed instanceof Uint8Array) {
+            return buf2hex(parsed)
+        }
+    }
+
     let result
 
     const mergedOptions = merge({}, DEFAULT_EXPORT_OPTIONS, options)
@@ -67,18 +76,10 @@ function _exportAs(obj: MrObject, options: ExportOptions = DEFAULT_EXPORT_OPTION
     return result
 }
 
-function stringify(parsed: string | Uint8Array): string {
-    if (typeof parsed === 'string') {
-        return parsed
-    } else if (parsed instanceof Uint8Array) {
-        return buf2hex(parsed)
-    }
-}
-
 export async function parseToMrr(data: string, options?: ParseOptions): Promise<ExportableMrObject> {
     const result = await _parseToMrr(data, options)
     return {
         root: result,
-        exportAs: (options: ExportOptions) => _exportAs(result, options)
+        exportAs: (options: ExportOptions) => exportAs(result, options)
     }
 }

@@ -25,6 +25,7 @@ export const Mrr = $root.Mrr = (() => {
          * @property {string} type ProtoMrObject type
          * @property {Mrr.IMrGroup|null} [group] ProtoMrObject group
          * @property {Mrr.IMrModel|null} [model] ProtoMrObject model
+         * @property {Mrr.IMrScene|null} [scene] ProtoMrObject scene
          * @property {Array.<Mrr.IProtoMrObject>|null} [children] ProtoMrObject children
          */
 
@@ -69,6 +70,14 @@ export const Mrr = $root.Mrr = (() => {
         ProtoMrObject.prototype.model = null;
 
         /**
+         * ProtoMrObject scene.
+         * @member {Mrr.IMrScene|null|undefined} scene
+         * @memberof Mrr.ProtoMrObject
+         * @instance
+         */
+        ProtoMrObject.prototype.scene = null;
+
+        /**
          * ProtoMrObject children.
          * @member {Array.<Mrr.IProtoMrObject>} children
          * @memberof Mrr.ProtoMrObject
@@ -105,6 +114,8 @@ export const Mrr = $root.Mrr = (() => {
                 $root.Mrr.MrGroup.encode(message.group, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
             if (message.model != null && Object.hasOwnProperty.call(message, "model"))
                 $root.Mrr.MrModel.encode(message.model, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            if (message.scene != null && Object.hasOwnProperty.call(message, "scene"))
+                $root.Mrr.MrScene.encode(message.scene, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
             if (message.children != null && message.children.length)
                 for (let i = 0; i < message.children.length; ++i)
                     $root.Mrr.ProtoMrObject.encode(message.children[i], writer.uint32(/* id 100, wireType 2 =*/802).fork()).ldelim();
@@ -152,6 +163,10 @@ export const Mrr = $root.Mrr = (() => {
                     }
                 case 3: {
                         message.model = $root.Mrr.MrModel.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 4: {
+                        message.scene = $root.Mrr.MrScene.decode(reader, reader.uint32());
                         break;
                     }
                 case 100: {
@@ -209,6 +224,11 @@ export const Mrr = $root.Mrr = (() => {
                 if (error)
                     return "model." + error;
             }
+            if (message.scene != null && message.hasOwnProperty("scene")) {
+                let error = $root.Mrr.MrScene.verify(message.scene);
+                if (error)
+                    return "scene." + error;
+            }
             if (message.children != null && message.hasOwnProperty("children")) {
                 if (!Array.isArray(message.children))
                     return "children: array expected";
@@ -245,6 +265,11 @@ export const Mrr = $root.Mrr = (() => {
                     throw TypeError(".Mrr.ProtoMrObject.model: object expected");
                 message.model = $root.Mrr.MrModel.fromObject(object.model);
             }
+            if (object.scene != null) {
+                if (typeof object.scene !== "object")
+                    throw TypeError(".Mrr.ProtoMrObject.scene: object expected");
+                message.scene = $root.Mrr.MrScene.fromObject(object.scene);
+            }
             if (object.children) {
                 if (!Array.isArray(object.children))
                     throw TypeError(".Mrr.ProtoMrObject.children: array expected");
@@ -277,6 +302,7 @@ export const Mrr = $root.Mrr = (() => {
                 object.type = "";
                 object.group = null;
                 object.model = null;
+                object.scene = null;
             }
             if (message.type != null && message.hasOwnProperty("type"))
                 object.type = message.type;
@@ -284,6 +310,8 @@ export const Mrr = $root.Mrr = (() => {
                 object.group = $root.Mrr.MrGroup.toObject(message.group, options);
             if (message.model != null && message.hasOwnProperty("model"))
                 object.model = $root.Mrr.MrModel.toObject(message.model, options);
+            if (message.scene != null && message.hasOwnProperty("scene"))
+                object.scene = $root.Mrr.MrScene.toObject(message.scene, options);
             if (message.children && message.children.length) {
                 object.children = [];
                 for (let j = 0; j < message.children.length; ++j)
@@ -552,6 +580,541 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         return MrGroup;
+    })();
+
+    Mrr.MrColor = (function() {
+
+        /**
+         * Properties of a MrColor.
+         * @memberof Mrr
+         * @interface IMrColor
+         * @property {number} r MrColor r
+         * @property {number} g MrColor g
+         * @property {number} b MrColor b
+         * @property {number} a MrColor a
+         */
+
+        /**
+         * Constructs a new MrColor.
+         * @memberof Mrr
+         * @classdesc Represents a MrColor.
+         * @implements IMrColor
+         * @constructor
+         * @param {Mrr.IMrColor=} [properties] Properties to set
+         */
+        function MrColor(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * MrColor r.
+         * @member {number} r
+         * @memberof Mrr.MrColor
+         * @instance
+         */
+        MrColor.prototype.r = 0;
+
+        /**
+         * MrColor g.
+         * @member {number} g
+         * @memberof Mrr.MrColor
+         * @instance
+         */
+        MrColor.prototype.g = 0;
+
+        /**
+         * MrColor b.
+         * @member {number} b
+         * @memberof Mrr.MrColor
+         * @instance
+         */
+        MrColor.prototype.b = 0;
+
+        /**
+         * MrColor a.
+         * @member {number} a
+         * @memberof Mrr.MrColor
+         * @instance
+         */
+        MrColor.prototype.a = 0;
+
+        /**
+         * Creates a new MrColor instance using the specified properties.
+         * @function create
+         * @memberof Mrr.MrColor
+         * @static
+         * @param {Mrr.IMrColor=} [properties] Properties to set
+         * @returns {Mrr.MrColor} MrColor instance
+         */
+        MrColor.create = function create(properties) {
+            return new MrColor(properties);
+        };
+
+        /**
+         * Encodes the specified MrColor message. Does not implicitly {@link Mrr.MrColor.verify|verify} messages.
+         * @function encode
+         * @memberof Mrr.MrColor
+         * @static
+         * @param {Mrr.IMrColor} message MrColor message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MrColor.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            writer.uint32(/* id 1, wireType 5 =*/13).float(message.r);
+            writer.uint32(/* id 2, wireType 5 =*/21).float(message.g);
+            writer.uint32(/* id 3, wireType 5 =*/29).float(message.b);
+            writer.uint32(/* id 4, wireType 5 =*/37).float(message.a);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified MrColor message, length delimited. Does not implicitly {@link Mrr.MrColor.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof Mrr.MrColor
+         * @static
+         * @param {Mrr.IMrColor} message MrColor message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MrColor.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a MrColor message from the specified reader or buffer.
+         * @function decode
+         * @memberof Mrr.MrColor
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {Mrr.MrColor} MrColor
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MrColor.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrColor();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.r = reader.float();
+                        break;
+                    }
+                case 2: {
+                        message.g = reader.float();
+                        break;
+                    }
+                case 3: {
+                        message.b = reader.float();
+                        break;
+                    }
+                case 4: {
+                        message.a = reader.float();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            if (!message.hasOwnProperty("r"))
+                throw $util.ProtocolError("missing required 'r'", { instance: message });
+            if (!message.hasOwnProperty("g"))
+                throw $util.ProtocolError("missing required 'g'", { instance: message });
+            if (!message.hasOwnProperty("b"))
+                throw $util.ProtocolError("missing required 'b'", { instance: message });
+            if (!message.hasOwnProperty("a"))
+                throw $util.ProtocolError("missing required 'a'", { instance: message });
+            return message;
+        };
+
+        /**
+         * Decodes a MrColor message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof Mrr.MrColor
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {Mrr.MrColor} MrColor
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MrColor.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a MrColor message.
+         * @function verify
+         * @memberof Mrr.MrColor
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        MrColor.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (typeof message.r !== "number")
+                return "r: number expected";
+            if (typeof message.g !== "number")
+                return "g: number expected";
+            if (typeof message.b !== "number")
+                return "b: number expected";
+            if (typeof message.a !== "number")
+                return "a: number expected";
+            return null;
+        };
+
+        /**
+         * Creates a MrColor message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof Mrr.MrColor
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {Mrr.MrColor} MrColor
+         */
+        MrColor.fromObject = function fromObject(object) {
+            if (object instanceof $root.Mrr.MrColor)
+                return object;
+            let message = new $root.Mrr.MrColor();
+            if (object.r != null)
+                message.r = Number(object.r);
+            if (object.g != null)
+                message.g = Number(object.g);
+            if (object.b != null)
+                message.b = Number(object.b);
+            if (object.a != null)
+                message.a = Number(object.a);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a MrColor message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof Mrr.MrColor
+         * @static
+         * @param {Mrr.MrColor} message MrColor
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        MrColor.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                object.r = 0;
+                object.g = 0;
+                object.b = 0;
+                object.a = 0;
+            }
+            if (message.r != null && message.hasOwnProperty("r"))
+                object.r = options.json && !isFinite(message.r) ? String(message.r) : message.r;
+            if (message.g != null && message.hasOwnProperty("g"))
+                object.g = options.json && !isFinite(message.g) ? String(message.g) : message.g;
+            if (message.b != null && message.hasOwnProperty("b"))
+                object.b = options.json && !isFinite(message.b) ? String(message.b) : message.b;
+            if (message.a != null && message.hasOwnProperty("a"))
+                object.a = options.json && !isFinite(message.a) ? String(message.a) : message.a;
+            return object;
+        };
+
+        /**
+         * Converts this MrColor to JSON.
+         * @function toJSON
+         * @memberof Mrr.MrColor
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        MrColor.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for MrColor
+         * @function getTypeUrl
+         * @memberof Mrr.MrColor
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        MrColor.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/Mrr.MrColor";
+        };
+
+        return MrColor;
+    })();
+
+    Mrr.MrScene = (function() {
+
+        /**
+         * Properties of a MrScene.
+         * @memberof Mrr
+         * @interface IMrScene
+         * @property {string} name MrScene name
+         * @property {Mrr.IMrTransform} transform MrScene transform
+         * @property {Mrr.IMrColor} clearColor MrScene clearColor
+         */
+
+        /**
+         * Constructs a new MrScene.
+         * @memberof Mrr
+         * @classdesc Represents a MrScene.
+         * @implements IMrScene
+         * @constructor
+         * @param {Mrr.IMrScene=} [properties] Properties to set
+         */
+        function MrScene(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * MrScene name.
+         * @member {string} name
+         * @memberof Mrr.MrScene
+         * @instance
+         */
+        MrScene.prototype.name = "";
+
+        /**
+         * MrScene transform.
+         * @member {Mrr.IMrTransform} transform
+         * @memberof Mrr.MrScene
+         * @instance
+         */
+        MrScene.prototype.transform = null;
+
+        /**
+         * MrScene clearColor.
+         * @member {Mrr.IMrColor} clearColor
+         * @memberof Mrr.MrScene
+         * @instance
+         */
+        MrScene.prototype.clearColor = null;
+
+        /**
+         * Creates a new MrScene instance using the specified properties.
+         * @function create
+         * @memberof Mrr.MrScene
+         * @static
+         * @param {Mrr.IMrScene=} [properties] Properties to set
+         * @returns {Mrr.MrScene} MrScene instance
+         */
+        MrScene.create = function create(properties) {
+            return new MrScene(properties);
+        };
+
+        /**
+         * Encodes the specified MrScene message. Does not implicitly {@link Mrr.MrScene.verify|verify} messages.
+         * @function encode
+         * @memberof Mrr.MrScene
+         * @static
+         * @param {Mrr.IMrScene} message MrScene message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MrScene.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+            $root.Mrr.MrTransform.encode(message.transform, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            $root.Mrr.MrColor.encode(message.clearColor, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified MrScene message, length delimited. Does not implicitly {@link Mrr.MrScene.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof Mrr.MrScene
+         * @static
+         * @param {Mrr.IMrScene} message MrScene message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MrScene.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a MrScene message from the specified reader or buffer.
+         * @function decode
+         * @memberof Mrr.MrScene
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {Mrr.MrScene} MrScene
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MrScene.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrScene();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.name = reader.string();
+                        break;
+                    }
+                case 3: {
+                        message.transform = $root.Mrr.MrTransform.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 4: {
+                        message.clearColor = $root.Mrr.MrColor.decode(reader, reader.uint32());
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            if (!message.hasOwnProperty("name"))
+                throw $util.ProtocolError("missing required 'name'", { instance: message });
+            if (!message.hasOwnProperty("transform"))
+                throw $util.ProtocolError("missing required 'transform'", { instance: message });
+            if (!message.hasOwnProperty("clearColor"))
+                throw $util.ProtocolError("missing required 'clearColor'", { instance: message });
+            return message;
+        };
+
+        /**
+         * Decodes a MrScene message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof Mrr.MrScene
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {Mrr.MrScene} MrScene
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MrScene.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a MrScene message.
+         * @function verify
+         * @memberof Mrr.MrScene
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        MrScene.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (!$util.isString(message.name))
+                return "name: string expected";
+            {
+                let error = $root.Mrr.MrTransform.verify(message.transform);
+                if (error)
+                    return "transform." + error;
+            }
+            {
+                let error = $root.Mrr.MrColor.verify(message.clearColor);
+                if (error)
+                    return "clearColor." + error;
+            }
+            return null;
+        };
+
+        /**
+         * Creates a MrScene message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof Mrr.MrScene
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {Mrr.MrScene} MrScene
+         */
+        MrScene.fromObject = function fromObject(object) {
+            if (object instanceof $root.Mrr.MrScene)
+                return object;
+            let message = new $root.Mrr.MrScene();
+            if (object.name != null)
+                message.name = String(object.name);
+            if (object.transform != null) {
+                if (typeof object.transform !== "object")
+                    throw TypeError(".Mrr.MrScene.transform: object expected");
+                message.transform = $root.Mrr.MrTransform.fromObject(object.transform);
+            }
+            if (object.clearColor != null) {
+                if (typeof object.clearColor !== "object")
+                    throw TypeError(".Mrr.MrScene.clearColor: object expected");
+                message.clearColor = $root.Mrr.MrColor.fromObject(object.clearColor);
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a MrScene message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof Mrr.MrScene
+         * @static
+         * @param {Mrr.MrScene} message MrScene
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        MrScene.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                object.name = "";
+                object.transform = null;
+                object.clearColor = null;
+            }
+            if (message.name != null && message.hasOwnProperty("name"))
+                object.name = message.name;
+            if (message.transform != null && message.hasOwnProperty("transform"))
+                object.transform = $root.Mrr.MrTransform.toObject(message.transform, options);
+            if (message.clearColor != null && message.hasOwnProperty("clearColor"))
+                object.clearColor = $root.Mrr.MrColor.toObject(message.clearColor, options);
+            return object;
+        };
+
+        /**
+         * Converts this MrScene to JSON.
+         * @function toJSON
+         * @memberof Mrr.MrScene
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        MrScene.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for MrScene
+         * @function getTypeUrl
+         * @memberof Mrr.MrScene
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        MrScene.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/Mrr.MrScene";
+        };
+
+        return MrScene;
     })();
 
     Mrr.MrTransform = (function() {
@@ -1070,6 +1633,279 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         return MrVector3;
+    })();
+
+    Mrr.MrVector4 = (function() {
+
+        /**
+         * Properties of a MrVector4.
+         * @memberof Mrr
+         * @interface IMrVector4
+         * @property {number} x MrVector4 x
+         * @property {number} y MrVector4 y
+         * @property {number} z MrVector4 z
+         * @property {number} w MrVector4 w
+         */
+
+        /**
+         * Constructs a new MrVector4.
+         * @memberof Mrr
+         * @classdesc Represents a MrVector4.
+         * @implements IMrVector4
+         * @constructor
+         * @param {Mrr.IMrVector4=} [properties] Properties to set
+         */
+        function MrVector4(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * MrVector4 x.
+         * @member {number} x
+         * @memberof Mrr.MrVector4
+         * @instance
+         */
+        MrVector4.prototype.x = 0;
+
+        /**
+         * MrVector4 y.
+         * @member {number} y
+         * @memberof Mrr.MrVector4
+         * @instance
+         */
+        MrVector4.prototype.y = 0;
+
+        /**
+         * MrVector4 z.
+         * @member {number} z
+         * @memberof Mrr.MrVector4
+         * @instance
+         */
+        MrVector4.prototype.z = 0;
+
+        /**
+         * MrVector4 w.
+         * @member {number} w
+         * @memberof Mrr.MrVector4
+         * @instance
+         */
+        MrVector4.prototype.w = 0;
+
+        /**
+         * Creates a new MrVector4 instance using the specified properties.
+         * @function create
+         * @memberof Mrr.MrVector4
+         * @static
+         * @param {Mrr.IMrVector4=} [properties] Properties to set
+         * @returns {Mrr.MrVector4} MrVector4 instance
+         */
+        MrVector4.create = function create(properties) {
+            return new MrVector4(properties);
+        };
+
+        /**
+         * Encodes the specified MrVector4 message. Does not implicitly {@link Mrr.MrVector4.verify|verify} messages.
+         * @function encode
+         * @memberof Mrr.MrVector4
+         * @static
+         * @param {Mrr.IMrVector4} message MrVector4 message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MrVector4.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            writer.uint32(/* id 1, wireType 5 =*/13).float(message.x);
+            writer.uint32(/* id 2, wireType 5 =*/21).float(message.y);
+            writer.uint32(/* id 3, wireType 5 =*/29).float(message.z);
+            writer.uint32(/* id 4, wireType 5 =*/37).float(message.w);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified MrVector4 message, length delimited. Does not implicitly {@link Mrr.MrVector4.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof Mrr.MrVector4
+         * @static
+         * @param {Mrr.IMrVector4} message MrVector4 message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MrVector4.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a MrVector4 message from the specified reader or buffer.
+         * @function decode
+         * @memberof Mrr.MrVector4
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {Mrr.MrVector4} MrVector4
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MrVector4.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrVector4();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.x = reader.float();
+                        break;
+                    }
+                case 2: {
+                        message.y = reader.float();
+                        break;
+                    }
+                case 3: {
+                        message.z = reader.float();
+                        break;
+                    }
+                case 4: {
+                        message.w = reader.float();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            if (!message.hasOwnProperty("x"))
+                throw $util.ProtocolError("missing required 'x'", { instance: message });
+            if (!message.hasOwnProperty("y"))
+                throw $util.ProtocolError("missing required 'y'", { instance: message });
+            if (!message.hasOwnProperty("z"))
+                throw $util.ProtocolError("missing required 'z'", { instance: message });
+            if (!message.hasOwnProperty("w"))
+                throw $util.ProtocolError("missing required 'w'", { instance: message });
+            return message;
+        };
+
+        /**
+         * Decodes a MrVector4 message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof Mrr.MrVector4
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {Mrr.MrVector4} MrVector4
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MrVector4.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a MrVector4 message.
+         * @function verify
+         * @memberof Mrr.MrVector4
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        MrVector4.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (typeof message.x !== "number")
+                return "x: number expected";
+            if (typeof message.y !== "number")
+                return "y: number expected";
+            if (typeof message.z !== "number")
+                return "z: number expected";
+            if (typeof message.w !== "number")
+                return "w: number expected";
+            return null;
+        };
+
+        /**
+         * Creates a MrVector4 message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof Mrr.MrVector4
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {Mrr.MrVector4} MrVector4
+         */
+        MrVector4.fromObject = function fromObject(object) {
+            if (object instanceof $root.Mrr.MrVector4)
+                return object;
+            let message = new $root.Mrr.MrVector4();
+            if (object.x != null)
+                message.x = Number(object.x);
+            if (object.y != null)
+                message.y = Number(object.y);
+            if (object.z != null)
+                message.z = Number(object.z);
+            if (object.w != null)
+                message.w = Number(object.w);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a MrVector4 message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof Mrr.MrVector4
+         * @static
+         * @param {Mrr.MrVector4} message MrVector4
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        MrVector4.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                object.x = 0;
+                object.y = 0;
+                object.z = 0;
+                object.w = 0;
+            }
+            if (message.x != null && message.hasOwnProperty("x"))
+                object.x = options.json && !isFinite(message.x) ? String(message.x) : message.x;
+            if (message.y != null && message.hasOwnProperty("y"))
+                object.y = options.json && !isFinite(message.y) ? String(message.y) : message.y;
+            if (message.z != null && message.hasOwnProperty("z"))
+                object.z = options.json && !isFinite(message.z) ? String(message.z) : message.z;
+            if (message.w != null && message.hasOwnProperty("w"))
+                object.w = options.json && !isFinite(message.w) ? String(message.w) : message.w;
+            return object;
+        };
+
+        /**
+         * Converts this MrVector4 to JSON.
+         * @function toJSON
+         * @memberof Mrr.MrVector4
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        MrVector4.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for MrVector4
+         * @function getTypeUrl
+         * @memberof Mrr.MrVector4
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        MrVector4.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/Mrr.MrVector4";
+        };
+
+        return MrVector4;
     })();
 
     Mrr.MrQuaternion = (function() {

@@ -3,8 +3,9 @@ import {MrObject} from "../mrr/MrObject"
 import {parseGroup} from "./parseGroup"
 import {parseModel} from "./parseModel"
 import {isNil} from "lodash"
-import {Group, Mesh, Object3D} from "three";
+import {Group, Mesh, Object3D, Scene} from "three";
 import {parseTransform} from "./parseTransform";
+import {parseScene} from "./parseScene";
 
 export function parseObject(threeObj: Object3D): MrObject | undefined {
     let mrrObj
@@ -15,6 +16,9 @@ export function parseObject(threeObj: Object3D): MrObject | undefined {
         case "Mesh":
         case "SkinnedMesh":
             mrrObj = parseModel(threeObj as Mesh)
+            break
+        case "Scene":
+            mrrObj = parseScene(threeObj as Scene)
             break
     }
 

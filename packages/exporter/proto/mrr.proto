@@ -10,6 +10,7 @@ message ProtoMrObject {
 
   optional MrGroup group = 2;
   optional MrModel model = 3;
+  optional MrScene scene = 4;
 
   repeated ProtoMrObject children = 100;
 }
@@ -18,4 +19,19 @@ message MrGroup {
   required string name = 1;
 
   required MrTransform transform = 3;
+}
+
+message MrColor {
+  required float r = 1;
+  required float g = 2;
+  required float b = 3;
+  required float a = 4;
+}
+
+message MrScene {
+  required string name = 1;
+
+  required MrTransform transform = 3;
+
+  required MrColor clearColor = 4;
 }

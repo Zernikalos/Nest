@@ -6,6 +6,7 @@ export namespace Mrr {
         type: string;
         group?: (Mrr.IMrGroup|null);
         model?: (Mrr.IMrModel|null);
+        scene?: (Mrr.IMrScene|null);
         children?: (Mrr.IProtoMrObject[]|null);
     }
 
@@ -14,6 +15,7 @@ export namespace Mrr {
         public type: string;
         public group?: (Mrr.IMrGroup|null);
         public model?: (Mrr.IMrModel|null);
+        public scene?: (Mrr.IMrScene|null);
         public children: Mrr.IProtoMrObject[];
         public static create(properties?: Mrr.IProtoMrObject): Mrr.ProtoMrObject;
         public static encode(message: Mrr.IProtoMrObject, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -44,6 +46,54 @@ export namespace Mrr {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): Mrr.MrGroup;
         public static toObject(message: Mrr.MrGroup, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    interface IMrColor {
+        r: number;
+        g: number;
+        b: number;
+        a: number;
+    }
+
+    class MrColor implements IMrColor {
+        constructor(properties?: Mrr.IMrColor);
+        public r: number;
+        public g: number;
+        public b: number;
+        public a: number;
+        public static create(properties?: Mrr.IMrColor): Mrr.MrColor;
+        public static encode(message: Mrr.IMrColor, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Mrr.IMrColor, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrColor;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrColor;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): Mrr.MrColor;
+        public static toObject(message: Mrr.MrColor, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    interface IMrScene {
+        name: string;
+        transform: Mrr.IMrTransform;
+        clearColor: Mrr.IMrColor;
+    }
+
+    class MrScene implements IMrScene {
+        constructor(properties?: Mrr.IMrScene);
+        public name: string;
+        public transform: Mrr.IMrTransform;
+        public clearColor: Mrr.IMrColor;
+        public static create(properties?: Mrr.IMrScene): Mrr.MrScene;
+        public static encode(message: Mrr.IMrScene, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Mrr.IMrScene, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrScene;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrScene;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): Mrr.MrScene;
+        public static toObject(message: Mrr.MrScene, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
@@ -90,6 +140,31 @@ export namespace Mrr {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): Mrr.MrVector3;
         public static toObject(message: Mrr.MrVector3, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    interface IMrVector4 {
+        x: number;
+        y: number;
+        z: number;
+        w: number;
+    }
+
+    class MrVector4 implements IMrVector4 {
+        constructor(properties?: Mrr.IMrVector4);
+        public x: number;
+        public y: number;
+        public z: number;
+        public w: number;
+        public static create(properties?: Mrr.IMrVector4): Mrr.MrVector4;
+        public static encode(message: Mrr.IMrVector4, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Mrr.IMrVector4, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrVector4;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrVector4;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): Mrr.MrVector4;
+        public static toObject(message: Mrr.MrVector4, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
