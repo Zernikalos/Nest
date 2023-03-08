@@ -19,7 +19,8 @@
     "is-obj": "3.0.0",
     "is-regexp": "3.1.0",
     "get-own-enumerable-property-symbols": "3.0.2",
-    "protobufjs": "7.2.2"
+    "protobufjs": "7.2.2",
+    "object-hash": "3.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.21.0",
@@ -30,6 +31,7 @@
     "babel-loader": "9.1.2",
     "@types/lodash": "4.14.191",
     "@types/three": "0.149.0",
+    "@types/object-hash": "3.0.2",
     "protobufjs-cli": "1.1.1"
   }
 }

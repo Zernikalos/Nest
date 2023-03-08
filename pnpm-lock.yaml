@@ -73,12 +73,14 @@ importers:
       '@babel/preset-typescript': 7.21.0
       '@babel/runtime': 7.21.0
       '@types/lodash': 4.14.191
+      '@types/object-hash': 3.0.2
       '@types/three': 0.149.0
       babel-loader: 9.1.2
       get-own-enumerable-property-symbols: 3.0.2
       is-obj: 3.0.0
       is-regexp: 3.1.0
       lodash: 4.17.21
+      object-hash: 3.0.0
       protobufjs: 7.2.2
       protobufjs-cli: 1.1.1
       three: 0.150.1
@@ -89,6 +91,7 @@ importers:
       is-obj: 3.0.0
       is-regexp: 3.1.0
       lodash: 4.17.21
+      object-hash: 3.0.0
       protobufjs: 7.2.2
       three: 0.150.1
     devDependencies:
@@ -97,6 +100,7 @@ importers:
       '@babel/plugin-transform-runtime': 7.21.0_@babel+core@7.21.0
       '@babel/preset-typescript': 7.21.0_@babel+core@7.21.0
       '@types/lodash': 4.14.191
+      '@types/object-hash': 3.0.2
       '@types/three': 0.149.0
       babel-loader: 9.1.2_qoaxtqicpzj5p3ubthw53xafqm
       protobufjs-cli: 1.1.1_protobufjs@7.2.2
@@ -3169,6 +3173,10 @@ packages:
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
+    dev: true
+
+  /@types/object-hash/3.0.2:
+    resolution: {integrity: sha512-tfyXl1JPCf2hzIDK29gO7qGqJjThKBzg/Cn3bA68R9NmWdOx+f7k5mm4to/n43BHspCwcoUC6FU4NpUoK/h9bQ==}
     dev: true
 
   /@types/parse-json/4.0.0:
@@ -8878,7 +8886,6 @@ packages:
   /object-hash/3.0.0:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
-    dev: true
 
   /object-inspect/1.11.0:
     resolution: {integrity: sha512-jp7ikS6Sd3GxQfZJPyH3cjcbJF6GZPClgdV+EFygjFLQ5FmW/dRUnTd9PQ9k0JhoNDabWFbpF1yCdSWCC6gexg==}

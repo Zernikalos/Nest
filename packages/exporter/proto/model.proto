@@ -5,7 +5,8 @@ package Mrr;
 import "./shaders.proto";
 
 message MrModel {
-  required string name = 1;
+  required string id = 1;
+  required string name = 2;
 
   required MrTransform transform = 3;
 

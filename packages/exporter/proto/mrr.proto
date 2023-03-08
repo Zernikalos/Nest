@@ -16,7 +16,8 @@ message ProtoMrObject {
 }
 
 message MrGroup {
-  required string name = 1;
+  required string id = 1;
+  required string name = 2;
 
   required MrTransform transform = 3;
 }
@@ -29,7 +30,8 @@ message MrColor {
 }
 
 message MrScene {
-  required string name = 1;
+  required string id = 1;
+  required string name = 2;
 
   required MrTransform transform = 3;
 

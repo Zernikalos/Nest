@@ -355,6 +355,7 @@ export const Mrr = $root.Mrr = (() => {
          * Properties of a MrGroup.
          * @memberof Mrr
          * @interface IMrGroup
+         * @property {string} id MrGroup id
          * @property {string} name MrGroup name
          * @property {Mrr.IMrTransform} transform MrGroup transform
          */
@@ -373,6 +374,14 @@ export const Mrr = $root.Mrr = (() => {
                     if (properties[keys[i]] != null)
                         this[keys[i]] = properties[keys[i]];
         }
+
+        /**
+         * MrGroup id.
+         * @member {string} id
+         * @memberof Mrr.MrGroup
+         * @instance
+         */
+        MrGroup.prototype.id = "";
 
         /**
          * MrGroup name.
@@ -414,7 +423,8 @@ export const Mrr = $root.Mrr = (() => {
         MrGroup.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
             $root.Mrr.MrTransform.encode(message.transform, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             return writer;
         };
@@ -451,6 +461,10 @@ export const Mrr = $root.Mrr = (() => {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
+                        message.id = reader.string();
+                        break;
+                    }
+                case 2: {
                         message.name = reader.string();
                         break;
                     }
@@ -463,6 +477,8 @@ export const Mrr = $root.Mrr = (() => {
                     break;
                 }
             }
+            if (!message.hasOwnProperty("id"))
+                throw $util.ProtocolError("missing required 'id'", { instance: message });
             if (!message.hasOwnProperty("name"))
                 throw $util.ProtocolError("missing required 'name'", { instance: message });
             if (!message.hasOwnProperty("transform"))
@@ -497,6 +513,8 @@ export const Mrr = $root.Mrr = (() => {
         MrGroup.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (!$util.isString(message.id))
+                return "id: string expected";
             if (!$util.isString(message.name))
                 return "name: string expected";
             {
@@ -519,6 +537,8 @@ export const Mrr = $root.Mrr = (() => {
             if (object instanceof $root.Mrr.MrGroup)
                 return object;
             let message = new $root.Mrr.MrGroup();
+            if (object.id != null)
+                message.id = String(object.id);
             if (object.name != null)
                 message.name = String(object.name);
             if (object.transform != null) {
@@ -543,9 +563,12 @@ export const Mrr = $root.Mrr = (() => {
                 options = {};
             let object = {};
             if (options.defaults) {
+                object.id = "";
                 object.name = "";
                 object.transform = null;
             }
+            if (message.id != null && message.hasOwnProperty("id"))
+                object.id = message.id;
             if (message.name != null && message.hasOwnProperty("name"))
                 object.name = message.name;
             if (message.transform != null && message.hasOwnProperty("transform"))
@@ -861,6 +884,7 @@ export const Mrr = $root.Mrr = (() => {
          * Properties of a MrScene.
          * @memberof Mrr
          * @interface IMrScene
+         * @property {string} id MrScene id
          * @property {string} name MrScene name
          * @property {Mrr.IMrTransform} transform MrScene transform
          * @property {Mrr.IMrColor} clearColor MrScene clearColor
@@ -880,6 +904,14 @@ export const Mrr = $root.Mrr = (() => {
                     if (properties[keys[i]] != null)
                         this[keys[i]] = properties[keys[i]];
         }
+
+        /**
+         * MrScene id.
+         * @member {string} id
+         * @memberof Mrr.MrScene
+         * @instance
+         */
+        MrScene.prototype.id = "";
 
         /**
          * MrScene name.
@@ -929,7 +961,8 @@ export const Mrr = $root.Mrr = (() => {
         MrScene.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
             $root.Mrr.MrTransform.encode(message.transform, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             $root.Mrr.MrColor.encode(message.clearColor, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
             return writer;
@@ -967,6 +1000,10 @@ export const Mrr = $root.Mrr = (() => {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
+                        message.id = reader.string();
+                        break;
+                    }
+                case 2: {
                         message.name = reader.string();
                         break;
                     }
@@ -983,6 +1020,8 @@ export const Mrr = $root.Mrr = (() => {
                     break;
                 }
             }
+            if (!message.hasOwnProperty("id"))
+                throw $util.ProtocolError("missing required 'id'", { instance: message });
             if (!message.hasOwnProperty("name"))
                 throw $util.ProtocolError("missing required 'name'", { instance: message });
             if (!message.hasOwnProperty("transform"))
@@ -1019,6 +1058,8 @@ export const Mrr = $root.Mrr = (() => {
         MrScene.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (!$util.isString(message.id))
+                return "id: string expected";
             if (!$util.isString(message.name))
                 return "name: string expected";
             {
@@ -1046,6 +1087,8 @@ export const Mrr = $root.Mrr = (() => {
             if (object instanceof $root.Mrr.MrScene)
                 return object;
             let message = new $root.Mrr.MrScene();
+            if (object.id != null)
+                message.id = String(object.id);
             if (object.name != null)
                 message.name = String(object.name);
             if (object.transform != null) {
@@ -1075,10 +1118,13 @@ export const Mrr = $root.Mrr = (() => {
                 options = {};
             let object = {};
             if (options.defaults) {
+                object.id = "";
                 object.name = "";
                 object.transform = null;
                 object.clearColor = null;
             }
+            if (message.id != null && message.hasOwnProperty("id"))
+                object.id = message.id;
             if (message.name != null && message.hasOwnProperty("name"))
                 object.name = message.name;
             if (message.transform != null && message.hasOwnProperty("transform"))
@@ -2187,6 +2233,7 @@ export const Mrr = $root.Mrr = (() => {
          * Properties of a MrModel.
          * @memberof Mrr
          * @interface IMrModel
+         * @property {string} id MrModel id
          * @property {string} name MrModel name
          * @property {Mrr.IMrTransform} transform MrModel transform
          * @property {Mrr.IMrShaderProgram} shaderProgram MrModel shaderProgram
@@ -2207,6 +2254,14 @@ export const Mrr = $root.Mrr = (() => {
                     if (properties[keys[i]] != null)
                         this[keys[i]] = properties[keys[i]];
         }
+
+        /**
+         * MrModel id.
+         * @member {string} id
+         * @memberof Mrr.MrModel
+         * @instance
+         */
+        MrModel.prototype.id = "";
 
         /**
          * MrModel name.
@@ -2264,7 +2319,8 @@ export const Mrr = $root.Mrr = (() => {
         MrModel.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
             $root.Mrr.MrTransform.encode(message.transform, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             $root.Mrr.MrShaderProgram.encode(message.shaderProgram, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
             $root.Mrr.MrMesh.encode(message.mesh, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
@@ -2303,6 +2359,10 @@ export const Mrr = $root.Mrr = (() => {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
+                        message.id = reader.string();
+                        break;
+                    }
+                case 2: {
                         message.name = reader.string();
                         break;
                     }
@@ -2323,6 +2383,8 @@ export const Mrr = $root.Mrr = (() => {
                     break;
                 }
             }
+            if (!message.hasOwnProperty("id"))
+                throw $util.ProtocolError("missing required 'id'", { instance: message });
             if (!message.hasOwnProperty("name"))
                 throw $util.ProtocolError("missing required 'name'", { instance: message });
             if (!message.hasOwnProperty("transform"))
@@ -2361,6 +2423,8 @@ export const Mrr = $root.Mrr = (() => {
         MrModel.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (!$util.isString(message.id))
+                return "id: string expected";
             if (!$util.isString(message.name))
                 return "name: string expected";
             {
@@ -2393,6 +2457,8 @@ export const Mrr = $root.Mrr = (() => {
             if (object instanceof $root.Mrr.MrModel)
                 return object;
             let message = new $root.Mrr.MrModel();
+            if (object.id != null)
+                message.id = String(object.id);
             if (object.name != null)
                 message.name = String(object.name);
             if (object.transform != null) {
@@ -2427,11 +2493,14 @@ export const Mrr = $root.Mrr = (() => {
                 options = {};
             let object = {};
             if (options.defaults) {
+                object.id = "";
                 object.name = "";
                 object.transform = null;
                 object.shaderProgram = null;
                 object.mesh = null;
             }
+            if (message.id != null && message.hasOwnProperty("id"))
+                object.id = message.id;
             if (message.name != null && message.hasOwnProperty("name"))
                 object.name = message.name;
             if (message.transform != null && message.hasOwnProperty("transform"))

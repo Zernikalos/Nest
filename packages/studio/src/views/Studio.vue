@@ -24,11 +24,17 @@ function convertToHierarchy(obj) {
         return []
     }
     const result = {
-        name: `[${obj.type}] ${obj.name}`,
-        icon: obj.children.length > 0 ? "bi-folder" : undefined
+        name: ` ${obj.name}`,
+        icon: typesIcons[obj.type]
     }
     result.children = obj.children.map((c) => convertToHierarchy(c))
     return result
+}
+
+const typesIcons = {
+    "Scene": "bi-map", //bi-aspect-ratio
+    "Group": "bi-layout-wtf",
+    "Model": "bi-box"
 }
 
 const treeViewItems = [convertToHierarchy(mrrStore.root)]

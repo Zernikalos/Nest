@@ -30,12 +30,14 @@ export namespace Mrr {
     }
 
     interface IMrGroup {
+        id: string;
         name: string;
         transform: Mrr.IMrTransform;
     }
 
     class MrGroup implements IMrGroup {
         constructor(properties?: Mrr.IMrGroup);
+        public id: string;
         public name: string;
         public transform: Mrr.IMrTransform;
         public static create(properties?: Mrr.IMrGroup): Mrr.MrGroup;
@@ -76,6 +78,7 @@ export namespace Mrr {
     }
 
     interface IMrScene {
+        id: string;
         name: string;
         transform: Mrr.IMrTransform;
         clearColor: Mrr.IMrColor;
@@ -83,6 +86,7 @@ export namespace Mrr {
 
     class MrScene implements IMrScene {
         constructor(properties?: Mrr.IMrScene);
+        public id: string;
         public name: string;
         public transform: Mrr.IMrTransform;
         public clearColor: Mrr.IMrColor;
@@ -195,6 +199,7 @@ export namespace Mrr {
     }
 
     interface IMrModel {
+        id: string;
         name: string;
         transform: Mrr.IMrTransform;
         shaderProgram: Mrr.IMrShaderProgram;
@@ -203,6 +208,7 @@ export namespace Mrr {
 
     class MrModel implements IMrModel {
         constructor(properties?: Mrr.IMrModel);
+        public id: string;
         public name: string;
         public transform: Mrr.IMrTransform;
         public shaderProgram: Mrr.IMrShaderProgram;
