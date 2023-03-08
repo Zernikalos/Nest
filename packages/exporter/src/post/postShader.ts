@@ -1,6 +1,7 @@
 import {MrShader, ShaderType} from "../mrr/shader/MrShader"
 import {MrModel} from "../mrr/MrModel";
 import {generateVertexShaderSource} from "./shadersourcegenerator";
+import {generateFragmentShaderSource} from "./shadersourcegenerator/generateFragmentShaderSource";
 
 export function postShader(type: ShaderType, obj: MrModel): MrShader {
     const shader = new MrShader()
@@ -8,18 +9,7 @@ export function postShader(type: ShaderType, obj: MrModel): MrShader {
     if (type === "vertex") {
         shader.source = generateVertexShaderSource(obj)
     } else {
-        shader.source = fragmentShaderSource
+        shader.source = generateFragmentShaderSource(obj)
     }
     return shader
 }
-
-const fragmentShaderSource = `#version 300 es
-
-precision mediump float;
-
-out vec4 outColor;
-
-void main() {
-  outColor = vec4(0.5, 0.5, 0.5, 1);
-}
-`

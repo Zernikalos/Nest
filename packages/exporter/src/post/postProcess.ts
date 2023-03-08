@@ -6,6 +6,7 @@ import {MrModel} from "../mrr/MrModel"
 export function postProcess(obj: MrObject) {
     let postObj: MrObject
     switch (obj.type) {
+        case "Object":
         case "Group":
             postObj = obj
             break
@@ -14,7 +15,7 @@ export function postProcess(obj: MrObject) {
             break
     }
     if (!postObj || !postObj.type) {
-        console.error("Error post processing node")
+        console.error("Error POST processing MrObject instance")
         return
     }
     postObj.children = obj.children

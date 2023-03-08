@@ -1,3 +1,4 @@
+import { MrGroup } from "./../mrr/MrGroup";
 import {MrObject} from "../mrr/MrObject"
 import {parseGroup} from "./parseGroup"
 import {parseModel} from "./parseModel"
@@ -12,16 +13,19 @@ export function parseObject(threeObj: Object3D): MrObject | undefined {
             mrrObj = parseGroup(threeObj as Group)
             break
         case "Mesh":
+        case "SkinnedMesh":
             mrrObj = parseModel(threeObj as Mesh)
             break
     }
 
+    if (!mrrObj || !mrrObj.type) {
+        console.warn(`Error detecting object of type ${threeObj.type}, setting a default MrObject`)
+        // TODO: Fix this type
+        mrrObj = new MrGroup()
+    }
+    mrrObj.name = threeObj.name
     mrrObj.transform = parseTransform(threeObj)
 
-    if (!mrrObj || !mrrObj.type) {
-        console.error("Error parsing node")
-        return
-    }
     mrrObj.children = threeObj.children
         .map((child: Object3D)=> parseObject(child))
         .filter((child: MrObject) => !isNil(child))

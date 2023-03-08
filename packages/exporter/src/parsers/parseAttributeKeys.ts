@@ -1,12 +1,13 @@
 import {BufferAttribute, BufferGeometry, InterleavedBufferAttribute} from "three"
 import {isNil} from "lodash"
 import {MrAttributeKey} from "../mrr/mesh/MrAttributeKey"
+import {filterAttributes} from "./filterAttributes";
 
-function parseAttributeKey(attr: BufferAttribute | InterleavedBufferAttribute): MrAttributeKey {
+function parseAttributeKey(attr: BufferAttribute | InterleavedBufferAttribute, attrCounter: number): MrAttributeKey {
     if (isNil(attr)) {
-        return new MrAttributeKey()
+        throw new Error("Attributes must be defined when exported")
     }
-    const attribute = new MrAttributeKey()
+    const attribute = new MrAttributeKey(attrCounter)
     attribute.size = attr.itemSize
     attribute.count = attr.count
     attribute.normalized = attr.normalized
@@ -15,12 +16,15 @@ function parseAttributeKey(attr: BufferAttribute | InterleavedBufferAttribute): 
     return attribute
 }
 
-export function parseAttributeKeys(geometry: BufferGeometry): Map<string, MrAttributeKey> {
-    const keys = new Map()
-    for (const [key, attr] of Object.entries(geometry.attributes)) {
+export function parseAttributeKeys(geometry: BufferGeometry): {[key: string]: MrAttributeKey} {
+    const keys: {[key: string]: MrAttributeKey} = {}
+
+    let attrCounter = 0
+    const filteredAttributes = filterAttributes(geometry)
+    for (const [key, attr] of filteredAttributes) {
         if (attr instanceof BufferAttribute || attr instanceof InterleavedBufferAttribute) {
-            const parsedAttr = parseAttributeKey(attr)
-            keys.set(key, parsedAttr)
+            keys[key] = parseAttributeKey(attr, attrCounter)
+            attrCounter++
         }
     }
     return keys

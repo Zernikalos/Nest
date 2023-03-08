@@ -3,6 +3,7 @@ import {BufferGeometry} from "three"
 import {parseAttributeKeys} from "./parseAttributeKeys"
 import {MrMesh} from "../mrr/mesh/MrMesh"
 import {MrVertexBuffer} from "../mrr/mesh/MrVertexBuffer";
+import {filterAttributes} from "./filterAttributes";
 
 export function parseMesh(geometry: BufferGeometry) {
     // const b = BufferGeometryUtils
@@ -13,13 +14,19 @@ export function parseMesh(geometry: BufferGeometry) {
     mesh.attributeKeys = parseAttributeKeys(geometry)
 
     // @ts-ignore
-    mesh.indices.dataArray = geometry.index?.array.buffer > 0 ? new Int8Array(geometry.index?.array.buffer) : new Int8Array([])
-    for (const [key, attr] of Object.entries(geometry.attributes)) {
+    mesh.indices.dataArray = geometry.index?.array.length > 0 ? new Int8Array(geometry.index?.array.buffer) : new Int8Array([])
+    mesh.indices.itemSize = geometry.index?.itemSize
+    mesh.indices.count = geometry.index?.count
+
+    const filteredAttributes = filterAttributes(geometry)
+    for (const [key, attr] of filteredAttributes) {
         // @ts-ignore
         const data = new Int8Array(attr.array.buffer)
         const vertexBuffer = new MrVertexBuffer()
         vertexBuffer.dataArray = data
-        mesh.vertices.set(key, vertexBuffer)
+        vertexBuffer.itemSize = attr.itemSize
+        vertexBuffer.count = attr.count
+        mesh.vertices[key] = vertexBuffer
     }
 
     return mesh

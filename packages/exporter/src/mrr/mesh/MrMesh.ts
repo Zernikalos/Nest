@@ -3,7 +3,11 @@ import {MrIndexBuffer} from "./MrIndexBuffer";
 import {MrVertexBuffer} from "./MrVertexBuffer";
 
 export class MrMesh {
-    attributeKeys: Map<string, MrAttributeKey> = new Map()
+    attributeKeys: {[key: string]: MrAttributeKey} = {}
     indices: MrIndexBuffer = new MrIndexBuffer()
-    vertices: Map<string, MrVertexBuffer> = new Map()
+    vertices: {[key: string]: MrVertexBuffer} = {}
+
+    get attributeKeysAsMap(): Map<string, MrAttributeKey> {
+        return new Map<string, MrAttributeKey>(Object.entries(this.attributeKeys))
+    }
 }

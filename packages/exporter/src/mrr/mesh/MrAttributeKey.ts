@@ -1,6 +1,4 @@
 export class MrAttributeKey {
-    static INDEX_COUNT = 0
-
     index = 0
     size = 0
     count = 0
@@ -8,8 +6,7 @@ export class MrAttributeKey {
     offset = 0
     stride = 0
 
-    constructor() {
-        this.index = MrAttributeKey.INDEX_COUNT
-        MrAttributeKey.INDEX_COUNT++
+    constructor(attrCounter: number) {
+        this.index = attrCounter
     }
 }

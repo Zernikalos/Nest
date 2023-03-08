@@ -2,25 +2,33 @@ import merge from "lodash/merge";
 import {objParser} from "./formats/objParser";
 import {MrObject} from "./mrr/MrObject";
 import {jsonWrite} from "./writer/jsonWriter";
-import {cborHexWrite, cborWrite} from "./writer/cborWriter";
 import {gltfParser} from "./formats/gltfParser";
+import {buf2hex} from "./utils/buf2hex";
+import {protoWrite} from "./writer/protoWriter";
 
-interface ParseOptions {
+export interface ParseOptions {
     format: 'obj' | 'gltf'
 }
 
-interface ExportOptions {
-    format: 'json' | 'cbor' | 'hexcbor',
+export interface ExportOptions {
+    format: 'json' | 'proto'
     beauty?: boolean
+    stringify?: boolean
 }
 
-const DEFAULT_PARSE_OPTIONS: ParseOptions = {
+export const DEFAULT_PARSE_OPTIONS: ParseOptions = {
     format: "obj",
 }
 
-const DEFAULT_EXPORT_OPTIONS: ExportOptions = {
+export const DEFAULT_EXPORT_OPTIONS: ExportOptions = {
     format: "json",
-    beauty: false
+    beauty: false,
+    stringify: false
+}
+
+export interface ExportableMrObject {
+    root: MrObject
+    exportAs(options: ExportOptions): string | Uint8Array
 }
 
 async function _parseToMrr(filePath: string, options: ParseOptions = DEFAULT_PARSE_OPTIONS): Promise<MrObject> {
@@ -49,20 +57,28 @@ function _exportAs(obj: MrObject, options: ExportOptions = DEFAULT_EXPORT_OPTION
         case "json":
             result = jsonWrite(obj, {beauty})
             break
-        case "cbor":
-            result = cborWrite(obj)
+        case "proto":
+            result = protoWrite(obj)
             break
-        case "hexcbor":
-            result = cborHexWrite(obj)
-            break
+    }
+    if (options.stringify) {
+        result = stringify(result)
     }
     return result
 }
 
-export async function parseToMrr(data: string, options: ParseOptions = DEFAULT_PARSE_OPTIONS) {
+function stringify(parsed: string | Uint8Array): string {
+    if (typeof parsed === 'string') {
+        return parsed
+    } else if (parsed instanceof Uint8Array) {
+        return buf2hex(parsed)
+    }
+}
+
+export async function parseToMrr(data: string, options?: ParseOptions): Promise<ExportableMrObject> {
     const result = await _parseToMrr(data, options)
     return {
-        mrRoot: result,
+        root: result,
         exportAs: (options: ExportOptions) => _exportAs(result, options)
     }
 }
