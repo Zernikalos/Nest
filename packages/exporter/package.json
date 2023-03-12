@@ -7,7 +7,8 @@
   "types": "./build/index.d.ts",
   "browser": {},
   "scripts": {
-    "build": "pnpm run generate && webpack",
+    "build": "pnpm run generate && pnpm run webpack",
+    "webpack": "webpack",
     "build:node": "webpack --config webpack.node.js",
     "parse": "babel-node index.js",
     "generate": "pbjs --target static-module --wrap es6 --es6 --out protobuild/index.js proto/mrr.proto && pbts --no-comments --out protobuild/index.d.ts protobuild/index.js"

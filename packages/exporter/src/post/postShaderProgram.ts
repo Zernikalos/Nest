@@ -9,12 +9,12 @@ export function postShaderProgram(obj: MrModel): MrShaderProgram {
     shaderProgram.vertexShader = postShader("vertex", obj)
     shaderProgram.fragmentShader = postShader("fragment", obj)
 
-    obj.mesh.attributeKeysAsMap.forEach((attrKey, name) => {
+    obj.mesh.attributeKeysMap.forEach((attrKey, name) => {
         const attr = postShaderAttribute(name, attrKey)
-        shaderProgram.attributes[name] = attr
+        shaderProgram.setAttribute(name, attr)
     })
 
-    shaderProgram.uniforms["ModelViewProjection"] = postShaderUniform()
+    shaderProgram.setUniform("ModelViewProjection", postShaderUniform())
 
     return shaderProgram
 }

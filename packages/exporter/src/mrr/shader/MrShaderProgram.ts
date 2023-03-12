@@ -6,7 +6,24 @@ export class MrShaderProgram {
     vertexShader: MrShader
     fragmentShader: MrShader
 
-    attributes: {[key: string]: MrShaderAttribute} = {}
-    uniforms: {[key: string]: MrShaderUniform} = {}
+    private _attributes: Map<string, MrShaderAttribute> = new Map()
+    private _uniforms: Map<string, MrShaderUniform> = new Map()
+
+    public get attributes(): {[key: string]: MrShaderAttribute} {
+        return Object.fromEntries(this._attributes)
+    }
+
+    public get uniforms(): {[key: string]: MrShaderUniform} {
+        return Object.fromEntries(this._uniforms)
+    }
+
+    public setAttribute(key: string, attr: MrShaderAttribute) {
+        this._attributes.set(key, attr)
+    }
+
+    public setUniform(key: string, unif: MrShaderUniform) {
+        this._uniforms.set(key, unif)
+    }
+
 }
 

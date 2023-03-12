@@ -5,7 +5,7 @@ export class MrBuffer {
     usage: Mrr.BufferUsageType
     count: number
     itemSize: number
-    dataArray: Uint8Array | ArrayLike<number>
+    dataArray: Uint8Array
 
     constructor() {
         this.usage = Mrr.BufferUsageType.STATIC_DRAW

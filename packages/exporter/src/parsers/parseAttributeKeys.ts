@@ -16,14 +16,14 @@ function parseAttributeKey(attr: BufferAttribute | InterleavedBufferAttribute, a
     return attribute
 }
 
-export function parseAttributeKeys(geometry: BufferGeometry): {[key: string]: MrAttributeKey} {
-    const keys: {[key: string]: MrAttributeKey} = {}
+export function parseAttributeKeys(geometry: BufferGeometry): Map<string, MrAttributeKey> {
+    const keys: Map<string, MrAttributeKey> = new Map()
 
     let attrCounter = 0
     const filteredAttributes = filterAttributes(geometry)
     for (const [key, attr] of filteredAttributes) {
         if (attr instanceof BufferAttribute || attr instanceof InterleavedBufferAttribute) {
-            keys[key] = parseAttributeKey(attr, attrCounter)
+            keys.set(key, parseAttributeKey(attr, attrCounter))
             attrCounter++
         }
     }

@@ -19,12 +19,12 @@ export function generateVertexShaderSource(obj: MrModel): string {
         HEADER,
         BR,
         ...genUniforms(),
-        ...genInAttributes(obj.mesh.attributeKeysAsMap),
-        genOutAttributes(obj.mesh.attributeKeysAsMap),
+        ...genInAttributes(obj.mesh.attributeKeysMap),
+        genOutAttributes(obj.mesh.attributeKeysMap),
         BR,
         OPEN_MAIN,
         [T, genOutPosition()],
-        [T, genOutColor(obj.mesh.attributeKeysAsMap)],
+        [T, genOutColor(obj.mesh.attributeKeysMap)],
         CLOSE_MAIN
     ]
 

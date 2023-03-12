@@ -11,7 +11,7 @@ export function parseMesh(geometry: BufferGeometry) {
 
     const mesh = new MrMesh()
 
-    mesh.attributeKeys = parseAttributeKeys(geometry)
+    mesh.setAttributeKeys(parseAttributeKeys(geometry))
 
     // @ts-ignore
     mesh.indices.dataArray = geometry.index?.array.length > 0 ? new Int8Array(geometry.index?.array.buffer) : new Int8Array([])
@@ -21,12 +21,12 @@ export function parseMesh(geometry: BufferGeometry) {
     const filteredAttributes = filterAttributes(geometry)
     for (const [key, attr] of filteredAttributes) {
         // @ts-ignore
-        const data = new Int8Array(attr.array.buffer)
+        const data = new Uint8Array(attr.array.buffer)
         const vertexBuffer = new MrVertexBuffer()
         vertexBuffer.dataArray = data
         vertexBuffer.itemSize = attr.itemSize
         vertexBuffer.count = attr.count
-        mesh.vertices[key] = vertexBuffer
+        mesh.setVertexBuffer(key, vertexBuffer)
     }
 
     return mesh
