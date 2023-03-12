@@ -1,7 +1,16 @@
 import {MrObject} from "../mrr/MrObject"
-import {Mrr} from "../proto";
+import {Mrr} from "../proto"
 
-function writeTree(obj: MrObject): Mrr.ProtoMrObject {
+async function writeTree(obj: MrObject): Promise<Mrr.ProtoMrObject> {
+    const auxNode: Mrr.ProtoMrObject = await promisedConverToProto(obj)
+
+    auxNode.children = await Promise.all(obj.children.map(async (child) => await writeTree(child)))
+
+    return auxNode
+}
+
+function convertToProto(obj: MrObject) {
+    // TODO: The use of fromObject affects a lot to the performance
     let auxNode: Mrr.ProtoMrObject
     switch (obj.type) {
         case "Group":
@@ -18,18 +27,23 @@ function writeTree(obj: MrObject): Mrr.ProtoMrObject {
             })
             break
     }
-
-    auxNode.children = obj.children.map((child) => writeTree(child))
-
     return auxNode
 }
 
-export function protoTree(root: MrObject): Mrr.ProtoMrObject {
-    return writeTree(root)
+function promisedConverToProto(obj: MrObject): Promise<Mrr.ProtoMrObject> {
+    return new Promise(resolve => {
+        setTimeout(() =>{
+            resolve(convertToProto(obj))
+        })
+    })
 }
 
-export function protoWrite(root: MrObject): Uint8Array {
-    const protoRoot = writeTree(root)
+export async function protoTree(root: MrObject): Promise<Mrr.ProtoMrObject> {
+    return await writeTree(root)
+}
+
+export async function protoWrite(root: MrObject): Promise<Uint8Array> {
+    const protoRoot = await writeTree(root)
 
     return Mrr.ProtoMrObject.encode(protoRoot).finish()
 }

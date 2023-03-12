@@ -16,8 +16,10 @@ import ResizablePanel from "@studio/components/resizablepanel/ResizablePanel.vue
 import TreeView from "@studio/components/treeview/TreeView.vue"
 import {useMrrLoaderStore} from "@mrrobotto/store/src";
 import {MrObject} from "@mrrobotto/exporter";
+import {onMounted, ref} from "vue";
 
 const mrrStore = useMrrLoaderStore()
+const treeViewItems = ref([])
 
 function convertToHierarchy(obj) {
     if (!obj) {
@@ -37,7 +39,10 @@ const typesIcons = {
     "Model": "bi-box"
 }
 
-const treeViewItems = [convertToHierarchy(mrrStore.root)]
+onMounted(() => {
+    treeViewItems.value.splice(0)
+    treeViewItems.value.push(convertToHierarchy(mrrStore.root))
+})
 
 
 </script>

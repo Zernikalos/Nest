@@ -68,8 +68,8 @@ function updateFormat() {
     updateEditor()
 }
 
-function updateEditor() {
-    editorText.value = mrrStore.exportAs({format: selectedOutputFormat.value, beauty: true, stringify: true})
+async function updateEditor() {
+    editorText.value = await mrrStore.exportAs({format: selectedOutputFormat.value, beauty: true, stringify: true})
 }
 
 async function exportToMrr() {

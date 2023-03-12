@@ -28,11 +28,11 @@ export const useMrrLoaderStore = defineStore('mrr', () => {
         root.value = parseToMrr(parseableObj, mergedParseOptions)
     }
 
-    function exportAs(exportOptions: ExportOptions) {
+    async function exportAs(exportOptions: ExportOptions) {
         if (_.isNil(root.value)) {
             return ''
         }
-        return exportMrrAs(root.value as MrObject, exportOptions)
+        return await exportMrrAs(root.value as MrObject, exportOptions)
     }
 
     function $reset() {

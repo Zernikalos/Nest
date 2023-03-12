@@ -16,17 +16,17 @@ export const DEFAULT_EXPORT_OPTIONS: ExportOptions = {
     stringify: false
 }
 
-export function exportMrrAs(mrrObj: MrObject, options: ExportOptions = DEFAULT_EXPORT_OPTIONS) {
+export async function exportMrrAs(mrrObj: MrObject, options: ExportOptions = DEFAULT_EXPORT_OPTIONS) {
     let result
 
     const mergedOptions = merge({}, DEFAULT_EXPORT_OPTIONS, options)
     const {format, beauty} = mergedOptions
     switch (format) {
         case "json":
-            result = jsonWrite(mrrObj, {beauty})
+            result = await jsonWrite(mrrObj, {beauty})
             break
         case "proto":
-            result = protoWrite(mrrObj)
+            result = await protoWrite(mrrObj)
             break
     }
     if (options.stringify) {
