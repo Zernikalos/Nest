@@ -1,9 +1,9 @@
 import {Mesh} from "three"
 import {parseMesh} from "./parseMesh"
-import {MrModel} from "../mrr/MrModel"
+import {ZkModel} from "../zko/ZkModel"
 
-export function parseModel(obj: Mesh): MrModel {
-    const model = new MrModel()
+export function parseModel(obj: Mesh): ZkModel {
+    const model = new ZkModel()
     model.mesh = parseMesh(obj.geometry)
 
     return model

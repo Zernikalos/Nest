@@ -1,5 +1,5 @@
 
-export class MrColor {
+export class ZkColor {
     r: number
     g: number
     b: number

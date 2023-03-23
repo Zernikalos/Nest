@@ -1,5 +1,5 @@
 
-export enum MrType {
+export enum ZkType {
     SCALAR,
 
     VEC2,

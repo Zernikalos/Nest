@@ -28,7 +28,7 @@ import {TreeData} from "./TreeData"
 import {computed, ref} from "vue";
 
 const props = defineProps<{item: TreeData}>()
-const isOpen = ref(false)
+const isOpen = ref(true)
 
 const hasChildren = computed(() => {
     const childCount = props.item.children?.length

@@ -1,6 +1,6 @@
 import stringifyObject from '../utils/stringifyObject';
 
-import {MrObject} from "../mrr/MrObject"
+import {ZkObject} from "../zko/ZkObject"
 import {protoTree} from "./protoWriter";
 
 function jsonReplacer(_key: string, value: any) {
@@ -14,7 +14,7 @@ function jsonReplacer(_key: string, value: any) {
     return value
 }
 
-export async function jsonWrite(node: MrObject, {beauty}: {beauty?: boolean}): Promise<string> {
+export async function jsonWrite(node: ZkObject, {beauty}: {beauty?: boolean}): Promise<string> {
     if (beauty) {
         return stringifyObject(await protoTree(node))
     }

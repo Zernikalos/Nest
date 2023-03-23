@@ -1,15 +1,15 @@
 import {BufferGeometry} from "three"
 // import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils"
 import {parseAttributeKeys} from "./parseAttributeKeys"
-import {MrMesh} from "../mrr/mesh/MrMesh"
-import {MrVertexBuffer} from "../mrr/mesh/MrVertexBuffer";
+import {ZkMesh} from "../zko/mesh/ZkMesh"
+import {ZkVertexBuffer} from "../zko/mesh/ZkVertexBuffer";
 import {filterAttributes} from "./filterAttributes";
 
 export function parseMesh(geometry: BufferGeometry) {
     // const b = BufferGeometryUtils
     // BufferGeometryUtils.mergeBufferAttributes(geometry.attributes)
 
-    const mesh = new MrMesh()
+    const mesh = new ZkMesh()
 
     mesh.setAttributeKeys(parseAttributeKeys(geometry))
 
@@ -22,7 +22,7 @@ export function parseMesh(geometry: BufferGeometry) {
     for (const [key, attr] of filteredAttributes) {
         // @ts-ignore
         const data = new Uint8Array(attr.array.buffer)
-        const vertexBuffer = new MrVertexBuffer()
+        const vertexBuffer = new ZkVertexBuffer()
         vertexBuffer.dataArray = data
         vertexBuffer.itemSize = attr.itemSize
         vertexBuffer.count = attr.count

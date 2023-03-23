@@ -1,254 +1,254 @@
 import * as $protobuf from "protobufjs";
-import Long = require("long");
-export namespace Mrr {
+// import Long = require("long");
+export namespace Zko {
 
-    interface IProtoMrObject {
+    interface IProtoZkObject {
         type: string;
-        group?: (Mrr.IMrGroup|null);
-        model?: (Mrr.IMrModel|null);
-        scene?: (Mrr.IMrScene|null);
-        children?: (Mrr.IProtoMrObject[]|null);
+        group?: (Zko.IZkGroup|null);
+        model?: (Zko.IZkModel|null);
+        scene?: (Zko.IZkScene|null);
+        children?: (Zko.IProtoZkObject[]|null);
     }
 
-    class ProtoMrObject implements IProtoMrObject {
-        constructor(properties?: Mrr.IProtoMrObject);
+    class ProtoZkObject implements IProtoZkObject {
+        constructor(properties?: Zko.IProtoZkObject);
         public type: string;
-        public group?: (Mrr.IMrGroup|null);
-        public model?: (Mrr.IMrModel|null);
-        public scene?: (Mrr.IMrScene|null);
-        public children: Mrr.IProtoMrObject[];
-        public static create(properties?: Mrr.IProtoMrObject): Mrr.ProtoMrObject;
-        public static encode(message: Mrr.IProtoMrObject, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IProtoMrObject, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.ProtoMrObject;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.ProtoMrObject;
+        public group?: (Zko.IZkGroup|null);
+        public model?: (Zko.IZkModel|null);
+        public scene?: (Zko.IZkScene|null);
+        public children: Zko.IProtoZkObject[];
+        public static create(properties?: Zko.IProtoZkObject): Zko.ProtoZkObject;
+        public static encode(message: Zko.IProtoZkObject, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IProtoZkObject, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ProtoZkObject;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ProtoZkObject;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.ProtoMrObject;
-        public static toObject(message: Mrr.ProtoMrObject, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ProtoZkObject;
+        public static toObject(message: Zko.ProtoZkObject, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrGroup {
+    interface IZkGroup {
         id: string;
         name: string;
-        transform: Mrr.IMrTransform;
+        transform: Zko.IZkTransform;
     }
 
-    class MrGroup implements IMrGroup {
-        constructor(properties?: Mrr.IMrGroup);
+    class ZkGroup implements IZkGroup {
+        constructor(properties?: Zko.IZkGroup);
         public id: string;
         public name: string;
-        public transform: Mrr.IMrTransform;
-        public static create(properties?: Mrr.IMrGroup): Mrr.MrGroup;
-        public static encode(message: Mrr.IMrGroup, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrGroup, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrGroup;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrGroup;
+        public transform: Zko.IZkTransform;
+        public static create(properties?: Zko.IZkGroup): Zko.ZkGroup;
+        public static encode(message: Zko.IZkGroup, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkGroup, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkGroup;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkGroup;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrGroup;
-        public static toObject(message: Mrr.MrGroup, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkGroup;
+        public static toObject(message: Zko.ZkGroup, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrColor {
+    interface IZkColor {
         r: number;
         g: number;
         b: number;
         a: number;
     }
 
-    class MrColor implements IMrColor {
-        constructor(properties?: Mrr.IMrColor);
+    class ZkColor implements IZkColor {
+        constructor(properties?: Zko.IZkColor);
         public r: number;
         public g: number;
         public b: number;
         public a: number;
-        public static create(properties?: Mrr.IMrColor): Mrr.MrColor;
-        public static encode(message: Mrr.IMrColor, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrColor, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrColor;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrColor;
+        public static create(properties?: Zko.IZkColor): Zko.ZkColor;
+        public static encode(message: Zko.IZkColor, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkColor, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkColor;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkColor;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrColor;
-        public static toObject(message: Mrr.MrColor, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkColor;
+        public static toObject(message: Zko.ZkColor, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrScene {
+    interface IZkScene {
         id: string;
         name: string;
-        transform: Mrr.IMrTransform;
-        clearColor: Mrr.IMrColor;
+        transform: Zko.IZkTransform;
+        clearColor: Zko.IZkColor;
     }
 
-    class MrScene implements IMrScene {
-        constructor(properties?: Mrr.IMrScene);
+    class ZkScene implements IZkScene {
+        constructor(properties?: Zko.IZkScene);
         public id: string;
         public name: string;
-        public transform: Mrr.IMrTransform;
-        public clearColor: Mrr.IMrColor;
-        public static create(properties?: Mrr.IMrScene): Mrr.MrScene;
-        public static encode(message: Mrr.IMrScene, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrScene, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrScene;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrScene;
+        public transform: Zko.IZkTransform;
+        public clearColor: Zko.IZkColor;
+        public static create(properties?: Zko.IZkScene): Zko.ZkScene;
+        public static encode(message: Zko.IZkScene, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkScene, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkScene;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkScene;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrScene;
-        public static toObject(message: Mrr.MrScene, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkScene;
+        public static toObject(message: Zko.ZkScene, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrTransform {
-        location: Mrr.IMrVector3;
-        rotation: Mrr.IMrQuaternion;
-        scale: Mrr.IMrVector3;
+    interface IZkTransform {
+        location: Zko.IZkVector3;
+        rotation: Zko.IZkQuaternion;
+        scale: Zko.IZkVector3;
     }
 
-    class MrTransform implements IMrTransform {
-        constructor(properties?: Mrr.IMrTransform);
-        public location: Mrr.IMrVector3;
-        public rotation: Mrr.IMrQuaternion;
-        public scale: Mrr.IMrVector3;
-        public static create(properties?: Mrr.IMrTransform): Mrr.MrTransform;
-        public static encode(message: Mrr.IMrTransform, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrTransform, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrTransform;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrTransform;
+    class ZkTransform implements IZkTransform {
+        constructor(properties?: Zko.IZkTransform);
+        public location: Zko.IZkVector3;
+        public rotation: Zko.IZkQuaternion;
+        public scale: Zko.IZkVector3;
+        public static create(properties?: Zko.IZkTransform): Zko.ZkTransform;
+        public static encode(message: Zko.IZkTransform, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkTransform, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkTransform;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkTransform;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrTransform;
-        public static toObject(message: Mrr.MrTransform, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkTransform;
+        public static toObject(message: Zko.ZkTransform, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrVector3 {
+    interface IZkVector3 {
         x: number;
         y: number;
         z: number;
     }
 
-    class MrVector3 implements IMrVector3 {
-        constructor(properties?: Mrr.IMrVector3);
+    class ZkVector3 implements IZkVector3 {
+        constructor(properties?: Zko.IZkVector3);
         public x: number;
         public y: number;
         public z: number;
-        public static create(properties?: Mrr.IMrVector3): Mrr.MrVector3;
-        public static encode(message: Mrr.IMrVector3, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrVector3, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrVector3;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrVector3;
+        public static create(properties?: Zko.IZkVector3): Zko.ZkVector3;
+        public static encode(message: Zko.IZkVector3, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkVector3, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkVector3;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkVector3;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrVector3;
-        public static toObject(message: Mrr.MrVector3, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkVector3;
+        public static toObject(message: Zko.ZkVector3, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrVector4 {
+    interface IZkVector4 {
         x: number;
         y: number;
         z: number;
         w: number;
     }
 
-    class MrVector4 implements IMrVector4 {
-        constructor(properties?: Mrr.IMrVector4);
+    class ZkVector4 implements IZkVector4 {
+        constructor(properties?: Zko.IZkVector4);
         public x: number;
         public y: number;
         public z: number;
         public w: number;
-        public static create(properties?: Mrr.IMrVector4): Mrr.MrVector4;
-        public static encode(message: Mrr.IMrVector4, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrVector4, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrVector4;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrVector4;
+        public static create(properties?: Zko.IZkVector4): Zko.ZkVector4;
+        public static encode(message: Zko.IZkVector4, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkVector4, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkVector4;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkVector4;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrVector4;
-        public static toObject(message: Mrr.MrVector4, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkVector4;
+        public static toObject(message: Zko.ZkVector4, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrQuaternion {
+    interface IZkQuaternion {
         w: number;
         x: number;
         y: number;
         z: number;
     }
 
-    class MrQuaternion implements IMrQuaternion {
-        constructor(properties?: Mrr.IMrQuaternion);
+    class ZkQuaternion implements IZkQuaternion {
+        constructor(properties?: Zko.IZkQuaternion);
         public w: number;
         public x: number;
         public y: number;
         public z: number;
-        public static create(properties?: Mrr.IMrQuaternion): Mrr.MrQuaternion;
-        public static encode(message: Mrr.IMrQuaternion, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrQuaternion, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrQuaternion;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrQuaternion;
+        public static create(properties?: Zko.IZkQuaternion): Zko.ZkQuaternion;
+        public static encode(message: Zko.IZkQuaternion, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkQuaternion, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkQuaternion;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkQuaternion;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrQuaternion;
-        public static toObject(message: Mrr.MrQuaternion, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkQuaternion;
+        public static toObject(message: Zko.ZkQuaternion, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrModel {
+    interface IZkModel {
         id: string;
         name: string;
-        transform: Mrr.IMrTransform;
-        shaderProgram: Mrr.IMrShaderProgram;
-        mesh: Mrr.IMrMesh;
+        transform: Zko.IZkTransform;
+        shaderProgram: Zko.IZkShaderProgram;
+        mesh: Zko.IZkMesh;
     }
 
-    class MrModel implements IMrModel {
-        constructor(properties?: Mrr.IMrModel);
+    class ZkModel implements IZkModel {
+        constructor(properties?: Zko.IZkModel);
         public id: string;
         public name: string;
-        public transform: Mrr.IMrTransform;
-        public shaderProgram: Mrr.IMrShaderProgram;
-        public mesh: Mrr.IMrMesh;
-        public static create(properties?: Mrr.IMrModel): Mrr.MrModel;
-        public static encode(message: Mrr.IMrModel, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrModel, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrModel;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrModel;
+        public transform: Zko.IZkTransform;
+        public shaderProgram: Zko.IZkShaderProgram;
+        public mesh: Zko.IZkMesh;
+        public static create(properties?: Zko.IZkModel): Zko.ZkModel;
+        public static encode(message: Zko.IZkModel, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkModel, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkModel;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkModel;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrModel;
-        public static toObject(message: Mrr.MrModel, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkModel;
+        public static toObject(message: Zko.ZkModel, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrMesh {
-        attributeKeys?: ({ [k: string]: Mrr.IMrAttributeKey }|null);
-        indices: Mrr.IMrIndexBuffer;
-        vertices?: ({ [k: string]: Mrr.IMrVertexBuffer }|null);
+    interface IZkMesh {
+        attributeKeys?: ({ [k: string]: Zko.IZkAttributeKey }|null);
+        indices: Zko.IZkIndexBuffer;
+        vertices?: ({ [k: string]: Zko.IZkVertexBuffer }|null);
     }
 
-    class MrMesh implements IMrMesh {
-        constructor(properties?: Mrr.IMrMesh);
-        public attributeKeys: { [k: string]: Mrr.IMrAttributeKey };
-        public indices: Mrr.IMrIndexBuffer;
-        public vertices: { [k: string]: Mrr.IMrVertexBuffer };
-        public static create(properties?: Mrr.IMrMesh): Mrr.MrMesh;
-        public static encode(message: Mrr.IMrMesh, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrMesh, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrMesh;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrMesh;
+    class ZkMesh implements IZkMesh {
+        constructor(properties?: Zko.IZkMesh);
+        public attributeKeys: { [k: string]: Zko.IZkAttributeKey };
+        public indices: Zko.IZkIndexBuffer;
+        public vertices: { [k: string]: Zko.IZkVertexBuffer };
+        public static create(properties?: Zko.IZkMesh): Zko.ZkMesh;
+        public static encode(message: Zko.IZkMesh, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkMesh, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkMesh;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkMesh;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrMesh;
-        public static toObject(message: Mrr.MrMesh, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkMesh;
+        public static toObject(message: Zko.ZkMesh, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrAttributeKey {
+    interface IZkAttributeKey {
         index: number;
         size: number;
         count: number;
@@ -257,22 +257,22 @@ export namespace Mrr {
         stride: number;
     }
 
-    class MrAttributeKey implements IMrAttributeKey {
-        constructor(properties?: Mrr.IMrAttributeKey);
+    class ZkAttributeKey implements IZkAttributeKey {
+        constructor(properties?: Zko.IZkAttributeKey);
         public index: number;
         public size: number;
         public count: number;
         public normalized: boolean;
         public offset: number;
         public stride: number;
-        public static create(properties?: Mrr.IMrAttributeKey): Mrr.MrAttributeKey;
-        public static encode(message: Mrr.IMrAttributeKey, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrAttributeKey, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrAttributeKey;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrAttributeKey;
+        public static create(properties?: Zko.IZkAttributeKey): Zko.ZkAttributeKey;
+        public static encode(message: Zko.IZkAttributeKey, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkAttributeKey, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkAttributeKey;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkAttributeKey;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrAttributeKey;
-        public static toObject(message: Mrr.MrAttributeKey, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkAttributeKey;
+        public static toObject(message: Zko.ZkAttributeKey, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
@@ -286,151 +286,151 @@ export namespace Mrr {
         STATIC_DRAW = 0
     }
 
-    interface IMrIndexBuffer {
-        targetBuffer: Mrr.BufferTargetType;
-        usage: Mrr.BufferUsageType;
+    interface IZkIndexBuffer {
+        targetBuffer: Zko.BufferTargetType;
+        usage: Zko.BufferUsageType;
         itemSize: number;
         count: number;
         dataArray: Uint8Array;
     }
 
-    class MrIndexBuffer implements IMrIndexBuffer {
-        constructor(properties?: Mrr.IMrIndexBuffer);
-        public targetBuffer: Mrr.BufferTargetType;
-        public usage: Mrr.BufferUsageType;
+    class ZkIndexBuffer implements IZkIndexBuffer {
+        constructor(properties?: Zko.IZkIndexBuffer);
+        public targetBuffer: Zko.BufferTargetType;
+        public usage: Zko.BufferUsageType;
         public itemSize: number;
         public count: number;
         public dataArray: Uint8Array;
-        public static create(properties?: Mrr.IMrIndexBuffer): Mrr.MrIndexBuffer;
-        public static encode(message: Mrr.IMrIndexBuffer, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrIndexBuffer, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrIndexBuffer;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrIndexBuffer;
+        public static create(properties?: Zko.IZkIndexBuffer): Zko.ZkIndexBuffer;
+        public static encode(message: Zko.IZkIndexBuffer, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkIndexBuffer, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkIndexBuffer;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkIndexBuffer;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrIndexBuffer;
-        public static toObject(message: Mrr.MrIndexBuffer, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkIndexBuffer;
+        public static toObject(message: Zko.ZkIndexBuffer, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrVertexBuffer {
-        targetBuffer: Mrr.BufferTargetType;
-        usage: Mrr.BufferUsageType;
+    interface IZkVertexBuffer {
+        targetBuffer: Zko.BufferTargetType;
+        usage: Zko.BufferUsageType;
         itemSize: number;
         count: number;
         dataArray: Uint8Array;
     }
 
-    class MrVertexBuffer implements IMrVertexBuffer {
-        constructor(properties?: Mrr.IMrVertexBuffer);
-        public targetBuffer: Mrr.BufferTargetType;
-        public usage: Mrr.BufferUsageType;
+    class ZkVertexBuffer implements IZkVertexBuffer {
+        constructor(properties?: Zko.IZkVertexBuffer);
+        public targetBuffer: Zko.BufferTargetType;
+        public usage: Zko.BufferUsageType;
         public itemSize: number;
         public count: number;
         public dataArray: Uint8Array;
-        public static create(properties?: Mrr.IMrVertexBuffer): Mrr.MrVertexBuffer;
-        public static encode(message: Mrr.IMrVertexBuffer, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrVertexBuffer, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrVertexBuffer;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrVertexBuffer;
+        public static create(properties?: Zko.IZkVertexBuffer): Zko.ZkVertexBuffer;
+        public static encode(message: Zko.IZkVertexBuffer, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkVertexBuffer, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkVertexBuffer;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkVertexBuffer;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrVertexBuffer;
-        public static toObject(message: Mrr.MrVertexBuffer, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkVertexBuffer;
+        public static toObject(message: Zko.ZkVertexBuffer, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrShaderProgram {
-        vertexShader: Mrr.IMrShader;
-        fragmentShader: Mrr.IMrShader;
-        attributes?: ({ [k: string]: Mrr.IMrShaderAttribute }|null);
-        uniforms?: ({ [k: string]: Mrr.IMrShaderUniform }|null);
+    interface IZkShaderProgram {
+        vertexShader: Zko.IZkShader;
+        fragmentShader: Zko.IZkShader;
+        attributes?: ({ [k: string]: Zko.IZkShaderAttribute }|null);
+        uniforms?: ({ [k: string]: Zko.IZkShaderUniform }|null);
     }
 
-    class MrShaderProgram implements IMrShaderProgram {
-        constructor(properties?: Mrr.IMrShaderProgram);
-        public vertexShader: Mrr.IMrShader;
-        public fragmentShader: Mrr.IMrShader;
-        public attributes: { [k: string]: Mrr.IMrShaderAttribute };
-        public uniforms: { [k: string]: Mrr.IMrShaderUniform };
-        public static create(properties?: Mrr.IMrShaderProgram): Mrr.MrShaderProgram;
-        public static encode(message: Mrr.IMrShaderProgram, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrShaderProgram, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrShaderProgram;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrShaderProgram;
+    class ZkShaderProgram implements IZkShaderProgram {
+        constructor(properties?: Zko.IZkShaderProgram);
+        public vertexShader: Zko.IZkShader;
+        public fragmentShader: Zko.IZkShader;
+        public attributes: { [k: string]: Zko.IZkShaderAttribute };
+        public uniforms: { [k: string]: Zko.IZkShaderUniform };
+        public static create(properties?: Zko.IZkShaderProgram): Zko.ZkShaderProgram;
+        public static encode(message: Zko.IZkShaderProgram, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkShaderProgram, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkShaderProgram;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkShaderProgram;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrShaderProgram;
-        public static toObject(message: Mrr.MrShaderProgram, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkShaderProgram;
+        public static toObject(message: Zko.ZkShaderProgram, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrShader {
+    interface IZkShader {
         type: string;
         source: string;
     }
 
-    class MrShader implements IMrShader {
-        constructor(properties?: Mrr.IMrShader);
+    class ZkShader implements IZkShader {
+        constructor(properties?: Zko.IZkShader);
         public type: string;
         public source: string;
-        public static create(properties?: Mrr.IMrShader): Mrr.MrShader;
-        public static encode(message: Mrr.IMrShader, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrShader, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrShader;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrShader;
+        public static create(properties?: Zko.IZkShader): Zko.ZkShader;
+        public static encode(message: Zko.IZkShader, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkShader, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkShader;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkShader;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrShader;
-        public static toObject(message: Mrr.MrShader, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkShader;
+        public static toObject(message: Zko.ZkShader, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrShaderAttribute {
+    interface IZkShaderAttribute {
         index: number;
         attributeName: string;
     }
 
-    class MrShaderAttribute implements IMrShaderAttribute {
-        constructor(properties?: Mrr.IMrShaderAttribute);
+    class ZkShaderAttribute implements IZkShaderAttribute {
+        constructor(properties?: Zko.IZkShaderAttribute);
         public index: number;
         public attributeName: string;
-        public static create(properties?: Mrr.IMrShaderAttribute): Mrr.MrShaderAttribute;
-        public static encode(message: Mrr.IMrShaderAttribute, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrShaderAttribute, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrShaderAttribute;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrShaderAttribute;
+        public static create(properties?: Zko.IZkShaderAttribute): Zko.ZkShaderAttribute;
+        public static encode(message: Zko.IZkShaderAttribute, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkShaderAttribute, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkShaderAttribute;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkShaderAttribute;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrShaderAttribute;
-        public static toObject(message: Mrr.MrShaderAttribute, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkShaderAttribute;
+        public static toObject(message: Zko.ZkShaderAttribute, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    interface IMrShaderUniform {
+    interface IZkShaderUniform {
         uniformName: string;
         count: number;
-        type: Mrr.MrUniformType;
+        type: Zko.ZkUniformType;
     }
 
-    class MrShaderUniform implements IMrShaderUniform {
-        constructor(properties?: Mrr.IMrShaderUniform);
+    class ZkShaderUniform implements IZkShaderUniform {
+        constructor(properties?: Zko.IZkShaderUniform);
         public uniformName: string;
         public count: number;
-        public type: Mrr.MrUniformType;
-        public static create(properties?: Mrr.IMrShaderUniform): Mrr.MrShaderUniform;
-        public static encode(message: Mrr.IMrShaderUniform, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: Mrr.IMrShaderUniform, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Mrr.MrShaderUniform;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Mrr.MrShaderUniform;
+        public type: Zko.ZkUniformType;
+        public static create(properties?: Zko.IZkShaderUniform): Zko.ZkShaderUniform;
+        public static encode(message: Zko.IZkShaderUniform, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Zko.IZkShaderUniform, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Zko.ZkShaderUniform;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Zko.ZkShaderUniform;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): Mrr.MrShaderUniform;
-        public static toObject(message: Mrr.MrShaderUniform, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): Zko.ZkShaderUniform;
+        public static toObject(message: Zko.ZkShaderUniform, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
-    enum MrUniformType {
+    enum ZkUniformType {
         SCALAR = 0,
         VEC2 = 1,
         VEC3 = 2,

@@ -1,7 +1,7 @@
 import {Group} from "three"
-import {MrGroup} from "../mrr/MrGroup"
+import {ZkGroup} from "../zko/ZkGroup"
 
 export function parseGroup(_obj: Group) {
-    const group = new MrGroup()
+    const group = new ZkGroup()
     return group
 }

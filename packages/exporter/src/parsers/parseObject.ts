@@ -1,5 +1,5 @@
-import { MrGroup } from "./../mrr/MrGroup";
-import {MrObject} from "../mrr/MrObject"
+import { ZkGroup } from "../zko/ZkGroup";
+import {ZkObject} from "../zko/ZkObject"
 import {parseGroup} from "./parseGroup"
 import {parseModel} from "./parseModel"
 import {isNil} from "lodash"
@@ -7,31 +7,31 @@ import {Group, Mesh, Object3D, Scene} from "three";
 import {parseTransform} from "./parseTransform";
 import {parseScene} from "./parseScene";
 
-export function parseObject(threeObj: Object3D): MrObject | undefined {
-    let mrrObj
+export function parseObject(threeObj: Object3D): ZkObject | undefined {
+    let zkObj
     switch (threeObj.type) {
         case "Group":
-            mrrObj = parseGroup(threeObj as Group)
+            zkObj = parseGroup(threeObj as Group)
             break
         case "Mesh":
         case "SkinnedMesh":
-            mrrObj = parseModel(threeObj as Mesh)
+            zkObj = parseModel(threeObj as Mesh)
             break
         case "Scene":
-            mrrObj = parseScene(threeObj as Scene)
+            zkObj = parseScene(threeObj as Scene)
             break
     }
 
-    if (!mrrObj || !mrrObj.type) {
-        console.warn(`Error detecting object of type ${threeObj.type}, setting a default MrObject`)
+    if (!zkObj || !zkObj.type) {
+        console.warn(`Error detecting object of type ${threeObj.type}, setting a default ZkObject`)
         // TODO: Fix this type
-        mrrObj = new MrGroup()
+        zkObj = new ZkGroup()
     }
-    mrrObj.name = threeObj.name
-    mrrObj.transform = parseTransform(threeObj)
+    zkObj.name = threeObj.name
+    zkObj.transform = parseTransform(threeObj)
 
-    mrrObj.children = threeObj.children
+    zkObj.children = threeObj.children
         .map((child: Object3D)=> parseObject(child))
-        .filter((child: MrObject) => !isNil(child))
-    return mrrObj
+        .filter((child: ZkObject) => !isNil(child))
+    return zkObj
 }

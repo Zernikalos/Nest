@@ -1,11 +1,11 @@
-import {MrShaderProgram} from "../mrr/shader/MrShaderProgram"
+import {ZkModel} from "../zko/ZkModel";
+import {ZkShaderProgram} from "../zko/shader/ZkShaderProgram"
 import {postShader} from "./postShader"
-import {MrModel} from "../mrr/MrModel";
 import {postShaderAttribute} from "./postShaderAttribute";
 import {postShaderUniform} from "./postShaderUniform";
 
-export function postShaderProgram(obj: MrModel): MrShaderProgram {
-    const shaderProgram = new MrShaderProgram()
+export function postShaderProgram(obj: ZkModel): ZkShaderProgram {
+    const shaderProgram = new ZkShaderProgram()
     shaderProgram.vertexShader = postShader("vertex", obj)
     shaderProgram.fragmentShader = postShader("fragment", obj)
 

@@ -1,5 +1,5 @@
 {
-  "name": "mrrobotto.js",
+  "name": "zernikalos-studio",
   "version": "0.0.1",
   "license": "MIT",
   "devDependencies": {
@@ -32,8 +32,8 @@
 
     "start": "pnpm --parallel --if-present -r run start",
 
-    "studio": "pnpm run --filter @mrrobotto/studio dev",
-    "electron": "pnpm run --filter @mrrobotto/electron dev",
+    "studio": "pnpm run --filter @zernikalos/studio dev",
+    "electron": "pnpm run --filter @zernikalos/electron dev",
 
     "studioapp": "concurrently \"pnpm run studio\" \"pnpm run electron\"",
 

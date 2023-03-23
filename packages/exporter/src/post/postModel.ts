@@ -1,7 +1,7 @@
-import {MrModel} from "../mrr/MrModel"
+import {ZkModel} from "../zko/ZkModel"
 import {postShaderProgram} from "./postShaderProgram"
 
-export function postModel(obj: MrModel): MrModel {
+export function postModel(obj: ZkModel): ZkModel {
     obj.shaderProgram = postShaderProgram(obj)
     return obj
 }

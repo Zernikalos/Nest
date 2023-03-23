@@ -1,32 +1,32 @@
 syntax = "proto2";
 
-package Mrr;
+package Zko;
 
-message MrShaderProgram {
-  required MrShader vertexShader = 1;
-  required MrShader fragmentShader = 2;
+message ZkShaderProgram {
+  required ZkShader vertexShader = 1;
+  required ZkShader fragmentShader = 2;
 
-  map<string, MrShaderAttribute> attributes = 3;
-  map<string, MrShaderUniform> uniforms = 4;
+  map<string, ZkShaderAttribute> attributes = 3;
+  map<string, ZkShaderUniform> uniforms = 4;
 }
 
-message MrShader {
+message ZkShader {
   required string type = 1;
   required string source = 2;
 }
 
-message MrShaderAttribute {
+message ZkShaderAttribute {
   required uint32 index = 1;
   required string attributeName = 2;
 }
 
-message MrShaderUniform {
+message ZkShaderUniform {
   required string uniformName = 1;
   required uint32 count = 2;
-  required MrUniformType type = 3;
+  required ZkUniformType type = 3;
 }
 
-enum MrUniformType {
+enum ZkUniformType {
   SCALAR = 0;
 
   VEC2 = 1;

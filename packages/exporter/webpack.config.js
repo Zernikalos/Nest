@@ -68,4 +68,4 @@ function config({libraryName, entryName}) {
     };
 }
 
-module.exports = config({libraryName: 'mrrexporter', entryName: 'mrrobotto-exporter'});
+module.exports = config({libraryName: 'zkoexporter', entryName: 'zernikalos-exporter'});

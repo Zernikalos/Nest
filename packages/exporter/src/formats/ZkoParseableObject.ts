@@ -1,6 +1,6 @@
 import {Object3D} from "three";
 
-export class MrrParseableObject {
+export class ZkoParseableObject {
     private threeObj: Object3D
 
     constructor(obj: Object3D) {

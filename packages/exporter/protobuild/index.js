@@ -7,37 +7,37 @@ const $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.
 // Exported root namespace
 const $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
 
-export const Mrr = $root.Mrr = (() => {
+export const Zko = $root.Zko = (() => {
 
     /**
-     * Namespace Mrr.
-     * @exports Mrr
+     * Namespace Zko.
+     * @exports Zko
      * @namespace
      */
-    const Mrr = {};
+    const Zko = {};
 
-    Mrr.ProtoMrObject = (function() {
+    Zko.ProtoZkObject = (function() {
 
         /**
-         * Properties of a ProtoMrObject.
-         * @memberof Mrr
-         * @interface IProtoMrObject
-         * @property {string} type ProtoMrObject type
-         * @property {Mrr.IMrGroup|null} [group] ProtoMrObject group
-         * @property {Mrr.IMrModel|null} [model] ProtoMrObject model
-         * @property {Mrr.IMrScene|null} [scene] ProtoMrObject scene
-         * @property {Array.<Mrr.IProtoMrObject>|null} [children] ProtoMrObject children
+         * Properties of a ProtoZkObject.
+         * @memberof Zko
+         * @interface IProtoZkObject
+         * @property {string} type ProtoZkObject type
+         * @property {Zko.IZkGroup|null} [group] ProtoZkObject group
+         * @property {Zko.IZkModel|null} [model] ProtoZkObject model
+         * @property {Zko.IZkScene|null} [scene] ProtoZkObject scene
+         * @property {Array.<Zko.IProtoZkObject>|null} [children] ProtoZkObject children
          */
 
         /**
-         * Constructs a new ProtoMrObject.
-         * @memberof Mrr
-         * @classdesc Represents a ProtoMrObject.
-         * @implements IProtoMrObject
+         * Constructs a new ProtoZkObject.
+         * @memberof Zko
+         * @classdesc Represents a ProtoZkObject.
+         * @implements IProtoZkObject
          * @constructor
-         * @param {Mrr.IProtoMrObject=} [properties] Properties to set
+         * @param {Zko.IProtoZkObject=} [properties] Properties to set
          */
-        function ProtoMrObject(properties) {
+        function ProtoZkObject(properties) {
             this.children = [];
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
@@ -46,110 +46,110 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * ProtoMrObject type.
+         * ProtoZkObject type.
          * @member {string} type
-         * @memberof Mrr.ProtoMrObject
+         * @memberof Zko.ProtoZkObject
          * @instance
          */
-        ProtoMrObject.prototype.type = "";
+        ProtoZkObject.prototype.type = "";
 
         /**
-         * ProtoMrObject group.
-         * @member {Mrr.IMrGroup|null|undefined} group
-         * @memberof Mrr.ProtoMrObject
+         * ProtoZkObject group.
+         * @member {Zko.IZkGroup|null|undefined} group
+         * @memberof Zko.ProtoZkObject
          * @instance
          */
-        ProtoMrObject.prototype.group = null;
+        ProtoZkObject.prototype.group = null;
 
         /**
-         * ProtoMrObject model.
-         * @member {Mrr.IMrModel|null|undefined} model
-         * @memberof Mrr.ProtoMrObject
+         * ProtoZkObject model.
+         * @member {Zko.IZkModel|null|undefined} model
+         * @memberof Zko.ProtoZkObject
          * @instance
          */
-        ProtoMrObject.prototype.model = null;
+        ProtoZkObject.prototype.model = null;
 
         /**
-         * ProtoMrObject scene.
-         * @member {Mrr.IMrScene|null|undefined} scene
-         * @memberof Mrr.ProtoMrObject
+         * ProtoZkObject scene.
+         * @member {Zko.IZkScene|null|undefined} scene
+         * @memberof Zko.ProtoZkObject
          * @instance
          */
-        ProtoMrObject.prototype.scene = null;
+        ProtoZkObject.prototype.scene = null;
 
         /**
-         * ProtoMrObject children.
-         * @member {Array.<Mrr.IProtoMrObject>} children
-         * @memberof Mrr.ProtoMrObject
+         * ProtoZkObject children.
+         * @member {Array.<Zko.IProtoZkObject>} children
+         * @memberof Zko.ProtoZkObject
          * @instance
          */
-        ProtoMrObject.prototype.children = $util.emptyArray;
+        ProtoZkObject.prototype.children = $util.emptyArray;
 
         /**
-         * Creates a new ProtoMrObject instance using the specified properties.
+         * Creates a new ProtoZkObject instance using the specified properties.
          * @function create
-         * @memberof Mrr.ProtoMrObject
+         * @memberof Zko.ProtoZkObject
          * @static
-         * @param {Mrr.IProtoMrObject=} [properties] Properties to set
-         * @returns {Mrr.ProtoMrObject} ProtoMrObject instance
+         * @param {Zko.IProtoZkObject=} [properties] Properties to set
+         * @returns {Zko.ProtoZkObject} ProtoZkObject instance
          */
-        ProtoMrObject.create = function create(properties) {
-            return new ProtoMrObject(properties);
+        ProtoZkObject.create = function create(properties) {
+            return new ProtoZkObject(properties);
         };
 
         /**
-         * Encodes the specified ProtoMrObject message. Does not implicitly {@link Mrr.ProtoMrObject.verify|verify} messages.
+         * Encodes the specified ProtoZkObject message. Does not implicitly {@link Zko.ProtoZkObject.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.ProtoMrObject
+         * @memberof Zko.ProtoZkObject
          * @static
-         * @param {Mrr.IProtoMrObject} message ProtoMrObject message or plain object to encode
+         * @param {Zko.IProtoZkObject} message ProtoZkObject message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        ProtoMrObject.encode = function encode(message, writer) {
+        ProtoZkObject.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.type);
             if (message.group != null && Object.hasOwnProperty.call(message, "group"))
-                $root.Mrr.MrGroup.encode(message.group, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                $root.Zko.ZkGroup.encode(message.group, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
             if (message.model != null && Object.hasOwnProperty.call(message, "model"))
-                $root.Mrr.MrModel.encode(message.model, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                $root.Zko.ZkModel.encode(message.model, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             if (message.scene != null && Object.hasOwnProperty.call(message, "scene"))
-                $root.Mrr.MrScene.encode(message.scene, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                $root.Zko.ZkScene.encode(message.scene, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
             if (message.children != null && message.children.length)
                 for (let i = 0; i < message.children.length; ++i)
-                    $root.Mrr.ProtoMrObject.encode(message.children[i], writer.uint32(/* id 100, wireType 2 =*/802).fork()).ldelim();
+                    $root.Zko.ProtoZkObject.encode(message.children[i], writer.uint32(/* id 100, wireType 2 =*/802).fork()).ldelim();
             return writer;
         };
 
         /**
-         * Encodes the specified ProtoMrObject message, length delimited. Does not implicitly {@link Mrr.ProtoMrObject.verify|verify} messages.
+         * Encodes the specified ProtoZkObject message, length delimited. Does not implicitly {@link Zko.ProtoZkObject.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.ProtoMrObject
+         * @memberof Zko.ProtoZkObject
          * @static
-         * @param {Mrr.IProtoMrObject} message ProtoMrObject message or plain object to encode
+         * @param {Zko.IProtoZkObject} message ProtoZkObject message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        ProtoMrObject.encodeDelimited = function encodeDelimited(message, writer) {
+        ProtoZkObject.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a ProtoMrObject message from the specified reader or buffer.
+         * Decodes a ProtoZkObject message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.ProtoMrObject
+         * @memberof Zko.ProtoZkObject
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.ProtoMrObject} ProtoMrObject
+         * @returns {Zko.ProtoZkObject} ProtoZkObject
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        ProtoMrObject.decode = function decode(reader, length) {
+        ProtoZkObject.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.ProtoMrObject();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ProtoZkObject();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -158,21 +158,21 @@ export const Mrr = $root.Mrr = (() => {
                         break;
                     }
                 case 2: {
-                        message.group = $root.Mrr.MrGroup.decode(reader, reader.uint32());
+                        message.group = $root.Zko.ZkGroup.decode(reader, reader.uint32());
                         break;
                     }
                 case 3: {
-                        message.model = $root.Mrr.MrModel.decode(reader, reader.uint32());
+                        message.model = $root.Zko.ZkModel.decode(reader, reader.uint32());
                         break;
                     }
                 case 4: {
-                        message.scene = $root.Mrr.MrScene.decode(reader, reader.uint32());
+                        message.scene = $root.Zko.ZkScene.decode(reader, reader.uint32());
                         break;
                     }
                 case 100: {
                         if (!(message.children && message.children.length))
                             message.children = [];
-                        message.children.push($root.Mrr.ProtoMrObject.decode(reader, reader.uint32()));
+                        message.children.push($root.Zko.ProtoZkObject.decode(reader, reader.uint32()));
                         break;
                     }
                 default:
@@ -186,46 +186,46 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a ProtoMrObject message from the specified reader or buffer, length delimited.
+         * Decodes a ProtoZkObject message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.ProtoMrObject
+         * @memberof Zko.ProtoZkObject
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.ProtoMrObject} ProtoMrObject
+         * @returns {Zko.ProtoZkObject} ProtoZkObject
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        ProtoMrObject.decodeDelimited = function decodeDelimited(reader) {
+        ProtoZkObject.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a ProtoMrObject message.
+         * Verifies a ProtoZkObject message.
          * @function verify
-         * @memberof Mrr.ProtoMrObject
+         * @memberof Zko.ProtoZkObject
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        ProtoMrObject.verify = function verify(message) {
+        ProtoZkObject.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (!$util.isString(message.type))
                 return "type: string expected";
             if (message.group != null && message.hasOwnProperty("group")) {
-                let error = $root.Mrr.MrGroup.verify(message.group);
+                let error = $root.Zko.ZkGroup.verify(message.group);
                 if (error)
                     return "group." + error;
             }
             if (message.model != null && message.hasOwnProperty("model")) {
-                let error = $root.Mrr.MrModel.verify(message.model);
+                let error = $root.Zko.ZkModel.verify(message.model);
                 if (error)
                     return "model." + error;
             }
             if (message.scene != null && message.hasOwnProperty("scene")) {
-                let error = $root.Mrr.MrScene.verify(message.scene);
+                let error = $root.Zko.ZkScene.verify(message.scene);
                 if (error)
                     return "scene." + error;
             }
@@ -233,7 +233,7 @@ export const Mrr = $root.Mrr = (() => {
                 if (!Array.isArray(message.children))
                     return "children: array expected";
                 for (let i = 0; i < message.children.length; ++i) {
-                    let error = $root.Mrr.ProtoMrObject.verify(message.children[i]);
+                    let error = $root.Zko.ProtoZkObject.verify(message.children[i]);
                     if (error)
                         return "children." + error;
                 }
@@ -242,57 +242,57 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a ProtoMrObject message from a plain object. Also converts values to their respective internal types.
+         * Creates a ProtoZkObject message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.ProtoMrObject
+         * @memberof Zko.ProtoZkObject
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.ProtoMrObject} ProtoMrObject
+         * @returns {Zko.ProtoZkObject} ProtoZkObject
          */
-        ProtoMrObject.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.ProtoMrObject)
+        ProtoZkObject.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ProtoZkObject)
                 return object;
-            let message = new $root.Mrr.ProtoMrObject();
+            let message = new $root.Zko.ProtoZkObject();
             if (object.type != null)
                 message.type = String(object.type);
             if (object.group != null) {
                 if (typeof object.group !== "object")
-                    throw TypeError(".Mrr.ProtoMrObject.group: object expected");
-                message.group = $root.Mrr.MrGroup.fromObject(object.group);
+                    throw TypeError(".Zko.ProtoZkObject.group: object expected");
+                message.group = $root.Zko.ZkGroup.fromObject(object.group);
             }
             if (object.model != null) {
                 if (typeof object.model !== "object")
-                    throw TypeError(".Mrr.ProtoMrObject.model: object expected");
-                message.model = $root.Mrr.MrModel.fromObject(object.model);
+                    throw TypeError(".Zko.ProtoZkObject.model: object expected");
+                message.model = $root.Zko.ZkModel.fromObject(object.model);
             }
             if (object.scene != null) {
                 if (typeof object.scene !== "object")
-                    throw TypeError(".Mrr.ProtoMrObject.scene: object expected");
-                message.scene = $root.Mrr.MrScene.fromObject(object.scene);
+                    throw TypeError(".Zko.ProtoZkObject.scene: object expected");
+                message.scene = $root.Zko.ZkScene.fromObject(object.scene);
             }
             if (object.children) {
                 if (!Array.isArray(object.children))
-                    throw TypeError(".Mrr.ProtoMrObject.children: array expected");
+                    throw TypeError(".Zko.ProtoZkObject.children: array expected");
                 message.children = [];
                 for (let i = 0; i < object.children.length; ++i) {
                     if (typeof object.children[i] !== "object")
-                        throw TypeError(".Mrr.ProtoMrObject.children: object expected");
-                    message.children[i] = $root.Mrr.ProtoMrObject.fromObject(object.children[i]);
+                        throw TypeError(".Zko.ProtoZkObject.children: object expected");
+                    message.children[i] = $root.Zko.ProtoZkObject.fromObject(object.children[i]);
                 }
             }
             return message;
         };
 
         /**
-         * Creates a plain object from a ProtoMrObject message. Also converts values to other types if specified.
+         * Creates a plain object from a ProtoZkObject message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.ProtoMrObject
+         * @memberof Zko.ProtoZkObject
          * @static
-         * @param {Mrr.ProtoMrObject} message ProtoMrObject
+         * @param {Zko.ProtoZkObject} message ProtoZkObject
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        ProtoMrObject.toObject = function toObject(message, options) {
+        ProtoZkObject.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -307,68 +307,68 @@ export const Mrr = $root.Mrr = (() => {
             if (message.type != null && message.hasOwnProperty("type"))
                 object.type = message.type;
             if (message.group != null && message.hasOwnProperty("group"))
-                object.group = $root.Mrr.MrGroup.toObject(message.group, options);
+                object.group = $root.Zko.ZkGroup.toObject(message.group, options);
             if (message.model != null && message.hasOwnProperty("model"))
-                object.model = $root.Mrr.MrModel.toObject(message.model, options);
+                object.model = $root.Zko.ZkModel.toObject(message.model, options);
             if (message.scene != null && message.hasOwnProperty("scene"))
-                object.scene = $root.Mrr.MrScene.toObject(message.scene, options);
+                object.scene = $root.Zko.ZkScene.toObject(message.scene, options);
             if (message.children && message.children.length) {
                 object.children = [];
                 for (let j = 0; j < message.children.length; ++j)
-                    object.children[j] = $root.Mrr.ProtoMrObject.toObject(message.children[j], options);
+                    object.children[j] = $root.Zko.ProtoZkObject.toObject(message.children[j], options);
             }
             return object;
         };
 
         /**
-         * Converts this ProtoMrObject to JSON.
+         * Converts this ProtoZkObject to JSON.
          * @function toJSON
-         * @memberof Mrr.ProtoMrObject
+         * @memberof Zko.ProtoZkObject
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        ProtoMrObject.prototype.toJSON = function toJSON() {
+        ProtoZkObject.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for ProtoMrObject
+         * Gets the default type url for ProtoZkObject
          * @function getTypeUrl
-         * @memberof Mrr.ProtoMrObject
+         * @memberof Zko.ProtoZkObject
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        ProtoMrObject.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ProtoZkObject.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.ProtoMrObject";
+            return typeUrlPrefix + "/Zko.ProtoZkObject";
         };
 
-        return ProtoMrObject;
+        return ProtoZkObject;
     })();
 
-    Mrr.MrGroup = (function() {
+    Zko.ZkGroup = (function() {
 
         /**
-         * Properties of a MrGroup.
-         * @memberof Mrr
-         * @interface IMrGroup
-         * @property {string} id MrGroup id
-         * @property {string} name MrGroup name
-         * @property {Mrr.IMrTransform} transform MrGroup transform
+         * Properties of a ZkGroup.
+         * @memberof Zko
+         * @interface IZkGroup
+         * @property {string} id ZkGroup id
+         * @property {string} name ZkGroup name
+         * @property {Zko.IZkTransform} transform ZkGroup transform
          */
 
         /**
-         * Constructs a new MrGroup.
-         * @memberof Mrr
-         * @classdesc Represents a MrGroup.
-         * @implements IMrGroup
+         * Constructs a new ZkGroup.
+         * @memberof Zko
+         * @classdesc Represents a ZkGroup.
+         * @implements IZkGroup
          * @constructor
-         * @param {Mrr.IMrGroup=} [properties] Properties to set
+         * @param {Zko.IZkGroup=} [properties] Properties to set
          */
-        function MrGroup(properties) {
+        function ZkGroup(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -376,87 +376,87 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrGroup id.
+         * ZkGroup id.
          * @member {string} id
-         * @memberof Mrr.MrGroup
+         * @memberof Zko.ZkGroup
          * @instance
          */
-        MrGroup.prototype.id = "";
+        ZkGroup.prototype.id = "";
 
         /**
-         * MrGroup name.
+         * ZkGroup name.
          * @member {string} name
-         * @memberof Mrr.MrGroup
+         * @memberof Zko.ZkGroup
          * @instance
          */
-        MrGroup.prototype.name = "";
+        ZkGroup.prototype.name = "";
 
         /**
-         * MrGroup transform.
-         * @member {Mrr.IMrTransform} transform
-         * @memberof Mrr.MrGroup
+         * ZkGroup transform.
+         * @member {Zko.IZkTransform} transform
+         * @memberof Zko.ZkGroup
          * @instance
          */
-        MrGroup.prototype.transform = null;
+        ZkGroup.prototype.transform = null;
 
         /**
-         * Creates a new MrGroup instance using the specified properties.
+         * Creates a new ZkGroup instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrGroup
+         * @memberof Zko.ZkGroup
          * @static
-         * @param {Mrr.IMrGroup=} [properties] Properties to set
-         * @returns {Mrr.MrGroup} MrGroup instance
+         * @param {Zko.IZkGroup=} [properties] Properties to set
+         * @returns {Zko.ZkGroup} ZkGroup instance
          */
-        MrGroup.create = function create(properties) {
-            return new MrGroup(properties);
+        ZkGroup.create = function create(properties) {
+            return new ZkGroup(properties);
         };
 
         /**
-         * Encodes the specified MrGroup message. Does not implicitly {@link Mrr.MrGroup.verify|verify} messages.
+         * Encodes the specified ZkGroup message. Does not implicitly {@link Zko.ZkGroup.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrGroup
+         * @memberof Zko.ZkGroup
          * @static
-         * @param {Mrr.IMrGroup} message MrGroup message or plain object to encode
+         * @param {Zko.IZkGroup} message ZkGroup message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrGroup.encode = function encode(message, writer) {
+        ZkGroup.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
-            $root.Mrr.MrTransform.encode(message.transform, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            $root.Zko.ZkTransform.encode(message.transform, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             return writer;
         };
 
         /**
-         * Encodes the specified MrGroup message, length delimited. Does not implicitly {@link Mrr.MrGroup.verify|verify} messages.
+         * Encodes the specified ZkGroup message, length delimited. Does not implicitly {@link Zko.ZkGroup.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrGroup
+         * @memberof Zko.ZkGroup
          * @static
-         * @param {Mrr.IMrGroup} message MrGroup message or plain object to encode
+         * @param {Zko.IZkGroup} message ZkGroup message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrGroup.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkGroup.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrGroup message from the specified reader or buffer.
+         * Decodes a ZkGroup message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrGroup
+         * @memberof Zko.ZkGroup
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrGroup} MrGroup
+         * @returns {Zko.ZkGroup} ZkGroup
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrGroup.decode = function decode(reader, length) {
+        ZkGroup.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrGroup();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkGroup();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -469,7 +469,7 @@ export const Mrr = $root.Mrr = (() => {
                         break;
                     }
                 case 3: {
-                        message.transform = $root.Mrr.MrTransform.decode(reader, reader.uint32());
+                        message.transform = $root.Zko.ZkTransform.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -487,30 +487,30 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrGroup message from the specified reader or buffer, length delimited.
+         * Decodes a ZkGroup message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrGroup
+         * @memberof Zko.ZkGroup
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrGroup} MrGroup
+         * @returns {Zko.ZkGroup} ZkGroup
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrGroup.decodeDelimited = function decodeDelimited(reader) {
+        ZkGroup.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrGroup message.
+         * Verifies a ZkGroup message.
          * @function verify
-         * @memberof Mrr.MrGroup
+         * @memberof Zko.ZkGroup
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrGroup.verify = function verify(message) {
+        ZkGroup.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (!$util.isString(message.id))
@@ -518,7 +518,7 @@ export const Mrr = $root.Mrr = (() => {
             if (!$util.isString(message.name))
                 return "name: string expected";
             {
-                let error = $root.Mrr.MrTransform.verify(message.transform);
+                let error = $root.Zko.ZkTransform.verify(message.transform);
                 if (error)
                     return "transform." + error;
             }
@@ -526,39 +526,39 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrGroup message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkGroup message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrGroup
+         * @memberof Zko.ZkGroup
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrGroup} MrGroup
+         * @returns {Zko.ZkGroup} ZkGroup
          */
-        MrGroup.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrGroup)
+        ZkGroup.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkGroup)
                 return object;
-            let message = new $root.Mrr.MrGroup();
+            let message = new $root.Zko.ZkGroup();
             if (object.id != null)
                 message.id = String(object.id);
             if (object.name != null)
                 message.name = String(object.name);
             if (object.transform != null) {
                 if (typeof object.transform !== "object")
-                    throw TypeError(".Mrr.MrGroup.transform: object expected");
-                message.transform = $root.Mrr.MrTransform.fromObject(object.transform);
+                    throw TypeError(".Zko.ZkGroup.transform: object expected");
+                message.transform = $root.Zko.ZkTransform.fromObject(object.transform);
             }
             return message;
         };
 
         /**
-         * Creates a plain object from a MrGroup message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkGroup message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrGroup
+         * @memberof Zko.ZkGroup
          * @static
-         * @param {Mrr.MrGroup} message MrGroup
+         * @param {Zko.ZkGroup} message ZkGroup
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrGroup.toObject = function toObject(message, options) {
+        ZkGroup.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -572,60 +572,60 @@ export const Mrr = $root.Mrr = (() => {
             if (message.name != null && message.hasOwnProperty("name"))
                 object.name = message.name;
             if (message.transform != null && message.hasOwnProperty("transform"))
-                object.transform = $root.Mrr.MrTransform.toObject(message.transform, options);
+                object.transform = $root.Zko.ZkTransform.toObject(message.transform, options);
             return object;
         };
 
         /**
-         * Converts this MrGroup to JSON.
+         * Converts this ZkGroup to JSON.
          * @function toJSON
-         * @memberof Mrr.MrGroup
+         * @memberof Zko.ZkGroup
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrGroup.prototype.toJSON = function toJSON() {
+        ZkGroup.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrGroup
+         * Gets the default type url for ZkGroup
          * @function getTypeUrl
-         * @memberof Mrr.MrGroup
+         * @memberof Zko.ZkGroup
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrGroup.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkGroup.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrGroup";
+            return typeUrlPrefix + "/Zko.ZkGroup";
         };
 
-        return MrGroup;
+        return ZkGroup;
     })();
 
-    Mrr.MrColor = (function() {
+    Zko.ZkColor = (function() {
 
         /**
-         * Properties of a MrColor.
-         * @memberof Mrr
-         * @interface IMrColor
-         * @property {number} r MrColor r
-         * @property {number} g MrColor g
-         * @property {number} b MrColor b
-         * @property {number} a MrColor a
+         * Properties of a ZkColor.
+         * @memberof Zko
+         * @interface IZkColor
+         * @property {number} r ZkColor r
+         * @property {number} g ZkColor g
+         * @property {number} b ZkColor b
+         * @property {number} a ZkColor a
          */
 
         /**
-         * Constructs a new MrColor.
-         * @memberof Mrr
-         * @classdesc Represents a MrColor.
-         * @implements IMrColor
+         * Constructs a new ZkColor.
+         * @memberof Zko
+         * @classdesc Represents a ZkColor.
+         * @implements IZkColor
          * @constructor
-         * @param {Mrr.IMrColor=} [properties] Properties to set
+         * @param {Zko.IZkColor=} [properties] Properties to set
          */
-        function MrColor(properties) {
+        function ZkColor(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -633,59 +633,59 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrColor r.
+         * ZkColor r.
          * @member {number} r
-         * @memberof Mrr.MrColor
+         * @memberof Zko.ZkColor
          * @instance
          */
-        MrColor.prototype.r = 0;
+        ZkColor.prototype.r = 0;
 
         /**
-         * MrColor g.
+         * ZkColor g.
          * @member {number} g
-         * @memberof Mrr.MrColor
+         * @memberof Zko.ZkColor
          * @instance
          */
-        MrColor.prototype.g = 0;
+        ZkColor.prototype.g = 0;
 
         /**
-         * MrColor b.
+         * ZkColor b.
          * @member {number} b
-         * @memberof Mrr.MrColor
+         * @memberof Zko.ZkColor
          * @instance
          */
-        MrColor.prototype.b = 0;
+        ZkColor.prototype.b = 0;
 
         /**
-         * MrColor a.
+         * ZkColor a.
          * @member {number} a
-         * @memberof Mrr.MrColor
+         * @memberof Zko.ZkColor
          * @instance
          */
-        MrColor.prototype.a = 0;
+        ZkColor.prototype.a = 0;
 
         /**
-         * Creates a new MrColor instance using the specified properties.
+         * Creates a new ZkColor instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrColor
+         * @memberof Zko.ZkColor
          * @static
-         * @param {Mrr.IMrColor=} [properties] Properties to set
-         * @returns {Mrr.MrColor} MrColor instance
+         * @param {Zko.IZkColor=} [properties] Properties to set
+         * @returns {Zko.ZkColor} ZkColor instance
          */
-        MrColor.create = function create(properties) {
-            return new MrColor(properties);
+        ZkColor.create = function create(properties) {
+            return new ZkColor(properties);
         };
 
         /**
-         * Encodes the specified MrColor message. Does not implicitly {@link Mrr.MrColor.verify|verify} messages.
+         * Encodes the specified ZkColor message. Does not implicitly {@link Zko.ZkColor.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrColor
+         * @memberof Zko.ZkColor
          * @static
-         * @param {Mrr.IMrColor} message MrColor message or plain object to encode
+         * @param {Zko.IZkColor} message ZkColor message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrColor.encode = function encode(message, writer) {
+        ZkColor.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 5 =*/13).float(message.r);
@@ -696,33 +696,33 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Encodes the specified MrColor message, length delimited. Does not implicitly {@link Mrr.MrColor.verify|verify} messages.
+         * Encodes the specified ZkColor message, length delimited. Does not implicitly {@link Zko.ZkColor.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrColor
+         * @memberof Zko.ZkColor
          * @static
-         * @param {Mrr.IMrColor} message MrColor message or plain object to encode
+         * @param {Zko.IZkColor} message ZkColor message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrColor.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkColor.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrColor message from the specified reader or buffer.
+         * Decodes a ZkColor message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrColor
+         * @memberof Zko.ZkColor
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrColor} MrColor
+         * @returns {Zko.ZkColor} ZkColor
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrColor.decode = function decode(reader, length) {
+        ZkColor.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrColor();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkColor();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -759,30 +759,30 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrColor message from the specified reader or buffer, length delimited.
+         * Decodes a ZkColor message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrColor
+         * @memberof Zko.ZkColor
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrColor} MrColor
+         * @returns {Zko.ZkColor} ZkColor
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrColor.decodeDelimited = function decodeDelimited(reader) {
+        ZkColor.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrColor message.
+         * Verifies a ZkColor message.
          * @function verify
-         * @memberof Mrr.MrColor
+         * @memberof Zko.ZkColor
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrColor.verify = function verify(message) {
+        ZkColor.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (typeof message.r !== "number")
@@ -797,17 +797,17 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrColor message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkColor message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrColor
+         * @memberof Zko.ZkColor
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrColor} MrColor
+         * @returns {Zko.ZkColor} ZkColor
          */
-        MrColor.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrColor)
+        ZkColor.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkColor)
                 return object;
-            let message = new $root.Mrr.MrColor();
+            let message = new $root.Zko.ZkColor();
             if (object.r != null)
                 message.r = Number(object.r);
             if (object.g != null)
@@ -820,15 +820,15 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a plain object from a MrColor message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkColor message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrColor
+         * @memberof Zko.ZkColor
          * @static
-         * @param {Mrr.MrColor} message MrColor
+         * @param {Zko.ZkColor} message ZkColor
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrColor.toObject = function toObject(message, options) {
+        ZkColor.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -850,55 +850,55 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Converts this MrColor to JSON.
+         * Converts this ZkColor to JSON.
          * @function toJSON
-         * @memberof Mrr.MrColor
+         * @memberof Zko.ZkColor
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrColor.prototype.toJSON = function toJSON() {
+        ZkColor.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrColor
+         * Gets the default type url for ZkColor
          * @function getTypeUrl
-         * @memberof Mrr.MrColor
+         * @memberof Zko.ZkColor
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrColor.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkColor.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrColor";
+            return typeUrlPrefix + "/Zko.ZkColor";
         };
 
-        return MrColor;
+        return ZkColor;
     })();
 
-    Mrr.MrScene = (function() {
+    Zko.ZkScene = (function() {
 
         /**
-         * Properties of a MrScene.
-         * @memberof Mrr
-         * @interface IMrScene
-         * @property {string} id MrScene id
-         * @property {string} name MrScene name
-         * @property {Mrr.IMrTransform} transform MrScene transform
-         * @property {Mrr.IMrColor} clearColor MrScene clearColor
+         * Properties of a ZkScene.
+         * @memberof Zko
+         * @interface IZkScene
+         * @property {string} id ZkScene id
+         * @property {string} name ZkScene name
+         * @property {Zko.IZkTransform} transform ZkScene transform
+         * @property {Zko.IZkColor} clearColor ZkScene clearColor
          */
 
         /**
-         * Constructs a new MrScene.
-         * @memberof Mrr
-         * @classdesc Represents a MrScene.
-         * @implements IMrScene
+         * Constructs a new ZkScene.
+         * @memberof Zko
+         * @classdesc Represents a ZkScene.
+         * @implements IZkScene
          * @constructor
-         * @param {Mrr.IMrScene=} [properties] Properties to set
+         * @param {Zko.IZkScene=} [properties] Properties to set
          */
-        function MrScene(properties) {
+        function ZkScene(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -906,96 +906,96 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrScene id.
+         * ZkScene id.
          * @member {string} id
-         * @memberof Mrr.MrScene
+         * @memberof Zko.ZkScene
          * @instance
          */
-        MrScene.prototype.id = "";
+        ZkScene.prototype.id = "";
 
         /**
-         * MrScene name.
+         * ZkScene name.
          * @member {string} name
-         * @memberof Mrr.MrScene
+         * @memberof Zko.ZkScene
          * @instance
          */
-        MrScene.prototype.name = "";
+        ZkScene.prototype.name = "";
 
         /**
-         * MrScene transform.
-         * @member {Mrr.IMrTransform} transform
-         * @memberof Mrr.MrScene
+         * ZkScene transform.
+         * @member {Zko.IZkTransform} transform
+         * @memberof Zko.ZkScene
          * @instance
          */
-        MrScene.prototype.transform = null;
+        ZkScene.prototype.transform = null;
 
         /**
-         * MrScene clearColor.
-         * @member {Mrr.IMrColor} clearColor
-         * @memberof Mrr.MrScene
+         * ZkScene clearColor.
+         * @member {Zko.IZkColor} clearColor
+         * @memberof Zko.ZkScene
          * @instance
          */
-        MrScene.prototype.clearColor = null;
+        ZkScene.prototype.clearColor = null;
 
         /**
-         * Creates a new MrScene instance using the specified properties.
+         * Creates a new ZkScene instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrScene
+         * @memberof Zko.ZkScene
          * @static
-         * @param {Mrr.IMrScene=} [properties] Properties to set
-         * @returns {Mrr.MrScene} MrScene instance
+         * @param {Zko.IZkScene=} [properties] Properties to set
+         * @returns {Zko.ZkScene} ZkScene instance
          */
-        MrScene.create = function create(properties) {
-            return new MrScene(properties);
+        ZkScene.create = function create(properties) {
+            return new ZkScene(properties);
         };
 
         /**
-         * Encodes the specified MrScene message. Does not implicitly {@link Mrr.MrScene.verify|verify} messages.
+         * Encodes the specified ZkScene message. Does not implicitly {@link Zko.ZkScene.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrScene
+         * @memberof Zko.ZkScene
          * @static
-         * @param {Mrr.IMrScene} message MrScene message or plain object to encode
+         * @param {Zko.IZkScene} message ZkScene message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrScene.encode = function encode(message, writer) {
+        ZkScene.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
-            $root.Mrr.MrTransform.encode(message.transform, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-            $root.Mrr.MrColor.encode(message.clearColor, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+            $root.Zko.ZkTransform.encode(message.transform, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            $root.Zko.ZkColor.encode(message.clearColor, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
             return writer;
         };
 
         /**
-         * Encodes the specified MrScene message, length delimited. Does not implicitly {@link Mrr.MrScene.verify|verify} messages.
+         * Encodes the specified ZkScene message, length delimited. Does not implicitly {@link Zko.ZkScene.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrScene
+         * @memberof Zko.ZkScene
          * @static
-         * @param {Mrr.IMrScene} message MrScene message or plain object to encode
+         * @param {Zko.IZkScene} message ZkScene message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrScene.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkScene.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrScene message from the specified reader or buffer.
+         * Decodes a ZkScene message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrScene
+         * @memberof Zko.ZkScene
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrScene} MrScene
+         * @returns {Zko.ZkScene} ZkScene
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrScene.decode = function decode(reader, length) {
+        ZkScene.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrScene();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkScene();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -1008,11 +1008,11 @@ export const Mrr = $root.Mrr = (() => {
                         break;
                     }
                 case 3: {
-                        message.transform = $root.Mrr.MrTransform.decode(reader, reader.uint32());
+                        message.transform = $root.Zko.ZkTransform.decode(reader, reader.uint32());
                         break;
                     }
                 case 4: {
-                        message.clearColor = $root.Mrr.MrColor.decode(reader, reader.uint32());
+                        message.clearColor = $root.Zko.ZkColor.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -1032,30 +1032,30 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrScene message from the specified reader or buffer, length delimited.
+         * Decodes a ZkScene message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrScene
+         * @memberof Zko.ZkScene
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrScene} MrScene
+         * @returns {Zko.ZkScene} ZkScene
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrScene.decodeDelimited = function decodeDelimited(reader) {
+        ZkScene.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrScene message.
+         * Verifies a ZkScene message.
          * @function verify
-         * @memberof Mrr.MrScene
+         * @memberof Zko.ZkScene
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrScene.verify = function verify(message) {
+        ZkScene.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (!$util.isString(message.id))
@@ -1063,12 +1063,12 @@ export const Mrr = $root.Mrr = (() => {
             if (!$util.isString(message.name))
                 return "name: string expected";
             {
-                let error = $root.Mrr.MrTransform.verify(message.transform);
+                let error = $root.Zko.ZkTransform.verify(message.transform);
                 if (error)
                     return "transform." + error;
             }
             {
-                let error = $root.Mrr.MrColor.verify(message.clearColor);
+                let error = $root.Zko.ZkColor.verify(message.clearColor);
                 if (error)
                     return "clearColor." + error;
             }
@@ -1076,44 +1076,44 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrScene message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkScene message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrScene
+         * @memberof Zko.ZkScene
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrScene} MrScene
+         * @returns {Zko.ZkScene} ZkScene
          */
-        MrScene.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrScene)
+        ZkScene.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkScene)
                 return object;
-            let message = new $root.Mrr.MrScene();
+            let message = new $root.Zko.ZkScene();
             if (object.id != null)
                 message.id = String(object.id);
             if (object.name != null)
                 message.name = String(object.name);
             if (object.transform != null) {
                 if (typeof object.transform !== "object")
-                    throw TypeError(".Mrr.MrScene.transform: object expected");
-                message.transform = $root.Mrr.MrTransform.fromObject(object.transform);
+                    throw TypeError(".Zko.ZkScene.transform: object expected");
+                message.transform = $root.Zko.ZkTransform.fromObject(object.transform);
             }
             if (object.clearColor != null) {
                 if (typeof object.clearColor !== "object")
-                    throw TypeError(".Mrr.MrScene.clearColor: object expected");
-                message.clearColor = $root.Mrr.MrColor.fromObject(object.clearColor);
+                    throw TypeError(".Zko.ZkScene.clearColor: object expected");
+                message.clearColor = $root.Zko.ZkColor.fromObject(object.clearColor);
             }
             return message;
         };
 
         /**
-         * Creates a plain object from a MrScene message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkScene message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrScene
+         * @memberof Zko.ZkScene
          * @static
-         * @param {Mrr.MrScene} message MrScene
+         * @param {Zko.ZkScene} message ZkScene
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrScene.toObject = function toObject(message, options) {
+        ZkScene.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -1128,61 +1128,61 @@ export const Mrr = $root.Mrr = (() => {
             if (message.name != null && message.hasOwnProperty("name"))
                 object.name = message.name;
             if (message.transform != null && message.hasOwnProperty("transform"))
-                object.transform = $root.Mrr.MrTransform.toObject(message.transform, options);
+                object.transform = $root.Zko.ZkTransform.toObject(message.transform, options);
             if (message.clearColor != null && message.hasOwnProperty("clearColor"))
-                object.clearColor = $root.Mrr.MrColor.toObject(message.clearColor, options);
+                object.clearColor = $root.Zko.ZkColor.toObject(message.clearColor, options);
             return object;
         };
 
         /**
-         * Converts this MrScene to JSON.
+         * Converts this ZkScene to JSON.
          * @function toJSON
-         * @memberof Mrr.MrScene
+         * @memberof Zko.ZkScene
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrScene.prototype.toJSON = function toJSON() {
+        ZkScene.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrScene
+         * Gets the default type url for ZkScene
          * @function getTypeUrl
-         * @memberof Mrr.MrScene
+         * @memberof Zko.ZkScene
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrScene.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkScene.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrScene";
+            return typeUrlPrefix + "/Zko.ZkScene";
         };
 
-        return MrScene;
+        return ZkScene;
     })();
 
-    Mrr.MrTransform = (function() {
+    Zko.ZkTransform = (function() {
 
         /**
-         * Properties of a MrTransform.
-         * @memberof Mrr
-         * @interface IMrTransform
-         * @property {Mrr.IMrVector3} location MrTransform location
-         * @property {Mrr.IMrQuaternion} rotation MrTransform rotation
-         * @property {Mrr.IMrVector3} scale MrTransform scale
+         * Properties of a ZkTransform.
+         * @memberof Zko
+         * @interface IZkTransform
+         * @property {Zko.IZkVector3} location ZkTransform location
+         * @property {Zko.IZkQuaternion} rotation ZkTransform rotation
+         * @property {Zko.IZkVector3} scale ZkTransform scale
          */
 
         /**
-         * Constructs a new MrTransform.
-         * @memberof Mrr
-         * @classdesc Represents a MrTransform.
-         * @implements IMrTransform
+         * Constructs a new ZkTransform.
+         * @memberof Zko
+         * @classdesc Represents a ZkTransform.
+         * @implements IZkTransform
          * @constructor
-         * @param {Mrr.IMrTransform=} [properties] Properties to set
+         * @param {Zko.IZkTransform=} [properties] Properties to set
          */
-        function MrTransform(properties) {
+        function ZkTransform(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -1190,100 +1190,100 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrTransform location.
-         * @member {Mrr.IMrVector3} location
-         * @memberof Mrr.MrTransform
+         * ZkTransform location.
+         * @member {Zko.IZkVector3} location
+         * @memberof Zko.ZkTransform
          * @instance
          */
-        MrTransform.prototype.location = null;
+        ZkTransform.prototype.location = null;
 
         /**
-         * MrTransform rotation.
-         * @member {Mrr.IMrQuaternion} rotation
-         * @memberof Mrr.MrTransform
+         * ZkTransform rotation.
+         * @member {Zko.IZkQuaternion} rotation
+         * @memberof Zko.ZkTransform
          * @instance
          */
-        MrTransform.prototype.rotation = null;
+        ZkTransform.prototype.rotation = null;
 
         /**
-         * MrTransform scale.
-         * @member {Mrr.IMrVector3} scale
-         * @memberof Mrr.MrTransform
+         * ZkTransform scale.
+         * @member {Zko.IZkVector3} scale
+         * @memberof Zko.ZkTransform
          * @instance
          */
-        MrTransform.prototype.scale = null;
+        ZkTransform.prototype.scale = null;
 
         /**
-         * Creates a new MrTransform instance using the specified properties.
+         * Creates a new ZkTransform instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrTransform
+         * @memberof Zko.ZkTransform
          * @static
-         * @param {Mrr.IMrTransform=} [properties] Properties to set
-         * @returns {Mrr.MrTransform} MrTransform instance
+         * @param {Zko.IZkTransform=} [properties] Properties to set
+         * @returns {Zko.ZkTransform} ZkTransform instance
          */
-        MrTransform.create = function create(properties) {
-            return new MrTransform(properties);
+        ZkTransform.create = function create(properties) {
+            return new ZkTransform(properties);
         };
 
         /**
-         * Encodes the specified MrTransform message. Does not implicitly {@link Mrr.MrTransform.verify|verify} messages.
+         * Encodes the specified ZkTransform message. Does not implicitly {@link Zko.ZkTransform.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrTransform
+         * @memberof Zko.ZkTransform
          * @static
-         * @param {Mrr.IMrTransform} message MrTransform message or plain object to encode
+         * @param {Zko.IZkTransform} message ZkTransform message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrTransform.encode = function encode(message, writer) {
+        ZkTransform.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            $root.Mrr.MrVector3.encode(message.location, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-            $root.Mrr.MrQuaternion.encode(message.rotation, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-            $root.Mrr.MrVector3.encode(message.scale, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            $root.Zko.ZkVector3.encode(message.location, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            $root.Zko.ZkQuaternion.encode(message.rotation, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            $root.Zko.ZkVector3.encode(message.scale, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             return writer;
         };
 
         /**
-         * Encodes the specified MrTransform message, length delimited. Does not implicitly {@link Mrr.MrTransform.verify|verify} messages.
+         * Encodes the specified ZkTransform message, length delimited. Does not implicitly {@link Zko.ZkTransform.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrTransform
+         * @memberof Zko.ZkTransform
          * @static
-         * @param {Mrr.IMrTransform} message MrTransform message or plain object to encode
+         * @param {Zko.IZkTransform} message ZkTransform message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrTransform.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkTransform.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrTransform message from the specified reader or buffer.
+         * Decodes a ZkTransform message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrTransform
+         * @memberof Zko.ZkTransform
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrTransform} MrTransform
+         * @returns {Zko.ZkTransform} ZkTransform
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrTransform.decode = function decode(reader, length) {
+        ZkTransform.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrTransform();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkTransform();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
-                        message.location = $root.Mrr.MrVector3.decode(reader, reader.uint32());
+                        message.location = $root.Zko.ZkVector3.decode(reader, reader.uint32());
                         break;
                     }
                 case 2: {
-                        message.rotation = $root.Mrr.MrQuaternion.decode(reader, reader.uint32());
+                        message.rotation = $root.Zko.ZkQuaternion.decode(reader, reader.uint32());
                         break;
                     }
                 case 3: {
-                        message.scale = $root.Mrr.MrVector3.decode(reader, reader.uint32());
+                        message.scale = $root.Zko.ZkVector3.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -1301,44 +1301,44 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrTransform message from the specified reader or buffer, length delimited.
+         * Decodes a ZkTransform message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrTransform
+         * @memberof Zko.ZkTransform
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrTransform} MrTransform
+         * @returns {Zko.ZkTransform} ZkTransform
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrTransform.decodeDelimited = function decodeDelimited(reader) {
+        ZkTransform.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrTransform message.
+         * Verifies a ZkTransform message.
          * @function verify
-         * @memberof Mrr.MrTransform
+         * @memberof Zko.ZkTransform
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrTransform.verify = function verify(message) {
+        ZkTransform.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             {
-                let error = $root.Mrr.MrVector3.verify(message.location);
+                let error = $root.Zko.ZkVector3.verify(message.location);
                 if (error)
                     return "location." + error;
             }
             {
-                let error = $root.Mrr.MrQuaternion.verify(message.rotation);
+                let error = $root.Zko.ZkQuaternion.verify(message.rotation);
                 if (error)
                     return "rotation." + error;
             }
             {
-                let error = $root.Mrr.MrVector3.verify(message.scale);
+                let error = $root.Zko.ZkVector3.verify(message.scale);
                 if (error)
                     return "scale." + error;
             }
@@ -1346,45 +1346,45 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrTransform message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkTransform message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrTransform
+         * @memberof Zko.ZkTransform
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrTransform} MrTransform
+         * @returns {Zko.ZkTransform} ZkTransform
          */
-        MrTransform.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrTransform)
+        ZkTransform.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkTransform)
                 return object;
-            let message = new $root.Mrr.MrTransform();
+            let message = new $root.Zko.ZkTransform();
             if (object.location != null) {
                 if (typeof object.location !== "object")
-                    throw TypeError(".Mrr.MrTransform.location: object expected");
-                message.location = $root.Mrr.MrVector3.fromObject(object.location);
+                    throw TypeError(".Zko.ZkTransform.location: object expected");
+                message.location = $root.Zko.ZkVector3.fromObject(object.location);
             }
             if (object.rotation != null) {
                 if (typeof object.rotation !== "object")
-                    throw TypeError(".Mrr.MrTransform.rotation: object expected");
-                message.rotation = $root.Mrr.MrQuaternion.fromObject(object.rotation);
+                    throw TypeError(".Zko.ZkTransform.rotation: object expected");
+                message.rotation = $root.Zko.ZkQuaternion.fromObject(object.rotation);
             }
             if (object.scale != null) {
                 if (typeof object.scale !== "object")
-                    throw TypeError(".Mrr.MrTransform.scale: object expected");
-                message.scale = $root.Mrr.MrVector3.fromObject(object.scale);
+                    throw TypeError(".Zko.ZkTransform.scale: object expected");
+                message.scale = $root.Zko.ZkVector3.fromObject(object.scale);
             }
             return message;
         };
 
         /**
-         * Creates a plain object from a MrTransform message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkTransform message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrTransform
+         * @memberof Zko.ZkTransform
          * @static
-         * @param {Mrr.MrTransform} message MrTransform
+         * @param {Zko.ZkTransform} message ZkTransform
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrTransform.toObject = function toObject(message, options) {
+        ZkTransform.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -1394,63 +1394,63 @@ export const Mrr = $root.Mrr = (() => {
                 object.scale = null;
             }
             if (message.location != null && message.hasOwnProperty("location"))
-                object.location = $root.Mrr.MrVector3.toObject(message.location, options);
+                object.location = $root.Zko.ZkVector3.toObject(message.location, options);
             if (message.rotation != null && message.hasOwnProperty("rotation"))
-                object.rotation = $root.Mrr.MrQuaternion.toObject(message.rotation, options);
+                object.rotation = $root.Zko.ZkQuaternion.toObject(message.rotation, options);
             if (message.scale != null && message.hasOwnProperty("scale"))
-                object.scale = $root.Mrr.MrVector3.toObject(message.scale, options);
+                object.scale = $root.Zko.ZkVector3.toObject(message.scale, options);
             return object;
         };
 
         /**
-         * Converts this MrTransform to JSON.
+         * Converts this ZkTransform to JSON.
          * @function toJSON
-         * @memberof Mrr.MrTransform
+         * @memberof Zko.ZkTransform
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrTransform.prototype.toJSON = function toJSON() {
+        ZkTransform.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrTransform
+         * Gets the default type url for ZkTransform
          * @function getTypeUrl
-         * @memberof Mrr.MrTransform
+         * @memberof Zko.ZkTransform
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrTransform.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkTransform.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrTransform";
+            return typeUrlPrefix + "/Zko.ZkTransform";
         };
 
-        return MrTransform;
+        return ZkTransform;
     })();
 
-    Mrr.MrVector3 = (function() {
+    Zko.ZkVector3 = (function() {
 
         /**
-         * Properties of a MrVector3.
-         * @memberof Mrr
-         * @interface IMrVector3
-         * @property {number} x MrVector3 x
-         * @property {number} y MrVector3 y
-         * @property {number} z MrVector3 z
+         * Properties of a ZkVector3.
+         * @memberof Zko
+         * @interface IZkVector3
+         * @property {number} x ZkVector3 x
+         * @property {number} y ZkVector3 y
+         * @property {number} z ZkVector3 z
          */
 
         /**
-         * Constructs a new MrVector3.
-         * @memberof Mrr
-         * @classdesc Represents a MrVector3.
-         * @implements IMrVector3
+         * Constructs a new ZkVector3.
+         * @memberof Zko
+         * @classdesc Represents a ZkVector3.
+         * @implements IZkVector3
          * @constructor
-         * @param {Mrr.IMrVector3=} [properties] Properties to set
+         * @param {Zko.IZkVector3=} [properties] Properties to set
          */
-        function MrVector3(properties) {
+        function ZkVector3(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -1458,51 +1458,51 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrVector3 x.
+         * ZkVector3 x.
          * @member {number} x
-         * @memberof Mrr.MrVector3
+         * @memberof Zko.ZkVector3
          * @instance
          */
-        MrVector3.prototype.x = 0;
+        ZkVector3.prototype.x = 0;
 
         /**
-         * MrVector3 y.
+         * ZkVector3 y.
          * @member {number} y
-         * @memberof Mrr.MrVector3
+         * @memberof Zko.ZkVector3
          * @instance
          */
-        MrVector3.prototype.y = 0;
+        ZkVector3.prototype.y = 0;
 
         /**
-         * MrVector3 z.
+         * ZkVector3 z.
          * @member {number} z
-         * @memberof Mrr.MrVector3
+         * @memberof Zko.ZkVector3
          * @instance
          */
-        MrVector3.prototype.z = 0;
+        ZkVector3.prototype.z = 0;
 
         /**
-         * Creates a new MrVector3 instance using the specified properties.
+         * Creates a new ZkVector3 instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrVector3
+         * @memberof Zko.ZkVector3
          * @static
-         * @param {Mrr.IMrVector3=} [properties] Properties to set
-         * @returns {Mrr.MrVector3} MrVector3 instance
+         * @param {Zko.IZkVector3=} [properties] Properties to set
+         * @returns {Zko.ZkVector3} ZkVector3 instance
          */
-        MrVector3.create = function create(properties) {
-            return new MrVector3(properties);
+        ZkVector3.create = function create(properties) {
+            return new ZkVector3(properties);
         };
 
         /**
-         * Encodes the specified MrVector3 message. Does not implicitly {@link Mrr.MrVector3.verify|verify} messages.
+         * Encodes the specified ZkVector3 message. Does not implicitly {@link Zko.ZkVector3.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrVector3
+         * @memberof Zko.ZkVector3
          * @static
-         * @param {Mrr.IMrVector3} message MrVector3 message or plain object to encode
+         * @param {Zko.IZkVector3} message ZkVector3 message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrVector3.encode = function encode(message, writer) {
+        ZkVector3.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 5 =*/13).float(message.x);
@@ -1512,33 +1512,33 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Encodes the specified MrVector3 message, length delimited. Does not implicitly {@link Mrr.MrVector3.verify|verify} messages.
+         * Encodes the specified ZkVector3 message, length delimited. Does not implicitly {@link Zko.ZkVector3.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrVector3
+         * @memberof Zko.ZkVector3
          * @static
-         * @param {Mrr.IMrVector3} message MrVector3 message or plain object to encode
+         * @param {Zko.IZkVector3} message ZkVector3 message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrVector3.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkVector3.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrVector3 message from the specified reader or buffer.
+         * Decodes a ZkVector3 message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrVector3
+         * @memberof Zko.ZkVector3
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrVector3} MrVector3
+         * @returns {Zko.ZkVector3} ZkVector3
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrVector3.decode = function decode(reader, length) {
+        ZkVector3.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrVector3();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkVector3();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -1569,30 +1569,30 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrVector3 message from the specified reader or buffer, length delimited.
+         * Decodes a ZkVector3 message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrVector3
+         * @memberof Zko.ZkVector3
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrVector3} MrVector3
+         * @returns {Zko.ZkVector3} ZkVector3
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrVector3.decodeDelimited = function decodeDelimited(reader) {
+        ZkVector3.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrVector3 message.
+         * Verifies a ZkVector3 message.
          * @function verify
-         * @memberof Mrr.MrVector3
+         * @memberof Zko.ZkVector3
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrVector3.verify = function verify(message) {
+        ZkVector3.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (typeof message.x !== "number")
@@ -1605,17 +1605,17 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrVector3 message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkVector3 message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrVector3
+         * @memberof Zko.ZkVector3
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrVector3} MrVector3
+         * @returns {Zko.ZkVector3} ZkVector3
          */
-        MrVector3.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrVector3)
+        ZkVector3.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkVector3)
                 return object;
-            let message = new $root.Mrr.MrVector3();
+            let message = new $root.Zko.ZkVector3();
             if (object.x != null)
                 message.x = Number(object.x);
             if (object.y != null)
@@ -1626,15 +1626,15 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a plain object from a MrVector3 message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkVector3 message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrVector3
+         * @memberof Zko.ZkVector3
          * @static
-         * @param {Mrr.MrVector3} message MrVector3
+         * @param {Zko.ZkVector3} message ZkVector3
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrVector3.toObject = function toObject(message, options) {
+        ZkVector3.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -1653,55 +1653,55 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Converts this MrVector3 to JSON.
+         * Converts this ZkVector3 to JSON.
          * @function toJSON
-         * @memberof Mrr.MrVector3
+         * @memberof Zko.ZkVector3
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrVector3.prototype.toJSON = function toJSON() {
+        ZkVector3.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrVector3
+         * Gets the default type url for ZkVector3
          * @function getTypeUrl
-         * @memberof Mrr.MrVector3
+         * @memberof Zko.ZkVector3
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrVector3.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkVector3.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrVector3";
+            return typeUrlPrefix + "/Zko.ZkVector3";
         };
 
-        return MrVector3;
+        return ZkVector3;
     })();
 
-    Mrr.MrVector4 = (function() {
+    Zko.ZkVector4 = (function() {
 
         /**
-         * Properties of a MrVector4.
-         * @memberof Mrr
-         * @interface IMrVector4
-         * @property {number} x MrVector4 x
-         * @property {number} y MrVector4 y
-         * @property {number} z MrVector4 z
-         * @property {number} w MrVector4 w
+         * Properties of a ZkVector4.
+         * @memberof Zko
+         * @interface IZkVector4
+         * @property {number} x ZkVector4 x
+         * @property {number} y ZkVector4 y
+         * @property {number} z ZkVector4 z
+         * @property {number} w ZkVector4 w
          */
 
         /**
-         * Constructs a new MrVector4.
-         * @memberof Mrr
-         * @classdesc Represents a MrVector4.
-         * @implements IMrVector4
+         * Constructs a new ZkVector4.
+         * @memberof Zko
+         * @classdesc Represents a ZkVector4.
+         * @implements IZkVector4
          * @constructor
-         * @param {Mrr.IMrVector4=} [properties] Properties to set
+         * @param {Zko.IZkVector4=} [properties] Properties to set
          */
-        function MrVector4(properties) {
+        function ZkVector4(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -1709,59 +1709,59 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrVector4 x.
+         * ZkVector4 x.
          * @member {number} x
-         * @memberof Mrr.MrVector4
+         * @memberof Zko.ZkVector4
          * @instance
          */
-        MrVector4.prototype.x = 0;
+        ZkVector4.prototype.x = 0;
 
         /**
-         * MrVector4 y.
+         * ZkVector4 y.
          * @member {number} y
-         * @memberof Mrr.MrVector4
+         * @memberof Zko.ZkVector4
          * @instance
          */
-        MrVector4.prototype.y = 0;
+        ZkVector4.prototype.y = 0;
 
         /**
-         * MrVector4 z.
+         * ZkVector4 z.
          * @member {number} z
-         * @memberof Mrr.MrVector4
+         * @memberof Zko.ZkVector4
          * @instance
          */
-        MrVector4.prototype.z = 0;
+        ZkVector4.prototype.z = 0;
 
         /**
-         * MrVector4 w.
+         * ZkVector4 w.
          * @member {number} w
-         * @memberof Mrr.MrVector4
+         * @memberof Zko.ZkVector4
          * @instance
          */
-        MrVector4.prototype.w = 0;
+        ZkVector4.prototype.w = 0;
 
         /**
-         * Creates a new MrVector4 instance using the specified properties.
+         * Creates a new ZkVector4 instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrVector4
+         * @memberof Zko.ZkVector4
          * @static
-         * @param {Mrr.IMrVector4=} [properties] Properties to set
-         * @returns {Mrr.MrVector4} MrVector4 instance
+         * @param {Zko.IZkVector4=} [properties] Properties to set
+         * @returns {Zko.ZkVector4} ZkVector4 instance
          */
-        MrVector4.create = function create(properties) {
-            return new MrVector4(properties);
+        ZkVector4.create = function create(properties) {
+            return new ZkVector4(properties);
         };
 
         /**
-         * Encodes the specified MrVector4 message. Does not implicitly {@link Mrr.MrVector4.verify|verify} messages.
+         * Encodes the specified ZkVector4 message. Does not implicitly {@link Zko.ZkVector4.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrVector4
+         * @memberof Zko.ZkVector4
          * @static
-         * @param {Mrr.IMrVector4} message MrVector4 message or plain object to encode
+         * @param {Zko.IZkVector4} message ZkVector4 message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrVector4.encode = function encode(message, writer) {
+        ZkVector4.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 5 =*/13).float(message.x);
@@ -1772,33 +1772,33 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Encodes the specified MrVector4 message, length delimited. Does not implicitly {@link Mrr.MrVector4.verify|verify} messages.
+         * Encodes the specified ZkVector4 message, length delimited. Does not implicitly {@link Zko.ZkVector4.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrVector4
+         * @memberof Zko.ZkVector4
          * @static
-         * @param {Mrr.IMrVector4} message MrVector4 message or plain object to encode
+         * @param {Zko.IZkVector4} message ZkVector4 message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrVector4.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkVector4.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrVector4 message from the specified reader or buffer.
+         * Decodes a ZkVector4 message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrVector4
+         * @memberof Zko.ZkVector4
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrVector4} MrVector4
+         * @returns {Zko.ZkVector4} ZkVector4
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrVector4.decode = function decode(reader, length) {
+        ZkVector4.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrVector4();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkVector4();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -1835,30 +1835,30 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrVector4 message from the specified reader or buffer, length delimited.
+         * Decodes a ZkVector4 message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrVector4
+         * @memberof Zko.ZkVector4
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrVector4} MrVector4
+         * @returns {Zko.ZkVector4} ZkVector4
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrVector4.decodeDelimited = function decodeDelimited(reader) {
+        ZkVector4.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrVector4 message.
+         * Verifies a ZkVector4 message.
          * @function verify
-         * @memberof Mrr.MrVector4
+         * @memberof Zko.ZkVector4
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrVector4.verify = function verify(message) {
+        ZkVector4.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (typeof message.x !== "number")
@@ -1873,17 +1873,17 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrVector4 message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkVector4 message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrVector4
+         * @memberof Zko.ZkVector4
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrVector4} MrVector4
+         * @returns {Zko.ZkVector4} ZkVector4
          */
-        MrVector4.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrVector4)
+        ZkVector4.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkVector4)
                 return object;
-            let message = new $root.Mrr.MrVector4();
+            let message = new $root.Zko.ZkVector4();
             if (object.x != null)
                 message.x = Number(object.x);
             if (object.y != null)
@@ -1896,15 +1896,15 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a plain object from a MrVector4 message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkVector4 message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrVector4
+         * @memberof Zko.ZkVector4
          * @static
-         * @param {Mrr.MrVector4} message MrVector4
+         * @param {Zko.ZkVector4} message ZkVector4
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrVector4.toObject = function toObject(message, options) {
+        ZkVector4.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -1926,55 +1926,55 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Converts this MrVector4 to JSON.
+         * Converts this ZkVector4 to JSON.
          * @function toJSON
-         * @memberof Mrr.MrVector4
+         * @memberof Zko.ZkVector4
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrVector4.prototype.toJSON = function toJSON() {
+        ZkVector4.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrVector4
+         * Gets the default type url for ZkVector4
          * @function getTypeUrl
-         * @memberof Mrr.MrVector4
+         * @memberof Zko.ZkVector4
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrVector4.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkVector4.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrVector4";
+            return typeUrlPrefix + "/Zko.ZkVector4";
         };
 
-        return MrVector4;
+        return ZkVector4;
     })();
 
-    Mrr.MrQuaternion = (function() {
+    Zko.ZkQuaternion = (function() {
 
         /**
-         * Properties of a MrQuaternion.
-         * @memberof Mrr
-         * @interface IMrQuaternion
-         * @property {number} w MrQuaternion w
-         * @property {number} x MrQuaternion x
-         * @property {number} y MrQuaternion y
-         * @property {number} z MrQuaternion z
+         * Properties of a ZkQuaternion.
+         * @memberof Zko
+         * @interface IZkQuaternion
+         * @property {number} w ZkQuaternion w
+         * @property {number} x ZkQuaternion x
+         * @property {number} y ZkQuaternion y
+         * @property {number} z ZkQuaternion z
          */
 
         /**
-         * Constructs a new MrQuaternion.
-         * @memberof Mrr
-         * @classdesc Represents a MrQuaternion.
-         * @implements IMrQuaternion
+         * Constructs a new ZkQuaternion.
+         * @memberof Zko
+         * @classdesc Represents a ZkQuaternion.
+         * @implements IZkQuaternion
          * @constructor
-         * @param {Mrr.IMrQuaternion=} [properties] Properties to set
+         * @param {Zko.IZkQuaternion=} [properties] Properties to set
          */
-        function MrQuaternion(properties) {
+        function ZkQuaternion(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -1982,59 +1982,59 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrQuaternion w.
+         * ZkQuaternion w.
          * @member {number} w
-         * @memberof Mrr.MrQuaternion
+         * @memberof Zko.ZkQuaternion
          * @instance
          */
-        MrQuaternion.prototype.w = 0;
+        ZkQuaternion.prototype.w = 0;
 
         /**
-         * MrQuaternion x.
+         * ZkQuaternion x.
          * @member {number} x
-         * @memberof Mrr.MrQuaternion
+         * @memberof Zko.ZkQuaternion
          * @instance
          */
-        MrQuaternion.prototype.x = 0;
+        ZkQuaternion.prototype.x = 0;
 
         /**
-         * MrQuaternion y.
+         * ZkQuaternion y.
          * @member {number} y
-         * @memberof Mrr.MrQuaternion
+         * @memberof Zko.ZkQuaternion
          * @instance
          */
-        MrQuaternion.prototype.y = 0;
+        ZkQuaternion.prototype.y = 0;
 
         /**
-         * MrQuaternion z.
+         * ZkQuaternion z.
          * @member {number} z
-         * @memberof Mrr.MrQuaternion
+         * @memberof Zko.ZkQuaternion
          * @instance
          */
-        MrQuaternion.prototype.z = 0;
+        ZkQuaternion.prototype.z = 0;
 
         /**
-         * Creates a new MrQuaternion instance using the specified properties.
+         * Creates a new ZkQuaternion instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrQuaternion
+         * @memberof Zko.ZkQuaternion
          * @static
-         * @param {Mrr.IMrQuaternion=} [properties] Properties to set
-         * @returns {Mrr.MrQuaternion} MrQuaternion instance
+         * @param {Zko.IZkQuaternion=} [properties] Properties to set
+         * @returns {Zko.ZkQuaternion} ZkQuaternion instance
          */
-        MrQuaternion.create = function create(properties) {
-            return new MrQuaternion(properties);
+        ZkQuaternion.create = function create(properties) {
+            return new ZkQuaternion(properties);
         };
 
         /**
-         * Encodes the specified MrQuaternion message. Does not implicitly {@link Mrr.MrQuaternion.verify|verify} messages.
+         * Encodes the specified ZkQuaternion message. Does not implicitly {@link Zko.ZkQuaternion.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrQuaternion
+         * @memberof Zko.ZkQuaternion
          * @static
-         * @param {Mrr.IMrQuaternion} message MrQuaternion message or plain object to encode
+         * @param {Zko.IZkQuaternion} message ZkQuaternion message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrQuaternion.encode = function encode(message, writer) {
+        ZkQuaternion.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 5 =*/13).float(message.w);
@@ -2045,33 +2045,33 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Encodes the specified MrQuaternion message, length delimited. Does not implicitly {@link Mrr.MrQuaternion.verify|verify} messages.
+         * Encodes the specified ZkQuaternion message, length delimited. Does not implicitly {@link Zko.ZkQuaternion.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrQuaternion
+         * @memberof Zko.ZkQuaternion
          * @static
-         * @param {Mrr.IMrQuaternion} message MrQuaternion message or plain object to encode
+         * @param {Zko.IZkQuaternion} message ZkQuaternion message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrQuaternion.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkQuaternion.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrQuaternion message from the specified reader or buffer.
+         * Decodes a ZkQuaternion message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrQuaternion
+         * @memberof Zko.ZkQuaternion
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrQuaternion} MrQuaternion
+         * @returns {Zko.ZkQuaternion} ZkQuaternion
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrQuaternion.decode = function decode(reader, length) {
+        ZkQuaternion.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrQuaternion();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkQuaternion();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -2108,30 +2108,30 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrQuaternion message from the specified reader or buffer, length delimited.
+         * Decodes a ZkQuaternion message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrQuaternion
+         * @memberof Zko.ZkQuaternion
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrQuaternion} MrQuaternion
+         * @returns {Zko.ZkQuaternion} ZkQuaternion
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrQuaternion.decodeDelimited = function decodeDelimited(reader) {
+        ZkQuaternion.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrQuaternion message.
+         * Verifies a ZkQuaternion message.
          * @function verify
-         * @memberof Mrr.MrQuaternion
+         * @memberof Zko.ZkQuaternion
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrQuaternion.verify = function verify(message) {
+        ZkQuaternion.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (typeof message.w !== "number")
@@ -2146,17 +2146,17 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrQuaternion message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkQuaternion message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrQuaternion
+         * @memberof Zko.ZkQuaternion
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrQuaternion} MrQuaternion
+         * @returns {Zko.ZkQuaternion} ZkQuaternion
          */
-        MrQuaternion.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrQuaternion)
+        ZkQuaternion.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkQuaternion)
                 return object;
-            let message = new $root.Mrr.MrQuaternion();
+            let message = new $root.Zko.ZkQuaternion();
             if (object.w != null)
                 message.w = Number(object.w);
             if (object.x != null)
@@ -2169,15 +2169,15 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a plain object from a MrQuaternion message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkQuaternion message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrQuaternion
+         * @memberof Zko.ZkQuaternion
          * @static
-         * @param {Mrr.MrQuaternion} message MrQuaternion
+         * @param {Zko.ZkQuaternion} message ZkQuaternion
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrQuaternion.toObject = function toObject(message, options) {
+        ZkQuaternion.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -2199,56 +2199,56 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Converts this MrQuaternion to JSON.
+         * Converts this ZkQuaternion to JSON.
          * @function toJSON
-         * @memberof Mrr.MrQuaternion
+         * @memberof Zko.ZkQuaternion
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrQuaternion.prototype.toJSON = function toJSON() {
+        ZkQuaternion.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrQuaternion
+         * Gets the default type url for ZkQuaternion
          * @function getTypeUrl
-         * @memberof Mrr.MrQuaternion
+         * @memberof Zko.ZkQuaternion
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrQuaternion.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkQuaternion.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrQuaternion";
+            return typeUrlPrefix + "/Zko.ZkQuaternion";
         };
 
-        return MrQuaternion;
+        return ZkQuaternion;
     })();
 
-    Mrr.MrModel = (function() {
+    Zko.ZkModel = (function() {
 
         /**
-         * Properties of a MrModel.
-         * @memberof Mrr
-         * @interface IMrModel
-         * @property {string} id MrModel id
-         * @property {string} name MrModel name
-         * @property {Mrr.IMrTransform} transform MrModel transform
-         * @property {Mrr.IMrShaderProgram} shaderProgram MrModel shaderProgram
-         * @property {Mrr.IMrMesh} mesh MrModel mesh
+         * Properties of a ZkModel.
+         * @memberof Zko
+         * @interface IZkModel
+         * @property {string} id ZkModel id
+         * @property {string} name ZkModel name
+         * @property {Zko.IZkTransform} transform ZkModel transform
+         * @property {Zko.IZkShaderProgram} shaderProgram ZkModel shaderProgram
+         * @property {Zko.IZkMesh} mesh ZkModel mesh
          */
 
         /**
-         * Constructs a new MrModel.
-         * @memberof Mrr
-         * @classdesc Represents a MrModel.
-         * @implements IMrModel
+         * Constructs a new ZkModel.
+         * @memberof Zko
+         * @classdesc Represents a ZkModel.
+         * @implements IZkModel
          * @constructor
-         * @param {Mrr.IMrModel=} [properties] Properties to set
+         * @param {Zko.IZkModel=} [properties] Properties to set
          */
-        function MrModel(properties) {
+        function ZkModel(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -2256,105 +2256,105 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrModel id.
+         * ZkModel id.
          * @member {string} id
-         * @memberof Mrr.MrModel
+         * @memberof Zko.ZkModel
          * @instance
          */
-        MrModel.prototype.id = "";
+        ZkModel.prototype.id = "";
 
         /**
-         * MrModel name.
+         * ZkModel name.
          * @member {string} name
-         * @memberof Mrr.MrModel
+         * @memberof Zko.ZkModel
          * @instance
          */
-        MrModel.prototype.name = "";
+        ZkModel.prototype.name = "";
 
         /**
-         * MrModel transform.
-         * @member {Mrr.IMrTransform} transform
-         * @memberof Mrr.MrModel
+         * ZkModel transform.
+         * @member {Zko.IZkTransform} transform
+         * @memberof Zko.ZkModel
          * @instance
          */
-        MrModel.prototype.transform = null;
+        ZkModel.prototype.transform = null;
 
         /**
-         * MrModel shaderProgram.
-         * @member {Mrr.IMrShaderProgram} shaderProgram
-         * @memberof Mrr.MrModel
+         * ZkModel shaderProgram.
+         * @member {Zko.IZkShaderProgram} shaderProgram
+         * @memberof Zko.ZkModel
          * @instance
          */
-        MrModel.prototype.shaderProgram = null;
+        ZkModel.prototype.shaderProgram = null;
 
         /**
-         * MrModel mesh.
-         * @member {Mrr.IMrMesh} mesh
-         * @memberof Mrr.MrModel
+         * ZkModel mesh.
+         * @member {Zko.IZkMesh} mesh
+         * @memberof Zko.ZkModel
          * @instance
          */
-        MrModel.prototype.mesh = null;
+        ZkModel.prototype.mesh = null;
 
         /**
-         * Creates a new MrModel instance using the specified properties.
+         * Creates a new ZkModel instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrModel
+         * @memberof Zko.ZkModel
          * @static
-         * @param {Mrr.IMrModel=} [properties] Properties to set
-         * @returns {Mrr.MrModel} MrModel instance
+         * @param {Zko.IZkModel=} [properties] Properties to set
+         * @returns {Zko.ZkModel} ZkModel instance
          */
-        MrModel.create = function create(properties) {
-            return new MrModel(properties);
+        ZkModel.create = function create(properties) {
+            return new ZkModel(properties);
         };
 
         /**
-         * Encodes the specified MrModel message. Does not implicitly {@link Mrr.MrModel.verify|verify} messages.
+         * Encodes the specified ZkModel message. Does not implicitly {@link Zko.ZkModel.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrModel
+         * @memberof Zko.ZkModel
          * @static
-         * @param {Mrr.IMrModel} message MrModel message or plain object to encode
+         * @param {Zko.IZkModel} message ZkModel message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrModel.encode = function encode(message, writer) {
+        ZkModel.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
-            $root.Mrr.MrTransform.encode(message.transform, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-            $root.Mrr.MrShaderProgram.encode(message.shaderProgram, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-            $root.Mrr.MrMesh.encode(message.mesh, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+            $root.Zko.ZkTransform.encode(message.transform, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            $root.Zko.ZkShaderProgram.encode(message.shaderProgram, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+            $root.Zko.ZkMesh.encode(message.mesh, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
             return writer;
         };
 
         /**
-         * Encodes the specified MrModel message, length delimited. Does not implicitly {@link Mrr.MrModel.verify|verify} messages.
+         * Encodes the specified ZkModel message, length delimited. Does not implicitly {@link Zko.ZkModel.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrModel
+         * @memberof Zko.ZkModel
          * @static
-         * @param {Mrr.IMrModel} message MrModel message or plain object to encode
+         * @param {Zko.IZkModel} message ZkModel message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrModel.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkModel.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrModel message from the specified reader or buffer.
+         * Decodes a ZkModel message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrModel
+         * @memberof Zko.ZkModel
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrModel} MrModel
+         * @returns {Zko.ZkModel} ZkModel
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrModel.decode = function decode(reader, length) {
+        ZkModel.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrModel();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkModel();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -2367,15 +2367,15 @@ export const Mrr = $root.Mrr = (() => {
                         break;
                     }
                 case 3: {
-                        message.transform = $root.Mrr.MrTransform.decode(reader, reader.uint32());
+                        message.transform = $root.Zko.ZkTransform.decode(reader, reader.uint32());
                         break;
                     }
                 case 4: {
-                        message.shaderProgram = $root.Mrr.MrShaderProgram.decode(reader, reader.uint32());
+                        message.shaderProgram = $root.Zko.ZkShaderProgram.decode(reader, reader.uint32());
                         break;
                     }
                 case 5: {
-                        message.mesh = $root.Mrr.MrMesh.decode(reader, reader.uint32());
+                        message.mesh = $root.Zko.ZkMesh.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -2397,30 +2397,30 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrModel message from the specified reader or buffer, length delimited.
+         * Decodes a ZkModel message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrModel
+         * @memberof Zko.ZkModel
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrModel} MrModel
+         * @returns {Zko.ZkModel} ZkModel
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrModel.decodeDelimited = function decodeDelimited(reader) {
+        ZkModel.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrModel message.
+         * Verifies a ZkModel message.
          * @function verify
-         * @memberof Mrr.MrModel
+         * @memberof Zko.ZkModel
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrModel.verify = function verify(message) {
+        ZkModel.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (!$util.isString(message.id))
@@ -2428,17 +2428,17 @@ export const Mrr = $root.Mrr = (() => {
             if (!$util.isString(message.name))
                 return "name: string expected";
             {
-                let error = $root.Mrr.MrTransform.verify(message.transform);
+                let error = $root.Zko.ZkTransform.verify(message.transform);
                 if (error)
                     return "transform." + error;
             }
             {
-                let error = $root.Mrr.MrShaderProgram.verify(message.shaderProgram);
+                let error = $root.Zko.ZkShaderProgram.verify(message.shaderProgram);
                 if (error)
                     return "shaderProgram." + error;
             }
             {
-                let error = $root.Mrr.MrMesh.verify(message.mesh);
+                let error = $root.Zko.ZkMesh.verify(message.mesh);
                 if (error)
                     return "mesh." + error;
             }
@@ -2446,49 +2446,49 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrModel message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkModel message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrModel
+         * @memberof Zko.ZkModel
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrModel} MrModel
+         * @returns {Zko.ZkModel} ZkModel
          */
-        MrModel.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrModel)
+        ZkModel.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkModel)
                 return object;
-            let message = new $root.Mrr.MrModel();
+            let message = new $root.Zko.ZkModel();
             if (object.id != null)
                 message.id = String(object.id);
             if (object.name != null)
                 message.name = String(object.name);
             if (object.transform != null) {
                 if (typeof object.transform !== "object")
-                    throw TypeError(".Mrr.MrModel.transform: object expected");
-                message.transform = $root.Mrr.MrTransform.fromObject(object.transform);
+                    throw TypeError(".Zko.ZkModel.transform: object expected");
+                message.transform = $root.Zko.ZkTransform.fromObject(object.transform);
             }
             if (object.shaderProgram != null) {
                 if (typeof object.shaderProgram !== "object")
-                    throw TypeError(".Mrr.MrModel.shaderProgram: object expected");
-                message.shaderProgram = $root.Mrr.MrShaderProgram.fromObject(object.shaderProgram);
+                    throw TypeError(".Zko.ZkModel.shaderProgram: object expected");
+                message.shaderProgram = $root.Zko.ZkShaderProgram.fromObject(object.shaderProgram);
             }
             if (object.mesh != null) {
                 if (typeof object.mesh !== "object")
-                    throw TypeError(".Mrr.MrModel.mesh: object expected");
-                message.mesh = $root.Mrr.MrMesh.fromObject(object.mesh);
+                    throw TypeError(".Zko.ZkModel.mesh: object expected");
+                message.mesh = $root.Zko.ZkMesh.fromObject(object.mesh);
             }
             return message;
         };
 
         /**
-         * Creates a plain object from a MrModel message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkModel message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrModel
+         * @memberof Zko.ZkModel
          * @static
-         * @param {Mrr.MrModel} message MrModel
+         * @param {Zko.ZkModel} message ZkModel
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrModel.toObject = function toObject(message, options) {
+        ZkModel.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -2504,63 +2504,63 @@ export const Mrr = $root.Mrr = (() => {
             if (message.name != null && message.hasOwnProperty("name"))
                 object.name = message.name;
             if (message.transform != null && message.hasOwnProperty("transform"))
-                object.transform = $root.Mrr.MrTransform.toObject(message.transform, options);
+                object.transform = $root.Zko.ZkTransform.toObject(message.transform, options);
             if (message.shaderProgram != null && message.hasOwnProperty("shaderProgram"))
-                object.shaderProgram = $root.Mrr.MrShaderProgram.toObject(message.shaderProgram, options);
+                object.shaderProgram = $root.Zko.ZkShaderProgram.toObject(message.shaderProgram, options);
             if (message.mesh != null && message.hasOwnProperty("mesh"))
-                object.mesh = $root.Mrr.MrMesh.toObject(message.mesh, options);
+                object.mesh = $root.Zko.ZkMesh.toObject(message.mesh, options);
             return object;
         };
 
         /**
-         * Converts this MrModel to JSON.
+         * Converts this ZkModel to JSON.
          * @function toJSON
-         * @memberof Mrr.MrModel
+         * @memberof Zko.ZkModel
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrModel.prototype.toJSON = function toJSON() {
+        ZkModel.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrModel
+         * Gets the default type url for ZkModel
          * @function getTypeUrl
-         * @memberof Mrr.MrModel
+         * @memberof Zko.ZkModel
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrModel.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkModel.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrModel";
+            return typeUrlPrefix + "/Zko.ZkModel";
         };
 
-        return MrModel;
+        return ZkModel;
     })();
 
-    Mrr.MrMesh = (function() {
+    Zko.ZkMesh = (function() {
 
         /**
-         * Properties of a MrMesh.
-         * @memberof Mrr
-         * @interface IMrMesh
-         * @property {Object.<string,Mrr.IMrAttributeKey>|null} [attributeKeys] MrMesh attributeKeys
-         * @property {Mrr.IMrIndexBuffer} indices MrMesh indices
-         * @property {Object.<string,Mrr.IMrVertexBuffer>|null} [vertices] MrMesh vertices
+         * Properties of a ZkMesh.
+         * @memberof Zko
+         * @interface IZkMesh
+         * @property {Object.<string,Zko.IZkAttributeKey>|null} [attributeKeys] ZkMesh attributeKeys
+         * @property {Zko.IZkIndexBuffer} indices ZkMesh indices
+         * @property {Object.<string,Zko.IZkVertexBuffer>|null} [vertices] ZkMesh vertices
          */
 
         /**
-         * Constructs a new MrMesh.
-         * @memberof Mrr
-         * @classdesc Represents a MrMesh.
-         * @implements IMrMesh
+         * Constructs a new ZkMesh.
+         * @memberof Zko
+         * @classdesc Represents a ZkMesh.
+         * @implements IZkMesh
          * @constructor
-         * @param {Mrr.IMrMesh=} [properties] Properties to set
+         * @param {Zko.IZkMesh=} [properties] Properties to set
          */
-        function MrMesh(properties) {
+        function ZkMesh(properties) {
             this.attributeKeys = {};
             this.vertices = {};
             if (properties)
@@ -2570,95 +2570,95 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrMesh attributeKeys.
-         * @member {Object.<string,Mrr.IMrAttributeKey>} attributeKeys
-         * @memberof Mrr.MrMesh
+         * ZkMesh attributeKeys.
+         * @member {Object.<string,Zko.IZkAttributeKey>} attributeKeys
+         * @memberof Zko.ZkMesh
          * @instance
          */
-        MrMesh.prototype.attributeKeys = $util.emptyObject;
+        ZkMesh.prototype.attributeKeys = $util.emptyObject;
 
         /**
-         * MrMesh indices.
-         * @member {Mrr.IMrIndexBuffer} indices
-         * @memberof Mrr.MrMesh
+         * ZkMesh indices.
+         * @member {Zko.IZkIndexBuffer} indices
+         * @memberof Zko.ZkMesh
          * @instance
          */
-        MrMesh.prototype.indices = null;
+        ZkMesh.prototype.indices = null;
 
         /**
-         * MrMesh vertices.
-         * @member {Object.<string,Mrr.IMrVertexBuffer>} vertices
-         * @memberof Mrr.MrMesh
+         * ZkMesh vertices.
+         * @member {Object.<string,Zko.IZkVertexBuffer>} vertices
+         * @memberof Zko.ZkMesh
          * @instance
          */
-        MrMesh.prototype.vertices = $util.emptyObject;
+        ZkMesh.prototype.vertices = $util.emptyObject;
 
         /**
-         * Creates a new MrMesh instance using the specified properties.
+         * Creates a new ZkMesh instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrMesh
+         * @memberof Zko.ZkMesh
          * @static
-         * @param {Mrr.IMrMesh=} [properties] Properties to set
-         * @returns {Mrr.MrMesh} MrMesh instance
+         * @param {Zko.IZkMesh=} [properties] Properties to set
+         * @returns {Zko.ZkMesh} ZkMesh instance
          */
-        MrMesh.create = function create(properties) {
-            return new MrMesh(properties);
+        ZkMesh.create = function create(properties) {
+            return new ZkMesh(properties);
         };
 
         /**
-         * Encodes the specified MrMesh message. Does not implicitly {@link Mrr.MrMesh.verify|verify} messages.
+         * Encodes the specified ZkMesh message. Does not implicitly {@link Zko.ZkMesh.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrMesh
+         * @memberof Zko.ZkMesh
          * @static
-         * @param {Mrr.IMrMesh} message MrMesh message or plain object to encode
+         * @param {Zko.IZkMesh} message ZkMesh message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrMesh.encode = function encode(message, writer) {
+        ZkMesh.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             if (message.attributeKeys != null && Object.hasOwnProperty.call(message, "attributeKeys"))
                 for (let keys = Object.keys(message.attributeKeys), i = 0; i < keys.length; ++i) {
                     writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
-                    $root.Mrr.MrAttributeKey.encode(message.attributeKeys[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    $root.Zko.ZkAttributeKey.encode(message.attributeKeys[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
                 }
-            $root.Mrr.MrIndexBuffer.encode(message.indices, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            $root.Zko.ZkIndexBuffer.encode(message.indices, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
             if (message.vertices != null && Object.hasOwnProperty.call(message, "vertices"))
                 for (let keys = Object.keys(message.vertices), i = 0; i < keys.length; ++i) {
                     writer.uint32(/* id 3, wireType 2 =*/26).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
-                    $root.Mrr.MrVertexBuffer.encode(message.vertices[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    $root.Zko.ZkVertexBuffer.encode(message.vertices[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
                 }
             return writer;
         };
 
         /**
-         * Encodes the specified MrMesh message, length delimited. Does not implicitly {@link Mrr.MrMesh.verify|verify} messages.
+         * Encodes the specified ZkMesh message, length delimited. Does not implicitly {@link Zko.ZkMesh.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrMesh
+         * @memberof Zko.ZkMesh
          * @static
-         * @param {Mrr.IMrMesh} message MrMesh message or plain object to encode
+         * @param {Zko.IZkMesh} message ZkMesh message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrMesh.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkMesh.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrMesh message from the specified reader or buffer.
+         * Decodes a ZkMesh message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrMesh
+         * @memberof Zko.ZkMesh
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrMesh} MrMesh
+         * @returns {Zko.ZkMesh} ZkMesh
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrMesh.decode = function decode(reader, length) {
+        ZkMesh.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrMesh(), key, value;
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkMesh(), key, value;
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -2675,7 +2675,7 @@ export const Mrr = $root.Mrr = (() => {
                                 key = reader.string();
                                 break;
                             case 2:
-                                value = $root.Mrr.MrAttributeKey.decode(reader, reader.uint32());
+                                value = $root.Zko.ZkAttributeKey.decode(reader, reader.uint32());
                                 break;
                             default:
                                 reader.skipType(tag2 & 7);
@@ -2686,7 +2686,7 @@ export const Mrr = $root.Mrr = (() => {
                         break;
                     }
                 case 2: {
-                        message.indices = $root.Mrr.MrIndexBuffer.decode(reader, reader.uint32());
+                        message.indices = $root.Zko.ZkIndexBuffer.decode(reader, reader.uint32());
                         break;
                     }
                 case 3: {
@@ -2702,7 +2702,7 @@ export const Mrr = $root.Mrr = (() => {
                                 key = reader.string();
                                 break;
                             case 2:
-                                value = $root.Mrr.MrVertexBuffer.decode(reader, reader.uint32());
+                                value = $root.Zko.ZkVertexBuffer.decode(reader, reader.uint32());
                                 break;
                             default:
                                 reader.skipType(tag2 & 7);
@@ -2723,30 +2723,30 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrMesh message from the specified reader or buffer, length delimited.
+         * Decodes a ZkMesh message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrMesh
+         * @memberof Zko.ZkMesh
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrMesh} MrMesh
+         * @returns {Zko.ZkMesh} ZkMesh
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrMesh.decodeDelimited = function decodeDelimited(reader) {
+        ZkMesh.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrMesh message.
+         * Verifies a ZkMesh message.
          * @function verify
-         * @memberof Mrr.MrMesh
+         * @memberof Zko.ZkMesh
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrMesh.verify = function verify(message) {
+        ZkMesh.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (message.attributeKeys != null && message.hasOwnProperty("attributeKeys")) {
@@ -2754,13 +2754,13 @@ export const Mrr = $root.Mrr = (() => {
                     return "attributeKeys: object expected";
                 let key = Object.keys(message.attributeKeys);
                 for (let i = 0; i < key.length; ++i) {
-                    let error = $root.Mrr.MrAttributeKey.verify(message.attributeKeys[key[i]]);
+                    let error = $root.Zko.ZkAttributeKey.verify(message.attributeKeys[key[i]]);
                     if (error)
                         return "attributeKeys." + error;
                 }
             }
             {
-                let error = $root.Mrr.MrIndexBuffer.verify(message.indices);
+                let error = $root.Zko.ZkIndexBuffer.verify(message.indices);
                 if (error)
                     return "indices." + error;
             }
@@ -2769,7 +2769,7 @@ export const Mrr = $root.Mrr = (() => {
                     return "vertices: object expected";
                 let key = Object.keys(message.vertices);
                 for (let i = 0; i < key.length; ++i) {
-                    let error = $root.Mrr.MrVertexBuffer.verify(message.vertices[key[i]]);
+                    let error = $root.Zko.ZkVertexBuffer.verify(message.vertices[key[i]]);
                     if (error)
                         return "vertices." + error;
                 }
@@ -2778,55 +2778,55 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrMesh message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkMesh message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrMesh
+         * @memberof Zko.ZkMesh
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrMesh} MrMesh
+         * @returns {Zko.ZkMesh} ZkMesh
          */
-        MrMesh.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrMesh)
+        ZkMesh.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkMesh)
                 return object;
-            let message = new $root.Mrr.MrMesh();
+            let message = new $root.Zko.ZkMesh();
             if (object.attributeKeys) {
                 if (typeof object.attributeKeys !== "object")
-                    throw TypeError(".Mrr.MrMesh.attributeKeys: object expected");
+                    throw TypeError(".Zko.ZkMesh.attributeKeys: object expected");
                 message.attributeKeys = {};
                 for (let keys = Object.keys(object.attributeKeys), i = 0; i < keys.length; ++i) {
                     if (typeof object.attributeKeys[keys[i]] !== "object")
-                        throw TypeError(".Mrr.MrMesh.attributeKeys: object expected");
-                    message.attributeKeys[keys[i]] = $root.Mrr.MrAttributeKey.fromObject(object.attributeKeys[keys[i]]);
+                        throw TypeError(".Zko.ZkMesh.attributeKeys: object expected");
+                    message.attributeKeys[keys[i]] = $root.Zko.ZkAttributeKey.fromObject(object.attributeKeys[keys[i]]);
                 }
             }
             if (object.indices != null) {
                 if (typeof object.indices !== "object")
-                    throw TypeError(".Mrr.MrMesh.indices: object expected");
-                message.indices = $root.Mrr.MrIndexBuffer.fromObject(object.indices);
+                    throw TypeError(".Zko.ZkMesh.indices: object expected");
+                message.indices = $root.Zko.ZkIndexBuffer.fromObject(object.indices);
             }
             if (object.vertices) {
                 if (typeof object.vertices !== "object")
-                    throw TypeError(".Mrr.MrMesh.vertices: object expected");
+                    throw TypeError(".Zko.ZkMesh.vertices: object expected");
                 message.vertices = {};
                 for (let keys = Object.keys(object.vertices), i = 0; i < keys.length; ++i) {
                     if (typeof object.vertices[keys[i]] !== "object")
-                        throw TypeError(".Mrr.MrMesh.vertices: object expected");
-                    message.vertices[keys[i]] = $root.Mrr.MrVertexBuffer.fromObject(object.vertices[keys[i]]);
+                        throw TypeError(".Zko.ZkMesh.vertices: object expected");
+                    message.vertices[keys[i]] = $root.Zko.ZkVertexBuffer.fromObject(object.vertices[keys[i]]);
                 }
             }
             return message;
         };
 
         /**
-         * Creates a plain object from a MrMesh message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkMesh message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrMesh
+         * @memberof Zko.ZkMesh
          * @static
-         * @param {Mrr.MrMesh} message MrMesh
+         * @param {Zko.ZkMesh} message ZkMesh
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrMesh.toObject = function toObject(message, options) {
+        ZkMesh.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -2840,70 +2840,70 @@ export const Mrr = $root.Mrr = (() => {
             if (message.attributeKeys && (keys2 = Object.keys(message.attributeKeys)).length) {
                 object.attributeKeys = {};
                 for (let j = 0; j < keys2.length; ++j)
-                    object.attributeKeys[keys2[j]] = $root.Mrr.MrAttributeKey.toObject(message.attributeKeys[keys2[j]], options);
+                    object.attributeKeys[keys2[j]] = $root.Zko.ZkAttributeKey.toObject(message.attributeKeys[keys2[j]], options);
             }
             if (message.indices != null && message.hasOwnProperty("indices"))
-                object.indices = $root.Mrr.MrIndexBuffer.toObject(message.indices, options);
+                object.indices = $root.Zko.ZkIndexBuffer.toObject(message.indices, options);
             if (message.vertices && (keys2 = Object.keys(message.vertices)).length) {
                 object.vertices = {};
                 for (let j = 0; j < keys2.length; ++j)
-                    object.vertices[keys2[j]] = $root.Mrr.MrVertexBuffer.toObject(message.vertices[keys2[j]], options);
+                    object.vertices[keys2[j]] = $root.Zko.ZkVertexBuffer.toObject(message.vertices[keys2[j]], options);
             }
             return object;
         };
 
         /**
-         * Converts this MrMesh to JSON.
+         * Converts this ZkMesh to JSON.
          * @function toJSON
-         * @memberof Mrr.MrMesh
+         * @memberof Zko.ZkMesh
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrMesh.prototype.toJSON = function toJSON() {
+        ZkMesh.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrMesh
+         * Gets the default type url for ZkMesh
          * @function getTypeUrl
-         * @memberof Mrr.MrMesh
+         * @memberof Zko.ZkMesh
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrMesh.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkMesh.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrMesh";
+            return typeUrlPrefix + "/Zko.ZkMesh";
         };
 
-        return MrMesh;
+        return ZkMesh;
     })();
 
-    Mrr.MrAttributeKey = (function() {
+    Zko.ZkAttributeKey = (function() {
 
         /**
-         * Properties of a MrAttributeKey.
-         * @memberof Mrr
-         * @interface IMrAttributeKey
-         * @property {number} index MrAttributeKey index
-         * @property {number} size MrAttributeKey size
-         * @property {number} count MrAttributeKey count
-         * @property {boolean} normalized MrAttributeKey normalized
-         * @property {number} offset MrAttributeKey offset
-         * @property {number} stride MrAttributeKey stride
+         * Properties of a ZkAttributeKey.
+         * @memberof Zko
+         * @interface IZkAttributeKey
+         * @property {number} index ZkAttributeKey index
+         * @property {number} size ZkAttributeKey size
+         * @property {number} count ZkAttributeKey count
+         * @property {boolean} normalized ZkAttributeKey normalized
+         * @property {number} offset ZkAttributeKey offset
+         * @property {number} stride ZkAttributeKey stride
          */
 
         /**
-         * Constructs a new MrAttributeKey.
-         * @memberof Mrr
-         * @classdesc Represents a MrAttributeKey.
-         * @implements IMrAttributeKey
+         * Constructs a new ZkAttributeKey.
+         * @memberof Zko
+         * @classdesc Represents a ZkAttributeKey.
+         * @implements IZkAttributeKey
          * @constructor
-         * @param {Mrr.IMrAttributeKey=} [properties] Properties to set
+         * @param {Zko.IZkAttributeKey=} [properties] Properties to set
          */
-        function MrAttributeKey(properties) {
+        function ZkAttributeKey(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -2911,75 +2911,75 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrAttributeKey index.
+         * ZkAttributeKey index.
          * @member {number} index
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @instance
          */
-        MrAttributeKey.prototype.index = 0;
+        ZkAttributeKey.prototype.index = 0;
 
         /**
-         * MrAttributeKey size.
+         * ZkAttributeKey size.
          * @member {number} size
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @instance
          */
-        MrAttributeKey.prototype.size = 0;
+        ZkAttributeKey.prototype.size = 0;
 
         /**
-         * MrAttributeKey count.
+         * ZkAttributeKey count.
          * @member {number} count
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @instance
          */
-        MrAttributeKey.prototype.count = 0;
+        ZkAttributeKey.prototype.count = 0;
 
         /**
-         * MrAttributeKey normalized.
+         * ZkAttributeKey normalized.
          * @member {boolean} normalized
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @instance
          */
-        MrAttributeKey.prototype.normalized = false;
+        ZkAttributeKey.prototype.normalized = false;
 
         /**
-         * MrAttributeKey offset.
+         * ZkAttributeKey offset.
          * @member {number} offset
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @instance
          */
-        MrAttributeKey.prototype.offset = 0;
+        ZkAttributeKey.prototype.offset = 0;
 
         /**
-         * MrAttributeKey stride.
+         * ZkAttributeKey stride.
          * @member {number} stride
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @instance
          */
-        MrAttributeKey.prototype.stride = 0;
+        ZkAttributeKey.prototype.stride = 0;
 
         /**
-         * Creates a new MrAttributeKey instance using the specified properties.
+         * Creates a new ZkAttributeKey instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @static
-         * @param {Mrr.IMrAttributeKey=} [properties] Properties to set
-         * @returns {Mrr.MrAttributeKey} MrAttributeKey instance
+         * @param {Zko.IZkAttributeKey=} [properties] Properties to set
+         * @returns {Zko.ZkAttributeKey} ZkAttributeKey instance
          */
-        MrAttributeKey.create = function create(properties) {
-            return new MrAttributeKey(properties);
+        ZkAttributeKey.create = function create(properties) {
+            return new ZkAttributeKey(properties);
         };
 
         /**
-         * Encodes the specified MrAttributeKey message. Does not implicitly {@link Mrr.MrAttributeKey.verify|verify} messages.
+         * Encodes the specified ZkAttributeKey message. Does not implicitly {@link Zko.ZkAttributeKey.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @static
-         * @param {Mrr.IMrAttributeKey} message MrAttributeKey message or plain object to encode
+         * @param {Zko.IZkAttributeKey} message ZkAttributeKey message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrAttributeKey.encode = function encode(message, writer) {
+        ZkAttributeKey.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.index);
@@ -2992,33 +2992,33 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Encodes the specified MrAttributeKey message, length delimited. Does not implicitly {@link Mrr.MrAttributeKey.verify|verify} messages.
+         * Encodes the specified ZkAttributeKey message, length delimited. Does not implicitly {@link Zko.ZkAttributeKey.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @static
-         * @param {Mrr.IMrAttributeKey} message MrAttributeKey message or plain object to encode
+         * @param {Zko.IZkAttributeKey} message ZkAttributeKey message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrAttributeKey.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkAttributeKey.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrAttributeKey message from the specified reader or buffer.
+         * Decodes a ZkAttributeKey message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrAttributeKey} MrAttributeKey
+         * @returns {Zko.ZkAttributeKey} ZkAttributeKey
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrAttributeKey.decode = function decode(reader, length) {
+        ZkAttributeKey.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrAttributeKey();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkAttributeKey();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -3067,30 +3067,30 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrAttributeKey message from the specified reader or buffer, length delimited.
+         * Decodes a ZkAttributeKey message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrAttributeKey} MrAttributeKey
+         * @returns {Zko.ZkAttributeKey} ZkAttributeKey
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrAttributeKey.decodeDelimited = function decodeDelimited(reader) {
+        ZkAttributeKey.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrAttributeKey message.
+         * Verifies a ZkAttributeKey message.
          * @function verify
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrAttributeKey.verify = function verify(message) {
+        ZkAttributeKey.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (!$util.isInteger(message.index))
@@ -3109,17 +3109,17 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrAttributeKey message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkAttributeKey message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrAttributeKey} MrAttributeKey
+         * @returns {Zko.ZkAttributeKey} ZkAttributeKey
          */
-        MrAttributeKey.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrAttributeKey)
+        ZkAttributeKey.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkAttributeKey)
                 return object;
-            let message = new $root.Mrr.MrAttributeKey();
+            let message = new $root.Zko.ZkAttributeKey();
             if (object.index != null)
                 message.index = object.index >>> 0;
             if (object.size != null)
@@ -3136,15 +3136,15 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a plain object from a MrAttributeKey message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkAttributeKey message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @static
-         * @param {Mrr.MrAttributeKey} message MrAttributeKey
+         * @param {Zko.ZkAttributeKey} message ZkAttributeKey
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrAttributeKey.toObject = function toObject(message, options) {
+        ZkAttributeKey.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -3172,42 +3172,42 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Converts this MrAttributeKey to JSON.
+         * Converts this ZkAttributeKey to JSON.
          * @function toJSON
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrAttributeKey.prototype.toJSON = function toJSON() {
+        ZkAttributeKey.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrAttributeKey
+         * Gets the default type url for ZkAttributeKey
          * @function getTypeUrl
-         * @memberof Mrr.MrAttributeKey
+         * @memberof Zko.ZkAttributeKey
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrAttributeKey.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkAttributeKey.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrAttributeKey";
+            return typeUrlPrefix + "/Zko.ZkAttributeKey";
         };
 
-        return MrAttributeKey;
+        return ZkAttributeKey;
     })();
 
     /**
      * BufferTargetType enum.
-     * @name Mrr.BufferTargetType
+     * @name Zko.BufferTargetType
      * @enum {number}
      * @property {number} ARRAY_BUFFER=0 ARRAY_BUFFER value
      * @property {number} ELEMENT_ARRAY_BUFFER=1 ELEMENT_ARRAY_BUFFER value
      */
-    Mrr.BufferTargetType = (function() {
+    Zko.BufferTargetType = (function() {
         const valuesById = {}, values = Object.create(valuesById);
         values[valuesById[0] = "ARRAY_BUFFER"] = 0;
         values[valuesById[1] = "ELEMENT_ARRAY_BUFFER"] = 1;
@@ -3216,38 +3216,38 @@ export const Mrr = $root.Mrr = (() => {
 
     /**
      * BufferUsageType enum.
-     * @name Mrr.BufferUsageType
+     * @name Zko.BufferUsageType
      * @enum {number}
      * @property {number} STATIC_DRAW=0 STATIC_DRAW value
      */
-    Mrr.BufferUsageType = (function() {
+    Zko.BufferUsageType = (function() {
         const valuesById = {}, values = Object.create(valuesById);
         values[valuesById[0] = "STATIC_DRAW"] = 0;
         return values;
     })();
 
-    Mrr.MrIndexBuffer = (function() {
+    Zko.ZkIndexBuffer = (function() {
 
         /**
-         * Properties of a MrIndexBuffer.
-         * @memberof Mrr
-         * @interface IMrIndexBuffer
-         * @property {Mrr.BufferTargetType} targetBuffer MrIndexBuffer targetBuffer
-         * @property {Mrr.BufferUsageType} usage MrIndexBuffer usage
-         * @property {number} itemSize MrIndexBuffer itemSize
-         * @property {number} count MrIndexBuffer count
-         * @property {Uint8Array} dataArray MrIndexBuffer dataArray
+         * Properties of a ZkIndexBuffer.
+         * @memberof Zko
+         * @interface IZkIndexBuffer
+         * @property {Zko.BufferTargetType} targetBuffer ZkIndexBuffer targetBuffer
+         * @property {Zko.BufferUsageType} usage ZkIndexBuffer usage
+         * @property {number} itemSize ZkIndexBuffer itemSize
+         * @property {number} count ZkIndexBuffer count
+         * @property {Uint8Array} dataArray ZkIndexBuffer dataArray
          */
 
         /**
-         * Constructs a new MrIndexBuffer.
-         * @memberof Mrr
-         * @classdesc Represents a MrIndexBuffer.
-         * @implements IMrIndexBuffer
+         * Constructs a new ZkIndexBuffer.
+         * @memberof Zko
+         * @classdesc Represents a ZkIndexBuffer.
+         * @implements IZkIndexBuffer
          * @constructor
-         * @param {Mrr.IMrIndexBuffer=} [properties] Properties to set
+         * @param {Zko.IZkIndexBuffer=} [properties] Properties to set
          */
-        function MrIndexBuffer(properties) {
+        function ZkIndexBuffer(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -3255,67 +3255,67 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrIndexBuffer targetBuffer.
-         * @member {Mrr.BufferTargetType} targetBuffer
-         * @memberof Mrr.MrIndexBuffer
+         * ZkIndexBuffer targetBuffer.
+         * @member {Zko.BufferTargetType} targetBuffer
+         * @memberof Zko.ZkIndexBuffer
          * @instance
          */
-        MrIndexBuffer.prototype.targetBuffer = 0;
+        ZkIndexBuffer.prototype.targetBuffer = 0;
 
         /**
-         * MrIndexBuffer usage.
-         * @member {Mrr.BufferUsageType} usage
-         * @memberof Mrr.MrIndexBuffer
+         * ZkIndexBuffer usage.
+         * @member {Zko.BufferUsageType} usage
+         * @memberof Zko.ZkIndexBuffer
          * @instance
          */
-        MrIndexBuffer.prototype.usage = 0;
+        ZkIndexBuffer.prototype.usage = 0;
 
         /**
-         * MrIndexBuffer itemSize.
+         * ZkIndexBuffer itemSize.
          * @member {number} itemSize
-         * @memberof Mrr.MrIndexBuffer
+         * @memberof Zko.ZkIndexBuffer
          * @instance
          */
-        MrIndexBuffer.prototype.itemSize = 0;
+        ZkIndexBuffer.prototype.itemSize = 0;
 
         /**
-         * MrIndexBuffer count.
+         * ZkIndexBuffer count.
          * @member {number} count
-         * @memberof Mrr.MrIndexBuffer
+         * @memberof Zko.ZkIndexBuffer
          * @instance
          */
-        MrIndexBuffer.prototype.count = 0;
+        ZkIndexBuffer.prototype.count = 0;
 
         /**
-         * MrIndexBuffer dataArray.
+         * ZkIndexBuffer dataArray.
          * @member {Uint8Array} dataArray
-         * @memberof Mrr.MrIndexBuffer
+         * @memberof Zko.ZkIndexBuffer
          * @instance
          */
-        MrIndexBuffer.prototype.dataArray = $util.newBuffer([]);
+        ZkIndexBuffer.prototype.dataArray = $util.newBuffer([]);
 
         /**
-         * Creates a new MrIndexBuffer instance using the specified properties.
+         * Creates a new ZkIndexBuffer instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrIndexBuffer
+         * @memberof Zko.ZkIndexBuffer
          * @static
-         * @param {Mrr.IMrIndexBuffer=} [properties] Properties to set
-         * @returns {Mrr.MrIndexBuffer} MrIndexBuffer instance
+         * @param {Zko.IZkIndexBuffer=} [properties] Properties to set
+         * @returns {Zko.ZkIndexBuffer} ZkIndexBuffer instance
          */
-        MrIndexBuffer.create = function create(properties) {
-            return new MrIndexBuffer(properties);
+        ZkIndexBuffer.create = function create(properties) {
+            return new ZkIndexBuffer(properties);
         };
 
         /**
-         * Encodes the specified MrIndexBuffer message. Does not implicitly {@link Mrr.MrIndexBuffer.verify|verify} messages.
+         * Encodes the specified ZkIndexBuffer message. Does not implicitly {@link Zko.ZkIndexBuffer.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrIndexBuffer
+         * @memberof Zko.ZkIndexBuffer
          * @static
-         * @param {Mrr.IMrIndexBuffer} message MrIndexBuffer message or plain object to encode
+         * @param {Zko.IZkIndexBuffer} message ZkIndexBuffer message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrIndexBuffer.encode = function encode(message, writer) {
+        ZkIndexBuffer.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 0 =*/8).int32(message.targetBuffer);
@@ -3327,33 +3327,33 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Encodes the specified MrIndexBuffer message, length delimited. Does not implicitly {@link Mrr.MrIndexBuffer.verify|verify} messages.
+         * Encodes the specified ZkIndexBuffer message, length delimited. Does not implicitly {@link Zko.ZkIndexBuffer.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrIndexBuffer
+         * @memberof Zko.ZkIndexBuffer
          * @static
-         * @param {Mrr.IMrIndexBuffer} message MrIndexBuffer message or plain object to encode
+         * @param {Zko.IZkIndexBuffer} message ZkIndexBuffer message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrIndexBuffer.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkIndexBuffer.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrIndexBuffer message from the specified reader or buffer.
+         * Decodes a ZkIndexBuffer message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrIndexBuffer
+         * @memberof Zko.ZkIndexBuffer
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrIndexBuffer} MrIndexBuffer
+         * @returns {Zko.ZkIndexBuffer} ZkIndexBuffer
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrIndexBuffer.decode = function decode(reader, length) {
+        ZkIndexBuffer.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrIndexBuffer();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkIndexBuffer();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -3396,30 +3396,30 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrIndexBuffer message from the specified reader or buffer, length delimited.
+         * Decodes a ZkIndexBuffer message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrIndexBuffer
+         * @memberof Zko.ZkIndexBuffer
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrIndexBuffer} MrIndexBuffer
+         * @returns {Zko.ZkIndexBuffer} ZkIndexBuffer
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrIndexBuffer.decodeDelimited = function decodeDelimited(reader) {
+        ZkIndexBuffer.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrIndexBuffer message.
+         * Verifies a ZkIndexBuffer message.
          * @function verify
-         * @memberof Mrr.MrIndexBuffer
+         * @memberof Zko.ZkIndexBuffer
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrIndexBuffer.verify = function verify(message) {
+        ZkIndexBuffer.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             switch (message.targetBuffer) {
@@ -3445,17 +3445,17 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrIndexBuffer message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkIndexBuffer message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrIndexBuffer
+         * @memberof Zko.ZkIndexBuffer
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrIndexBuffer} MrIndexBuffer
+         * @returns {Zko.ZkIndexBuffer} ZkIndexBuffer
          */
-        MrIndexBuffer.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrIndexBuffer)
+        ZkIndexBuffer.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkIndexBuffer)
                 return object;
-            let message = new $root.Mrr.MrIndexBuffer();
+            let message = new $root.Zko.ZkIndexBuffer();
             switch (object.targetBuffer) {
             default:
                 if (typeof object.targetBuffer === "number") {
@@ -3497,15 +3497,15 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a plain object from a MrIndexBuffer message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkIndexBuffer message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrIndexBuffer
+         * @memberof Zko.ZkIndexBuffer
          * @static
-         * @param {Mrr.MrIndexBuffer} message MrIndexBuffer
+         * @param {Zko.ZkIndexBuffer} message ZkIndexBuffer
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrIndexBuffer.toObject = function toObject(message, options) {
+        ZkIndexBuffer.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -3523,9 +3523,9 @@ export const Mrr = $root.Mrr = (() => {
                 }
             }
             if (message.targetBuffer != null && message.hasOwnProperty("targetBuffer"))
-                object.targetBuffer = options.enums === String ? $root.Mrr.BufferTargetType[message.targetBuffer] === undefined ? message.targetBuffer : $root.Mrr.BufferTargetType[message.targetBuffer] : message.targetBuffer;
+                object.targetBuffer = options.enums === String ? $root.Zko.BufferTargetType[message.targetBuffer] === undefined ? message.targetBuffer : $root.Zko.BufferTargetType[message.targetBuffer] : message.targetBuffer;
             if (message.usage != null && message.hasOwnProperty("usage"))
-                object.usage = options.enums === String ? $root.Mrr.BufferUsageType[message.usage] === undefined ? message.usage : $root.Mrr.BufferUsageType[message.usage] : message.usage;
+                object.usage = options.enums === String ? $root.Zko.BufferUsageType[message.usage] === undefined ? message.usage : $root.Zko.BufferUsageType[message.usage] : message.usage;
             if (message.itemSize != null && message.hasOwnProperty("itemSize"))
                 object.itemSize = message.itemSize;
             if (message.count != null && message.hasOwnProperty("count"))
@@ -3536,56 +3536,56 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Converts this MrIndexBuffer to JSON.
+         * Converts this ZkIndexBuffer to JSON.
          * @function toJSON
-         * @memberof Mrr.MrIndexBuffer
+         * @memberof Zko.ZkIndexBuffer
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrIndexBuffer.prototype.toJSON = function toJSON() {
+        ZkIndexBuffer.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrIndexBuffer
+         * Gets the default type url for ZkIndexBuffer
          * @function getTypeUrl
-         * @memberof Mrr.MrIndexBuffer
+         * @memberof Zko.ZkIndexBuffer
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrIndexBuffer.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkIndexBuffer.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrIndexBuffer";
+            return typeUrlPrefix + "/Zko.ZkIndexBuffer";
         };
 
-        return MrIndexBuffer;
+        return ZkIndexBuffer;
     })();
 
-    Mrr.MrVertexBuffer = (function() {
+    Zko.ZkVertexBuffer = (function() {
 
         /**
-         * Properties of a MrVertexBuffer.
-         * @memberof Mrr
-         * @interface IMrVertexBuffer
-         * @property {Mrr.BufferTargetType} targetBuffer MrVertexBuffer targetBuffer
-         * @property {Mrr.BufferUsageType} usage MrVertexBuffer usage
-         * @property {number} itemSize MrVertexBuffer itemSize
-         * @property {number} count MrVertexBuffer count
-         * @property {Uint8Array} dataArray MrVertexBuffer dataArray
+         * Properties of a ZkVertexBuffer.
+         * @memberof Zko
+         * @interface IZkVertexBuffer
+         * @property {Zko.BufferTargetType} targetBuffer ZkVertexBuffer targetBuffer
+         * @property {Zko.BufferUsageType} usage ZkVertexBuffer usage
+         * @property {number} itemSize ZkVertexBuffer itemSize
+         * @property {number} count ZkVertexBuffer count
+         * @property {Uint8Array} dataArray ZkVertexBuffer dataArray
          */
 
         /**
-         * Constructs a new MrVertexBuffer.
-         * @memberof Mrr
-         * @classdesc Represents a MrVertexBuffer.
-         * @implements IMrVertexBuffer
+         * Constructs a new ZkVertexBuffer.
+         * @memberof Zko
+         * @classdesc Represents a ZkVertexBuffer.
+         * @implements IZkVertexBuffer
          * @constructor
-         * @param {Mrr.IMrVertexBuffer=} [properties] Properties to set
+         * @param {Zko.IZkVertexBuffer=} [properties] Properties to set
          */
-        function MrVertexBuffer(properties) {
+        function ZkVertexBuffer(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -3593,67 +3593,67 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrVertexBuffer targetBuffer.
-         * @member {Mrr.BufferTargetType} targetBuffer
-         * @memberof Mrr.MrVertexBuffer
+         * ZkVertexBuffer targetBuffer.
+         * @member {Zko.BufferTargetType} targetBuffer
+         * @memberof Zko.ZkVertexBuffer
          * @instance
          */
-        MrVertexBuffer.prototype.targetBuffer = 0;
+        ZkVertexBuffer.prototype.targetBuffer = 0;
 
         /**
-         * MrVertexBuffer usage.
-         * @member {Mrr.BufferUsageType} usage
-         * @memberof Mrr.MrVertexBuffer
+         * ZkVertexBuffer usage.
+         * @member {Zko.BufferUsageType} usage
+         * @memberof Zko.ZkVertexBuffer
          * @instance
          */
-        MrVertexBuffer.prototype.usage = 0;
+        ZkVertexBuffer.prototype.usage = 0;
 
         /**
-         * MrVertexBuffer itemSize.
+         * ZkVertexBuffer itemSize.
          * @member {number} itemSize
-         * @memberof Mrr.MrVertexBuffer
+         * @memberof Zko.ZkVertexBuffer
          * @instance
          */
-        MrVertexBuffer.prototype.itemSize = 0;
+        ZkVertexBuffer.prototype.itemSize = 0;
 
         /**
-         * MrVertexBuffer count.
+         * ZkVertexBuffer count.
          * @member {number} count
-         * @memberof Mrr.MrVertexBuffer
+         * @memberof Zko.ZkVertexBuffer
          * @instance
          */
-        MrVertexBuffer.prototype.count = 0;
+        ZkVertexBuffer.prototype.count = 0;
 
         /**
-         * MrVertexBuffer dataArray.
+         * ZkVertexBuffer dataArray.
          * @member {Uint8Array} dataArray
-         * @memberof Mrr.MrVertexBuffer
+         * @memberof Zko.ZkVertexBuffer
          * @instance
          */
-        MrVertexBuffer.prototype.dataArray = $util.newBuffer([]);
+        ZkVertexBuffer.prototype.dataArray = $util.newBuffer([]);
 
         /**
-         * Creates a new MrVertexBuffer instance using the specified properties.
+         * Creates a new ZkVertexBuffer instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrVertexBuffer
+         * @memberof Zko.ZkVertexBuffer
          * @static
-         * @param {Mrr.IMrVertexBuffer=} [properties] Properties to set
-         * @returns {Mrr.MrVertexBuffer} MrVertexBuffer instance
+         * @param {Zko.IZkVertexBuffer=} [properties] Properties to set
+         * @returns {Zko.ZkVertexBuffer} ZkVertexBuffer instance
          */
-        MrVertexBuffer.create = function create(properties) {
-            return new MrVertexBuffer(properties);
+        ZkVertexBuffer.create = function create(properties) {
+            return new ZkVertexBuffer(properties);
         };
 
         /**
-         * Encodes the specified MrVertexBuffer message. Does not implicitly {@link Mrr.MrVertexBuffer.verify|verify} messages.
+         * Encodes the specified ZkVertexBuffer message. Does not implicitly {@link Zko.ZkVertexBuffer.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrVertexBuffer
+         * @memberof Zko.ZkVertexBuffer
          * @static
-         * @param {Mrr.IMrVertexBuffer} message MrVertexBuffer message or plain object to encode
+         * @param {Zko.IZkVertexBuffer} message ZkVertexBuffer message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrVertexBuffer.encode = function encode(message, writer) {
+        ZkVertexBuffer.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 0 =*/8).int32(message.targetBuffer);
@@ -3665,33 +3665,33 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Encodes the specified MrVertexBuffer message, length delimited. Does not implicitly {@link Mrr.MrVertexBuffer.verify|verify} messages.
+         * Encodes the specified ZkVertexBuffer message, length delimited. Does not implicitly {@link Zko.ZkVertexBuffer.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrVertexBuffer
+         * @memberof Zko.ZkVertexBuffer
          * @static
-         * @param {Mrr.IMrVertexBuffer} message MrVertexBuffer message or plain object to encode
+         * @param {Zko.IZkVertexBuffer} message ZkVertexBuffer message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrVertexBuffer.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkVertexBuffer.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrVertexBuffer message from the specified reader or buffer.
+         * Decodes a ZkVertexBuffer message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrVertexBuffer
+         * @memberof Zko.ZkVertexBuffer
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrVertexBuffer} MrVertexBuffer
+         * @returns {Zko.ZkVertexBuffer} ZkVertexBuffer
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrVertexBuffer.decode = function decode(reader, length) {
+        ZkVertexBuffer.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrVertexBuffer();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkVertexBuffer();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -3734,30 +3734,30 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrVertexBuffer message from the specified reader or buffer, length delimited.
+         * Decodes a ZkVertexBuffer message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrVertexBuffer
+         * @memberof Zko.ZkVertexBuffer
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrVertexBuffer} MrVertexBuffer
+         * @returns {Zko.ZkVertexBuffer} ZkVertexBuffer
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrVertexBuffer.decodeDelimited = function decodeDelimited(reader) {
+        ZkVertexBuffer.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrVertexBuffer message.
+         * Verifies a ZkVertexBuffer message.
          * @function verify
-         * @memberof Mrr.MrVertexBuffer
+         * @memberof Zko.ZkVertexBuffer
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrVertexBuffer.verify = function verify(message) {
+        ZkVertexBuffer.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             switch (message.targetBuffer) {
@@ -3783,17 +3783,17 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrVertexBuffer message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkVertexBuffer message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrVertexBuffer
+         * @memberof Zko.ZkVertexBuffer
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrVertexBuffer} MrVertexBuffer
+         * @returns {Zko.ZkVertexBuffer} ZkVertexBuffer
          */
-        MrVertexBuffer.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrVertexBuffer)
+        ZkVertexBuffer.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkVertexBuffer)
                 return object;
-            let message = new $root.Mrr.MrVertexBuffer();
+            let message = new $root.Zko.ZkVertexBuffer();
             switch (object.targetBuffer) {
             default:
                 if (typeof object.targetBuffer === "number") {
@@ -3835,15 +3835,15 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a plain object from a MrVertexBuffer message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkVertexBuffer message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrVertexBuffer
+         * @memberof Zko.ZkVertexBuffer
          * @static
-         * @param {Mrr.MrVertexBuffer} message MrVertexBuffer
+         * @param {Zko.ZkVertexBuffer} message ZkVertexBuffer
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrVertexBuffer.toObject = function toObject(message, options) {
+        ZkVertexBuffer.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -3861,9 +3861,9 @@ export const Mrr = $root.Mrr = (() => {
                 }
             }
             if (message.targetBuffer != null && message.hasOwnProperty("targetBuffer"))
-                object.targetBuffer = options.enums === String ? $root.Mrr.BufferTargetType[message.targetBuffer] === undefined ? message.targetBuffer : $root.Mrr.BufferTargetType[message.targetBuffer] : message.targetBuffer;
+                object.targetBuffer = options.enums === String ? $root.Zko.BufferTargetType[message.targetBuffer] === undefined ? message.targetBuffer : $root.Zko.BufferTargetType[message.targetBuffer] : message.targetBuffer;
             if (message.usage != null && message.hasOwnProperty("usage"))
-                object.usage = options.enums === String ? $root.Mrr.BufferUsageType[message.usage] === undefined ? message.usage : $root.Mrr.BufferUsageType[message.usage] : message.usage;
+                object.usage = options.enums === String ? $root.Zko.BufferUsageType[message.usage] === undefined ? message.usage : $root.Zko.BufferUsageType[message.usage] : message.usage;
             if (message.itemSize != null && message.hasOwnProperty("itemSize"))
                 object.itemSize = message.itemSize;
             if (message.count != null && message.hasOwnProperty("count"))
@@ -3874,55 +3874,55 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Converts this MrVertexBuffer to JSON.
+         * Converts this ZkVertexBuffer to JSON.
          * @function toJSON
-         * @memberof Mrr.MrVertexBuffer
+         * @memberof Zko.ZkVertexBuffer
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrVertexBuffer.prototype.toJSON = function toJSON() {
+        ZkVertexBuffer.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrVertexBuffer
+         * Gets the default type url for ZkVertexBuffer
          * @function getTypeUrl
-         * @memberof Mrr.MrVertexBuffer
+         * @memberof Zko.ZkVertexBuffer
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrVertexBuffer.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkVertexBuffer.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrVertexBuffer";
+            return typeUrlPrefix + "/Zko.ZkVertexBuffer";
         };
 
-        return MrVertexBuffer;
+        return ZkVertexBuffer;
     })();
 
-    Mrr.MrShaderProgram = (function() {
+    Zko.ZkShaderProgram = (function() {
 
         /**
-         * Properties of a MrShaderProgram.
-         * @memberof Mrr
-         * @interface IMrShaderProgram
-         * @property {Mrr.IMrShader} vertexShader MrShaderProgram vertexShader
-         * @property {Mrr.IMrShader} fragmentShader MrShaderProgram fragmentShader
-         * @property {Object.<string,Mrr.IMrShaderAttribute>|null} [attributes] MrShaderProgram attributes
-         * @property {Object.<string,Mrr.IMrShaderUniform>|null} [uniforms] MrShaderProgram uniforms
+         * Properties of a ZkShaderProgram.
+         * @memberof Zko
+         * @interface IZkShaderProgram
+         * @property {Zko.IZkShader} vertexShader ZkShaderProgram vertexShader
+         * @property {Zko.IZkShader} fragmentShader ZkShaderProgram fragmentShader
+         * @property {Object.<string,Zko.IZkShaderAttribute>|null} [attributes] ZkShaderProgram attributes
+         * @property {Object.<string,Zko.IZkShaderUniform>|null} [uniforms] ZkShaderProgram uniforms
          */
 
         /**
-         * Constructs a new MrShaderProgram.
-         * @memberof Mrr
-         * @classdesc Represents a MrShaderProgram.
-         * @implements IMrShaderProgram
+         * Constructs a new ZkShaderProgram.
+         * @memberof Zko
+         * @classdesc Represents a ZkShaderProgram.
+         * @implements IZkShaderProgram
          * @constructor
-         * @param {Mrr.IMrShaderProgram=} [properties] Properties to set
+         * @param {Zko.IZkShaderProgram=} [properties] Properties to set
          */
-        function MrShaderProgram(properties) {
+        function ZkShaderProgram(properties) {
             this.attributes = {};
             this.uniforms = {};
             if (properties)
@@ -3932,113 +3932,113 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrShaderProgram vertexShader.
-         * @member {Mrr.IMrShader} vertexShader
-         * @memberof Mrr.MrShaderProgram
+         * ZkShaderProgram vertexShader.
+         * @member {Zko.IZkShader} vertexShader
+         * @memberof Zko.ZkShaderProgram
          * @instance
          */
-        MrShaderProgram.prototype.vertexShader = null;
+        ZkShaderProgram.prototype.vertexShader = null;
 
         /**
-         * MrShaderProgram fragmentShader.
-         * @member {Mrr.IMrShader} fragmentShader
-         * @memberof Mrr.MrShaderProgram
+         * ZkShaderProgram fragmentShader.
+         * @member {Zko.IZkShader} fragmentShader
+         * @memberof Zko.ZkShaderProgram
          * @instance
          */
-        MrShaderProgram.prototype.fragmentShader = null;
+        ZkShaderProgram.prototype.fragmentShader = null;
 
         /**
-         * MrShaderProgram attributes.
-         * @member {Object.<string,Mrr.IMrShaderAttribute>} attributes
-         * @memberof Mrr.MrShaderProgram
+         * ZkShaderProgram attributes.
+         * @member {Object.<string,Zko.IZkShaderAttribute>} attributes
+         * @memberof Zko.ZkShaderProgram
          * @instance
          */
-        MrShaderProgram.prototype.attributes = $util.emptyObject;
+        ZkShaderProgram.prototype.attributes = $util.emptyObject;
 
         /**
-         * MrShaderProgram uniforms.
-         * @member {Object.<string,Mrr.IMrShaderUniform>} uniforms
-         * @memberof Mrr.MrShaderProgram
+         * ZkShaderProgram uniforms.
+         * @member {Object.<string,Zko.IZkShaderUniform>} uniforms
+         * @memberof Zko.ZkShaderProgram
          * @instance
          */
-        MrShaderProgram.prototype.uniforms = $util.emptyObject;
+        ZkShaderProgram.prototype.uniforms = $util.emptyObject;
 
         /**
-         * Creates a new MrShaderProgram instance using the specified properties.
+         * Creates a new ZkShaderProgram instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrShaderProgram
+         * @memberof Zko.ZkShaderProgram
          * @static
-         * @param {Mrr.IMrShaderProgram=} [properties] Properties to set
-         * @returns {Mrr.MrShaderProgram} MrShaderProgram instance
+         * @param {Zko.IZkShaderProgram=} [properties] Properties to set
+         * @returns {Zko.ZkShaderProgram} ZkShaderProgram instance
          */
-        MrShaderProgram.create = function create(properties) {
-            return new MrShaderProgram(properties);
+        ZkShaderProgram.create = function create(properties) {
+            return new ZkShaderProgram(properties);
         };
 
         /**
-         * Encodes the specified MrShaderProgram message. Does not implicitly {@link Mrr.MrShaderProgram.verify|verify} messages.
+         * Encodes the specified ZkShaderProgram message. Does not implicitly {@link Zko.ZkShaderProgram.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrShaderProgram
+         * @memberof Zko.ZkShaderProgram
          * @static
-         * @param {Mrr.IMrShaderProgram} message MrShaderProgram message or plain object to encode
+         * @param {Zko.IZkShaderProgram} message ZkShaderProgram message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrShaderProgram.encode = function encode(message, writer) {
+        ZkShaderProgram.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            $root.Mrr.MrShader.encode(message.vertexShader, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-            $root.Mrr.MrShader.encode(message.fragmentShader, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            $root.Zko.ZkShader.encode(message.vertexShader, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            $root.Zko.ZkShader.encode(message.fragmentShader, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
             if (message.attributes != null && Object.hasOwnProperty.call(message, "attributes"))
                 for (let keys = Object.keys(message.attributes), i = 0; i < keys.length; ++i) {
                     writer.uint32(/* id 3, wireType 2 =*/26).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
-                    $root.Mrr.MrShaderAttribute.encode(message.attributes[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    $root.Zko.ZkShaderAttribute.encode(message.attributes[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
                 }
             if (message.uniforms != null && Object.hasOwnProperty.call(message, "uniforms"))
                 for (let keys = Object.keys(message.uniforms), i = 0; i < keys.length; ++i) {
                     writer.uint32(/* id 4, wireType 2 =*/34).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
-                    $root.Mrr.MrShaderUniform.encode(message.uniforms[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    $root.Zko.ZkShaderUniform.encode(message.uniforms[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
                 }
             return writer;
         };
 
         /**
-         * Encodes the specified MrShaderProgram message, length delimited. Does not implicitly {@link Mrr.MrShaderProgram.verify|verify} messages.
+         * Encodes the specified ZkShaderProgram message, length delimited. Does not implicitly {@link Zko.ZkShaderProgram.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrShaderProgram
+         * @memberof Zko.ZkShaderProgram
          * @static
-         * @param {Mrr.IMrShaderProgram} message MrShaderProgram message or plain object to encode
+         * @param {Zko.IZkShaderProgram} message ZkShaderProgram message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrShaderProgram.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkShaderProgram.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrShaderProgram message from the specified reader or buffer.
+         * Decodes a ZkShaderProgram message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrShaderProgram
+         * @memberof Zko.ZkShaderProgram
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrShaderProgram} MrShaderProgram
+         * @returns {Zko.ZkShaderProgram} ZkShaderProgram
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrShaderProgram.decode = function decode(reader, length) {
+        ZkShaderProgram.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrShaderProgram(), key, value;
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkShaderProgram(), key, value;
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
-                        message.vertexShader = $root.Mrr.MrShader.decode(reader, reader.uint32());
+                        message.vertexShader = $root.Zko.ZkShader.decode(reader, reader.uint32());
                         break;
                     }
                 case 2: {
-                        message.fragmentShader = $root.Mrr.MrShader.decode(reader, reader.uint32());
+                        message.fragmentShader = $root.Zko.ZkShader.decode(reader, reader.uint32());
                         break;
                     }
                 case 3: {
@@ -4054,7 +4054,7 @@ export const Mrr = $root.Mrr = (() => {
                                 key = reader.string();
                                 break;
                             case 2:
-                                value = $root.Mrr.MrShaderAttribute.decode(reader, reader.uint32());
+                                value = $root.Zko.ZkShaderAttribute.decode(reader, reader.uint32());
                                 break;
                             default:
                                 reader.skipType(tag2 & 7);
@@ -4077,7 +4077,7 @@ export const Mrr = $root.Mrr = (() => {
                                 key = reader.string();
                                 break;
                             case 2:
-                                value = $root.Mrr.MrShaderUniform.decode(reader, reader.uint32());
+                                value = $root.Zko.ZkShaderUniform.decode(reader, reader.uint32());
                                 break;
                             default:
                                 reader.skipType(tag2 & 7);
@@ -4100,39 +4100,39 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrShaderProgram message from the specified reader or buffer, length delimited.
+         * Decodes a ZkShaderProgram message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrShaderProgram
+         * @memberof Zko.ZkShaderProgram
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrShaderProgram} MrShaderProgram
+         * @returns {Zko.ZkShaderProgram} ZkShaderProgram
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrShaderProgram.decodeDelimited = function decodeDelimited(reader) {
+        ZkShaderProgram.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrShaderProgram message.
+         * Verifies a ZkShaderProgram message.
          * @function verify
-         * @memberof Mrr.MrShaderProgram
+         * @memberof Zko.ZkShaderProgram
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrShaderProgram.verify = function verify(message) {
+        ZkShaderProgram.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             {
-                let error = $root.Mrr.MrShader.verify(message.vertexShader);
+                let error = $root.Zko.ZkShader.verify(message.vertexShader);
                 if (error)
                     return "vertexShader." + error;
             }
             {
-                let error = $root.Mrr.MrShader.verify(message.fragmentShader);
+                let error = $root.Zko.ZkShader.verify(message.fragmentShader);
                 if (error)
                     return "fragmentShader." + error;
             }
@@ -4141,7 +4141,7 @@ export const Mrr = $root.Mrr = (() => {
                     return "attributes: object expected";
                 let key = Object.keys(message.attributes);
                 for (let i = 0; i < key.length; ++i) {
-                    let error = $root.Mrr.MrShaderAttribute.verify(message.attributes[key[i]]);
+                    let error = $root.Zko.ZkShaderAttribute.verify(message.attributes[key[i]]);
                     if (error)
                         return "attributes." + error;
                 }
@@ -4151,7 +4151,7 @@ export const Mrr = $root.Mrr = (() => {
                     return "uniforms: object expected";
                 let key = Object.keys(message.uniforms);
                 for (let i = 0; i < key.length; ++i) {
-                    let error = $root.Mrr.MrShaderUniform.verify(message.uniforms[key[i]]);
+                    let error = $root.Zko.ZkShaderUniform.verify(message.uniforms[key[i]]);
                     if (error)
                         return "uniforms." + error;
                 }
@@ -4160,60 +4160,60 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrShaderProgram message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkShaderProgram message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrShaderProgram
+         * @memberof Zko.ZkShaderProgram
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrShaderProgram} MrShaderProgram
+         * @returns {Zko.ZkShaderProgram} ZkShaderProgram
          */
-        MrShaderProgram.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrShaderProgram)
+        ZkShaderProgram.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkShaderProgram)
                 return object;
-            let message = new $root.Mrr.MrShaderProgram();
+            let message = new $root.Zko.ZkShaderProgram();
             if (object.vertexShader != null) {
                 if (typeof object.vertexShader !== "object")
-                    throw TypeError(".Mrr.MrShaderProgram.vertexShader: object expected");
-                message.vertexShader = $root.Mrr.MrShader.fromObject(object.vertexShader);
+                    throw TypeError(".Zko.ZkShaderProgram.vertexShader: object expected");
+                message.vertexShader = $root.Zko.ZkShader.fromObject(object.vertexShader);
             }
             if (object.fragmentShader != null) {
                 if (typeof object.fragmentShader !== "object")
-                    throw TypeError(".Mrr.MrShaderProgram.fragmentShader: object expected");
-                message.fragmentShader = $root.Mrr.MrShader.fromObject(object.fragmentShader);
+                    throw TypeError(".Zko.ZkShaderProgram.fragmentShader: object expected");
+                message.fragmentShader = $root.Zko.ZkShader.fromObject(object.fragmentShader);
             }
             if (object.attributes) {
                 if (typeof object.attributes !== "object")
-                    throw TypeError(".Mrr.MrShaderProgram.attributes: object expected");
+                    throw TypeError(".Zko.ZkShaderProgram.attributes: object expected");
                 message.attributes = {};
                 for (let keys = Object.keys(object.attributes), i = 0; i < keys.length; ++i) {
                     if (typeof object.attributes[keys[i]] !== "object")
-                        throw TypeError(".Mrr.MrShaderProgram.attributes: object expected");
-                    message.attributes[keys[i]] = $root.Mrr.MrShaderAttribute.fromObject(object.attributes[keys[i]]);
+                        throw TypeError(".Zko.ZkShaderProgram.attributes: object expected");
+                    message.attributes[keys[i]] = $root.Zko.ZkShaderAttribute.fromObject(object.attributes[keys[i]]);
                 }
             }
             if (object.uniforms) {
                 if (typeof object.uniforms !== "object")
-                    throw TypeError(".Mrr.MrShaderProgram.uniforms: object expected");
+                    throw TypeError(".Zko.ZkShaderProgram.uniforms: object expected");
                 message.uniforms = {};
                 for (let keys = Object.keys(object.uniforms), i = 0; i < keys.length; ++i) {
                     if (typeof object.uniforms[keys[i]] !== "object")
-                        throw TypeError(".Mrr.MrShaderProgram.uniforms: object expected");
-                    message.uniforms[keys[i]] = $root.Mrr.MrShaderUniform.fromObject(object.uniforms[keys[i]]);
+                        throw TypeError(".Zko.ZkShaderProgram.uniforms: object expected");
+                    message.uniforms[keys[i]] = $root.Zko.ZkShaderUniform.fromObject(object.uniforms[keys[i]]);
                 }
             }
             return message;
         };
 
         /**
-         * Creates a plain object from a MrShaderProgram message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkShaderProgram message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrShaderProgram
+         * @memberof Zko.ZkShaderProgram
          * @static
-         * @param {Mrr.MrShaderProgram} message MrShaderProgram
+         * @param {Zko.ZkShaderProgram} message ZkShaderProgram
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrShaderProgram.toObject = function toObject(message, options) {
+        ZkShaderProgram.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -4226,71 +4226,71 @@ export const Mrr = $root.Mrr = (() => {
                 object.fragmentShader = null;
             }
             if (message.vertexShader != null && message.hasOwnProperty("vertexShader"))
-                object.vertexShader = $root.Mrr.MrShader.toObject(message.vertexShader, options);
+                object.vertexShader = $root.Zko.ZkShader.toObject(message.vertexShader, options);
             if (message.fragmentShader != null && message.hasOwnProperty("fragmentShader"))
-                object.fragmentShader = $root.Mrr.MrShader.toObject(message.fragmentShader, options);
+                object.fragmentShader = $root.Zko.ZkShader.toObject(message.fragmentShader, options);
             let keys2;
             if (message.attributes && (keys2 = Object.keys(message.attributes)).length) {
                 object.attributes = {};
                 for (let j = 0; j < keys2.length; ++j)
-                    object.attributes[keys2[j]] = $root.Mrr.MrShaderAttribute.toObject(message.attributes[keys2[j]], options);
+                    object.attributes[keys2[j]] = $root.Zko.ZkShaderAttribute.toObject(message.attributes[keys2[j]], options);
             }
             if (message.uniforms && (keys2 = Object.keys(message.uniforms)).length) {
                 object.uniforms = {};
                 for (let j = 0; j < keys2.length; ++j)
-                    object.uniforms[keys2[j]] = $root.Mrr.MrShaderUniform.toObject(message.uniforms[keys2[j]], options);
+                    object.uniforms[keys2[j]] = $root.Zko.ZkShaderUniform.toObject(message.uniforms[keys2[j]], options);
             }
             return object;
         };
 
         /**
-         * Converts this MrShaderProgram to JSON.
+         * Converts this ZkShaderProgram to JSON.
          * @function toJSON
-         * @memberof Mrr.MrShaderProgram
+         * @memberof Zko.ZkShaderProgram
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrShaderProgram.prototype.toJSON = function toJSON() {
+        ZkShaderProgram.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrShaderProgram
+         * Gets the default type url for ZkShaderProgram
          * @function getTypeUrl
-         * @memberof Mrr.MrShaderProgram
+         * @memberof Zko.ZkShaderProgram
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrShaderProgram.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkShaderProgram.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrShaderProgram";
+            return typeUrlPrefix + "/Zko.ZkShaderProgram";
         };
 
-        return MrShaderProgram;
+        return ZkShaderProgram;
     })();
 
-    Mrr.MrShader = (function() {
+    Zko.ZkShader = (function() {
 
         /**
-         * Properties of a MrShader.
-         * @memberof Mrr
-         * @interface IMrShader
-         * @property {string} type MrShader type
-         * @property {string} source MrShader source
+         * Properties of a ZkShader.
+         * @memberof Zko
+         * @interface IZkShader
+         * @property {string} type ZkShader type
+         * @property {string} source ZkShader source
          */
 
         /**
-         * Constructs a new MrShader.
-         * @memberof Mrr
-         * @classdesc Represents a MrShader.
-         * @implements IMrShader
+         * Constructs a new ZkShader.
+         * @memberof Zko
+         * @classdesc Represents a ZkShader.
+         * @implements IZkShader
          * @constructor
-         * @param {Mrr.IMrShader=} [properties] Properties to set
+         * @param {Zko.IZkShader=} [properties] Properties to set
          */
-        function MrShader(properties) {
+        function ZkShader(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -4298,43 +4298,43 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrShader type.
+         * ZkShader type.
          * @member {string} type
-         * @memberof Mrr.MrShader
+         * @memberof Zko.ZkShader
          * @instance
          */
-        MrShader.prototype.type = "";
+        ZkShader.prototype.type = "";
 
         /**
-         * MrShader source.
+         * ZkShader source.
          * @member {string} source
-         * @memberof Mrr.MrShader
+         * @memberof Zko.ZkShader
          * @instance
          */
-        MrShader.prototype.source = "";
+        ZkShader.prototype.source = "";
 
         /**
-         * Creates a new MrShader instance using the specified properties.
+         * Creates a new ZkShader instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrShader
+         * @memberof Zko.ZkShader
          * @static
-         * @param {Mrr.IMrShader=} [properties] Properties to set
-         * @returns {Mrr.MrShader} MrShader instance
+         * @param {Zko.IZkShader=} [properties] Properties to set
+         * @returns {Zko.ZkShader} ZkShader instance
          */
-        MrShader.create = function create(properties) {
-            return new MrShader(properties);
+        ZkShader.create = function create(properties) {
+            return new ZkShader(properties);
         };
 
         /**
-         * Encodes the specified MrShader message. Does not implicitly {@link Mrr.MrShader.verify|verify} messages.
+         * Encodes the specified ZkShader message. Does not implicitly {@link Zko.ZkShader.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrShader
+         * @memberof Zko.ZkShader
          * @static
-         * @param {Mrr.IMrShader} message MrShader message or plain object to encode
+         * @param {Zko.IZkShader} message ZkShader message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrShader.encode = function encode(message, writer) {
+        ZkShader.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.type);
@@ -4343,33 +4343,33 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Encodes the specified MrShader message, length delimited. Does not implicitly {@link Mrr.MrShader.verify|verify} messages.
+         * Encodes the specified ZkShader message, length delimited. Does not implicitly {@link Zko.ZkShader.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrShader
+         * @memberof Zko.ZkShader
          * @static
-         * @param {Mrr.IMrShader} message MrShader message or plain object to encode
+         * @param {Zko.IZkShader} message ZkShader message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrShader.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkShader.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrShader message from the specified reader or buffer.
+         * Decodes a ZkShader message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrShader
+         * @memberof Zko.ZkShader
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrShader} MrShader
+         * @returns {Zko.ZkShader} ZkShader
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrShader.decode = function decode(reader, length) {
+        ZkShader.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrShader();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkShader();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -4394,30 +4394,30 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrShader message from the specified reader or buffer, length delimited.
+         * Decodes a ZkShader message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrShader
+         * @memberof Zko.ZkShader
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrShader} MrShader
+         * @returns {Zko.ZkShader} ZkShader
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrShader.decodeDelimited = function decodeDelimited(reader) {
+        ZkShader.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrShader message.
+         * Verifies a ZkShader message.
          * @function verify
-         * @memberof Mrr.MrShader
+         * @memberof Zko.ZkShader
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrShader.verify = function verify(message) {
+        ZkShader.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (!$util.isString(message.type))
@@ -4428,17 +4428,17 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrShader message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkShader message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrShader
+         * @memberof Zko.ZkShader
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrShader} MrShader
+         * @returns {Zko.ZkShader} ZkShader
          */
-        MrShader.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrShader)
+        ZkShader.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkShader)
                 return object;
-            let message = new $root.Mrr.MrShader();
+            let message = new $root.Zko.ZkShader();
             if (object.type != null)
                 message.type = String(object.type);
             if (object.source != null)
@@ -4447,15 +4447,15 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a plain object from a MrShader message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkShader message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrShader
+         * @memberof Zko.ZkShader
          * @static
-         * @param {Mrr.MrShader} message MrShader
+         * @param {Zko.ZkShader} message ZkShader
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrShader.toObject = function toObject(message, options) {
+        ZkShader.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -4471,53 +4471,53 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Converts this MrShader to JSON.
+         * Converts this ZkShader to JSON.
          * @function toJSON
-         * @memberof Mrr.MrShader
+         * @memberof Zko.ZkShader
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrShader.prototype.toJSON = function toJSON() {
+        ZkShader.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrShader
+         * Gets the default type url for ZkShader
          * @function getTypeUrl
-         * @memberof Mrr.MrShader
+         * @memberof Zko.ZkShader
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrShader.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkShader.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrShader";
+            return typeUrlPrefix + "/Zko.ZkShader";
         };
 
-        return MrShader;
+        return ZkShader;
     })();
 
-    Mrr.MrShaderAttribute = (function() {
+    Zko.ZkShaderAttribute = (function() {
 
         /**
-         * Properties of a MrShaderAttribute.
-         * @memberof Mrr
-         * @interface IMrShaderAttribute
-         * @property {number} index MrShaderAttribute index
-         * @property {string} attributeName MrShaderAttribute attributeName
+         * Properties of a ZkShaderAttribute.
+         * @memberof Zko
+         * @interface IZkShaderAttribute
+         * @property {number} index ZkShaderAttribute index
+         * @property {string} attributeName ZkShaderAttribute attributeName
          */
 
         /**
-         * Constructs a new MrShaderAttribute.
-         * @memberof Mrr
-         * @classdesc Represents a MrShaderAttribute.
-         * @implements IMrShaderAttribute
+         * Constructs a new ZkShaderAttribute.
+         * @memberof Zko
+         * @classdesc Represents a ZkShaderAttribute.
+         * @implements IZkShaderAttribute
          * @constructor
-         * @param {Mrr.IMrShaderAttribute=} [properties] Properties to set
+         * @param {Zko.IZkShaderAttribute=} [properties] Properties to set
          */
-        function MrShaderAttribute(properties) {
+        function ZkShaderAttribute(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -4525,43 +4525,43 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrShaderAttribute index.
+         * ZkShaderAttribute index.
          * @member {number} index
-         * @memberof Mrr.MrShaderAttribute
+         * @memberof Zko.ZkShaderAttribute
          * @instance
          */
-        MrShaderAttribute.prototype.index = 0;
+        ZkShaderAttribute.prototype.index = 0;
 
         /**
-         * MrShaderAttribute attributeName.
+         * ZkShaderAttribute attributeName.
          * @member {string} attributeName
-         * @memberof Mrr.MrShaderAttribute
+         * @memberof Zko.ZkShaderAttribute
          * @instance
          */
-        MrShaderAttribute.prototype.attributeName = "";
+        ZkShaderAttribute.prototype.attributeName = "";
 
         /**
-         * Creates a new MrShaderAttribute instance using the specified properties.
+         * Creates a new ZkShaderAttribute instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrShaderAttribute
+         * @memberof Zko.ZkShaderAttribute
          * @static
-         * @param {Mrr.IMrShaderAttribute=} [properties] Properties to set
-         * @returns {Mrr.MrShaderAttribute} MrShaderAttribute instance
+         * @param {Zko.IZkShaderAttribute=} [properties] Properties to set
+         * @returns {Zko.ZkShaderAttribute} ZkShaderAttribute instance
          */
-        MrShaderAttribute.create = function create(properties) {
-            return new MrShaderAttribute(properties);
+        ZkShaderAttribute.create = function create(properties) {
+            return new ZkShaderAttribute(properties);
         };
 
         /**
-         * Encodes the specified MrShaderAttribute message. Does not implicitly {@link Mrr.MrShaderAttribute.verify|verify} messages.
+         * Encodes the specified ZkShaderAttribute message. Does not implicitly {@link Zko.ZkShaderAttribute.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrShaderAttribute
+         * @memberof Zko.ZkShaderAttribute
          * @static
-         * @param {Mrr.IMrShaderAttribute} message MrShaderAttribute message or plain object to encode
+         * @param {Zko.IZkShaderAttribute} message ZkShaderAttribute message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrShaderAttribute.encode = function encode(message, writer) {
+        ZkShaderAttribute.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.index);
@@ -4570,33 +4570,33 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Encodes the specified MrShaderAttribute message, length delimited. Does not implicitly {@link Mrr.MrShaderAttribute.verify|verify} messages.
+         * Encodes the specified ZkShaderAttribute message, length delimited. Does not implicitly {@link Zko.ZkShaderAttribute.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrShaderAttribute
+         * @memberof Zko.ZkShaderAttribute
          * @static
-         * @param {Mrr.IMrShaderAttribute} message MrShaderAttribute message or plain object to encode
+         * @param {Zko.IZkShaderAttribute} message ZkShaderAttribute message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrShaderAttribute.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkShaderAttribute.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrShaderAttribute message from the specified reader or buffer.
+         * Decodes a ZkShaderAttribute message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrShaderAttribute
+         * @memberof Zko.ZkShaderAttribute
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrShaderAttribute} MrShaderAttribute
+         * @returns {Zko.ZkShaderAttribute} ZkShaderAttribute
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrShaderAttribute.decode = function decode(reader, length) {
+        ZkShaderAttribute.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrShaderAttribute();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkShaderAttribute();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -4621,30 +4621,30 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrShaderAttribute message from the specified reader or buffer, length delimited.
+         * Decodes a ZkShaderAttribute message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrShaderAttribute
+         * @memberof Zko.ZkShaderAttribute
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrShaderAttribute} MrShaderAttribute
+         * @returns {Zko.ZkShaderAttribute} ZkShaderAttribute
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrShaderAttribute.decodeDelimited = function decodeDelimited(reader) {
+        ZkShaderAttribute.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrShaderAttribute message.
+         * Verifies a ZkShaderAttribute message.
          * @function verify
-         * @memberof Mrr.MrShaderAttribute
+         * @memberof Zko.ZkShaderAttribute
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrShaderAttribute.verify = function verify(message) {
+        ZkShaderAttribute.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (!$util.isInteger(message.index))
@@ -4655,17 +4655,17 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrShaderAttribute message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkShaderAttribute message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrShaderAttribute
+         * @memberof Zko.ZkShaderAttribute
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrShaderAttribute} MrShaderAttribute
+         * @returns {Zko.ZkShaderAttribute} ZkShaderAttribute
          */
-        MrShaderAttribute.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrShaderAttribute)
+        ZkShaderAttribute.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkShaderAttribute)
                 return object;
-            let message = new $root.Mrr.MrShaderAttribute();
+            let message = new $root.Zko.ZkShaderAttribute();
             if (object.index != null)
                 message.index = object.index >>> 0;
             if (object.attributeName != null)
@@ -4674,15 +4674,15 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a plain object from a MrShaderAttribute message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkShaderAttribute message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrShaderAttribute
+         * @memberof Zko.ZkShaderAttribute
          * @static
-         * @param {Mrr.MrShaderAttribute} message MrShaderAttribute
+         * @param {Zko.ZkShaderAttribute} message ZkShaderAttribute
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrShaderAttribute.toObject = function toObject(message, options) {
+        ZkShaderAttribute.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -4698,54 +4698,54 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Converts this MrShaderAttribute to JSON.
+         * Converts this ZkShaderAttribute to JSON.
          * @function toJSON
-         * @memberof Mrr.MrShaderAttribute
+         * @memberof Zko.ZkShaderAttribute
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrShaderAttribute.prototype.toJSON = function toJSON() {
+        ZkShaderAttribute.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrShaderAttribute
+         * Gets the default type url for ZkShaderAttribute
          * @function getTypeUrl
-         * @memberof Mrr.MrShaderAttribute
+         * @memberof Zko.ZkShaderAttribute
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrShaderAttribute.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkShaderAttribute.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrShaderAttribute";
+            return typeUrlPrefix + "/Zko.ZkShaderAttribute";
         };
 
-        return MrShaderAttribute;
+        return ZkShaderAttribute;
     })();
 
-    Mrr.MrShaderUniform = (function() {
+    Zko.ZkShaderUniform = (function() {
 
         /**
-         * Properties of a MrShaderUniform.
-         * @memberof Mrr
-         * @interface IMrShaderUniform
-         * @property {string} uniformName MrShaderUniform uniformName
-         * @property {number} count MrShaderUniform count
-         * @property {Mrr.MrUniformType} type MrShaderUniform type
+         * Properties of a ZkShaderUniform.
+         * @memberof Zko
+         * @interface IZkShaderUniform
+         * @property {string} uniformName ZkShaderUniform uniformName
+         * @property {number} count ZkShaderUniform count
+         * @property {Zko.ZkUniformType} type ZkShaderUniform type
          */
 
         /**
-         * Constructs a new MrShaderUniform.
-         * @memberof Mrr
-         * @classdesc Represents a MrShaderUniform.
-         * @implements IMrShaderUniform
+         * Constructs a new ZkShaderUniform.
+         * @memberof Zko
+         * @classdesc Represents a ZkShaderUniform.
+         * @implements IZkShaderUniform
          * @constructor
-         * @param {Mrr.IMrShaderUniform=} [properties] Properties to set
+         * @param {Zko.IZkShaderUniform=} [properties] Properties to set
          */
-        function MrShaderUniform(properties) {
+        function ZkShaderUniform(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -4753,51 +4753,51 @@ export const Mrr = $root.Mrr = (() => {
         }
 
         /**
-         * MrShaderUniform uniformName.
+         * ZkShaderUniform uniformName.
          * @member {string} uniformName
-         * @memberof Mrr.MrShaderUniform
+         * @memberof Zko.ZkShaderUniform
          * @instance
          */
-        MrShaderUniform.prototype.uniformName = "";
+        ZkShaderUniform.prototype.uniformName = "";
 
         /**
-         * MrShaderUniform count.
+         * ZkShaderUniform count.
          * @member {number} count
-         * @memberof Mrr.MrShaderUniform
+         * @memberof Zko.ZkShaderUniform
          * @instance
          */
-        MrShaderUniform.prototype.count = 0;
+        ZkShaderUniform.prototype.count = 0;
 
         /**
-         * MrShaderUniform type.
-         * @member {Mrr.MrUniformType} type
-         * @memberof Mrr.MrShaderUniform
+         * ZkShaderUniform type.
+         * @member {Zko.ZkUniformType} type
+         * @memberof Zko.ZkShaderUniform
          * @instance
          */
-        MrShaderUniform.prototype.type = 0;
+        ZkShaderUniform.prototype.type = 0;
 
         /**
-         * Creates a new MrShaderUniform instance using the specified properties.
+         * Creates a new ZkShaderUniform instance using the specified properties.
          * @function create
-         * @memberof Mrr.MrShaderUniform
+         * @memberof Zko.ZkShaderUniform
          * @static
-         * @param {Mrr.IMrShaderUniform=} [properties] Properties to set
-         * @returns {Mrr.MrShaderUniform} MrShaderUniform instance
+         * @param {Zko.IZkShaderUniform=} [properties] Properties to set
+         * @returns {Zko.ZkShaderUniform} ZkShaderUniform instance
          */
-        MrShaderUniform.create = function create(properties) {
-            return new MrShaderUniform(properties);
+        ZkShaderUniform.create = function create(properties) {
+            return new ZkShaderUniform(properties);
         };
 
         /**
-         * Encodes the specified MrShaderUniform message. Does not implicitly {@link Mrr.MrShaderUniform.verify|verify} messages.
+         * Encodes the specified ZkShaderUniform message. Does not implicitly {@link Zko.ZkShaderUniform.verify|verify} messages.
          * @function encode
-         * @memberof Mrr.MrShaderUniform
+         * @memberof Zko.ZkShaderUniform
          * @static
-         * @param {Mrr.IMrShaderUniform} message MrShaderUniform message or plain object to encode
+         * @param {Zko.IZkShaderUniform} message ZkShaderUniform message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrShaderUniform.encode = function encode(message, writer) {
+        ZkShaderUniform.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.uniformName);
@@ -4807,33 +4807,33 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Encodes the specified MrShaderUniform message, length delimited. Does not implicitly {@link Mrr.MrShaderUniform.verify|verify} messages.
+         * Encodes the specified ZkShaderUniform message, length delimited. Does not implicitly {@link Zko.ZkShaderUniform.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof Mrr.MrShaderUniform
+         * @memberof Zko.ZkShaderUniform
          * @static
-         * @param {Mrr.IMrShaderUniform} message MrShaderUniform message or plain object to encode
+         * @param {Zko.IZkShaderUniform} message ZkShaderUniform message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        MrShaderUniform.encodeDelimited = function encodeDelimited(message, writer) {
+        ZkShaderUniform.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a MrShaderUniform message from the specified reader or buffer.
+         * Decodes a ZkShaderUniform message from the specified reader or buffer.
          * @function decode
-         * @memberof Mrr.MrShaderUniform
+         * @memberof Zko.ZkShaderUniform
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {Mrr.MrShaderUniform} MrShaderUniform
+         * @returns {Zko.ZkShaderUniform} ZkShaderUniform
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrShaderUniform.decode = function decode(reader, length) {
+        ZkShaderUniform.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Mrr.MrShaderUniform();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.Zko.ZkShaderUniform();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -4864,30 +4864,30 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Decodes a MrShaderUniform message from the specified reader or buffer, length delimited.
+         * Decodes a ZkShaderUniform message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof Mrr.MrShaderUniform
+         * @memberof Zko.ZkShaderUniform
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Mrr.MrShaderUniform} MrShaderUniform
+         * @returns {Zko.ZkShaderUniform} ZkShaderUniform
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        MrShaderUniform.decodeDelimited = function decodeDelimited(reader) {
+        ZkShaderUniform.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a MrShaderUniform message.
+         * Verifies a ZkShaderUniform message.
          * @function verify
-         * @memberof Mrr.MrShaderUniform
+         * @memberof Zko.ZkShaderUniform
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        MrShaderUniform.verify = function verify(message) {
+        ZkShaderUniform.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (!$util.isString(message.uniformName))
@@ -4910,17 +4910,17 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a MrShaderUniform message from a plain object. Also converts values to their respective internal types.
+         * Creates a ZkShaderUniform message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof Mrr.MrShaderUniform
+         * @memberof Zko.ZkShaderUniform
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {Mrr.MrShaderUniform} MrShaderUniform
+         * @returns {Zko.ZkShaderUniform} ZkShaderUniform
          */
-        MrShaderUniform.fromObject = function fromObject(object) {
-            if (object instanceof $root.Mrr.MrShaderUniform)
+        ZkShaderUniform.fromObject = function fromObject(object) {
+            if (object instanceof $root.Zko.ZkShaderUniform)
                 return object;
-            let message = new $root.Mrr.MrShaderUniform();
+            let message = new $root.Zko.ZkShaderUniform();
             if (object.uniformName != null)
                 message.uniformName = String(object.uniformName);
             if (object.count != null)
@@ -4965,15 +4965,15 @@ export const Mrr = $root.Mrr = (() => {
         };
 
         /**
-         * Creates a plain object from a MrShaderUniform message. Also converts values to other types if specified.
+         * Creates a plain object from a ZkShaderUniform message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof Mrr.MrShaderUniform
+         * @memberof Zko.ZkShaderUniform
          * @static
-         * @param {Mrr.MrShaderUniform} message MrShaderUniform
+         * @param {Zko.ZkShaderUniform} message ZkShaderUniform
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        MrShaderUniform.toObject = function toObject(message, options) {
+        ZkShaderUniform.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -4987,42 +4987,42 @@ export const Mrr = $root.Mrr = (() => {
             if (message.count != null && message.hasOwnProperty("count"))
                 object.count = message.count;
             if (message.type != null && message.hasOwnProperty("type"))
-                object.type = options.enums === String ? $root.Mrr.MrUniformType[message.type] === undefined ? message.type : $root.Mrr.MrUniformType[message.type] : message.type;
+                object.type = options.enums === String ? $root.Zko.ZkUniformType[message.type] === undefined ? message.type : $root.Zko.ZkUniformType[message.type] : message.type;
             return object;
         };
 
         /**
-         * Converts this MrShaderUniform to JSON.
+         * Converts this ZkShaderUniform to JSON.
          * @function toJSON
-         * @memberof Mrr.MrShaderUniform
+         * @memberof Zko.ZkShaderUniform
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        MrShaderUniform.prototype.toJSON = function toJSON() {
+        ZkShaderUniform.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
         /**
-         * Gets the default type url for MrShaderUniform
+         * Gets the default type url for ZkShaderUniform
          * @function getTypeUrl
-         * @memberof Mrr.MrShaderUniform
+         * @memberof Zko.ZkShaderUniform
          * @static
          * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns {string} The default type url
          */
-        MrShaderUniform.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+        ZkShaderUniform.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
             if (typeUrlPrefix === undefined) {
                 typeUrlPrefix = "type.googleapis.com";
             }
-            return typeUrlPrefix + "/Mrr.MrShaderUniform";
+            return typeUrlPrefix + "/Zko.ZkShaderUniform";
         };
 
-        return MrShaderUniform;
+        return ZkShaderUniform;
     })();
 
     /**
-     * MrUniformType enum.
-     * @name Mrr.MrUniformType
+     * ZkUniformType enum.
+     * @name Zko.ZkUniformType
      * @enum {number}
      * @property {number} SCALAR=0 SCALAR value
      * @property {number} VEC2=1 VEC2 value
@@ -5032,7 +5032,7 @@ export const Mrr = $root.Mrr = (() => {
      * @property {number} MAT3=5 MAT3 value
      * @property {number} MAT4=6 MAT4 value
      */
-    Mrr.MrUniformType = (function() {
+    Zko.ZkUniformType = (function() {
         const valuesById = {}, values = Object.create(valuesById);
         values[valuesById[0] = "SCALAR"] = 0;
         values[valuesById[1] = "VEC2"] = 1;
@@ -5044,7 +5044,7 @@ export const Mrr = $root.Mrr = (() => {
         return values;
     })();
 
-    return Mrr;
+    return Zko;
 })();
 
 export { $root as default };

@@ -1,4 +1,4 @@
-import {MrObject} from "./mrr/MrObject";
+import {ZkObject} from "./zko/ZkObject";
 import {buf2hex} from "./utils/buf2hex";
 import merge from "lodash/merge";
 import {jsonWrite} from "./writer/jsonWriter";
@@ -16,17 +16,17 @@ export const DEFAULT_EXPORT_OPTIONS: ExportOptions = {
     stringify: false
 }
 
-export async function exportMrrAs(mrrObj: MrObject, options: ExportOptions = DEFAULT_EXPORT_OPTIONS) {
+export async function exportZkoAs(zkObj: ZkObject, options: ExportOptions = DEFAULT_EXPORT_OPTIONS) {
     let result
 
     const mergedOptions = merge({}, DEFAULT_EXPORT_OPTIONS, options)
     const {format, beauty} = mergedOptions
     switch (format) {
         case "json":
-            result = await jsonWrite(mrrObj, {beauty})
+            result = await jsonWrite(zkObj, {beauty})
             break
         case "proto":
-            result = await protoWrite(mrrObj)
+            result = await protoWrite(zkObj)
             break
     }
     if (options.stringify) {

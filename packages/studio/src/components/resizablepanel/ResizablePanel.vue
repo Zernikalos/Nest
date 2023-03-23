@@ -52,13 +52,13 @@ function handleDragging(ev: MouseEvent) {
 </script>
 
 <style scoped>
+.panel1 {
+    @apply overflow-x-auto overflow-y-auto
+}
 .wrapper-div {
     @apply h-full flex m-0 pb-0
 }
 .divider {
     @apply h-full w-1 cursor-ew-resize border-l border-l-gray-400
-}
-.panel1 {
-    @apply overflow-x-auto
 }
 </style>

@@ -1,13 +1,13 @@
-export {MrObject} from "./src/mrr/MrObject";
+export {ZkObject} from "./src/zko/ZkObject";
 
-export {MrrParseableObject} from "./src/formats/MrrParseableObject"
+export {ZkoParseableObject} from "./src/formats/ZkoParseableObject"
 
-export {loadMrrParseable, DEFAULT_LOAD_OPTIONS} from "./src/loadMrrParseable"
-export type { LoadOptions } from "./src/loadMrrParseable"
+export {loadZkoParseable, DEFAULT_LOAD_OPTIONS} from "./src/loadZkoParseable"
+export type { LoadOptions } from "./src/loadZkoParseable"
 
-export {parseToMrr, DEFAULT_PARSE_OPTIONS} from "./src/parseToMrr"
-export type { ParseOptions } from "./src/parseToMrr"
+export {parseToZko, DEFAULT_PARSE_OPTIONS} from "./src/parseToZko"
+export type { ParseOptions } from "./src/parseToZko"
 
-export {exportMrrAs, DEFAULT_EXPORT_OPTIONS} from "./src/exportMrrAs"
-export type { ExportOptions } from "./src/exportMrrAs"
+export {exportZkoAs, DEFAULT_EXPORT_OPTIONS} from "./src/exportZkoAs"
+export type { ExportOptions } from "./src/exportZkoAs"
 

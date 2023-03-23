@@ -1,13 +1,13 @@
 import {BufferAttribute, BufferGeometry, InterleavedBufferAttribute} from "three"
 import {isNil} from "lodash"
-import {MrAttributeKey} from "../mrr/mesh/MrAttributeKey"
+import {ZkAttributeKey} from "../zko/mesh/ZkAttributeKey"
 import {filterAttributes} from "./filterAttributes";
 
-function parseAttributeKey(attr: BufferAttribute | InterleavedBufferAttribute, attrCounter: number): MrAttributeKey {
+function parseAttributeKey(attr: BufferAttribute | InterleavedBufferAttribute, attrCounter: number): ZkAttributeKey {
     if (isNil(attr)) {
         throw new Error("Attributes must be defined when exported")
     }
-    const attribute = new MrAttributeKey(attrCounter)
+    const attribute = new ZkAttributeKey(attrCounter)
     attribute.size = attr.itemSize
     attribute.count = attr.count
     attribute.normalized = attr.normalized
@@ -16,8 +16,8 @@ function parseAttributeKey(attr: BufferAttribute | InterleavedBufferAttribute, a
     return attribute
 }
 
-export function parseAttributeKeys(geometry: BufferGeometry): Map<string, MrAttributeKey> {
-    const keys: Map<string, MrAttributeKey> = new Map()
+export function parseAttributeKeys(geometry: BufferGeometry): Map<string, ZkAttributeKey> {
+    const keys: Map<string, ZkAttributeKey> = new Map()
 
     let attrCounter = 0
     const filteredAttributes = filterAttributes(geometry)

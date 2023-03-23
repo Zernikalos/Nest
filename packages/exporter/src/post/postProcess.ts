@@ -1,25 +1,25 @@
-import {MrObject} from "../mrr/MrObject"
+import {ZkObject} from "../zko/ZkObject"
+import {ZkModel} from "../zko/ZkModel"
 import {isNil} from "lodash"
 import {postModel} from "./postModel"
-import {MrModel} from "../mrr/MrModel"
 
-export function postProcess(obj: MrObject) {
-    let postObj: MrObject
+export function postProcess(obj: ZkObject) {
+    let postObj: ZkObject
     switch (obj.type) {
         case "Object":
         case "Group":
             postObj = obj
             break
         case "Model":
-            postObj = postModel(obj as MrModel)
+            postObj = postModel(obj as ZkModel)
             break
     }
     if (!postObj || !postObj.type) {
-        console.error("Error POST processing MrObject instance")
+        console.error("Error POST processing ZkObject instance")
         return
     }
     postObj.children = obj.children
-        .map((child: MrObject)=> postProcess(child))
-        .filter((child: MrObject) => !isNil(child))
+        .map((child: ZkObject)=> postProcess(child))
+        .filter((child: ZkObject) => !isNil(child))
     return postObj
 }

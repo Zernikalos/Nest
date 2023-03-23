@@ -1,7 +1,7 @@
 import {parseObject} from "./parsers";
 import {postProcess} from "./post";
-import {MrrParseableObject} from "./formats/MrrParseableObject";
-import {MrObject} from "./mrr/MrObject";
+import {ZkoParseableObject} from "./formats/ZkoParseableObject";
+import {ZkObject} from "./zko/ZkObject";
 import _ from "lodash";
 import {IdGenerator} from "./utils/IdGenerator";
 
@@ -14,16 +14,16 @@ export const DEFAULT_PARSE_OPTIONS: ParseOptions = {
 
 }
 
-export function parseToMrr(parseableObject: MrrParseableObject, options: ParseOptions): MrObject {
+export function parseToZko(parseableObject: ZkoParseableObject, options: ParseOptions): ZkObject {
 
     // @ts-ignore
     const mergedOptions = _.merge({}, DEFAULT_PARSE_OPTIONS, options)
 
     IdGenerator.parseBegin()
 
-    let mrrObj = parseObject(parseableObject._threeObj)
-    mrrObj = postProcess(mrrObj)
+    let zkObj = parseObject(parseableObject._threeObj)
+    zkObj = postProcess(zkObj)
 
     IdGenerator.reset()
-    return mrrObj
+    return zkObj
 }

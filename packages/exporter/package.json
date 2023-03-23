@@ -1,5 +1,5 @@
 {
-  "name": "@mrrobotto/exporter",
+  "name": "@zernikalos/exporter",
   "version": "0.0.1",
   "license": "MIT",
   "author": "Aaron Negrin",
@@ -11,7 +11,7 @@
     "webpack": "webpack",
     "build:node": "webpack --config webpack.node.js",
     "parse": "babel-node index.js",
-    "generate": "pbjs --target static-module --wrap es6 --es6 --out protobuild/index.js proto/mrr.proto && pbts --no-comments --out protobuild/index.d.ts protobuild/index.js"
+    "generate": "pbjs --target static-module --wrap es6 --es6 --out protobuild/index.js proto/zko.proto && pbts --no-comments --out protobuild/index.d.ts protobuild/index.js"
   },
   "dependencies": {
     "@babel/runtime": "7.21.0",

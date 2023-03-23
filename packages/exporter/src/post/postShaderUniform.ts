@@ -1,11 +1,11 @@
-import {MrShaderUniform} from "../mrr/shader/MrShaderUniform";
+import {ZkShaderUniform} from "../zko/shader/ZkShaderUniform";
 import {UNAME_SHADER_MVP_MATRIX} from "./constants";
-import {Mrr} from "../proto";
+import {Zko} from "../proto";
 
 export function postShaderUniform() {
-    const uniform = new MrShaderUniform()
+    const uniform = new ZkShaderUniform()
     uniform.uniformName = UNAME_SHADER_MVP_MATRIX
-    uniform.type = Mrr.MrUniformType.MAT4
+    uniform.type = Zko.ZkUniformType.MAT4
     uniform.count = 1
     return uniform
 }

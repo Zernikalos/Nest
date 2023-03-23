@@ -1,13 +1,13 @@
 import objectHash from "object-hash"
-import {MrTransform} from "./MrTransform";
+import {ZkTransform} from "./ZkTransform";
 import {IdGenerator} from "../utils/IdGenerator";
 
-export type MrObjectType = "Object" | "Model" | "Group" | "Scene"
+export type ZkObjectType = "Object" | "Model" | "Group" | "Scene"
 
-export class MrObject {
-    type: MrObjectType = "Object"
-    transform: MrTransform
-    children: MrObject[] = []
+export class ZkObject {
+    type: ZkObjectType = "Object"
+    transform: ZkTransform
+    children: ZkObject[] = []
 
     private _id: string
     private _name: string
@@ -35,7 +35,7 @@ export class MrObject {
         this._name = value
     }
 
-    public addChild(child: MrObject) {
+    public addChild(child: ZkObject) {
         this.children.push(child)
     }
 }

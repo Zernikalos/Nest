@@ -1,9 +1,9 @@
-import {MrShaderAttribute} from "../mrr/shader/MrShaderAttribute"
-import {MrAttributeKey} from "../mrr/mesh/MrAttributeKey";
+import {ZkShaderAttribute} from "../zko/shader/ZkShaderAttribute"
+import {ZkAttributeKey} from "../zko/mesh/ZkAttributeKey";
 import {ANAME_SHADER_MAP} from "./constants";
 
-export function postShaderAttribute(name: string, attrKey: MrAttributeKey): MrShaderAttribute {
-    const shaderAttrib = new MrShaderAttribute()
+export function postShaderAttribute(name: string, attrKey: ZkAttributeKey): ZkShaderAttribute {
+    const shaderAttrib = new ZkShaderAttribute()
     shaderAttrib.index = attrKey.index
     shaderAttrib.attributeName = ANAME_SHADER_MAP[name]
     return shaderAttrib

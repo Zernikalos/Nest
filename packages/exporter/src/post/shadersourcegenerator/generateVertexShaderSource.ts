@@ -1,5 +1,5 @@
-import {MrModel} from "../../mrr/MrModel";
-import {MrAttributeKey} from "../../mrr/mesh/MrAttributeKey";
+import {ZkModel} from "../../zko/ZkModel";
+import {ZkAttributeKey} from "../../zko/mesh/ZkAttributeKey";
 import {
     ANAME_SHADER_POSITION,
     ANAME_SHADER_NORMAL,
@@ -14,7 +14,7 @@ import {
     T,
 } from "./shadersourcecommon"
 
-export function generateVertexShaderSource(obj: MrModel): string {
+export function generateVertexShaderSource(obj: ZkModel): string {
     const source: (string | string[])[] = [
         HEADER,
         BR,
@@ -31,7 +31,7 @@ export function generateVertexShaderSource(obj: MrModel): string {
     return buildSource(source)
 }
 
-function genInAttributes(attributes: Map<string, MrAttributeKey>): string[] {
+function genInAttributes(attributes: Map<string, ZkAttributeKey>): string[] {
     function genAttribute(name: string): string {
         switch (name) {
             case "position":
@@ -48,14 +48,14 @@ function genInAttributes(attributes: Map<string, MrAttributeKey>): string[] {
     return [...attributes.entries()].map(([name, _]) => genAttribute(name))
 }
 
-function genOutAttributes(attributes: Map<string, MrAttributeKey>) {
+function genOutAttributes(attributes: Map<string, ZkAttributeKey>) {
     if (!attributes.has("color")) {
         return ""
     }
     return `out vec3 ${ANAME_OUT_VERT_SHADER_COLOR};`
 }
 
-function genOutColor(attributes: Map<string, MrAttributeKey>) {
+function genOutColor(attributes: Map<string, ZkAttributeKey>) {
     if (!attributes.has("color")) {
         return ""
     }

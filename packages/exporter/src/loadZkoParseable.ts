@@ -1,7 +1,7 @@
 import merge from "lodash/merge";
 import {objLoader} from "./formats/objLoader";
 import {gltfLoader} from "./formats/gltfLoader";
-import {MrrParseableObject} from "./formats/MrrParseableObject";
+import {ZkoParseableObject} from "./formats/ZkoParseableObject";
 import _ from "lodash";
 
 export interface LoadOptions {
@@ -13,7 +13,7 @@ export const DEFAULT_LOAD_OPTIONS: Partial<LoadOptions> = {
     format: "obj",
 }
 
-export async function loadMrrParseable(options: LoadOptions): Promise<MrrParseableObject> {
+export async function loadZkoParseable(options: LoadOptions): Promise<ZkoParseableObject> {
     let result
 
     const mergedOptions: LoadOptions = merge({}, DEFAULT_LOAD_OPTIONS, options)

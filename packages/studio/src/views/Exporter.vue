@@ -16,7 +16,7 @@
             ></Toggle>
         </div>
 
-        <Button @click="exportToMrr">Export</Button>
+        <Button @click="exportToZko">Export</Button>
 
         <div class="flex h-full space-x-5">
             <MonacoEditor class="grow" v-model:editor-text="editorText" :language="selectedOutputFormat === 'proto' ? 'text' : 'json'" format="json"></MonacoEditor>
@@ -33,7 +33,7 @@ import Button from "@studio/components/Button.vue"
 import FileSelectorFormat from "@studio/components/fileselector/FileSelectorFormat.vue"
 
 import * as fileApi from "@studio/hooks/useFileApi"
-import {useMrrLoaderStore} from "@mrrobotto/store/src";
+import {useZkoLoaderStore} from "@zernikalos/store/src";
 
 const inputFile = ref()
 const editorText = ref()
@@ -48,9 +48,9 @@ const selectedInputFormat = ref('obj')
 
 const inputFormats = [{label: 'obj', extensions: ['obj']}, {label: 'gltf', extensions: ['gltf', 'glb']}]
 
-const mrr = ref()
+const zko = ref()
 
-const mrrStore = useMrrLoaderStore()
+const zkoStore = useZkoLoaderStore()
 
 onMounted(() => {
     updateEditor()
@@ -62,24 +62,24 @@ function handleUpdateFileSelected(ev) {
 }
 
 function updateFormat() {
-    if (!mrrStore.root) {
+    if (!zkoStore.root) {
         return
     }
     updateEditor()
 }
 
 async function updateEditor() {
-    editorText.value = await mrrStore.exportAs({format: selectedOutputFormat.value, beauty: true, stringify: true})
+    editorText.value = await zkoStore.exportAs({format: selectedOutputFormat.value, beauty: true, stringify: true})
 }
 
-async function exportToMrr() {
+async function exportToZko() {
     if (!inputFile.value) {
         return ""
     }
     const {path, name} = inputFile.value
     const fileUrl = await fileApi.getUrlForFile(path, name)
 
-    await mrrStore.loadFromFile({filePath: fileUrl, format: selectedInputFormat.value})
+    await zkoStore.loadFromFile({filePath: fileUrl, format: selectedInputFormat.value})
     updateEditor()
 }
 
