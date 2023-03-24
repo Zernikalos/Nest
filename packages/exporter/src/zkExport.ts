@@ -1,4 +1,4 @@
-import {ZkObject} from "./zko/ZkObject";
+import {ZObject} from "./zernikalos/ZObject";
 import {buf2hex} from "./utils/buf2hex";
 import merge from "lodash/merge";
 import {jsonWrite} from "./writer/jsonWriter";
@@ -16,7 +16,7 @@ export const DEFAULT_EXPORT_OPTIONS: ExportOptions = {
     stringify: false
 }
 
-export async function exportZkoAs(zkObj: ZkObject, options: ExportOptions = DEFAULT_EXPORT_OPTIONS) {
+export async function zkExport(zkObj: ZObject, options: ExportOptions = DEFAULT_EXPORT_OPTIONS) {
     let result
 
     const mergedOptions = merge({}, DEFAULT_EXPORT_OPTIONS, options)

@@ -1,6 +1,6 @@
 import {Zko} from "../../proto";
 
-export class ZkBuffer {
+export class ZBuffer {
     targetBuffer: Zko.BufferTargetType
     usage: Zko.BufferUsageType
     count: number

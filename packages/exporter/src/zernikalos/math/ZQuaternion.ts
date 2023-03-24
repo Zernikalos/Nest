@@ -1,5 +1,5 @@
 
-export class ZkQuaternion {
+export class ZQuaternion {
     w: number
     x: number
     y: number

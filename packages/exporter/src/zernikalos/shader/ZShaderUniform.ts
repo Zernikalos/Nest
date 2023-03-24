@@ -1,6 +1,6 @@
 import {Zko} from "../../../protobuild";
 
-export class ZkShaderUniform {
+export class ZShaderUniform {
     uniformName = ""
     count: number
     type: Zko.ZkUniformType

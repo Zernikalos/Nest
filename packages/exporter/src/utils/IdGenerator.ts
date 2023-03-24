@@ -1,17 +1,17 @@
-import {ZkObjectType} from "../zko/ZkObject";
+import {ZObjectType} from "../zernikalos/ZObject";
 
 /**
  * Simple ID generation based on numbers of element per type
  */
 export class IdGenerator {
 
-    private static counters: Map<ZkObjectType, number>
+    private static counters: Map<ZObjectType, number>
 
     public static parseBegin() {
         IdGenerator.counters = new Map()
     }
 
-    public static add(type: ZkObjectType) {
+    public static add(type: ZObjectType) {
         if (!IdGenerator.counters.has(type)) {
             IdGenerator.counters.set(type, 0)
         }
@@ -20,7 +20,7 @@ export class IdGenerator {
         return count
     }
 
-    public static pop(type: ZkObjectType) {
+    public static pop(type: ZObjectType) {
         if (!IdGenerator.counters.has(type)) {
             IdGenerator.counters.set(type, 0)
         }

@@ -1,5 +1,5 @@
-import { ZkGroup } from "../zko/ZkGroup";
-import {ZkObject} from "../zko/ZkObject"
+import { ZGroup } from "../zernikalos/ZGroup";
+import {ZObject} from "../zernikalos/ZObject"
 import {parseGroup} from "./parseGroup"
 import {parseModel} from "./parseModel"
 import {isNil} from "lodash"
@@ -7,7 +7,7 @@ import {Group, Mesh, Object3D, Scene} from "three";
 import {parseTransform} from "./parseTransform";
 import {parseScene} from "./parseScene";
 
-export function parseObject(threeObj: Object3D): ZkObject | undefined {
+export function parseObject(threeObj: Object3D): ZObject | undefined {
     let zkObj
     switch (threeObj.type) {
         case "Group":
@@ -25,13 +25,13 @@ export function parseObject(threeObj: Object3D): ZkObject | undefined {
     if (!zkObj || !zkObj.type) {
         console.warn(`Error detecting object of type ${threeObj.type}, setting a default ZkObject`)
         // TODO: Fix this type
-        zkObj = new ZkGroup()
+        zkObj = new ZGroup()
     }
     zkObj.name = threeObj.name
     zkObj.transform = parseTransform(threeObj)
 
     zkObj.children = threeObj.children
         .map((child: Object3D)=> parseObject(child))
-        .filter((child: ZkObject) => !isNil(child))
+        .filter((child: ZObject) => !isNil(child))
     return zkObj
 }

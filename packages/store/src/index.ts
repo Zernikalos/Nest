@@ -2,13 +2,13 @@ import {createPinia, defineStore} from "pinia"
 import {App, Ref, ref} from "vue";
 import {
     DEFAULT_PARSE_OPTIONS,
-    exportZkoAs,
+    zkExport,
     ExportOptions,
-    loadZkoParseable,
+    zkLoad,
     LoadOptions,
-    ZkObject,
+    ZObject,
     ParseOptions,
-    parseToZko
+    zkParse
 } from "@zernikalos/exporter"
 // @ts-ignore
 import _ from "lodash"
@@ -18,21 +18,21 @@ export function createStudioStore(app: App) {
 }
 
 export const useZkoLoaderStore = defineStore('zko', () => {
-    const root: Ref<ZkObject | undefined> = ref ()
+    const root: Ref<ZObject | undefined> = ref ()
 
     async function loadFromFile(loadOptions: LoadOptions, parseOptions: ParseOptions = DEFAULT_PARSE_OPTIONS) {
         const mergedLoadOptions = _.merge({}, loadOptions)
         const mergedParseOptions = _.merge({}, parseOptions)
 
-        const parseableObj = await loadZkoParseable(mergedLoadOptions)
-        root.value = parseToZko(parseableObj, mergedParseOptions)
+        const parseableObj = await zkLoad(mergedLoadOptions)
+        root.value = zkParse(parseableObj, mergedParseOptions)
     }
 
     async function exportAs(exportOptions: ExportOptions) {
         if (_.isNil(root.value)) {
             return ''
         }
-        return await exportZkoAs(root.value as ZkObject, exportOptions)
+        return await zkExport(root.value as ZObject, exportOptions)
     }
 
     function $reset() {

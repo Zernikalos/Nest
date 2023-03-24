@@ -1,5 +1,5 @@
 
-export class ZkShaderAttribute {
+export class ZShaderAttribute {
     index = -1
     attributeName = ""
 }

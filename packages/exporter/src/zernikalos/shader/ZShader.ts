@@ -1,6 +1,6 @@
 export type ShaderType = "vertex" | "fragment"
 
-export class ZkShader {
+export class ZShader {
     type: ShaderType = "vertex"
     source = ""
 }

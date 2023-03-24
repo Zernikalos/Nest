@@ -1,9 +1,9 @@
-import {ZkModel} from "../../zko/ZkModel";
-import {ZkAttributeKey} from "../../zko/mesh/ZkAttributeKey";
+import {ZModel} from "../../zernikalos/ZModel";
+import {ZAttributeKey} from "../../zernikalos/mesh/ZAttributeKey";
 import {BR, buildSource, CLOSE_MAIN, FLOAT_PRECISSION, HEADER, OPEN_MAIN} from "./shadersourcecommon";
 import {ANAME_OUT_FRAG_SHADER_COLOR, ANAME_IN_FRAG_SHADER_COLOR} from "../constants";
 
-export function generateFragmentShaderSource(obj: ZkModel) {
+export function generateFragmentShaderSource(obj: ZModel) {
     const source: string[] = [
         HEADER,
         BR,
@@ -20,7 +20,7 @@ export function generateFragmentShaderSource(obj: ZkModel) {
     return buildSource(source)
 }
 
-function genInAttributes(attributes: Map<string, ZkAttributeKey>): string[] {
+function genInAttributes(attributes: Map<string, ZAttributeKey>): string[] {
     function genAttribute(name: string): string {
         switch (name) {
             case "color":
@@ -31,11 +31,11 @@ function genInAttributes(attributes: Map<string, ZkAttributeKey>): string[] {
     return [...attributes.entries()].map(([name, _]) => genAttribute(name))
 }
 
-function genOutAttributes(_attributes: Map<string, ZkAttributeKey>) {
+function genOutAttributes(_attributes: Map<string, ZAttributeKey>) {
     return `out vec4 ${ANAME_OUT_FRAG_SHADER_COLOR};`
 }
 
-function genOutColor(attributes: Map<string, ZkAttributeKey>) {
+function genOutColor(attributes: Map<string, ZAttributeKey>) {
     if (attributes.has("color")) {
         return `${ANAME_OUT_FRAG_SHADER_COLOR} = vec4(${ANAME_IN_FRAG_SHADER_COLOR}.xyz, 1);`
     }

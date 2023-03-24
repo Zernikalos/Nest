@@ -1,26 +1,26 @@
 import {
-    loadZkoParseable,
-    parseToZko,
-    exportZkoAs,
+    zkLoad,
+    zkParse,
+    zkExport,
     LoadOptions,
     ParseOptions,
     ExportOptions,
     ZkoParseableObject,
-    ZkObject
+    ZObject
 } from "@zernikalos/exporter"
 import {merge} from "lodash"
 
 export async function load3DFile(loadOptions: LoadOptions): Promise<ZkoParseableObject> {
     const mergedOptions = merge({}, loadOptions)
-    return await loadZkoParseable(mergedOptions)
+    return await zkLoad(mergedOptions)
 }
 
-export function parseMrr(parseableObject: ZkoParseableObject, parseOptions?: ParseOptions): ZkObject {
+export function parseMrr(parseableObject: ZkoParseableObject, parseOptions?: ParseOptions): ZObject {
     const mergeParseOptions: ParseOptions = merge({}, parseOptions)
-    return parseToZko(parseableObject, mergeParseOptions)
+    return zkParse(parseableObject, mergeParseOptions)
 }
 
-export function exportAs(mrObject: ZkObject, exportOptions?: ExportOptions) {
+export function exportAs(mrObject: ZObject, exportOptions?: ExportOptions) {
     const mergedExportOptions: ExportOptions = merge({}, exportOptions)
-    return exportZkoAs(mrObject, mergedExportOptions)
+    return zkExport(mrObject, mergedExportOptions)
 }

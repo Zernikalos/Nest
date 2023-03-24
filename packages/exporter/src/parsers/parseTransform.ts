@@ -1,19 +1,19 @@
 import {Object3D} from "three";
-import {ZkTransform} from "../zko/ZkTransform";
-import {ZkVector3} from "../zko/math/ZkVector3";
-import {ZkQuaternion} from "../zko/math/ZkQuaternion";
+import {ZTransform} from "../zernikalos/ZTransform";
+import {ZVector3} from "../zernikalos/math/ZVector3";
+import {ZQuaternion} from "../zernikalos/math/ZQuaternion";
 
-export function parseTransform(obj: Object3D): ZkTransform {
-    const transform = new ZkTransform()
+export function parseTransform(obj: Object3D): ZTransform {
+    const transform = new ZTransform()
 
     const position = obj.position
-    transform.location = new ZkVector3(position.x, position.y, position.z)
+    transform.location = new ZVector3(position.x, position.y, position.z)
 
     const quaternion = obj.quaternion
-    transform.rotation = new ZkQuaternion(quaternion.w, quaternion.x, quaternion.y, quaternion.z)
+    transform.rotation = new ZQuaternion(quaternion.w, quaternion.x, quaternion.y, quaternion.z)
 
     const scale = obj.scale
-    transform.scale = new ZkVector3(scale.x, scale.y, scale.z)
+    transform.scale = new ZVector3(scale.x, scale.y, scale.z)
 
     return transform
 }

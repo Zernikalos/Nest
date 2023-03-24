@@ -1,13 +1,12 @@
-export {ZkObject} from "./src/zko/ZkObject";
+export {ZObject} from "./src/zernikalos/ZObject";
 
 export {ZkoParseableObject} from "./src/formats/ZkoParseableObject"
 
-export {loadZkoParseable, DEFAULT_LOAD_OPTIONS} from "./src/loadZkoParseable"
-export type { LoadOptions } from "./src/loadZkoParseable"
+export {zkLoad, DEFAULT_LOAD_OPTIONS} from "./src/zkLoad"
+export type { LoadOptions } from "./src/zkLoad"
 
-export {parseToZko, DEFAULT_PARSE_OPTIONS} from "./src/parseToZko"
-export type { ParseOptions } from "./src/parseToZko"
+export {zkParse, DEFAULT_PARSE_OPTIONS} from "./src/zkParse"
+export type { ParseOptions } from "./src/zkParse"
 
-export {exportZkoAs, DEFAULT_EXPORT_OPTIONS} from "./src/exportZkoAs"
-export type { ExportOptions } from "./src/exportZkoAs"
-
+export {zkExport, DEFAULT_EXPORT_OPTIONS} from "./src/zkExport"
+export type { ExportOptions } from "./src/zkExport"

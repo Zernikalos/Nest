@@ -1,7 +1,7 @@
 import {parseObject} from "./parsers";
 import {postProcess} from "./post";
 import {ZkoParseableObject} from "./formats/ZkoParseableObject";
-import {ZkObject} from "./zko/ZkObject";
+import {ZObject} from "./zernikalos/ZObject";
 import _ from "lodash";
 import {IdGenerator} from "./utils/IdGenerator";
 
@@ -14,7 +14,7 @@ export const DEFAULT_PARSE_OPTIONS: ParseOptions = {
 
 }
 
-export function parseToZko(parseableObject: ZkoParseableObject, options: ParseOptions): ZkObject {
+export function zkParse(parseableObject: ZkoParseableObject, options: ParseOptions): ZObject {
 
     // @ts-ignore
     const mergedOptions = _.merge({}, DEFAULT_PARSE_OPTIONS, options)

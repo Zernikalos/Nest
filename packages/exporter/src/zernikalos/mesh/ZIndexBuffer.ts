@@ -1,7 +1,7 @@
-import {ZkBuffer} from "./ZkBuffer";
+import {ZBuffer} from "./ZBuffer";
 import {Zko} from "../../proto";
 
-export class ZkIndexBuffer extends ZkBuffer {
+export class ZIndexBuffer extends ZBuffer {
     constructor() {
         super()
         this.targetBuffer = Zko.BufferTargetType.ELEMENT_ARRAY_BUFFER

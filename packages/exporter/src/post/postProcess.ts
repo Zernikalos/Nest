@@ -1,17 +1,17 @@
-import {ZkObject} from "../zko/ZkObject"
-import {ZkModel} from "../zko/ZkModel"
+import {ZObject} from "../zernikalos/ZObject"
+import {ZModel} from "../zernikalos/ZModel"
 import {isNil} from "lodash"
 import {postModel} from "./postModel"
 
-export function postProcess(obj: ZkObject) {
-    let postObj: ZkObject
+export function postProcess(obj: ZObject) {
+    let postObj: ZObject
     switch (obj.type) {
         case "Object":
         case "Group":
             postObj = obj
             break
         case "Model":
-            postObj = postModel(obj as ZkModel)
+            postObj = postModel(obj as ZModel)
             break
     }
     if (!postObj || !postObj.type) {
@@ -19,7 +19,7 @@ export function postProcess(obj: ZkObject) {
         return
     }
     postObj.children = obj.children
-        .map((child: ZkObject)=> postProcess(child))
-        .filter((child: ZkObject) => !isNil(child))
+        .map((child: ZObject)=> postProcess(child))
+        .filter((child: ZObject) => !isNil(child))
     return postObj
 }

@@ -1,5 +1,5 @@
 
-export class ZkVector3 {
+export class ZVector3 {
     x: number
     y: number
     z: number
