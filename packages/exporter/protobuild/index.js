@@ -23,9 +23,9 @@ export const Zko = $root.Zko = (() => {
          * @memberof Zko
          * @interface IProtoZkObject
          * @property {string} type ProtoZkObject type
+         * @property {Zko.IZkScene|null} [scene] ProtoZkObject scene
          * @property {Zko.IZkGroup|null} [group] ProtoZkObject group
          * @property {Zko.IZkModel|null} [model] ProtoZkObject model
-         * @property {Zko.IZkScene|null} [scene] ProtoZkObject scene
          * @property {Array.<Zko.IProtoZkObject>|null} [children] ProtoZkObject children
          */
 
@@ -54,6 +54,14 @@ export const Zko = $root.Zko = (() => {
         ProtoZkObject.prototype.type = "";
 
         /**
+         * ProtoZkObject scene.
+         * @member {Zko.IZkScene|null|undefined} scene
+         * @memberof Zko.ProtoZkObject
+         * @instance
+         */
+        ProtoZkObject.prototype.scene = null;
+
+        /**
          * ProtoZkObject group.
          * @member {Zko.IZkGroup|null|undefined} group
          * @memberof Zko.ProtoZkObject
@@ -68,14 +76,6 @@ export const Zko = $root.Zko = (() => {
          * @instance
          */
         ProtoZkObject.prototype.model = null;
-
-        /**
-         * ProtoZkObject scene.
-         * @member {Zko.IZkScene|null|undefined} scene
-         * @memberof Zko.ProtoZkObject
-         * @instance
-         */
-        ProtoZkObject.prototype.scene = null;
 
         /**
          * ProtoZkObject children.
@@ -110,12 +110,12 @@ export const Zko = $root.Zko = (() => {
             if (!writer)
                 writer = $Writer.create();
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.type);
-            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
-                $root.Zko.ZkGroup.encode(message.group, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-            if (message.model != null && Object.hasOwnProperty.call(message, "model"))
-                $root.Zko.ZkModel.encode(message.model, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             if (message.scene != null && Object.hasOwnProperty.call(message, "scene"))
-                $root.Zko.ZkScene.encode(message.scene, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                $root.Zko.ZkScene.encode(message.scene, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
+                $root.Zko.ZkGroup.encode(message.group, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            if (message.model != null && Object.hasOwnProperty.call(message, "model"))
+                $root.Zko.ZkModel.encode(message.model, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
             if (message.children != null && message.children.length)
                 for (let i = 0; i < message.children.length; ++i)
                     $root.Zko.ProtoZkObject.encode(message.children[i], writer.uint32(/* id 100, wireType 2 =*/802).fork()).ldelim();
@@ -158,15 +158,15 @@ export const Zko = $root.Zko = (() => {
                         break;
                     }
                 case 2: {
-                        message.group = $root.Zko.ZkGroup.decode(reader, reader.uint32());
+                        message.scene = $root.Zko.ZkScene.decode(reader, reader.uint32());
                         break;
                     }
                 case 3: {
-                        message.model = $root.Zko.ZkModel.decode(reader, reader.uint32());
+                        message.group = $root.Zko.ZkGroup.decode(reader, reader.uint32());
                         break;
                     }
                 case 4: {
-                        message.scene = $root.Zko.ZkScene.decode(reader, reader.uint32());
+                        message.model = $root.Zko.ZkModel.decode(reader, reader.uint32());
                         break;
                     }
                 case 100: {
@@ -214,6 +214,11 @@ export const Zko = $root.Zko = (() => {
                 return "object expected";
             if (!$util.isString(message.type))
                 return "type: string expected";
+            if (message.scene != null && message.hasOwnProperty("scene")) {
+                let error = $root.Zko.ZkScene.verify(message.scene);
+                if (error)
+                    return "scene." + error;
+            }
             if (message.group != null && message.hasOwnProperty("group")) {
                 let error = $root.Zko.ZkGroup.verify(message.group);
                 if (error)
@@ -223,11 +228,6 @@ export const Zko = $root.Zko = (() => {
                 let error = $root.Zko.ZkModel.verify(message.model);
                 if (error)
                     return "model." + error;
-            }
-            if (message.scene != null && message.hasOwnProperty("scene")) {
-                let error = $root.Zko.ZkScene.verify(message.scene);
-                if (error)
-                    return "scene." + error;
             }
             if (message.children != null && message.hasOwnProperty("children")) {
                 if (!Array.isArray(message.children))
@@ -255,6 +255,11 @@ export const Zko = $root.Zko = (() => {
             let message = new $root.Zko.ProtoZkObject();
             if (object.type != null)
                 message.type = String(object.type);
+            if (object.scene != null) {
+                if (typeof object.scene !== "object")
+                    throw TypeError(".Zko.ProtoZkObject.scene: object expected");
+                message.scene = $root.Zko.ZkScene.fromObject(object.scene);
+            }
             if (object.group != null) {
                 if (typeof object.group !== "object")
                     throw TypeError(".Zko.ProtoZkObject.group: object expected");
@@ -264,11 +269,6 @@ export const Zko = $root.Zko = (() => {
                 if (typeof object.model !== "object")
                     throw TypeError(".Zko.ProtoZkObject.model: object expected");
                 message.model = $root.Zko.ZkModel.fromObject(object.model);
-            }
-            if (object.scene != null) {
-                if (typeof object.scene !== "object")
-                    throw TypeError(".Zko.ProtoZkObject.scene: object expected");
-                message.scene = $root.Zko.ZkScene.fromObject(object.scene);
             }
             if (object.children) {
                 if (!Array.isArray(object.children))
@@ -300,18 +300,18 @@ export const Zko = $root.Zko = (() => {
                 object.children = [];
             if (options.defaults) {
                 object.type = "";
+                object.scene = null;
                 object.group = null;
                 object.model = null;
-                object.scene = null;
             }
             if (message.type != null && message.hasOwnProperty("type"))
                 object.type = message.type;
+            if (message.scene != null && message.hasOwnProperty("scene"))
+                object.scene = $root.Zko.ZkScene.toObject(message.scene, options);
             if (message.group != null && message.hasOwnProperty("group"))
                 object.group = $root.Zko.ZkGroup.toObject(message.group, options);
             if (message.model != null && message.hasOwnProperty("model"))
                 object.model = $root.Zko.ZkModel.toObject(message.model, options);
-            if (message.scene != null && message.hasOwnProperty("scene"))
-                object.scene = $root.Zko.ZkScene.toObject(message.scene, options);
             if (message.children && message.children.length) {
                 object.children = [];
                 for (let j = 0; j < message.children.length; ++j)

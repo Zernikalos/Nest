@@ -1,21 +1,21 @@
 import * as $protobuf from "protobufjs";
-// import Long = require("long");
+import Long = require("long");
 export namespace Zko {
 
     interface IProtoZkObject {
         type: string;
+        scene?: (Zko.IZkScene|null);
         group?: (Zko.IZkGroup|null);
         model?: (Zko.IZkModel|null);
-        scene?: (Zko.IZkScene|null);
         children?: (Zko.IProtoZkObject[]|null);
     }
 
     class ProtoZkObject implements IProtoZkObject {
         constructor(properties?: Zko.IProtoZkObject);
         public type: string;
+        public scene?: (Zko.IZkScene|null);
         public group?: (Zko.IZkGroup|null);
         public model?: (Zko.IZkModel|null);
-        public scene?: (Zko.IZkScene|null);
         public children: Zko.IProtoZkObject[];
         public static create(properties?: Zko.IProtoZkObject): Zko.ProtoZkObject;
         public static encode(message: Zko.IProtoZkObject, writer?: $protobuf.Writer): $protobuf.Writer;

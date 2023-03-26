@@ -3,7 +3,7 @@ import {ZMesh} from "./mesh/ZMesh"
 import {ZShaderProgram} from "./shader/ZShaderProgram"
 
 export class ZModel extends ZObject {
-    type: ZObjectType = "Model"
+    type: ZObjectType = ZObjectType.MODEL
     mesh = new ZMesh()
     shaderProgram: ZShaderProgram
 }

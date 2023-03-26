@@ -1,4 +1,4 @@
-import {ZObject} from "../zernikalos/ZObject"
+import {ZObject, ZObjectType} from "../zernikalos/ZObject"
 import {Zko} from "../proto"
 
 async function writeTree(obj: ZObject): Promise<Zko.ProtoZkObject> {
@@ -13,14 +13,20 @@ function convertToProto(obj: ZObject) {
     // TODO: The use of fromObject affects a lot to the performance
     let auxNode: Zko.ProtoZkObject
     switch (obj.type) {
-        case "Group":
-        case "Object":
+        case ZObjectType.SCENE:
+            auxNode = new Zko.ProtoZkObject({
+                type: "Scene",
+                scene: Zko.ZkScene.fromObject(obj)
+            })
+            break
+        case ZObjectType.GROUP:
+        case ZObjectType.OBJECT:
             auxNode = new Zko.ProtoZkObject({
                 type: "Group",
                 group: Zko.ZkGroup.fromObject(obj)
             })
             break
-        case "Model":
+        case ZObjectType.MODEL:
             auxNode = new Zko.ProtoZkObject({
                 type: "Model",
                 model: Zko.ZkModel.fromObject(obj)

@@ -4,14 +4,17 @@ import {ZkoParseableObject} from "./formats/ZkoParseableObject";
 import {ZObject} from "./zernikalos/ZObject";
 import _ from "lodash";
 import {IdGenerator} from "./utils/IdGenerator";
+import {ZScene} from "./zernikalos/ZScene";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ParseOptions {
-
+    defaultScene?: boolean
+    defaultCamera?: boolean
 }
 
 export const DEFAULT_PARSE_OPTIONS: ParseOptions = {
-
+    defaultScene: false,
+    defaultCamera: false
 }
 
 export function zkParse(parseableObject: ZkoParseableObject, options: ParseOptions): ZObject {
@@ -21,9 +24,19 @@ export function zkParse(parseableObject: ZkoParseableObject, options: ParseOptio
 
     IdGenerator.parseBegin()
 
-    let zkObj = parseObject(parseableObject._threeObj)
-    zkObj = postProcess(zkObj)
+    let zObj = parseObject(parseableObject._threeObj)
+    zObj = postProcess(zObj)
+
+    if (mergedOptions.defaultScene) {
+        zObj = addDefaultScene(zObj)
+    }
 
     IdGenerator.reset()
-    return zkObj
+    return zObj
+}
+
+function addDefaultScene(zObj: ZObject) {
+    const scene = new ZScene()
+    scene.addChild(zObj)
+    return scene
 }

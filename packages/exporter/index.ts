@@ -1,4 +1,4 @@
-export {ZObject} from "./src/zernikalos/ZObject";
+export {ZObject, ZObjectType} from "./src/zernikalos/ZObject";
 
 export {ZkoParseableObject} from "./src/formats/ZkoParseableObject"
 

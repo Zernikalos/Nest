@@ -1,35 +1,25 @@
 @import "bootstrap-icons";
 
 @tailwind base;
-
-:root {
-    --primary: rebeccapurple;
-    --secondary: cornflowerblue;
-}
-
-/** {*/
-/*    scrollbar-width: thin;*/
-/*    scrollbar-color: var(--secondary) var(--primary);*/
-/*}*/
+@tailwind components;
+@tailwind utilities;
 
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 5px;
+    height: 5px;
 }
 
 *::-webkit-scrollbar-track {
-    background: var(--primary);
-    border-radius: 1px;
+    @apply bg-gray-900;
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: var(--secondary);
+    @apply bg-gray-400;
     border-radius: 12px;
-    border: 3px solid var(--primary);
 }
 
-::-webkit-scrollbar-corner { background: rgba(0,0,0,0.5); }
+::-webkit-scrollbar-corner {
+    @apply bg-gray-900;
+}
 
-@tailwind components;
-@tailwind utilities;

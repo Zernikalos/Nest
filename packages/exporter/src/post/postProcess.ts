@@ -15,7 +15,7 @@ export function postProcess(obj: ZObject) {
             break
     }
     if (!postObj || !postObj.type) {
-        console.error("Error POST processing ZkObject instance")
+        console.error("Error POST processing ZObject instance")
         return
     }
     postObj.children = obj.children

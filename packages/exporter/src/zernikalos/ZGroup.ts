@@ -1,5 +1,5 @@
 import {ZObject, ZObjectType} from "./ZObject"
 
 export class ZGroup extends ZObject {
-    type: ZObjectType = "Group"
+    type: ZObjectType = ZObjectType.GROUP
 }

@@ -25,7 +25,8 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue"
+import {computed, onMounted, ref} from "vue"
+import _ from "lodash"
 
 import MonacoEditor from "@studio/components/monacoeditor/MonacoEditor.vue"
 import Toggle from "@studio/components/toggle/Toggle.vue"
@@ -34,6 +35,7 @@ import FileSelectorFormat from "@studio/components/fileselector/FileSelectorForm
 
 import * as fileApi from "@studio/hooks/useFileApi"
 import {useZkoLoaderStore} from "@zernikalos/store/src";
+import {ZObjectType} from "@zernikalos/exporter";
 
 const inputFile = ref()
 const editorText = ref()
@@ -79,10 +81,17 @@ async function exportToZko() {
     const {path, name} = inputFile.value
     const fileUrl = await fileApi.getUrlForFile(path, name)
 
-    await zkoStore.loadFromFile({filePath: fileUrl, format: selectedInputFormat.value})
+    await zkoStore.loadFromFile({filePath: fileUrl, format: selectedInputFormat.value}, {defaultScene: needDefaultScene.value})
     updateEditor()
 }
 
+const needDefaultScene = computed(() => {
+    if (_.isNil(zkoStore.root)) {
+        return true
+    }
+    return zkoStore.root.type !== ZObjectType.SCENE;
+
+})
 
 </script>
 

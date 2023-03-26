@@ -8,30 +8,31 @@ import {parseTransform} from "./parseTransform";
 import {parseScene} from "./parseScene";
 
 export function parseObject(threeObj: Object3D): ZObject | undefined {
-    let zkObj
+    let zObject: ZObject
+
     switch (threeObj.type) {
         case "Group":
-            zkObj = parseGroup(threeObj as Group)
+            zObject = parseGroup(threeObj as Group)
             break
         case "Mesh":
         case "SkinnedMesh":
-            zkObj = parseModel(threeObj as Mesh)
+            zObject = parseModel(threeObj as Mesh)
             break
         case "Scene":
-            zkObj = parseScene(threeObj as Scene)
+            zObject = parseScene(threeObj as Scene)
             break
     }
 
-    if (!zkObj || !zkObj.type) {
-        console.warn(`Error detecting object of type ${threeObj.type}, setting a default ZkObject`)
+    if (!zObject || !zObject.type) {
+        console.warn(`Error detecting object of type ${threeObj.type}, setting a default ZObject`)
         // TODO: Fix this type
-        zkObj = new ZGroup()
+        zObject = new ZGroup()
     }
-    zkObj.name = threeObj.name
-    zkObj.transform = parseTransform(threeObj)
+    zObject.name = threeObj.name
+    zObject.transform = parseTransform(threeObj)
 
-    zkObj.children = threeObj.children
+    zObject.children = threeObj.children
         .map((child: Object3D)=> parseObject(child))
         .filter((child: ZObject) => !isNil(child))
-    return zkObj
+    return zObject
 }

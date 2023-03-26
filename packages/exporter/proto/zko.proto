@@ -8,9 +8,9 @@ import "./model.proto";
 message ProtoZkObject {
   required string type = 1;
 
-  optional ZkGroup group = 2;
-  optional ZkModel model = 3;
-  optional ZkScene scene = 4;
+  optional ZkScene scene = 2;
+  optional ZkGroup group = 3;
+  optional ZkModel model = 4;
 
   repeated ProtoZkObject children = 100;
 }

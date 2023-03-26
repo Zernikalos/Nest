@@ -2,13 +2,19 @@ import objectHash from "object-hash"
 import {ZTransform} from "./ZTransform";
 import {IdGenerator} from "../utils/IdGenerator";
 
-export type ZObjectType = "Object" | "Model" | "Group" | "Scene"
+export enum ZObjectType {
+    OBJECT = "Object",
+    SCENE = "Scene",
+    MODEL = "Model",
+    GROUP = "Group"
+}
 
 export class ZObject {
-    type: ZObjectType = "Object"
-    transform: ZTransform
+    type: ZObjectType = ZObjectType.OBJECT
+    transform: ZTransform = new ZTransform()
     children: ZObject[] = []
 
+    private _parent: ZObject | undefined = undefined
     private _id: string
     private _name: string
 
@@ -37,5 +43,17 @@ export class ZObject {
 
     public addChild(child: ZObject) {
         this.children.push(child)
+        child.parent = this
+    }
+
+    public get parent(): ZObject | undefined {
+        return this._parent
+    }
+
+    public set parent(obj: ZObject) {
+        if (this.type === ZObjectType.SCENE) {
+            throw new Error("Scene can't be set as a child")
+        }
+        this._parent = obj
     }
 }
