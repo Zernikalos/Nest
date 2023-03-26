@@ -1,5 +1,5 @@
 
-export class MrQuaternion {
+export class ZQuaternion {
     w: number
     x: number
     y: number

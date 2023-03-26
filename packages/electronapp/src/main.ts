@@ -5,7 +5,7 @@ import {
     BrowserWindow
 } from 'electron'
 import * as process from "process";
-// import {studioServerBootstrap} from "@mrrobotto/studioserver"
+// import {studioServerBootstrap} from "@zernikalos/studioserver"
 
 // const isDev = process.env.npm_lifecycle_event === "app:dev" ? true : false;
 const isDev = process.env.NODE_ENV === "dev"
@@ -16,7 +16,7 @@ function createWindow() {
         width: 1750,
         height: 1000,
         webPreferences: {
-            preload: join(__dirname, '../preload/preload.js'),
+            preload: join(__dirname, './preload.js'),
         },
     })
 

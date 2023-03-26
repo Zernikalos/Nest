@@ -1,5 +1,5 @@
 
-export class MrShaderAttribute {
+export class ZShaderAttribute {
     index = -1
     attributeName = ""
 }

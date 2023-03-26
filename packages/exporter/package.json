@@ -1,5 +1,5 @@
 {
-  "name": "@mrrobotto/exporter",
+  "name": "@zernikalos/exporter",
   "version": "0.0.1",
   "license": "MIT",
   "author": "Aaron Negrin",
@@ -7,10 +7,11 @@
   "types": "./build/index.d.ts",
   "browser": {},
   "scripts": {
-    "build": "pnpm run generate && webpack",
+    "build": "pnpm run generate && pnpm run webpack",
+    "webpack": "webpack",
     "build:node": "webpack --config webpack.node.js",
     "parse": "babel-node index.js",
-    "generate": "pbjs --target static-module --wrap es6 --es6 --out protobuild/index.js proto/mrr.proto && pbts --no-comments --out protobuild/index.d.ts protobuild/index.js"
+    "generate": "pbjs --target static-module --wrap es6 --es6 --out protobuild/index.js proto/zko.proto && pbts --no-comments --out protobuild/index.d.ts protobuild/index.js"
   },
   "dependencies": {
     "@babel/runtime": "7.21.0",
@@ -19,7 +20,8 @@
     "is-obj": "3.0.0",
     "is-regexp": "3.1.0",
     "get-own-enumerable-property-symbols": "3.0.2",
-    "protobufjs": "7.2.2"
+    "protobufjs": "7.2.2",
+    "object-hash": "3.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.21.0",
@@ -30,6 +32,7 @@
     "babel-loader": "9.1.2",
     "@types/lodash": "4.14.191",
     "@types/three": "0.149.0",
+    "@types/object-hash": "3.0.2",
     "protobufjs-cli": "1.1.1"
   }
 }

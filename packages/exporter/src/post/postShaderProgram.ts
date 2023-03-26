@@ -1,20 +1,20 @@
-import {MrShaderProgram} from "../mrr/shader/MrShaderProgram"
+import {ZModel} from "../zernikalos/ZModel";
+import {ZShaderProgram} from "../zernikalos/shader/ZShaderProgram"
 import {postShader} from "./postShader"
-import {MrModel} from "../mrr/MrModel";
 import {postShaderAttribute} from "./postShaderAttribute";
 import {postShaderUniform} from "./postShaderUniform";
 
-export function postShaderProgram(obj: MrModel): MrShaderProgram {
-    const shaderProgram = new MrShaderProgram()
+export function postShaderProgram(obj: ZModel): ZShaderProgram {
+    const shaderProgram = new ZShaderProgram()
     shaderProgram.vertexShader = postShader("vertex", obj)
     shaderProgram.fragmentShader = postShader("fragment", obj)
 
-    obj.mesh.attributeKeysAsMap.forEach((attrKey, name) => {
+    obj.mesh.attributeKeysMap.forEach((attrKey, name) => {
         const attr = postShaderAttribute(name, attrKey)
-        shaderProgram.attributes[name] = attr
+        shaderProgram.setAttribute(name, attr)
     })
 
-    shaderProgram.uniforms["ModelViewProjection"] = postShaderUniform()
+    shaderProgram.setUniform("ModelViewProjection", postShaderUniform())
 
     return shaderProgram
 }

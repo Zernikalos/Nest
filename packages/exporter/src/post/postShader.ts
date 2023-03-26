@@ -1,10 +1,10 @@
-import {MrShader, ShaderType} from "../mrr/shader/MrShader"
-import {MrModel} from "../mrr/MrModel";
+import {ZShader, ShaderType} from "../zernikalos/shader/ZShader"
+import {ZModel} from "../zernikalos/ZModel";
 import {generateVertexShaderSource} from "./shadersourcegenerator";
 import {generateFragmentShaderSource} from "./shadersourcegenerator/generateFragmentShaderSource";
 
-export function postShader(type: ShaderType, obj: MrModel): MrShader {
-    const shader = new MrShader()
+export function postShader(type: ShaderType, obj: ZModel): ZShader {
+    const shader = new ZShader()
     shader.type = type
     if (type === "vertex") {
         shader.source = generateVertexShaderSource(obj)

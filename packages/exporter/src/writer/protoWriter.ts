@@ -1,35 +1,55 @@
-import {MrObject} from "../mrr/MrObject"
-import {Mrr} from "../proto";
+import {ZObject, ZObjectType} from "../zernikalos/ZObject"
+import {Zko} from "../proto"
 
-function writeTree(obj: MrObject): Mrr.ProtoMrObject {
-    let auxNode: Mrr.ProtoMrObject
-    switch (obj.type) {
-        case "Group":
-        case "Object":
-            auxNode = new Mrr.ProtoMrObject({
-                type: "Group",
-                group: Mrr.MrGroup.fromObject(obj)
-            })
-            break
-        case "Model":
-            auxNode = new Mrr.ProtoMrObject({
-                type: "Model",
-                model: Mrr.MrModel.fromObject(obj)
-            })
-            break
-    }
+async function writeTree(obj: ZObject): Promise<Zko.ProtoZkObject> {
+    const auxNode: Zko.ProtoZkObject = await promisedConverToProto(obj)
 
-    auxNode.children = obj.children.map((child) => writeTree(child))
+    auxNode.children = await Promise.all(obj.children.map(async (child) => await writeTree(child)))
 
     return auxNode
 }
 
-export function protoTree(root: MrObject): Mrr.ProtoMrObject {
-    return writeTree(root)
+function convertToProto(obj: ZObject) {
+    // TODO: The use of fromObject affects a lot to the performance
+    let auxNode: Zko.ProtoZkObject
+    switch (obj.type) {
+        case ZObjectType.SCENE:
+            auxNode = new Zko.ProtoZkObject({
+                type: "Scene",
+                scene: Zko.ZkScene.fromObject(obj)
+            })
+            break
+        case ZObjectType.GROUP:
+        case ZObjectType.OBJECT:
+            auxNode = new Zko.ProtoZkObject({
+                type: "Group",
+                group: Zko.ZkGroup.fromObject(obj)
+            })
+            break
+        case ZObjectType.MODEL:
+            auxNode = new Zko.ProtoZkObject({
+                type: "Model",
+                model: Zko.ZkModel.fromObject(obj)
+            })
+            break
+    }
+    return auxNode
 }
 
-export function protoWrite(root: MrObject): Uint8Array {
-    const protoRoot = writeTree(root)
+function promisedConverToProto(obj: ZObject): Promise<Zko.ProtoZkObject> {
+    return new Promise(resolve => {
+        setTimeout(() =>{
+            resolve(convertToProto(obj))
+        })
+    })
+}
 
-    return Mrr.ProtoMrObject.encode(protoRoot).finish()
+export async function protoTree(root: ZObject): Promise<Zko.ProtoZkObject> {
+    return await writeTree(root)
+}
+
+export async function protoWrite(root: ZObject): Promise<Uint8Array> {
+    const protoRoot = await writeTree(root)
+
+    return Zko.ProtoZkObject.encode(protoRoot).finish()
 }

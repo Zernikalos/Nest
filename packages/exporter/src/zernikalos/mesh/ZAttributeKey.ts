@@ -1,4 +1,4 @@
-export class MrAttributeKey {
+export class ZAttributeKey {
     index = 0
     size = 0
     count = 0

@@ -1,25 +1,26 @@
 syntax = "proto2";
 
-package Mrr;
+package Zko;
 
 import "./shaders.proto";
 
-message MrModel {
-  required string name = 1;
+message ZkModel {
+  required string id = 1;
+  required string name = 2;
 
-  required MrTransform transform = 3;
+  required ZkTransform transform = 3;
 
-  required MrShaderProgram shaderProgram = 4;
-  required MrMesh mesh = 5;
+  required ZkShaderProgram shaderProgram = 4;
+  required ZkMesh mesh = 5;
 }
 
-message MrMesh {
-  map<string, MrAttributeKey> attributeKeys = 1;
-  required MrIndexBuffer indices = 2;
-  map<string, MrVertexBuffer> vertices = 3;
+message ZkMesh {
+  map<string, ZkAttributeKey> attributeKeys = 1;
+  required ZkIndexBuffer indices = 2;
+  map<string, ZkVertexBuffer> vertices = 3;
 }
 
-message MrAttributeKey {
+message ZkAttributeKey {
   required uint32 index = 1;
   required uint32 size = 2;
   required uint32 count = 3;
@@ -37,7 +38,7 @@ enum BufferUsageType {
   STATIC_DRAW = 0;
 }
 
-message MrIndexBuffer {
+message ZkIndexBuffer {
   required BufferTargetType targetBuffer = 1;
   required BufferUsageType usage = 2;
   required uint32 itemSize = 3;
@@ -45,7 +46,7 @@ message MrIndexBuffer {
   required bytes dataArray = 5;
 }
 
-message MrVertexBuffer {
+message ZkVertexBuffer {
   required BufferTargetType targetBuffer = 1;
   required BufferUsageType usage = 2;
   required uint32 itemSize = 3;

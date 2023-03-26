@@ -14,27 +14,36 @@
 <script setup>
 import ResizablePanel from "@studio/components/resizablepanel/ResizablePanel.vue"
 import TreeView from "@studio/components/treeview/TreeView.vue"
+import {useZkoLoaderStore} from "@zernikalos/store/src";
+import {ZObject} from "@zernikalos/exporter";
+import {onMounted, ref} from "vue";
 
-const treeViewItems = [
-    {
-        name: "sample1",
-        icon: "bi-folder",
-        children: [
-            {
-                name: "sample2"
-            },
-            {
-                name: "sample3",
-                icon: "bi-folder",
-                children: [
-                    {
-                        name: "sample31"
-                    }
-                ]
-            }
-        ]
+const mrrStore = useZkoLoaderStore()
+const treeViewItems = ref([])
+
+function convertToHierarchy(obj) {
+    if (!obj) {
+        return []
     }
-]
+    const result = {
+        name: ` ${obj.name}`,
+        icon: typesIcons[obj.type]
+    }
+    result.children = obj.children.map((c) => convertToHierarchy(c))
+    return result
+}
+
+const typesIcons = {
+    "Scene": "bi-map", //bi-aspect-ratio
+    "Group": "bi-layout-wtf",
+    "Model": "bi-box"
+}
+
+onMounted(() => {
+    treeViewItems.value.splice(0)
+    treeViewItems.value.push(convertToHierarchy(mrrStore.root))
+
+})
 
 </script>
 

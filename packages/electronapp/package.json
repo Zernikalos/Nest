@@ -1,7 +1,7 @@
 {
-  "name": "@mrrobotto/electron",
+  "name": "@zernikalos/electron",
   "version": "0.0.1",
-  "description": "Electron app for MrRobotto Studio",
+  "description": "Electron app for Zernikalos Studio",
   "main": "src/main.ts",
   "scripts": {
     "test": "test",
@@ -15,7 +15,7 @@
     "lint": "eslint -c .eslintrc --ext .ts ./src"
   },
   "dependencies": {
-    "@mrrobotto/studioserver": "0.0.1"
+    "@zernikalos/studioserver": "0.0.1"
   },
   "devDependencies": {
     "concurrently": "7.6.0",

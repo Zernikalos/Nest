@@ -1,5 +1,5 @@
 
-export class MrVector4 {
+export class ZVector4 {
     x: number
     y: number
     z: number
