@@ -3,6 +3,7 @@ import {ZShaderProgram} from "../zernikalos/shader/ZShaderProgram"
 import {postShader} from "./postShader"
 import {postShaderAttribute} from "./postShaderAttribute";
 import {postShaderUniform} from "./postShaderUniform";
+import {UNAME_PROJECTION_MATRIX, UNAME_VIEW_MODEL_MATRIX} from "../constants";
 
 export function postShaderProgram(obj: ZModel): ZShaderProgram {
     const shaderProgram = new ZShaderProgram()
@@ -14,7 +15,8 @@ export function postShaderProgram(obj: ZModel): ZShaderProgram {
         shaderProgram.setAttribute(name, attr)
     })
 
-    shaderProgram.setUniform("ModelViewProjection", postShaderUniform())
+    shaderProgram.setUniform(UNAME_VIEW_MODEL_MATRIX, postShaderUniform(UNAME_VIEW_MODEL_MATRIX))
+    shaderProgram.setUniform(UNAME_PROJECTION_MATRIX, postShaderUniform(UNAME_PROJECTION_MATRIX))
 
     return shaderProgram
 }

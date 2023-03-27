@@ -9,3 +9,7 @@ export const ATTRIB_THREE_TO_ZKO: {[key: string]: string} = {
     "uv": ANAME_UV,
     "color": ANAME_COLOR
 }
+
+
+export const UNAME_VIEW_MODEL_MATRIX = "ViewModelMatrix"
+export const UNAME_PROJECTION_MATRIX = "ProjectionMatrix"

@@ -4,7 +4,7 @@ import {
     ANAME_SHADER_POSITION,
     ANAME_SHADER_NORMAL,
     ANAME_SHADER_UV,
-    UNAME_SHADER_MVP_MATRIX, ANAME_IN_VERT_SHADER_COLOR, ANAME_OUT_VERT_SHADER_COLOR
+    UNAME_SHADER_MODEL_VIEW_MATRIX, ANAME_IN_VERT_SHADER_COLOR, ANAME_OUT_VERT_SHADER_COLOR, UNAME_SHADER_PROJECTION_MATRIX
 } from "../constants";
 import {
     BR, buildSource,
@@ -63,11 +63,14 @@ function genOutColor(attributes: Map<string, ZAttributeKey>) {
 }
 
 function genUniforms(): string[] {
-    return [`uniform mat4 ${UNAME_SHADER_MVP_MATRIX};`]
+    return [
+        `uniform mat4 ${UNAME_SHADER_MODEL_VIEW_MATRIX};`,
+        `uniform mat4 ${UNAME_SHADER_PROJECTION_MATRIX};`
+    ]
 }
 
 function genOutPosition() {
-    return `gl_Position = mat4(1.3737387097273113, 0, 0, 0, 0, 1.3844710433970557, 0, 0, 0, 0, -1.02020202020202, -1, 0, 0, -2.0202020202020203, 0) * ${UNAME_SHADER_MVP_MATRIX} * vec4(${ANAME_SHADER_POSITION},1);`
+    return `gl_Position = ${UNAME_SHADER_PROJECTION_MATRIX} * ${UNAME_SHADER_MODEL_VIEW_MATRIX} * vec4(${ANAME_SHADER_POSITION},1);`
 }
 
 // const vertexShaderSource = `#version 300 es
