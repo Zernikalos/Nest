@@ -23,10 +23,10 @@ export const Zko = $root.Zko = (() => {
          * @memberof Zko
          * @interface IProtoZkObject
          * @property {string} type ProtoZkObject type
-         * @property {Zko.IZkScene|null} [scene] ProtoZkObject scene
-         * @property {Zko.IZkGroup|null} [group] ProtoZkObject group
-         * @property {Zko.IZkModel|null} [model] ProtoZkObject model
-         * @property {Array.<Zko.IProtoZkObject>|null} [children] ProtoZkObject children
+         * @property {Zko.ZkScene|null} [scene] ProtoZkObject scene
+         * @property {Zko.ZkGroup|null} [group] ProtoZkObject group
+         * @property {Zko.ZkModel|null} [model] ProtoZkObject model
+         * @property {Array.<Zko.ProtoZkObject>|null} [children] ProtoZkObject children
          */
 
         /**
@@ -55,7 +55,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ProtoZkObject scene.
-         * @member {Zko.IZkScene|null|undefined} scene
+         * @member {Zko.ZkScene|null|undefined} scene
          * @memberof Zko.ProtoZkObject
          * @instance
          */
@@ -63,7 +63,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ProtoZkObject group.
-         * @member {Zko.IZkGroup|null|undefined} group
+         * @member {Zko.ZkGroup|null|undefined} group
          * @memberof Zko.ProtoZkObject
          * @instance
          */
@@ -71,7 +71,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ProtoZkObject model.
-         * @member {Zko.IZkModel|null|undefined} model
+         * @member {Zko.ZkModel|null|undefined} model
          * @memberof Zko.ProtoZkObject
          * @instance
          */
@@ -79,7 +79,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ProtoZkObject children.
-         * @member {Array.<Zko.IProtoZkObject>} children
+         * @member {Array.<Zko.ProtoZkObject>} children
          * @memberof Zko.ProtoZkObject
          * @instance
          */
@@ -102,7 +102,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ProtoZkObject
          * @static
-         * @param {Zko.IProtoZkObject} message ProtoZkObject message or plain object to encode
+         * @param {Zko.ProtoZkObject} message ProtoZkObject message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -120,19 +120,6 @@ export const Zko = $root.Zko = (() => {
                 for (let i = 0; i < message.children.length; ++i)
                     $root.Zko.ProtoZkObject.encode(message.children[i], writer.uint32(/* id 100, wireType 2 =*/802).fork()).ldelim();
             return writer;
-        };
-
-        /**
-         * Encodes the specified ProtoZkObject message, length delimited. Does not implicitly {@link Zko.ProtoZkObject.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ProtoZkObject
-         * @static
-         * @param {Zko.IProtoZkObject} message ProtoZkObject message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ProtoZkObject.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -183,22 +170,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("type"))
                 throw $util.ProtocolError("missing required 'type'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ProtoZkObject message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ProtoZkObject
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ProtoZkObject} ProtoZkObject
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ProtoZkObject.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -357,7 +328,7 @@ export const Zko = $root.Zko = (() => {
          * @interface IZkGroup
          * @property {string} id ZkGroup id
          * @property {string} name ZkGroup name
-         * @property {Zko.IZkTransform} transform ZkGroup transform
+         * @property {Zko.ZkTransform} transform ZkGroup transform
          */
 
         /**
@@ -393,7 +364,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkGroup transform.
-         * @member {Zko.IZkTransform} transform
+         * @member {Zko.ZkTransform} transform
          * @memberof Zko.ZkGroup
          * @instance
          */
@@ -416,7 +387,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkGroup
          * @static
-         * @param {Zko.IZkGroup} message ZkGroup message or plain object to encode
+         * @param {Zko.ZkGroup} message ZkGroup message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -427,19 +398,6 @@ export const Zko = $root.Zko = (() => {
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
             $root.Zko.ZkTransform.encode(message.transform, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkGroup message, length delimited. Does not implicitly {@link Zko.ZkGroup.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkGroup
-         * @static
-         * @param {Zko.IZkGroup} message ZkGroup message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkGroup.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -484,22 +442,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("transform"))
                 throw $util.ProtocolError("missing required 'transform'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkGroup message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkGroup
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkGroup} ZkGroup
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkGroup.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -681,7 +623,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkColor
          * @static
-         * @param {Zko.IZkColor} message ZkColor message or plain object to encode
+         * @param {Zko.ZkColor} message ZkColor message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -693,19 +635,6 @@ export const Zko = $root.Zko = (() => {
             writer.uint32(/* id 3, wireType 5 =*/29).float(message.b);
             writer.uint32(/* id 4, wireType 5 =*/37).float(message.a);
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkColor message, length delimited. Does not implicitly {@link Zko.ZkColor.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkColor
-         * @static
-         * @param {Zko.IZkColor} message ZkColor message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkColor.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -756,22 +685,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("a"))
                 throw $util.ProtocolError("missing required 'a'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkColor message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkColor
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkColor} ZkColor
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkColor.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -886,8 +799,8 @@ export const Zko = $root.Zko = (() => {
          * @interface IZkScene
          * @property {string} id ZkScene id
          * @property {string} name ZkScene name
-         * @property {Zko.IZkTransform} transform ZkScene transform
-         * @property {Zko.IZkColor} clearColor ZkScene clearColor
+         * @property {Zko.ZkTransform} transform ZkScene transform
+         * @property {Zko.ZkColor} clearColor ZkScene clearColor
          */
 
         /**
@@ -923,7 +836,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkScene transform.
-         * @member {Zko.IZkTransform} transform
+         * @member {Zko.ZkTransform} transform
          * @memberof Zko.ZkScene
          * @instance
          */
@@ -931,7 +844,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkScene clearColor.
-         * @member {Zko.IZkColor} clearColor
+         * @member {Zko.ZkColor} clearColor
          * @memberof Zko.ZkScene
          * @instance
          */
@@ -954,7 +867,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkScene
          * @static
-         * @param {Zko.IZkScene} message ZkScene message or plain object to encode
+         * @param {Zko.ZkScene} message ZkScene message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -966,19 +879,6 @@ export const Zko = $root.Zko = (() => {
             $root.Zko.ZkTransform.encode(message.transform, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             $root.Zko.ZkColor.encode(message.clearColor, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkScene message, length delimited. Does not implicitly {@link Zko.ZkScene.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkScene
-         * @static
-         * @param {Zko.IZkScene} message ZkScene message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkScene.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -1029,22 +929,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("clearColor"))
                 throw $util.ProtocolError("missing required 'clearColor'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkScene message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkScene
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkScene} ZkScene
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkScene.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -1169,9 +1053,9 @@ export const Zko = $root.Zko = (() => {
          * Properties of a ZkTransform.
          * @memberof Zko
          * @interface IZkTransform
-         * @property {Zko.IZkVector3} location ZkTransform location
-         * @property {Zko.IZkQuaternion} rotation ZkTransform rotation
-         * @property {Zko.IZkVector3} scale ZkTransform scale
+         * @property {Zko.ZkVector3} location ZkTransform location
+         * @property {Zko.ZkQuaternion} rotation ZkTransform rotation
+         * @property {Zko.ZkVector3} scale ZkTransform scale
          */
 
         /**
@@ -1191,7 +1075,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkTransform location.
-         * @member {Zko.IZkVector3} location
+         * @member {Zko.ZkVector3} location
          * @memberof Zko.ZkTransform
          * @instance
          */
@@ -1199,7 +1083,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkTransform rotation.
-         * @member {Zko.IZkQuaternion} rotation
+         * @member {Zko.ZkQuaternion} rotation
          * @memberof Zko.ZkTransform
          * @instance
          */
@@ -1207,7 +1091,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkTransform scale.
-         * @member {Zko.IZkVector3} scale
+         * @member {Zko.ZkVector3} scale
          * @memberof Zko.ZkTransform
          * @instance
          */
@@ -1230,7 +1114,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkTransform
          * @static
-         * @param {Zko.IZkTransform} message ZkTransform message or plain object to encode
+         * @param {Zko.ZkTransform} message ZkTransform message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -1241,19 +1125,6 @@ export const Zko = $root.Zko = (() => {
             $root.Zko.ZkQuaternion.encode(message.rotation, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
             $root.Zko.ZkVector3.encode(message.scale, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkTransform message, length delimited. Does not implicitly {@link Zko.ZkTransform.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkTransform
-         * @static
-         * @param {Zko.IZkTransform} message ZkTransform message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkTransform.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -1298,22 +1169,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("scale"))
                 throw $util.ProtocolError("missing required 'scale'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkTransform message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkTransform
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkTransform} ZkTransform
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkTransform.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -1498,7 +1353,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkVector3
          * @static
-         * @param {Zko.IZkVector3} message ZkVector3 message or plain object to encode
+         * @param {Zko.ZkVector3} message ZkVector3 message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -1509,19 +1364,6 @@ export const Zko = $root.Zko = (() => {
             writer.uint32(/* id 2, wireType 5 =*/21).float(message.y);
             writer.uint32(/* id 3, wireType 5 =*/29).float(message.z);
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkVector3 message, length delimited. Does not implicitly {@link Zko.ZkVector3.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkVector3
-         * @static
-         * @param {Zko.IZkVector3} message ZkVector3 message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkVector3.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -1566,22 +1408,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("z"))
                 throw $util.ProtocolError("missing required 'z'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkVector3 message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkVector3
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkVector3} ZkVector3
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkVector3.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -1757,7 +1583,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkVector4
          * @static
-         * @param {Zko.IZkVector4} message ZkVector4 message or plain object to encode
+         * @param {Zko.ZkVector4} message ZkVector4 message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -1769,19 +1595,6 @@ export const Zko = $root.Zko = (() => {
             writer.uint32(/* id 3, wireType 5 =*/29).float(message.z);
             writer.uint32(/* id 4, wireType 5 =*/37).float(message.w);
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkVector4 message, length delimited. Does not implicitly {@link Zko.ZkVector4.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkVector4
-         * @static
-         * @param {Zko.IZkVector4} message ZkVector4 message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkVector4.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -1832,22 +1645,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("w"))
                 throw $util.ProtocolError("missing required 'w'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkVector4 message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkVector4
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkVector4} ZkVector4
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkVector4.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -2030,7 +1827,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkQuaternion
          * @static
-         * @param {Zko.IZkQuaternion} message ZkQuaternion message or plain object to encode
+         * @param {Zko.ZkQuaternion} message ZkQuaternion message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -2042,19 +1839,6 @@ export const Zko = $root.Zko = (() => {
             writer.uint32(/* id 3, wireType 5 =*/29).float(message.y);
             writer.uint32(/* id 4, wireType 5 =*/37).float(message.z);
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkQuaternion message, length delimited. Does not implicitly {@link Zko.ZkQuaternion.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkQuaternion
-         * @static
-         * @param {Zko.IZkQuaternion} message ZkQuaternion message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkQuaternion.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -2105,22 +1889,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("z"))
                 throw $util.ProtocolError("missing required 'z'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkQuaternion message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkQuaternion
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkQuaternion} ZkQuaternion
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkQuaternion.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -2235,9 +2003,9 @@ export const Zko = $root.Zko = (() => {
          * @interface IZkModel
          * @property {string} id ZkModel id
          * @property {string} name ZkModel name
-         * @property {Zko.IZkTransform} transform ZkModel transform
-         * @property {Zko.IZkShaderProgram} shaderProgram ZkModel shaderProgram
-         * @property {Zko.IZkMesh} mesh ZkModel mesh
+         * @property {Zko.ZkTransform} transform ZkModel transform
+         * @property {Zko.ZkShaderProgram} shaderProgram ZkModel shaderProgram
+         * @property {Zko.ZkMesh} mesh ZkModel mesh
          */
 
         /**
@@ -2273,7 +2041,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkModel transform.
-         * @member {Zko.IZkTransform} transform
+         * @member {Zko.ZkTransform} transform
          * @memberof Zko.ZkModel
          * @instance
          */
@@ -2281,7 +2049,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkModel shaderProgram.
-         * @member {Zko.IZkShaderProgram} shaderProgram
+         * @member {Zko.ZkShaderProgram} shaderProgram
          * @memberof Zko.ZkModel
          * @instance
          */
@@ -2289,7 +2057,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkModel mesh.
-         * @member {Zko.IZkMesh} mesh
+         * @member {Zko.ZkMesh} mesh
          * @memberof Zko.ZkModel
          * @instance
          */
@@ -2312,7 +2080,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkModel
          * @static
-         * @param {Zko.IZkModel} message ZkModel message or plain object to encode
+         * @param {Zko.ZkModel} message ZkModel message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -2325,19 +2093,6 @@ export const Zko = $root.Zko = (() => {
             $root.Zko.ZkShaderProgram.encode(message.shaderProgram, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
             $root.Zko.ZkMesh.encode(message.mesh, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkModel message, length delimited. Does not implicitly {@link Zko.ZkModel.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkModel
-         * @static
-         * @param {Zko.IZkModel} message ZkModel message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkModel.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -2394,22 +2149,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("mesh"))
                 throw $util.ProtocolError("missing required 'mesh'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkModel message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkModel
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkModel} ZkModel
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkModel.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -2547,9 +2286,9 @@ export const Zko = $root.Zko = (() => {
          * Properties of a ZkMesh.
          * @memberof Zko
          * @interface IZkMesh
-         * @property {Object.<string,Zko.IZkAttributeKey>|null} [attributeKeys] ZkMesh attributeKeys
-         * @property {Zko.IZkIndexBuffer} indices ZkMesh indices
-         * @property {Object.<string,Zko.IZkVertexBuffer>|null} [vertices] ZkMesh vertices
+         * @property {Object.<string,Zko.ZkAttributeKey>|null} [attributeKeys] ZkMesh attributeKeys
+         * @property {Zko.ZkIndexBuffer} indices ZkMesh indices
+         * @property {Object.<string,Zko.ZkVertexBuffer>|null} [vertices] ZkMesh vertices
          */
 
         /**
@@ -2571,7 +2310,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkMesh attributeKeys.
-         * @member {Object.<string,Zko.IZkAttributeKey>} attributeKeys
+         * @member {Object.<string,Zko.ZkAttributeKey>} attributeKeys
          * @memberof Zko.ZkMesh
          * @instance
          */
@@ -2579,7 +2318,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkMesh indices.
-         * @member {Zko.IZkIndexBuffer} indices
+         * @member {Zko.ZkIndexBuffer} indices
          * @memberof Zko.ZkMesh
          * @instance
          */
@@ -2587,7 +2326,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkMesh vertices.
-         * @member {Object.<string,Zko.IZkVertexBuffer>} vertices
+         * @member {Object.<string,Zko.ZkVertexBuffer>} vertices
          * @memberof Zko.ZkMesh
          * @instance
          */
@@ -2610,7 +2349,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkMesh
          * @static
-         * @param {Zko.IZkMesh} message ZkMesh message or plain object to encode
+         * @param {Zko.ZkMesh} message ZkMesh message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -2629,19 +2368,6 @@ export const Zko = $root.Zko = (() => {
                     $root.Zko.ZkVertexBuffer.encode(message.vertices[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
                 }
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkMesh message, length delimited. Does not implicitly {@link Zko.ZkMesh.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkMesh
-         * @static
-         * @param {Zko.IZkMesh} message ZkMesh message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkMesh.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -2720,22 +2446,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("indices"))
                 throw $util.ProtocolError("missing required 'indices'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkMesh message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkMesh
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkMesh} ZkMesh
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkMesh.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -2975,7 +2685,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkAttributeKey
          * @static
-         * @param {Zko.IZkAttributeKey} message ZkAttributeKey message or plain object to encode
+         * @param {Zko.ZkAttributeKey} message ZkAttributeKey message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -2989,19 +2699,6 @@ export const Zko = $root.Zko = (() => {
             writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.offset);
             writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.stride);
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkAttributeKey message, length delimited. Does not implicitly {@link Zko.ZkAttributeKey.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkAttributeKey
-         * @static
-         * @param {Zko.IZkAttributeKey} message ZkAttributeKey message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkAttributeKey.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -3064,22 +2761,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("stride"))
                 throw $util.ProtocolError("missing required 'stride'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkAttributeKey message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkAttributeKey
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkAttributeKey} ZkAttributeKey
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkAttributeKey.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -3311,7 +2992,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkIndexBuffer
          * @static
-         * @param {Zko.IZkIndexBuffer} message ZkIndexBuffer message or plain object to encode
+         * @param {Zko.ZkIndexBuffer} message ZkIndexBuffer message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -3324,19 +3005,6 @@ export const Zko = $root.Zko = (() => {
             writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.count);
             writer.uint32(/* id 5, wireType 2 =*/42).bytes(message.dataArray);
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkIndexBuffer message, length delimited. Does not implicitly {@link Zko.ZkIndexBuffer.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkIndexBuffer
-         * @static
-         * @param {Zko.IZkIndexBuffer} message ZkIndexBuffer message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkIndexBuffer.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -3393,22 +3061,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("dataArray"))
                 throw $util.ProtocolError("missing required 'dataArray'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkIndexBuffer message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkIndexBuffer
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkIndexBuffer} ZkIndexBuffer
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkIndexBuffer.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -3649,7 +3301,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkVertexBuffer
          * @static
-         * @param {Zko.IZkVertexBuffer} message ZkVertexBuffer message or plain object to encode
+         * @param {Zko.ZkVertexBuffer} message ZkVertexBuffer message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -3662,19 +3314,6 @@ export const Zko = $root.Zko = (() => {
             writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.count);
             writer.uint32(/* id 5, wireType 2 =*/42).bytes(message.dataArray);
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkVertexBuffer message, length delimited. Does not implicitly {@link Zko.ZkVertexBuffer.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkVertexBuffer
-         * @static
-         * @param {Zko.IZkVertexBuffer} message ZkVertexBuffer message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkVertexBuffer.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -3731,22 +3370,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("dataArray"))
                 throw $util.ProtocolError("missing required 'dataArray'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkVertexBuffer message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkVertexBuffer
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkVertexBuffer} ZkVertexBuffer
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkVertexBuffer.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -3908,10 +3531,10 @@ export const Zko = $root.Zko = (() => {
          * Properties of a ZkShaderProgram.
          * @memberof Zko
          * @interface IZkShaderProgram
-         * @property {Zko.IZkShader} vertexShader ZkShaderProgram vertexShader
-         * @property {Zko.IZkShader} fragmentShader ZkShaderProgram fragmentShader
-         * @property {Object.<string,Zko.IZkShaderAttribute>|null} [attributes] ZkShaderProgram attributes
-         * @property {Object.<string,Zko.IZkShaderUniform>|null} [uniforms] ZkShaderProgram uniforms
+         * @property {Zko.ZkShader} vertexShader ZkShaderProgram vertexShader
+         * @property {Zko.ZkShader} fragmentShader ZkShaderProgram fragmentShader
+         * @property {Object.<string,Zko.ZkShaderAttribute>|null} [attributes] ZkShaderProgram attributes
+         * @property {Object.<string,Zko.ZkShaderUniform>|null} [uniforms] ZkShaderProgram uniforms
          */
 
         /**
@@ -3933,7 +3556,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkShaderProgram vertexShader.
-         * @member {Zko.IZkShader} vertexShader
+         * @member {Zko.ZkShader} vertexShader
          * @memberof Zko.ZkShaderProgram
          * @instance
          */
@@ -3941,7 +3564,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkShaderProgram fragmentShader.
-         * @member {Zko.IZkShader} fragmentShader
+         * @member {Zko.ZkShader} fragmentShader
          * @memberof Zko.ZkShaderProgram
          * @instance
          */
@@ -3949,7 +3572,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkShaderProgram attributes.
-         * @member {Object.<string,Zko.IZkShaderAttribute>} attributes
+         * @member {Object.<string,Zko.ZkShaderAttribute>} attributes
          * @memberof Zko.ZkShaderProgram
          * @instance
          */
@@ -3957,7 +3580,7 @@ export const Zko = $root.Zko = (() => {
 
         /**
          * ZkShaderProgram uniforms.
-         * @member {Object.<string,Zko.IZkShaderUniform>} uniforms
+         * @member {Object.<string,Zko.ZkShaderUniform>} uniforms
          * @memberof Zko.ZkShaderProgram
          * @instance
          */
@@ -3980,7 +3603,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkShaderProgram
          * @static
-         * @param {Zko.IZkShaderProgram} message ZkShaderProgram message or plain object to encode
+         * @param {Zko.ZkShaderProgram} message ZkShaderProgram message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -4000,19 +3623,6 @@ export const Zko = $root.Zko = (() => {
                     $root.Zko.ZkShaderUniform.encode(message.uniforms[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
                 }
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkShaderProgram message, length delimited. Does not implicitly {@link Zko.ZkShaderProgram.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkShaderProgram
-         * @static
-         * @param {Zko.IZkShaderProgram} message ZkShaderProgram message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkShaderProgram.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -4097,22 +3707,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("fragmentShader"))
                 throw $util.ProtocolError("missing required 'fragmentShader'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkShaderProgram message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkShaderProgram
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkShaderProgram} ZkShaderProgram
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkShaderProgram.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -4330,7 +3924,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkShader
          * @static
-         * @param {Zko.IZkShader} message ZkShader message or plain object to encode
+         * @param {Zko.ZkShader} message ZkShader message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -4340,19 +3934,6 @@ export const Zko = $root.Zko = (() => {
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.type);
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.source);
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkShader message, length delimited. Does not implicitly {@link Zko.ZkShader.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkShader
-         * @static
-         * @param {Zko.IZkShader} message ZkShader message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkShader.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -4391,22 +3972,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("source"))
                 throw $util.ProtocolError("missing required 'source'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkShader message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkShader
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkShader} ZkShader
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkShader.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -4557,7 +4122,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkShaderAttribute
          * @static
-         * @param {Zko.IZkShaderAttribute} message ZkShaderAttribute message or plain object to encode
+         * @param {Zko.ZkShaderAttribute} message ZkShaderAttribute message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -4567,19 +4132,6 @@ export const Zko = $root.Zko = (() => {
             writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.index);
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.attributeName);
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkShaderAttribute message, length delimited. Does not implicitly {@link Zko.ZkShaderAttribute.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkShaderAttribute
-         * @static
-         * @param {Zko.IZkShaderAttribute} message ZkShaderAttribute message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkShaderAttribute.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -4618,22 +4170,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("attributeName"))
                 throw $util.ProtocolError("missing required 'attributeName'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkShaderAttribute message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkShaderAttribute
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkShaderAttribute} ZkShaderAttribute
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkShaderAttribute.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**
@@ -4793,7 +4329,7 @@ export const Zko = $root.Zko = (() => {
          * @function encode
          * @memberof Zko.ZkShaderUniform
          * @static
-         * @param {Zko.IZkShaderUniform} message ZkShaderUniform message or plain object to encode
+         * @param {Zko.ZkShaderUniform} message ZkShaderUniform message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
@@ -4804,19 +4340,6 @@ export const Zko = $root.Zko = (() => {
             writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.count);
             writer.uint32(/* id 3, wireType 0 =*/24).int32(message.type);
             return writer;
-        };
-
-        /**
-         * Encodes the specified ZkShaderUniform message, length delimited. Does not implicitly {@link Zko.ZkShaderUniform.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Zko.ZkShaderUniform
-         * @static
-         * @param {Zko.IZkShaderUniform} message ZkShaderUniform message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        ZkShaderUniform.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
         };
 
         /**
@@ -4861,22 +4384,6 @@ export const Zko = $root.Zko = (() => {
             if (!message.hasOwnProperty("type"))
                 throw $util.ProtocolError("missing required 'type'", { instance: message });
             return message;
-        };
-
-        /**
-         * Decodes a ZkShaderUniform message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Zko.ZkShaderUniform
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Zko.ZkShaderUniform} ZkShaderUniform
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        ZkShaderUniform.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
         };
 
         /**

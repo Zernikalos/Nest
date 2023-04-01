@@ -1,7 +1,7 @@
 import {ZModel} from "../../zernikalos/ZModel";
 import {ZAttributeKey} from "../../zernikalos/mesh/ZAttributeKey";
 import {BR, buildSource, CLOSE_MAIN, FLOAT_PRECISSION, HEADER, OPEN_MAIN} from "./shadersourcecommon";
-import {ANAME_OUT_FRAG_SHADER_COLOR, ANAME_IN_FRAG_SHADER_COLOR} from "../constants";
+import {ATTR_COLOR} from "../../constants";
 
 export function generateFragmentShaderSource(obj: ZModel) {
     const source: string[] = [
@@ -23,8 +23,8 @@ export function generateFragmentShaderSource(obj: ZModel) {
 function genInAttributes(attributes: Map<string, ZAttributeKey>): string[] {
     function genAttribute(name: string): string {
         switch (name) {
-            case "color":
-                return `smooth in vec3 ${ANAME_IN_FRAG_SHADER_COLOR};`
+            case ATTR_COLOR.name:
+                return `smooth in vec3 ${ATTR_COLOR.varShader};`
         }
     }
 
@@ -32,12 +32,12 @@ function genInAttributes(attributes: Map<string, ZAttributeKey>): string[] {
 }
 
 function genOutAttributes(_attributes: Map<string, ZAttributeKey>) {
-    return `out vec4 ${ANAME_OUT_FRAG_SHADER_COLOR};`
+    return `out vec4 ${ATTR_COLOR.outShader};`
 }
 
 function genOutColor(attributes: Map<string, ZAttributeKey>) {
-    if (attributes.has("color")) {
-        return `${ANAME_OUT_FRAG_SHADER_COLOR} = vec4(${ANAME_IN_FRAG_SHADER_COLOR}.xyz, 1);`
+    if (attributes.has(ATTR_COLOR.name)) {
+        return `${ATTR_COLOR.outShader} = vec4(${ATTR_COLOR.varShader}.xyz, 1);`
     }
-    return `${ANAME_OUT_FRAG_SHADER_COLOR} = vec4(0.5, 0.5, 0.5, 1.0);`
+    return `${ATTR_COLOR.outShader} = vec4(0.5, 0.5, 0.5, 1.0);`
 }

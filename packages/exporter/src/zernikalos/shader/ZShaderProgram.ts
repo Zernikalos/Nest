@@ -9,8 +9,16 @@ export class ZShaderProgram {
     private _attributes: Map<string, ZShaderAttribute> = new Map()
     private _uniforms: Map<string, ZShaderUniform> = new Map()
 
+    public get attributesMap(): Map<string, ZShaderAttribute> {
+        return this._attributes
+    }
+
     public get attributes(): {[key: string]: ZShaderAttribute} {
         return Object.fromEntries(this._attributes)
+    }
+
+    public get uniformsMap(): Map<string, ZShaderUniform> {
+        return this._uniforms
     }
 
     public get uniforms(): {[key: string]: ZShaderUniform} {

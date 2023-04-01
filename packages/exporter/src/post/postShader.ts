@@ -1,7 +1,6 @@
 import {ZShader, ShaderType} from "../zernikalos/shader/ZShader"
 import {ZModel} from "../zernikalos/ZModel";
-import {generateVertexShaderSource} from "./shadersourcegenerator";
-import {generateFragmentShaderSource} from "./shadersourcegenerator/generateFragmentShaderSource";
+import {generateVertexShaderSource, generateFragmentShaderSource} from "./shadersourcegenerator";
 
 export function postShader(type: ShaderType, obj: ZModel): ZShader {
     const shader = new ZShader()

@@ -1,10 +1,10 @@
 import {ZObject, ZObjectType} from "../zernikalos/ZObject"
 import {Zko} from "../proto"
 
-async function writeTree(obj: ZObject): Promise<Zko.ProtoZkObject> {
-    const auxNode: Zko.ProtoZkObject = await promisedConverToProto(obj)
+function writeTree(obj: ZObject): Zko.ProtoZkObject {
+    const auxNode: Zko.ProtoZkObject = convertToProto(obj)
 
-    auxNode.children = await Promise.all(obj.children.map(async (child) => await writeTree(child)))
+    auxNode.children = obj.children.map(child => writeTree(child))
 
     return auxNode
 }
@@ -34,14 +34,6 @@ function convertToProto(obj: ZObject) {
             break
     }
     return auxNode
-}
-
-function promisedConverToProto(obj: ZObject): Promise<Zko.ProtoZkObject> {
-    return new Promise(resolve => {
-        setTimeout(() =>{
-            resolve(convertToProto(obj))
-        })
-    })
 }
 
 export async function protoTree(root: ZObject): Promise<Zko.ProtoZkObject> {
