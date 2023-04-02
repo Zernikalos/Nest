@@ -15,7 +15,6 @@
 import ResizablePanel from "@studio/components/resizablepanel/ResizablePanel.vue"
 import TreeView from "@studio/components/treeview/TreeView.vue"
 import {useZkoLoaderStore} from "@zernikalos/store/src";
-import {ZObject} from "@zernikalos/exporter";
 import {onMounted, ref} from "vue";
 
 const mrrStore = useZkoLoaderStore()

@@ -35,7 +35,6 @@ import FileSelectorFormat from "@studio/components/fileselector/FileSelectorForm
 
 import * as fileApi from "@studio/hooks/useFileApi"
 import {useZkoLoaderStore} from "@zernikalos/store/src";
-import {ZObjectType} from "@zernikalos/exporter";
 
 const inputFile = ref()
 const editorText = ref()

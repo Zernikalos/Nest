@@ -65,61 +65,16 @@ importers:
       electron: 23.1.2
       typescript: 4.9.5
 
-  packages/exporter:
-    specifiers:
-      '@babel/core': 7.21.0
-      '@babel/plugin-proposal-export-default-from': 7.18.10
-      '@babel/plugin-transform-runtime': 7.21.0
-      '@babel/preset-typescript': 7.21.0
-      '@babel/runtime': 7.21.0
-      '@types/lodash': 4.14.191
-      '@types/object-hash': 3.0.2
-      '@types/three': 0.149.0
-      babel-loader: 9.1.2
-      get-own-enumerable-property-symbols: 3.0.2
-      is-obj: 3.0.0
-      is-regexp: 3.1.0
-      lodash: 4.17.21
-      object-hash: 3.0.0
-      protobufjs: 7.2.2
-      protobufjs-cli: 1.1.1
-      three: 0.150.1
-      webpack: 5.75.0
-      webpack-bundle-analyzer: 4.8.0
-      webpack-merge: 5.8.0
-    dependencies:
-      '@babel/runtime': 7.21.0
-      get-own-enumerable-property-symbols: 3.0.2
-      is-obj: 3.0.0
-      is-regexp: 3.1.0
-      lodash: 4.17.21
-      object-hash: 3.0.0
-      protobufjs: 7.2.2
-      three: 0.150.1
-    devDependencies:
-      '@babel/core': 7.21.0
-      '@babel/plugin-proposal-export-default-from': 7.18.10_@babel+core@7.21.0
-      '@babel/plugin-transform-runtime': 7.21.0_@babel+core@7.21.0
-      '@babel/preset-typescript': 7.21.0_@babel+core@7.21.0
-      '@types/lodash': 4.14.191
-      '@types/object-hash': 3.0.2
-      '@types/three': 0.149.0
-      babel-loader: 9.1.2_qoaxtqicpzj5p3ubthw53xafqm
-      protobufjs-cli: 1.1.1_protobufjs@7.2.2
-      webpack: 5.75.0
-      webpack-bundle-analyzer: 4.8.0
-      webpack-merge: 5.8.0
-
   packages/store:
     specifiers:
       '@types/lodash': 4.14.191
       '@types/vue': 2.0.0
-      '@zernikalos/exporter': 0.0.1
+      '@zernikalos/zkbuilder': 0.0.1
       lodash: 4.17.21
       pinia: 2.0.33
       vue: 3.2.47
     dependencies:
-      '@zernikalos/exporter': link:../exporter
+      '@zernikalos/zkbuilder': link:../zkbuilder
       lodash: 4.17.21
       pinia: 2.0.33_vue@3.2.47
       vue: 3.2.47
@@ -132,7 +87,6 @@ importers:
       '@types/lodash': 4.14.191
       '@vitejs/plugin-vue': 4.0.0
       '@vue/test-utils': 2.3.0
-      '@zernikalos/exporter': 0.0.1
       '@zernikalos/store': 0.0.1
       autoprefixer: 10.4.13
       axios: 1.3.4
@@ -147,7 +101,6 @@ importers:
       vue: 3.2.47
       vue-router: 4.1.6
     dependencies:
-      '@zernikalos/exporter': link:../exporter
       '@zernikalos/store': link:../store
       axios: 1.3.4
       bootstrap-icons: 1.10.3
@@ -226,6 +179,51 @@ importers:
       tsconfig-paths: 4.1.0
       typescript: 4.9.5
       webpack: 5.75.0
+
+  packages/zkbuilder:
+    specifiers:
+      '@babel/core': 7.21.0
+      '@babel/plugin-proposal-export-default-from': 7.18.10
+      '@babel/plugin-transform-runtime': 7.21.0
+      '@babel/preset-typescript': 7.21.0
+      '@babel/runtime': 7.21.0
+      '@types/lodash': 4.14.191
+      '@types/object-hash': 3.0.2
+      '@types/three': 0.149.0
+      babel-loader: 9.1.2
+      get-own-enumerable-property-symbols: 3.0.2
+      is-obj: 3.0.0
+      is-regexp: 3.1.0
+      lodash: 4.17.21
+      object-hash: 3.0.0
+      protobufjs: 7.2.2
+      protobufjs-cli: 1.1.1
+      three: 0.150.1
+      webpack: 5.75.0
+      webpack-bundle-analyzer: 4.8.0
+      webpack-merge: 5.8.0
+    dependencies:
+      '@babel/runtime': 7.21.0
+      get-own-enumerable-property-symbols: 3.0.2
+      is-obj: 3.0.0
+      is-regexp: 3.1.0
+      lodash: 4.17.21
+      object-hash: 3.0.0
+      protobufjs: 7.2.2
+      three: 0.150.1
+    devDependencies:
+      '@babel/core': 7.21.0
+      '@babel/plugin-proposal-export-default-from': 7.18.10_@babel+core@7.21.0
+      '@babel/plugin-transform-runtime': 7.21.0_@babel+core@7.21.0
+      '@babel/preset-typescript': 7.21.0_@babel+core@7.21.0
+      '@types/lodash': 4.14.191
+      '@types/object-hash': 3.0.2
+      '@types/three': 0.149.0
+      babel-loader: 9.1.2_qoaxtqicpzj5p3ubthw53xafqm
+      protobufjs-cli: 1.1.1_protobufjs@7.2.2
+      webpack: 5.75.0
+      webpack-bundle-analyzer: 4.8.0
+      webpack-merge: 5.8.0
 
 packages:
 
@@ -539,7 +537,7 @@ packages:
     resolution: {integrity: sha512-0NFvs3VkuSYbFi1x2Vd6tKrywq+z/cLeYC/RJNFrIX/30Bf5aiGYbtvGXolEktzJH8o5E5KJ3tT+nkxuuZFVlA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.2
     dev: true
 
   /@babel/helper-module-transforms/7.20.11:
@@ -5488,7 +5486,7 @@ packages:
     resolution: {integrity: sha512-T0yTFjdpldGY8PmuXXR0PyQ1ufZpEGiHVrp7zHKB7jdR4qlmZHhONVM5AQOAWXuF/w3dnHbEQVrNptJgt7F+cQ==}
     engines: {node: '>=10.13.0'}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       tapable: 2.2.1
     dev: true
 
@@ -11461,7 +11459,7 @@ packages:
     engines: {node: '>=10.13.0'}
     dependencies:
       glob-to-regexp: 0.4.1
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
     dev: true
 
   /wbuf/1.7.3:
@@ -11643,7 +11641,7 @@ packages:
       eslint-scope: 5.1.1
       events: 3.3.0
       glob-to-regexp: 0.4.1
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       json-parse-even-better-errors: 2.3.1
       loader-runner: 4.2.0
       mime-types: 2.1.35
@@ -11683,7 +11681,7 @@ packages:
       eslint-scope: 5.1.1
       events: 3.3.0
       glob-to-regexp: 0.4.1
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       json-parse-even-better-errors: 2.3.1
       loader-runner: 4.2.0
       mime-types: 2.1.35

@@ -9,7 +9,7 @@ import {
     ZObject,
     ParseOptions,
     zkParse
-} from "@zernikalos/exporter"
+} from "@zernikalos/zkbuilder"
 // @ts-ignore
 import _ from "lodash"
 
