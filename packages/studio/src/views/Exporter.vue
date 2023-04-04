@@ -80,7 +80,7 @@ async function exportToZko() {
     const {path, name} = inputFile.value
     const fileUrl = await fileApi.getUrlForFile(path, name)
 
-    await zkoStore.loadFromFile({filePath: fileUrl, format: selectedInputFormat.value}, {defaultScene: needDefaultScene.value})
+    await zkoStore.loadFromFile({filePath: fileUrl, format: selectedInputFormat.value}, {defaultScene: needDefaultScene.value, defaultCamera: true})
     updateEditor()
 }
 
