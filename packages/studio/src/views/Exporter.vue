@@ -35,7 +35,6 @@ import FileSelectorFormat from "@studio/components/fileselector/FileSelectorForm
 
 import * as fileApi from "@studio/hooks/useFileApi"
 import {useZkoLoaderStore} from "@zernikalos/store/src";
-import {ZObjectType} from "@zernikalos/exporter";
 
 const inputFile = ref()
 const editorText = ref()
@@ -81,7 +80,7 @@ async function exportToZko() {
     const {path, name} = inputFile.value
     const fileUrl = await fileApi.getUrlForFile(path, name)
 
-    await zkoStore.loadFromFile({filePath: fileUrl, format: selectedInputFormat.value}, {defaultScene: needDefaultScene.value})
+    await zkoStore.loadFromFile({filePath: fileUrl, format: selectedInputFormat.value}, {defaultScene: needDefaultScene.value, defaultCamera: true})
     updateEditor()
 }
 

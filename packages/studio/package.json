@@ -9,7 +9,6 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@zernikalos/exporter": "0.0.1",
     "@zernikalos/store": "0.0.1",
     "lodash": "4.17.21",
     "vue": "3.2.47",

@@ -1,1 +1,0 @@
-export {generateVertexShaderSource} from "./generateVertexShaderSource";
