@@ -40,5 +40,8 @@
     "lint": "eslint ./engine/**/src/**/*.ts",
     "clean": "rimraf build && lerna exec rimraf node_modules dist && rimraf node_modules",
     "test": "jest"
-  }
+  },
+  "workspaces": [
+    "./packages/*"
+  ]
 }
