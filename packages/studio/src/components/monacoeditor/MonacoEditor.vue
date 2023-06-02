@@ -13,21 +13,25 @@ const refEditor = ref()
 let editor: editor.IStandaloneCodeEditor
 
 interface Props {
-    editorText?: string,
+    modelValue: string
     language?: "json" | "text" | "glsl"
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    editorText: "",
+    modelValue: "",
     language: "text"
 })
+
+const emit = defineEmits(["update:modelValue"])
 
 const monacoLanguage = computed(() => {
     return toMonacoLanguage(props.language)
 })
 
-watch(() => props.editorText, (newValue) => {
-    editor?.setValue(newValue)
+watch(() => props.modelValue, (newValue) => {
+    if (newValue !== editor.getValue()) {
+        editor?.setValue(newValue)
+    }
 })
 
 watch(() => props.language, (newValue) => {
@@ -40,7 +44,7 @@ setUpGlsl()
 onMounted(() => {
     // eslint-disable-next-line no-import-assign
     editor = monaco.editor.create(refEditor.value, {
-        value: props.editorText,
+        value: props.modelValue,
         language: monacoLanguage.value,
         theme: "vs-dark",
         automaticLayout: true,
@@ -49,6 +53,9 @@ onMounted(() => {
 
     editor.layout()
     window.onresize = () => editor.layout()
+    editor.onDidChangeModelContent(function(_e) {
+        emit("update:modelValue", editor.getValue())
+    })
 })
 
 function setUpGlsl() {

@@ -1,11 +1,17 @@
 <template>
     <div class="column" v-if="studioStore.obj">
         <div class="row">
+            <div class="col-6 self-end">
+                <q-input v-model="studioStore.obj.id" disable label="ID" />
+            </div>
+        </div>
+        <div class="row">
             <div class="col-3">
                 <q-input v-model="studioStore.obj.name" label="Name" />
             </div>
+
             <div class="col-3 self-end">
-                <q-input v-model="studioStore.obj.id" disable label="ID" />
+                <q-select v-model="studioStore.obj.type" :options="Object.values(ZObjectType)" label="Type" />
             </div>
         </div>
         <q-expansion-item
@@ -30,6 +36,7 @@
 import FormZTransform from "components/forms/FormZTransform.vue"
 import {useStudioStore} from "stores/studio-store"
 import FormZShaderProgram from "components/forms/FormZShaderProgram.vue"
+import {ZObjectType} from "@zernikalos/zkbuilder"
 
 const studioStore = useStudioStore()
 

@@ -29,6 +29,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
+      behavior="desktop"
       mini-to-overlay
       mini
     >

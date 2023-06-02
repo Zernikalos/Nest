@@ -5,7 +5,7 @@
     </div>
 
     <div class="row col">
-      <MonacoEditor language="json" :editor-text="editorText" class="col-grow"></MonacoEditor>
+      <MonacoEditor language="json" v-model="editorText" class="col-grow"></MonacoEditor>
     </div>
   </q-page>
 </template>
