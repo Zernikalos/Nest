@@ -11,6 +11,7 @@
 const {configure} = require("quasar/wrappers")
 const path = require("path")
 const monacoEditorPlugin = require("vite-plugin-monaco-editor").default
+const _ = require("lodash")
 
 const languageWorkers = ["editorWorkerService", "json", "typescript"]
 
@@ -81,7 +82,13 @@ module.exports = configure(function(/* ctx */) {
             // polyfillModulePreload: true,
             // distDir
 
-            // extendViteConf (viteConf) {},
+            extendViteConf(viteConf) {
+                _.merge(viteConf.server, {
+                    watch: {
+                        ignored: ["!node_modules/@zernikalos/**"]
+                    }
+                })
+            },
             // viteVuePluginOptions: {},
 
             vitePlugins: [

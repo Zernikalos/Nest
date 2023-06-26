@@ -11,7 +11,7 @@
         </div>
 
         <div class="row col">
-            <MonacoEditor :language="binaryFormat ? 'text' : 'json'" :editor-text="editorText" class="col-grow"></MonacoEditor>
+            <MonacoEditor :language="binaryFormat ? 'text' : 'json'" v-model="editorText" class="col-grow"></MonacoEditor>
         </div>
     </q-page>
 
