@@ -1,2 +1,0 @@
-
-export {findById} from "./findById"
