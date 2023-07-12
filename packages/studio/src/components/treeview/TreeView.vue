@@ -1,0 +1,61 @@
+<template>
+    <ul v-if="hasItems">
+        <TreeViewItem
+            v-bind="treeItems[0]"
+            @node:select="handleNodeSelect"
+            @node:open="handleNodeOpen"
+            @node:close="handleNodeClose"
+            @node:select-prev="handleSelectPrev"
+            @node:select-next="handleSelectNext"
+        />
+    </ul>
+    <span v-if="!hasItems">
+      <h1>No elements</h1>
+    </span>
+</template>
+
+<script setup lang="ts">
+import TreeViewItem from "./TreeViewItem.vue"
+import {computed, onMounted, reactive, ref, watch} from "vue"
+import {TreeNode, TreeNodeView, TreeNodeViewImpl, useTreeViewState} from "./TreeNode";
+import {isNil} from "lodash";
+
+const props = defineProps<{
+    items: TreeNode[]
+}>()
+
+const hasItems = computed(() => props.items.length > 0)
+
+const treeViewState = useTreeViewState()
+
+const treeItems = computed(() => [...props.items.map(treeViewState.convertToTreeView)])
+
+function handleNodeSelect(ev: TreeNodeView) {
+    const treeNode = treeViewState.findByLabel(ev.label)
+    if (isNil(treeNode)) {
+        return
+    }
+    treeViewState.select(treeNode)
+}
+
+function handleSelectPrev(ev: TreeNodeView) {
+    treeViewState.selectPrevVisible(ev)
+}
+
+function handleSelectNext(ev: TreeNodeView) {
+    treeViewState.selectNextVisible(ev)
+}
+
+function handleNodeOpen(ev: TreeNodeView) {
+    treeViewState.open(ev)
+}
+
+function handleNodeClose(ev: TreeNodeView) {
+    treeViewState.close(ev)
+}
+
+</script>
+
+<style scoped>
+
+</style>

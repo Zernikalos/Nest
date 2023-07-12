@@ -1,0 +1,75 @@
+// src/electron/main/main.ts
+import { join } from "path"
+import {
+    app,
+    screen,
+    BrowserWindow,
+    nativeImage
+} from 'electron'
+import * as process from "process";
+import * as studioServer from "@zernikalos/studioserver"
+
+// const isDev = process.env.npm_lifecycle_event === "app:dev" ? true : false;
+const isDev = process.env.NODE_ENV === "dev"
+
+function createWindow(width: number, height: number) {
+    const icon = nativeImage.createFromPath('../assets/zklogo.png')
+    // Create the browser window.
+    const mainWindow = new BrowserWindow({
+        icon: '../assets/zklogo.png',
+        width: Math.floor(width * 0.9),
+        height: Math.floor(height * 0.9),
+        title: "Zernikalos Studio",
+        webPreferences: {
+            preload: join(__dirname, './preload.js'),
+        },
+    })
+
+    mainWindow.setIcon(icon)
+
+    // and load the index.html of the app.
+    // mainWindow.loadURL(
+    //     isDev ?
+    //         'http://localhost:3000' :
+    //         join(__dirname, '../../index.html')
+    // );
+    mainWindow.loadURL('http://localhost:5173')
+    // Open the DevTools.
+    if (isDev) {
+        // mainWindow.webContents.openDevTools();
+    }
+}
+
+async function setup() {
+    // This method will be called when Electron has finished
+    // initialization and is ready to create browser windows.
+    // Some APIs can only be used after this event occurs.
+    await app.whenReady()
+
+    // We cannot require the screen module until the app is ready.
+    //const { screen } = require('electron')
+
+    // Create a window that fills the screen's available work area.
+    const primaryDisplay = screen.getPrimaryDisplay()
+    const { width, height } = primaryDisplay.workAreaSize
+
+    createWindow(width, height)
+    await studioServer.studioServerBootstrap()
+    app.on('activate', function () {
+        // On macOS it's common to re-create a window in the app when the
+        // dock icon is clicked and there are no other windows open.
+        if (BrowserWindow.getAllWindows().length === 0) createWindow(width, height)
+    })
+    // Quit when all windows are closed, except on macOS. There, it's common
+    // for applications and their menu bar to stay active until the user quits
+    // explicitly with Cmd + Q.
+    app.on('window-all-closed', () => {
+        if (process.platform !== 'darwin') {
+            app.quit()
+        }
+    })
+}
+
+setup()
+
+

@@ -1,5 +1,4 @@
 // Extracted from https://github.com/microsoft/monaco-editor/issues/2992#issue-1148655681
-/* eslint-disable */
 
 import type { languages } from 'monaco-editor'
 
