@@ -12,7 +12,7 @@
                 left-label="PROTO" left-value="proto"
                 right-label="JSON" right-value="json"
                 v-model:selected="selectedOutputFormat"
-                @update:selected="updateFormat"
+                @update:selected="updateEditor"
             ></Toggle>
         </div>
 
@@ -46,7 +46,11 @@ const selectedOutputFormat = ref('json')
  */
 const selectedInputFormat = ref('obj')
 
-const inputFormats = [{label: 'obj', extensions: ['obj']}, {label: 'gltf', extensions: ['gltf', 'glb']}]
+const inputFormats = [
+    {label: 'obj', extensions: ['obj']},
+    {label: 'gltf', extensions: ['gltf', 'glb']},
+    {label: 'fbx', extensions: ['fbx']}
+]
 
 const zko = ref()
 
@@ -62,15 +66,12 @@ function handleUpdateFileSelected(ev) {
     editorText.value = ""
 }
 
-function updateFormat() {
-    if (!studioStore.root) {
-        return
-    }
-    updateEditor()
-}
-
 async function updateEditor() {
-    editorText.value = await studioStore.exportRootAsJsonString()
+    if (selectedOutputFormat.value === 'json') {
+        editorText.value = await studioStore.exportRootAsJsonString()
+    } else {
+        editorText.value = await studioStore.exportRootAsProtoString()
+    }
 }
 
 // async function exportToZko() {

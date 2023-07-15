@@ -7,6 +7,7 @@ import * as monaco from "monaco-editor"
 import {editor} from "monaco-editor"
 import {computed, onMounted, ref, watch} from "vue"
 import {monacoGlslConf, monacoGlslLanguage} from "./glsl.language";
+// import {useElementSize} from "@vueuse/core";
 
 const refEditor = ref()
 let editor: editor.IStandaloneCodeEditor
@@ -14,6 +15,8 @@ let editor: editor.IStandaloneCodeEditor
 interface Props {
     modelValue: string
     language?: "json" | "text" | "glsl"
+    width?: number
+    height?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -54,7 +57,17 @@ onMounted(() => {
     editor.onDidChangeModelContent(function(_e) {
         emit("update:modelValue", editor.getValue())
     })
+
+    // const { width, height } = useElementSize(refEditor)
+
+    //setInterval(() => console.log(propo.value), 1000)
+    // watch([width, height], ([newWidth, newHeight]) => {
+    //
+    //     editor.layout({width: Math.floor(newWidth), height: Math.floor(newHeight)})
+    //     console.log(`${newWidth}x${newHeight}`)
+    // })
 })
+
 
 function setUpGlsl() {
     monaco.languages.register({id: "glsl"})

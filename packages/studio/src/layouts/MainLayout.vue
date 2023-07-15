@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col h-screen">
-        <Navbar class=""></Navbar>
-        <div class="flex flex-grow max-h-fit">
+        <Navbar class="h-[5%] min-h-12 max-h-12"></Navbar>
+        <div class="flex h-[95%]">
             <Sidebar></Sidebar>
             <RouterView id="router-view" class="wrapper"/>
         </div>

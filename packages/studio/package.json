@@ -1,8 +1,8 @@
 {
   "name": "@zernikalos/studio",
   "version": "0.0.1",
-  "description": "Zernikalos Studio Quasar Frontend",
-  "productName": "Studio Quasar App",
+  "description": "Zernikalos Studio Frontend",
+  "productName": "Studio App",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
   "private": true,
   "scripts": {
@@ -20,7 +20,8 @@
     "vue-router": "4.2.4",
     "monaco-editor": "0.40.0",
     "axios": "1.4.0",
-    "bootstrap-icons": "1.10.5"
+    "bootstrap-icons": "1.10.5",
+    "@vueuse/core": "10.2.1"
   },
   "devDependencies": {
     "@types/lodash": "4.14.195",

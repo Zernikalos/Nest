@@ -4,10 +4,9 @@
             <slot name="panel1"></slot>
         </div>
 
-        <div class="divider-f" :style="`right: ${100 - dividerPosition}%`" @mousedown="startDragging" >
+        <div class="divider-f" :style="`right: ${100 - dividerPosition}%`" @mousedown="startDragging"></div>
 
-        </div>
-        <div :style="{width: `${100 - dividerPosition}%`, 'max-width': `${100 - dividerPosition}%`}">
+        <div :style="{width: `${100 - dividerPosition}%`, 'max-width': `${100 - dividerPosition}%`}" class="panel2">
             <slot name="panel2" ></slot>
         </div>
 
@@ -55,8 +54,11 @@ function handleDragging(ev: MouseEvent) {
 .panel1 {
     @apply overflow-x-auto overflow-y-auto
 }
+.panel2 {
+    @apply overflow-x-auto overflow-y-auto
+}
 .wrapper-div {
-    @apply h-full flex m-0 pb-0
+    @apply h-full flex m-0 pb-0 max-w-full
 }
 .divider-f {
     @apply h-full w-1 cursor-ew-resize border-l border-l-gray-400

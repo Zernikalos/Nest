@@ -6,7 +6,7 @@
             </div>
         </template>
         <template v-slot:panel2>
-            <MonacoEditor class="h-full" model-value="hola amigo"></MonacoEditor>
+            <MonacoEditor class="h-full max-w-full overflow-x-scroll" model-value="hola amigo"></MonacoEditor>
         </template>
     </ResizablePanel>
 </template>
