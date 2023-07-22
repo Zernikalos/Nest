@@ -52,15 +52,18 @@ function handleDragging(ev: MouseEvent) {
 
 <style scoped>
 .panel1 {
-    @apply overflow-x-auto overflow-y-auto
+    @apply z-20
 }
 .panel2 {
-    @apply overflow-x-auto overflow-y-auto
+
 }
 .wrapper-div {
-    @apply h-full flex m-0 pb-0 max-w-full
+    @apply h-full flex m-0 pb-0 max-w-full w-full
 }
 .divider-f {
-    @apply h-full w-1 cursor-ew-resize border-l border-l-gray-400
+    @apply h-full w-1 cursor-ew-resize border-l border-l-neutral-content
+}
+.divider-f:hover {
+    cursor: col-resize;
 }
 </style>

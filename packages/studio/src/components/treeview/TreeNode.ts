@@ -1,5 +1,5 @@
 import _, {isNil} from "lodash"
-import {computed, reactive} from "vue"
+import {computed, reactive, ref, Ref} from "vue"
 
 export interface TreeNode {
     id: string
@@ -22,7 +22,7 @@ export function useTreeViewState() {
     let root: TreeNodeView | null = null
 
     const labelMap: Map<string, TreeNodeView> = new Map()
-    const selected: TreeNodeView[] = []
+    const selected: Ref<TreeNodeView[]> = ref([])
     const treeList: TreeNodeView[] = []
 
     function innerConvertToTreeView(node: TreeNode, parent: TreeNodeView | null): TreeNodeView {
@@ -62,10 +62,10 @@ export function useTreeViewState() {
         if (_.isNil(node)) {
             return
         }
-        selected.forEach((s) => s.isSelected = false)
-        selected.splice(0)
+        selected.value.forEach((s) => s.isSelected = false)
+        selected.value.splice(0)
         node.isSelected = true
-        selected.push(node)
+        selected.value.push(node)
     }
 
     function selectPrevVisible(node: TreeNodeView) {
@@ -127,7 +127,7 @@ export function useTreeViewState() {
 
     const visibleList = computed(() => treeList.filter(e => e.visible))
     const openList = computed(() => treeList.filter(e => e.isOpen))
-    const lastSelected = computed(() => _.last(selected))
+    const lastSelected = computed(() => _.last(selected.value))
 
-    return {root, convertToTreeView, findByLabel, select, selectNextVisible, selectPrevVisible, open, close, visibleList, openList, treeList, lastSelected}
+    return {root, convertToTreeView, findByLabel, select, selectNextVisible, selectPrevVisible, open, close, visibleList, openList, treeList, selected, lastSelected}
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col">
+    <div class="flex flex-col grow">
 <!--        <div class="flex">-->
 <!--            <FileSelector class="w-1/2" v-model:file-selected="inputFile"></FileSelector>-->
 <!--            <DropDownSelector v-model:selected="selectedInputFormat" :options="inputFormats"></DropDownSelector>-->

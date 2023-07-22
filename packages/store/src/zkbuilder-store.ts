@@ -37,7 +37,7 @@ export const useZkBuilderStore = defineStore("zkbuilder", () => {
         }) as string
     }
 
-    async function exportRootAsJsonString(obj: ZObject): Promise<string> {
+    async function exportAsJsonString(obj: ZObject): Promise<string> {
         if (_.isNil(obj)) {
             return ""
         }
@@ -48,5 +48,5 @@ export const useZkBuilderStore = defineStore("zkbuilder", () => {
         }) as string
     }
 
-    return {parseFile, exportAs, exportAsProtoString, exportRootAsJsonString}
+    return {parseFile, exportAs, exportAsProtoString, exportAsJsonString}
 })

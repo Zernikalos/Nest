@@ -19,7 +19,7 @@ const routeName = computed(() => useRoute().name)
 
 <style scoped lang="postcss">
 .sidebar {
-    @apply shadow-md bg-neutral pl-0 px-1 border-r border-opacity-40 border-neutral-content
+    @apply shadow-md bg-base-100 pl-0 px-1 border-r border-opacity-40 border-base-content
 }
 .margin-auto {
     margin-top: auto;

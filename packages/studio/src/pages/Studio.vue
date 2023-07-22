@@ -1,12 +1,20 @@
 <template>
     <ResizablePanel>
         <template v-slot:panel1>
-            <div class="h-full bg-neutral">
-                <TreeView :items="treeViewItems2" ></TreeView>
+            <div class="bg-base-100 common-panel">
+                <TreeView :items="treeViewItems" @selected="handleSelected"></TreeView>
             </div>
         </template>
         <template v-slot:panel2>
-            <MonacoEditor class="h-full max-w-full overflow-x-scroll" model-value="hola amigo"></MonacoEditor>
+            <div class="flex flex-col common-panel">
+                <div class="absolute z-10 right-0">
+                    <StudioViewSelector v-model="mode"></StudioViewSelector>
+                </div>
+                <div class="h-full" >
+                    <MonacoEditor v-model="editorText" theme="dark" language="json" v-if="mode==='code'"></MonacoEditor>
+                    <FormZObject v-else-if="mode==='form'"></FormZObject>
+                </div>
+            </div>
         </template>
     </ResizablePanel>
 </template>
@@ -17,9 +25,11 @@ import TreeView from "@studio/components/treeview/TreeView.vue"
 import {computed, onMounted, reactive, ref, watch} from "vue";
 import {useStudioStore} from "@zernikalos/store";
 import MonacoEditor from "@studio/components/monacoeditor/MonacoEditor.vue";
+import StudioViewSelector from "@studio/views/StudioViewSelector.vue";
+import FormZObject from "@studio/views/forms/FormZObject.vue";
 
 const studioStore = useStudioStore()
-const treeViewItems = reactive([])
+const mode = ref('code')
 
 function convertToHierarchy(obj) {
     if (!obj) {
@@ -44,29 +54,24 @@ const typesIcons = {
     "Model": "bi-box"
 }
 
-function updateTreeViewItems() {
-    treeViewItems.splice(0)
-    const converted = convertToHierarchy(studioStore.root)
-
-    if (converted.length) {
-        treeViewItems.push(...converted)
-    }
-}
-
-const treeViewItems2 = computed(() => {
+const treeViewItems = computed(() => {
     return convertToHierarchy(studioStore.root)
 })
 
-watch(() => studioStore.root, () => {
-    updateTreeViewItems()
-})
 
-onMounted(() => {
-    updateTreeViewItems()
-})
+const editorText = ref("")
+
+async function handleSelected(treeNode) {
+    studioStore.selectById(treeNode.id)
+
+    editorText.value = await studioStore.exportSelectedAsJsonString()
+}
 
 </script>
 
 <style scoped>
+.common-panel {
+    @apply overflow-x-auto overflow-y-auto h-full
+}
 
 </style>

@@ -1,42 +1,35 @@
 <template>
-    <div class="column" v-if="studioStore.obj">
-        <div class="row">
-            <div class="col-6 self-end">
-                <q-input v-model="studioStore.obj.id" disable label="ID" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <q-input v-model="studioStore.obj.name" label="Name" />
-            </div>
+    <div class="flex flex-col" v-if="studioStore.obj">
+        <label>ID</label>
+        <input class="input" v-model="studioStore.obj.id" disabled>
 
-            <div class="col-3 self-end">
-                <q-select v-model="studioStore.obj.type" :options="Object.values(ZObjectType)" label="Type" />
-            </div>
-        </div>
-        <q-expansion-item
-            switch-toggle-side
-            expand-separator
-            label="Transform"
-        >
-            <FormZTransform v-model="studioStore.obj.transform"></FormZTransform>
-        </q-expansion-item>
-        <q-expansion-item
-            switch-toggle-side
-            expand-separator
-            v-if="studioStore.obj.type === 'Model'"
-            label="Shading"
-        >
-            <FormZShaderProgram></FormZShaderProgram>
-        </q-expansion-item>
+        <label>Name</label>
+        <input class="input" v-model="studioStore.obj.name">
+
+        <DropDownSelector :options="Object.values(ZObjectType)" />
     </div>
+
+<!--        <q-expansion-item-->
+<!--            switch-toggle-side-->
+<!--            expand-separator-->
+<!--            label="Transform"-->
+<!--        >-->
+<!--            <FormZTransform v-model="studioStore.obj.transform"></FormZTransform>-->
+<!--        </q-expansion-item>-->
+<!--        <q-expansion-item-->
+<!--            switch-toggle-side-->
+<!--            expand-separator-->
+<!--            v-if="studioStore.obj.type === 'Model'"-->
+<!--            label="Shading"-->
+<!--        >-->
+<!--            <FormZShaderProgram></FormZShaderProgram>-->
+<!--        </q-expansion-item>-->
 </template>
 
 <script setup lang="ts">
-import FormZTransform from "components/forms/FormZTransform.vue"
-import {useStudioStore} from "stores/studio-store"
-import FormZShaderProgram from "components/forms/FormZShaderProgram.vue"
+import {useStudioStore} from "@zernikalos/store"
 import {ZObjectType} from "@zernikalos/zkbuilder"
+import DropDownSelector from "../../components/dropdownselector/DropDownSelector.vue";
 
 const studioStore = useStudioStore()
 

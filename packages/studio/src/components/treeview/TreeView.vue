@@ -24,6 +24,10 @@ const props = defineProps<{
     items: TreeNode[]
 }>()
 
+const emit = defineEmits<{
+    'selected': TreeNode[]
+}>()
+
 const hasItems = computed(() => props.items.length > 0)
 
 const treeViewState = useTreeViewState()
@@ -53,6 +57,13 @@ function handleNodeOpen(ev: TreeNodeView) {
 function handleNodeClose(ev: TreeNodeView) {
     treeViewState.close(ev)
 }
+
+watch(treeViewState.lastSelected, () => {
+    if (isNil(treeViewState.lastSelected.value)) {
+        return
+    }
+    emit('selected', treeViewState.lastSelected.value)
+})
 
 </script>
 

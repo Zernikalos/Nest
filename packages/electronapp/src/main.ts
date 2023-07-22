@@ -9,6 +9,8 @@ import {
 import * as process from "process";
 import * as studioServer from "@zernikalos/studioserver"
 
+import {createMenu} from "./menu";
+
 // const isDev = process.env.npm_lifecycle_event === "app:dev" ? true : false;
 const isDev = process.env.NODE_ENV === "dev"
 
@@ -17,8 +19,8 @@ function createWindow(width: number, height: number) {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
         icon: '../assets/zklogo.png',
-        width: Math.floor(width * 0.9),
-        height: Math.floor(height * 0.9),
+        width: Math.floor(width * 0.8),
+        height: Math.floor(height * 0.8),
         title: "Zernikalos Studio",
         webPreferences: {
             preload: join(__dirname, './preload.js'),
@@ -45,6 +47,8 @@ async function setup() {
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
     await app.whenReady()
+
+    createMenu()
 
     // We cannot require the screen module until the app is ready.
     //const { screen } = require('electron')

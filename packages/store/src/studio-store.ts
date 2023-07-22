@@ -36,8 +36,15 @@ export const useStudioStore = defineStore("studioStore", () => {
         if (_.isNil(root.value)) {
             return
         }
-        return zkbuilderStore.exportRootAsJsonString(root.value)
+        return zkbuilderStore.exportAsJsonString(root.value)
     }
 
-    return {root, obj, parseFile, select, selectById, exportRootAsProtoString, exportRootAsJsonString}
+    async function exportSelectedAsJsonString(): Promise<string | ""> {
+        if (_.isNil(obj.value)) {
+            return ""
+        }
+        return zkbuilderStore.exportAsJsonString(obj.value)
+    }
+
+    return {root, obj, parseFile, select, selectById, exportRootAsProtoString, exportRootAsJsonString, exportSelectedAsJsonString}
 })
