@@ -1,7 +1,8 @@
 {
   "name": "zernikalos-studio",
   "version": "0.0.1",
-  "license": "MIT",
+  "author": "Aarón Negrín <demenus.dev@gmail.com>",
+  "license": "GPLv3",
   "devDependencies": {
     "@babel/core": "7.22.6",
     "@babel/preset-env": "7.22.6",
@@ -29,7 +30,7 @@
     "commit": "git-cz",
     "samples": "pushstate-server -d ./samples -p 9000",
 
-    "start": "pnpm --parallel --if-present -r run start",
+    "start": "pnpm --filter @zernikalos/electron -r run start",
 
     "studio": "pnpm run --filter @zernikalos/studio dev",
     "electron": "pnpm run --filter @zernikalos/electron dev",

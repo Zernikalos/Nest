@@ -4,6 +4,7 @@
   "description": "Zernikalos Studio Frontend",
   "productName": "Studio App",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
+  "license": "GPLv3",
   "private": true,
   "scripts": {
     "start": "vite",
@@ -14,7 +15,7 @@
   },
   "dependencies": {
     "@zernikalos/store": "0.0.1",
-    "@zernikalos/zkbuilder": "link:../../../Zernikalos-Builder",
+    "@zernikalos/zkbuilder": "file:../../../Zernikalos-Builder",
     "lodash": "4.17.21",
     "vue": "3.3.4",
     "vue-router": "4.2.4",

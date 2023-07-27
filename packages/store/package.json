@@ -2,11 +2,12 @@
   "name": "@zernikalos/store",
   "version": "0.0.1",
   "main": "index.ts",
+  "author": "Aarón Negrín <demenus.dev@gmail.com>",
+  "license": "GPLv3",
   "scripts": {
-
   },
   "dependencies": {
-    "@zernikalos/zkbuilder": "link:../../../Zernikalos-Builder",
+    "@zernikalos/zkbuilder": "file:../../../Zernikalos-Builder",
     "pinia": "2.1.4",
     "vue": "3.3.4",
     "axios": "1.4.0",
