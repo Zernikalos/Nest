@@ -1,25 +1,28 @@
 <template>
-    <div ref="refEditor"></div>
+    <div class="h-full" ref="refEditor"></div>
 </template>
 
 <script setup lang="ts">
 import * as monaco from "monaco-editor"
 import {editor} from "monaco-editor"
 import {computed, onMounted, ref, watch} from "vue"
-import {monacoGlslConf, monacoGlslLanguage} from "./glsl.language"
+import {monacoGlslConf, monacoGlslLanguage} from "./glsl.language";
 
 const refEditor = ref()
-// eslint-disable-next-line no-redeclare
 let editor: editor.IStandaloneCodeEditor
 
 interface Props {
     modelValue: string
     language?: "json" | "text" | "glsl"
+    theme: "dark" | "light"
+    width?: number
+    height?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
     modelValue: "",
-    language: "text"
+    language: "text",
+    theme: "dark"
 })
 
 const emit = defineEmits(["update:modelValue"])
@@ -42,11 +45,10 @@ watch(() => props.language, (newValue) => {
 setUpGlsl()
 
 onMounted(() => {
-    // eslint-disable-next-line no-import-assign
     editor = monaco.editor.create(refEditor.value, {
         value: props.modelValue,
         language: monacoLanguage.value,
-        theme: "vs-dark",
+        theme: `vs-${props.theme}`,
         automaticLayout: true,
         wordWrap: "on"
     })
@@ -56,6 +58,7 @@ onMounted(() => {
     editor.onDidChangeModelContent(function(_e) {
         emit("update:modelValue", editor.getValue())
     })
+
 })
 
 function setUpGlsl() {
