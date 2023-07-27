@@ -1,20 +1,17 @@
 {
   "name": "@zernikalos/electron",
+  "productName": "Zernikalos Studio",
   "version": "0.0.1",
   "description": "Electron app for Zernikalos Studio",
+  "author": "Aarón Negrín <demenus.dev@gmail.com>",
+  "license": "GPLv3",
   "main": "dist/main.js",
   "scripts": {
-    "test": "test",
-    "start": "tsc && NODE_ENV=dev electron ./dist/main.js",
-
-    "dev": "electron-vite dev",
-
-    "vite:dev": "vite",
-    "vite:build": "vue-tsc --noEmit && vite build",
-    "vite:preview": "vite preview",
     "ts": "tsc",
-    "watch": "tsc -w",
-    "lint": "eslint -c .eslintrc --ext .ts ./src"
+    "lint": "eslint -c .eslintrc --ext .ts ./src",
+
+    "start": "electron-forge start",
+    "make": "electron-forge make"
   },
   "dependencies": {
     "@zernikalos/studioserver": "0.0.1"
@@ -22,9 +19,11 @@
   "devDependencies": {
     "concurrently": "8.2.0",
     "typescript": "5.1.6",
-    "electron": "25.2.0",
-    "@types/node": "20.4.0",
-    "electron-vite": "1.0.24"
+    "electron": "25.3.2",
+    "@types/node": "20.4.5",
+    "@electron-forge/cli": "6.2.1",
+    "@electron-forge/maker-dmg": "6.2.1",
+    "@electron-forge/plugin-vite": "6.2.1"
   },
   "build": {
     "appId": "YourAppID",
@@ -37,7 +36,7 @@
       "dist"
     ],
     "mac": {
-      "artifactName": "${productName}_${version}.${ext}",
+      "artifactName": "ZernikalosStudio_${version}.${ext}",
       "target": [
         "dmg"
       ]
@@ -57,7 +56,5 @@
       "allowToChangeInstallationDirectory": true,
       "deleteAppDataOnUninstall": false
     }
-  },
-  "author": "Aarón Negrín",
-  "license": "ISC"
+  }
 }

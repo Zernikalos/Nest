@@ -1,18 +1,19 @@
 /** @type {import('tailwindcss').Config} */
-const colors = require("tailwindcss/colors");
+// const colors = require("tailwindcss/colors");
+const path = require("path")
 
 module.exports = {
     darkMode: 'class',
     content: [
-        "./index.html",
-        "./src/**/*.{vue,js}"
+        path.join(__dirname, "./index.html"),
+        path.join(__dirname, "./src/**/*.{vue,js}")
     ],
     theme: {
-        colors: {
-            ...colors,
-            backcolor: "#1d232a",
-            primar: colors.purple["600"]
-        }
+        // colors: {
+        //     ...colors,
+        //     backcolor: "#1d232a",
+        //     primar: colors.purple["600"]
+        // }
     },
     plugins: [
         require("daisyui")

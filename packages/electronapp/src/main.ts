@@ -1,4 +1,3 @@
-// src/electron/main/main.ts
 import { join } from "path"
 import {
     app,
@@ -6,10 +5,12 @@ import {
     BrowserWindow,
     nativeImage
 } from 'electron'
-import * as process from "process";
-import * as studioServer from "@zernikalos/studioserver"
+import {studioServerBootstrap} from "@zernikalos/studioserver"
 
 import {createMenu} from "./menu";
+
+declare const STUDIO_VITE_DEV_SERVER_URL: string
+declare const STUDIO_VITE_NAME: string
 
 // const isDev = process.env.npm_lifecycle_event === "app:dev" ? true : false;
 const isDev = process.env.NODE_ENV === "dev"
@@ -35,7 +36,13 @@ function createWindow(width: number, height: number) {
     //         'http://localhost:3000' :
     //         join(__dirname, '../../index.html')
     // );
-    mainWindow.loadURL('http://localhost:5173')
+    // mainWindow.loadURL('http://localhost:5173')
+
+    if (STUDIO_VITE_DEV_SERVER_URL) {
+        mainWindow.loadURL(STUDIO_VITE_DEV_SERVER_URL)
+    } else {
+        mainWindow.loadFile(path.join(__dirname, `../renderer/${STUDIO_VITE_NAME}/index.html`));
+    }
     // Open the DevTools.
     if (isDev) {
         // mainWindow.webContents.openDevTools();
@@ -58,7 +65,7 @@ async function setup() {
     const { width, height } = primaryDisplay.workAreaSize
 
     createWindow(width, height)
-    await studioServer.studioServerBootstrap()
+    await studioServerBootstrap()
     app.on('activate', function () {
         // On macOS it's common to re-create a window in the app when the
         // dock icon is clicked and there are no other windows open.
