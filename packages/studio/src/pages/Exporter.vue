@@ -1,10 +1,5 @@
 <template>
     <div class="flex flex-col grow">
-<!--        <div class="flex">-->
-<!--            <FileSelector class="w-1/2" v-model:file-selected="inputFile"></FileSelector>-->
-<!--            <DropDownSelector v-model:selected="selectedInputFormat" :options="inputFormats"></DropDownSelector>-->
-
-<!--        </div>-->
         <div class="flex">
             <FileSelectorFormat :formats="inputFormats" v-model:format-selected="selectedInputFormat" @update:file-selected="handleUpdateFileSelected"></FileSelectorFormat>
 
@@ -73,25 +68,6 @@ async function updateEditor() {
         editorText.value = await studioStore.exportRootAsProtoString()
     }
 }
-
-// async function exportToZko() {
-//     if (!inputFile.value) {
-//         return ""
-//     }
-//     const {path, name} = inputFile.value
-//     const fileUrl = await fileApi.getUrlForFile(path, name)
-//
-//     await zkoStore.loadFromFile({filePath: fileUrl, format: selectedInputFormat.value}, {defaultScene: needDefaultScene.value, defaultCamera: true})
-//     updateEditor()
-// }
-
-// const needDefaultScene = computed(() => {
-//     if (_.isNil(zkoStore.root)) {
-//         return true
-//     }
-//     return zkoStore.root.type !== ZObjectType.SCENE;
-//
-// })
 
 async function handleBundleClick() {
   if (selectedOutputFormat.value === "proto") {

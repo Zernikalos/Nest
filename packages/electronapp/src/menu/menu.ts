@@ -1,10 +1,10 @@
-const { app, Menu } = require('electron')
-
-const isMac = process.platform === 'darwin'
+import {app, Menu} from "electron"
+import {Constants} from "../constants";
+import {fileMenu} from "./fileMenu";
 
 const template = [
     // { role: 'appMenu' }
-    ...(isMac
+    ...(Constants.isMac
         ? [{
             label: app.name,
             submenu: [
@@ -21,45 +21,38 @@ const template = [
         }]
         : []),
     // { role: 'fileMenu' }
-    {
-        label: 'File',
-        submenu: [
-            isMac ? { role: 'close' } : { role: 'quit' },
-            {type: 'separator'},
-            { role: 'windowMenu', label: 'Import file...'}
-        ]
-    },
+    fileMenu,
     // { role: 'editMenu' }
-    {
-        label: 'Edit',
-        submenu: [
-            { role: 'undo' },
-            { role: 'redo' },
-            { type: 'separator' },
-            { role: 'cut' },
-            { role: 'copy' },
-            { role: 'paste' },
-            ...(isMac
-                ? [
-                    { role: 'pasteAndMatchStyle' },
-                    { role: 'delete' },
-                    { role: 'selectAll' },
-                    { type: 'separator' },
-                    {
-                        label: 'Speech',
-                        submenu: [
-                            { role: 'startSpeaking' },
-                            { role: 'stopSpeaking' }
-                        ]
-                    }
-                ]
-                : [
-                    { role: 'delete' },
-                    { type: 'separator' },
-                    { role: 'selectAll' }
-                ])
-        ]
-    },
+    // {
+    //     label: 'Edit',
+    //     submenu: [
+    //         { role: 'undo' },
+    //         { role: 'redo' },
+    //         { type: 'separator' },
+    //         { role: 'cut' },
+    //         { role: 'copy' },
+    //         { role: 'paste' },
+    //         ...(isMac
+    //             ? [
+    //                 { role: 'pasteAndMatchStyle' },
+    //                 { role: 'delete' },
+    //                 { role: 'selectAll' },
+    //                 { type: 'separator' },
+    //                 {
+    //                     label: 'Speech',
+    //                     submenu: [
+    //                         { role: 'startSpeaking' },
+    //                         { role: 'stopSpeaking' }
+    //                     ]
+    //                 }
+    //             ]
+    //             : [
+    //                 { role: 'delete' },
+    //                 { type: 'separator' },
+    //                 { role: 'selectAll' }
+    //             ])
+    //     ]
+    // },
     // { role: 'viewMenu' }
     {
         label: 'View',
@@ -81,7 +74,7 @@ const template = [
         submenu: [
             { role: 'minimize' },
             { role: 'zoom' },
-            ...(isMac
+            ...(Constants.isMac
                 ? [
                     { type: 'separator' },
                     { role: 'front' },

@@ -15,11 +15,11 @@
   },
   "dependencies": {
     "@zernikalos/store": "0.0.1",
-    "@zernikalos/zkbuilder": "file:../../../Zernikalos-Builder",
+    "@zernikalos/zkbuilder": "link:../../../Zernikalos-Builder",
     "lodash": "4.17.21",
     "vue": "3.3.4",
     "vue-router": "4.2.4",
-    "monaco-editor": "0.40.0",
+    "monaco-editor": "0.41.0",
     "axios": "1.4.0",
     "bootstrap-icons": "1.10.5",
     "@vueuse/core": "10.2.1"
@@ -31,7 +31,7 @@
     "autoprefixer": "10.4.14",
     "postcss": "8.4.27",
     "tailwindcss": "3.3.3",
-    "daisyui": "3.5.0",
+    "daisyui": "3.5.1",
     "vite": "4.4.7",
     "vitest": "0.33.0",
     "vite-plugin-monaco-editor": "1.1.0"

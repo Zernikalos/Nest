@@ -1,12 +1,12 @@
 <template>
-    <div ref="wrapperDiv" class="wrapper-div">
+    <div ref="dividerDiv" class="divider-container">
         <div :style="`width: ${dividerPosition}%`" class="panel1">
             <slot name="panel1"></slot>
         </div>
 
         <div class="divider-f" :style="`right: ${100 - dividerPosition}%`" @mousedown="startDragging"></div>
 
-        <div :style="{width: `${100 - dividerPosition}%`, 'max-width': `${100 - dividerPosition}%`}" class="panel2">
+        <div :style="{width: `${100 - dividerPosition}%`}" class="panel2">
             <slot name="panel2" ></slot>
         </div>
 
@@ -16,8 +16,8 @@
 <script setup lang="ts">
 import {ref} from "vue"
 
-const wrapperDiv = ref(null)
-const dividerPosition = ref('10')
+const dividerDiv = ref(null)
+const dividerPosition = ref(10)
 
 function startDragging() {
     document.addEventListener('mousemove', handleDragging)
@@ -30,7 +30,7 @@ function endDragging() {
 }
 
 function handleDragging(ev: MouseEvent) {
-    const div: HTMLDivElement = wrapperDiv.value as any as HTMLDivElement
+    const div: HTMLDivElement = dividerDiv.value as any as HTMLDivElement
     const rect = div.getBoundingClientRect()
 
     let xValue = 0
@@ -57,8 +57,8 @@ function handleDragging(ev: MouseEvent) {
 .panel2 {
 
 }
-.wrapper-div {
-    @apply h-full flex m-0 pb-0 max-w-full w-full
+.divider-container {
+    @apply flex m-0 pb-0 w-full h-full
 }
 .divider-f {
     @apply h-full w-1 cursor-ew-resize border-l border-l-neutral-content

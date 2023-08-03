@@ -1,5 +1,5 @@
 <template>
-    <li @click="select" :class="`sidebar-border ${props.selected ? 'sidebar-item-selected' : ''}`">
+    <li @click="select" :class="`sidebar-border tooltip tooltip-right z-30 ${props.selected ? 'sidebar-item-selected' : ''}`" :data-tip="props.name">
         <RouterLink :class="`sidebar-item`" :to="props.path">
             <i :class="`bi ${props.icon}`"></i>
         </RouterLink>
@@ -13,6 +13,7 @@
 
     const props = defineProps<{
         id: number,
+        name: string,
         selected?: boolean
         path: string,
         icon: string

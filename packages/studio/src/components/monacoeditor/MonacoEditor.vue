@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full" ref="refEditor"></div>
+    <div class="h-full w-full" ref="refEditor"></div>
 </template>
 
 <script setup lang="ts">
@@ -14,7 +14,7 @@ let editor: editor.IStandaloneCodeEditor
 interface Props {
     modelValue: string
     language?: "json" | "text" | "glsl"
-    theme: "dark" | "light"
+    theme?: "dark" | "light"
     width?: number
     height?: number
 }
@@ -50,11 +50,9 @@ onMounted(() => {
         language: monacoLanguage.value,
         theme: `vs-${props.theme}`,
         automaticLayout: true,
-        wordWrap: "on"
+        wordWrap: "off"
     })
 
-    editor.layout()
-    window.onresize = () => editor.layout()
     editor.onDidChangeModelContent(function(_e) {
         emit("update:modelValue", editor.getValue())
     })

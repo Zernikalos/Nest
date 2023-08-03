@@ -1,9 +1,9 @@
 <template>
     <div class="sidebar w-15">
         <ul class="flex flex-col h-full">
-            <SidebarItem :id="0" path="/studio" :selected="routeName === 'studio'" icon="bi-journal-code" />
-            <SidebarItem :id="1" path="/exporter" :selected="routeName === 'exporter'" icon="bi-boxes" />
-            <SidebarItem class="margin-auto" :id="2" path="/settings" :selected="routeName === 'settings'" icon="bi-gear" />
+            <SidebarItem :id="0" path="/studio" name="Studio" :selected="routeName === 'studio'" icon="bi-journal-code" />
+            <SidebarItem :id="1" path="/exporter" name="Export" :selected="routeName === 'exporter'" icon="bi-boxes" />
+            <SidebarItem class="margin-auto" name="Settings" :id="2" path="/settings" :selected="routeName === 'settings'" icon="bi-gear" />
         </ul>
     </div>
 </template>

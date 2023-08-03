@@ -1,6 +1,6 @@
 <template>
     <div class="toggle-wrapper">
-        <label for="toogle" class="toggle">
+        <label for="toogle" class="dual-toggle">
             <!-- label -->
             <div v-show="props.leftLabel !== undefined" class="label-text mr-4">
                 {{props.leftLabel}}
@@ -52,7 +52,7 @@ watch(toggleValue, (newValue) => {
 .toggle-wrapper {
     @apply flex items-center justify-center w-full
 }
-.toggle {
+.dual-toggle {
     @apply flex items-center cursor-pointer
 }
 .line {

@@ -14,6 +14,11 @@ const router = createRouter({
       component: () => import('@studio/pages/Studio.vue')
     },
     {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@studio/pages/SettingsPage.vue')
+    },
+    {
       path: '/',
       redirect: '/studio'
     }

@@ -22,7 +22,7 @@ export const useStudioStore = defineStore("studioStore", () => {
     }
 
     async function parseFile(loadOptions: LoadOptions, parseOptions: ParseOptions = DEFAULT_PARSE_OPTIONS) {
-        root.value = await zkbuilderStore.parseFile(loadOptions, _.merge({}, parseOptions, {defaultCamera: true, defaultScene: true}))
+        root.value = await zkbuilderStore.parseFile(loadOptions, _.merge({}, parseOptions, {defaultCamera: false, defaultScene: false}))
     }
 
     async function exportRootAsProtoString(): Promise<string | undefined> {
@@ -46,5 +46,18 @@ export const useStudioStore = defineStore("studioStore", () => {
         return zkbuilderStore.exportAsJsonString(obj.value)
     }
 
-    return {root, obj, parseFile, select, selectById, exportRootAsProtoString, exportRootAsJsonString, exportSelectedAsJsonString}
+    async function exportSelectedAsCleanedJson(): Promise<string | ""> {
+        const exported = await zkbuilderStore.exportAsObject(obj.value)
+        debugger
+        delete exported.children
+
+        return JSON.stringify(exported)
+    }
+
+    return {root, obj, parseFile, select, selectById,
+        exportRootAsProtoString,
+        exportRootAsJsonString,
+        exportSelectedAsJsonString,
+        exportSelectedAsCleanedJson
+    }
 })

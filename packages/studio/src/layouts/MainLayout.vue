@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col h-screen">
         <Navbar class="h-[5%] min-h-12 max-h-12"></Navbar>
-        <div class="flex h-[96%]">
+        <div class="flex h-[96%] w-full">
             <Sidebar></Sidebar>
             <RouterView id="router-view" class="wrapper"/>
         </div>
@@ -16,7 +16,7 @@ import Sidebar from "@studio/components/sidebar/Sidebar.vue"
 
 <style scoped>
 .wrapper {
-    @apply mt-5 pr-0 pb-0
+    @apply mt-0 pr-0 pb-0
 }
 
 </style>

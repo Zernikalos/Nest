@@ -7,6 +7,7 @@
                 :style="{'padding-left': `${props.level * 1.25}rem`}"
                 :class="{'bg-neutral-focus': props.isSelected}"
                 :tabindex="-1"
+                @dblclick="onDbClick"
                 @click="onClick"
                 @keydown.down="onKeyDown"
                 @keydown.up="onKeyUp"
@@ -65,8 +66,11 @@ watch(() => props.isSelected, (newValue) => {
 })
 
 function onClick() {
-    toggle()
     emit('node:select', props)
+}
+
+function onDbClick() {
+    toggle()
 }
 
 function onKeyDown() {
