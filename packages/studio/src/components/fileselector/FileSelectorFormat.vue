@@ -1,5 +1,5 @@
 <template>
-    <div class="flex join join-horizontal">
+    <div class="join join-horizontal">
         <FileSelector class="join-item" @update:file-selected="handleFileSelectedEvent"></FileSelector>
         <DropDownSelector class="join-item" :options="labelOptions" :selected="props.formatSelected" @update:selected="(ev) => $emit('update:formatSelected', ev)"></DropDownSelector>
     </div>

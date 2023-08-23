@@ -7,7 +7,7 @@ export const fileMenu = new MenuItem({
         {
             label: 'Import file...',
             click: (menuItem, browserWindow, event) => {
-                console.log("me pulsan")
+                browserWindow?.emit("import-file")
             }
         },
         {type: 'separator'},

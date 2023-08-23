@@ -1,4 +1,5 @@
-// src/electron/preload/preload.ts
+import {contextBridge, ipcRenderer, ipcMain} from "electron"
+
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
 window.addEventListener('DOMContentLoaded', () => {
@@ -10,4 +11,8 @@ window.addEventListener('DOMContentLoaded', () => {
     for (const dependency of ['chrome', 'node', 'electron']) {
         replaceText(`${dependency}-version`, process.versions[dependency])
     }
+})
+
+contextBridge.exposeInMainWorld('NativeZernikalos', {
+    handleShowImport: (callback: any) => ipcRenderer.on("show-import-file", callback)
 })

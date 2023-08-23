@@ -38,7 +38,7 @@ function convertToHierarchy(obj) {
     const convertToHierarchyRecursive = (obj) => {
         const res = {
             id: obj.id,
-            label: ` ${obj.name}`,
+            label: obj.name,
             icon: typesIcons[obj.type]
         }
         res.children = obj.children.map((c) => convertToHierarchyRecursive(c))

@@ -18,7 +18,7 @@ export const useZkBuilderStore = defineStore("zkbuilder", () => {
         const mergedParseOptions = _.merge({}, parseOptions)
 
         const parseableObj = await zkLoad(mergedLoadOptions)
-        return zkParse(parseableObj, mergedParseOptions)
+        return await zkParse(parseableObj, mergedParseOptions)
     }
 
     async function exportAs(obj: ZObject, exportOptions: ExportOptions) {
@@ -55,9 +55,7 @@ export const useZkBuilderStore = defineStore("zkbuilder", () => {
             return ""
         }
         return await zkExport(obj, {
-            beauty: true,
-            format: "object",
-            stringify: false
+            format: "object"
         })
     }
 
