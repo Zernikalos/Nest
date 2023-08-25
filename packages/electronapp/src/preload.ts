@@ -1,4 +1,5 @@
 import {contextBridge, ipcRenderer, ipcMain} from "electron"
+import {RendererMenuEvents} from "./menu/MenuEvents";
 
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
@@ -14,5 +15,6 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 
 contextBridge.exposeInMainWorld('NativeZernikalos', {
-    handleShowImport: (callback: any) => ipcRenderer.on("show-import-file", callback)
+    handleShowImport: (callback: any) => ipcRenderer.on(RendererMenuEvents.IMPORT_FILE, callback),
+    handleBundleScene: (callback: any) => ipcRenderer.on(RendererMenuEvents.BUNDLE_SCENE, callback)
 })

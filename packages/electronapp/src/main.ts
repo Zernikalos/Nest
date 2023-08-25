@@ -1,24 +1,17 @@
-import path from "path"
 import {
     app,
     screen,
     BrowserWindow,
-    nativeImage,
     Menu
 } from 'electron'
 import {studioServerBootstrap} from "@zernikalos/studioserver"
 
 import {createMenu} from "./menu";
-
-declare const STUDIO_VITE_DEV_SERVER_URL: string
-declare const STUDIO_VITE_NAME: string
-
-// const isDev = process.env.npm_lifecycle_event === "app:dev" ? true : false;
-const isDev = process.env.NODE_ENV === "dev"
+import {MainWindow} from "./MainWindow";
 
 class ZernikalosStudio {
 
-    public mainWindow?: BrowserWindow
+    private mainWindow: MainWindow
     public menu?: Menu
 
     public async initialize() {
@@ -49,37 +42,9 @@ class ZernikalosStudio {
     }
 
     private async initializeWindow(width: number, height: number) {
-        const icon = nativeImage.createFromPath('../assets/zklogo.icns')
-        // Create the browser window.
-        this.mainWindow = new BrowserWindow({
-            icon: '../assets/zklogo.icns',
-            width: Math.floor(width * 0.8),
-            height: Math.floor(height * 0.8),
-            title: "Zernikalos Studio",
-            webPreferences: {
-                preload: path.join(__dirname, './preload.js'),
-            },
-        })
+        this.mainWindow = new MainWindow(width, height)
 
-        this.mainWindow.setIcon(icon)
-
-        // and load the index.html of the app.
-        // mainWindow.loadURL(
-        //     isDev ?
-        //         'http://localhost:3000' :
-        //         join(__dirname, '../../index.html')
-        // );
-        // mainWindow.loadURL('http://localhost:5173')
-
-        if (STUDIO_VITE_DEV_SERVER_URL) {
-            await this.mainWindow.loadURL(STUDIO_VITE_DEV_SERVER_URL)
-        } else {
-            await this.mainWindow.loadFile(path.join(__dirname, `../renderer/${STUDIO_VITE_NAME}/index.html`));
-        }
-        // Open the DevTools.
-        if (isDev) {
-            // mainWindow.webContents.openDevTools();
-        }
+        await this.mainWindow.load()
     }
 
     private async initializeServer() {
@@ -87,10 +52,12 @@ class ZernikalosStudio {
     }
 
     private handleAppEvents() {
-        app.on('activate', function () {
+        app.on('activate',  async () => {
             // On macOS it's common to re-create a window in the app when the
             // dock icon is clicked and there are no other windows open.
-            if (BrowserWindow.getAllWindows().length === 0) createWindow(width, height)
+            if (BrowserWindow.getAllWindows().length === 0) {
+                await this.initializeWindow(this.desiredSize.width, this.desiredSize.height)
+            }
         })
         // Quit when all windows are closed, except on macOS. There, it's common
         // for applications and their menu bar to stay active until the user quits
@@ -101,9 +68,6 @@ class ZernikalosStudio {
             }
         })
 
-        this.mainWindow!.on("import-file", () => {
-            this.mainWindow!.webContents.send("show-import-file")
-        })
     }
 }
 
