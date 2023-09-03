@@ -10,10 +10,10 @@
     "@zernikalos/zkbuilder": "link:../../../Zernikalos-Builder",
     "pinia": "2.1.6",
     "vue": "3.3.4",
-    "axios": "1.4.0",
+    "axios": "1.5.0",
     "lodash": "4.17.21"
   },
   "devDependencies": {
-    "@types/lodash": "4.14.196"
+    "@types/lodash": "4.14.197"
   }
 }
