@@ -1,9 +1,11 @@
 <template>
     <div class="flex flex-col h-screen">
         <Navbar class="h-[5%] min-h-12 max-h-12"></Navbar>
-        <div class="flex h-[96%] w-full">
-            <Sidebar></Sidebar>
-            <RouterView id="router-view" class="wrapper"/>
+        <div class="flex h-[96%]">
+            <Sidebar class="w-14"></Sidebar>
+            <div class="wrapper h-full">
+                <RouterView id="router-view"/>
+            </div>
         </div>
     </div>
     <div v-if="showModal">
@@ -26,11 +28,12 @@ const nativeStudio = useNativeStudio()
 const showModal = ref(false)
 
 nativeStudio.handleShowImport(() => showModal.value = true)
+
 </script>
 
 <style scoped>
 .wrapper {
-    @apply mt-0 pr-0 pb-0
+    width: calc(theme(width.full) - theme(width.14));
 }
 
 </style>

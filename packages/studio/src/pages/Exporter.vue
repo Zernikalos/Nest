@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col grow">
+    <div class="flex flex-col grow h-full">
         <div class="flex">
             <FileSelectorFormat :formats="inputFormats" v-model:format-selected="selectedInputFormat" @update:file-selected="handleUpdateFileSelected"></FileSelectorFormat>
 
@@ -13,7 +13,7 @@
 
         <Button @click="handleBundleClick">Export</Button>
 
-        <div class="flex h-full space-x-5">
+        <div class="flex flex-1 space-x-5">
             <MonacoEditor class="grow" v-model="editorText" :language="selectedOutputFormat === 'proto' ? 'text' : 'json'" format="json"></MonacoEditor>
         </div>
     </div>
