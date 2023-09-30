@@ -43,7 +43,7 @@ export const useStudioStore = defineStore("studioStore", () => {
     function _cleanDataArrays(node: ProtoZkObject) {
         if (node.type === ZObjectType.MODEL) {
             const model = node.model!!
-            Object.values(model.mesh.buffers).forEach((buff: any) => delete buff.dataArray)
+            Object.values(model.mesh.rawBuffers).forEach((buff: any) => delete buff.dataArray)
             const texture = model?.material?.texture
             if (!_.isNil(texture)) {
                 delete texture.dataArray
@@ -64,6 +64,13 @@ export const useStudioStore = defineStore("studioStore", () => {
         return JSON.stringify(result, null, 4)
     }
 
+    async function exportRootAsJsonStringFull(): Promise<string | undefined> {
+        if (_.isNil(root.value)) {
+            return
+        }
+        return await zkbuilderStore.exportAsJsonString(root.value)
+    }
+
     async function exportRootAsJsonString(): Promise<string | undefined> {
         return await _objectToCleanJson(root.value)
     }
@@ -75,6 +82,7 @@ export const useStudioStore = defineStore("studioStore", () => {
     return {root, obj, parseFile, select, selectById,
         exportRootAsProtoString,
         exportRootAsJsonString,
+        exportRootAsJsonStringFull,
         exportSelectedAsJsonString
     }
 })

@@ -8,10 +8,13 @@ import {studioServerBootstrap} from "@zernikalos/studioserver"
 
 import {createMenu} from "./menu";
 import {MainWindow} from "./MainWindow";
+// import {ViewerWindow} from "./ViewerWindow";
+import {WindowSize, windowSize169} from "./tools/desiredWindowSize";
 
 class ZernikalosStudio {
 
     private mainWindow: MainWindow
+    // private viewerWindow: ViewerWindow
     public menu?: Menu
 
     public async initialize() {
@@ -30,11 +33,8 @@ class ZernikalosStudio {
         this.handleAppEvents()
     }
 
-    public get desiredSize(): {width: number, height: number} {
-        // Create a window that fills the screen's available work area.
-        const primaryDisplay = screen.getPrimaryDisplay()
-        const { width, height } = primaryDisplay.workAreaSize
-        return {width, height}
+    public get desiredSize(): WindowSize {
+        return windowSize169()
     }
 
     private initializeMenu() {
@@ -43,8 +43,10 @@ class ZernikalosStudio {
 
     private async initializeWindow(width: number, height: number) {
         this.mainWindow = new MainWindow(width, height)
+        // this.viewerWindow = new ViewerWindow(width, height)
 
         await this.mainWindow.load()
+        // await this.viewerWindow.load()
     }
 
     private async initializeServer() {

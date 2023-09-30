@@ -63,7 +63,7 @@ function handleUpdateFileSelected(ev) {
 
 async function updateEditor() {
     if (selectedOutputFormat.value === 'json') {
-        editorText.value = await studioStore.exportRootAsJsonString()
+        editorText.value = await studioStore.exportRootAsJsonStringFull()
     } else {
         editorText.value = await studioStore.exportRootAsProtoString()
     }

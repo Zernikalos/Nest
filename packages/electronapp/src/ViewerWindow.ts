@@ -5,15 +5,15 @@ import {MenuEvents, RendererMenuEvents} from "./menu/MenuEvents";
 declare const STUDIO_VITE_DEV_SERVER_URL: string
 declare const STUDIO_VITE_NAME: string
 
-export class MainWindow {
+export class ViewerWindow {
 
-    private mainWindow: BrowserWindow
+    private viewerWindow: BrowserWindow
     constructor(width: number, height: number) {
 
-        this.mainWindow = new BrowserWindow({
+        this.viewerWindow = new BrowserWindow({
             icon: '../assets/zklogo.icns',
-            width: width,
-            height: height,
+            width: Math.floor(width * 0.5),
+            height: Math.floor(height * 0.5),
             title: "Zernikalos Studio",
             webPreferences: {
                 preload: path.join(__dirname, './preload.js'),
@@ -26,20 +26,14 @@ export class MainWindow {
 
     public async load() {
         if (STUDIO_VITE_DEV_SERVER_URL) {
-            await this.mainWindow.loadURL(STUDIO_VITE_DEV_SERVER_URL)
+            await this.viewerWindow.loadURL(STUDIO_VITE_DEV_SERVER_URL)
         } else {
-            await this.mainWindow.loadFile(path.join(__dirname, `../renderer/${STUDIO_VITE_NAME}/index.html`));
+            await this.viewerWindow.loadFile(path.join(__dirname, `../renderer/${STUDIO_VITE_NAME}/index.html`));
         }
     }
 
     private subscribeToEvents() {
-        this.mainWindow!.on(MenuEvents.IMPORT_FILE, () => {
-            this.mainWindow!.webContents.send(RendererMenuEvents.IMPORT_FILE)
-        })
 
-        this.mainWindow!.on(MenuEvents.BUNDLE_SCENE, () => {
-            this.mainWindow!.webContents.send(RendererMenuEvents.BUNDLE_SCENE)
-        })
     }
 
 }

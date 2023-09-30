@@ -4,7 +4,13 @@
         <div class="flex h-[96%]">
             <Sidebar class="w-14"></Sidebar>
             <div class="wrapper h-full">
-                <RouterView id="router-view"/>
+
+                <RouterView id="router-view" v-slot="{ Component }">
+                    <keep-alive>
+                        <component :is="Component" />
+                    </keep-alive>
+                </RouterView>
+
             </div>
         </div>
     </div>
