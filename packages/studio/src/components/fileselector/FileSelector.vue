@@ -1,5 +1,5 @@
 <template>
-    <input class="file-input file-input-sm file-input-primary w-full max-w-xs" id="file_input" type="file" @change="handleUploadFile">
+    <input class="file-input file-input-primary" id="file_input" type="file" @change="handleUploadFile">
 </template>
 
 <script setup>
@@ -19,11 +19,5 @@ async function handleUploadFile(ev) {
 </script>
 
 <style scoped>
-.input {
-    @apply block w-full text-sm border cursor-pointer text-gray-400 focus:outline-none bg-gray-700 border-gray-600 placeholder-gray-400
-}
-.inputfile {
-    @apply file:text-sm file:border-0 file:border-r-2 cursor-pointer file:text-gray-400 file:bg-gray-700 hover:file:bg-gray-900
-}
 
 </style>

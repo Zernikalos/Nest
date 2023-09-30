@@ -1,86 +1,80 @@
-import { join } from "path"
 import {
     app,
     screen,
     BrowserWindow,
-    nativeImage
+    Menu
 } from 'electron'
 import {studioServerBootstrap} from "@zernikalos/studioserver"
 
 import {createMenu} from "./menu";
+import {MainWindow} from "./MainWindow";
+// import {ViewerWindow} from "./ViewerWindow";
+import {WindowSize, windowSize169} from "./tools/desiredWindowSize";
 
-declare const STUDIO_VITE_DEV_SERVER_URL: string
-declare const STUDIO_VITE_NAME: string
+class ZernikalosStudio {
 
-// const isDev = process.env.npm_lifecycle_event === "app:dev" ? true : false;
-const isDev = process.env.NODE_ENV === "dev"
+    private mainWindow: MainWindow
+    // private viewerWindow: ViewerWindow
+    public menu?: Menu
 
-function createWindow(width: number, height: number) {
-    const icon = nativeImage.createFromPath('../assets/zklogo.png')
-    // Create the browser window.
-    const mainWindow = new BrowserWindow({
-        icon: '../assets/zklogo.png',
-        width: Math.floor(width * 0.8),
-        height: Math.floor(height * 0.8),
-        title: "Zernikalos Studio",
-        webPreferences: {
-            preload: join(__dirname, './preload.js'),
-        },
-    })
+    public async initialize() {
+        // This method will be called when Electron has finished
+        // initialization and is ready to create browser windows.
+        // Some APIs can only be used after this event occurs.
+        await app.whenReady()
 
-    mainWindow.setIcon(icon)
+        this.initializeMenu()
 
-    // and load the index.html of the app.
-    // mainWindow.loadURL(
-    //     isDev ?
-    //         'http://localhost:3000' :
-    //         join(__dirname, '../../index.html')
-    // );
-    // mainWindow.loadURL('http://localhost:5173')
+        await this.initializeServer()
 
-    if (STUDIO_VITE_DEV_SERVER_URL) {
-        mainWindow.loadURL(STUDIO_VITE_DEV_SERVER_URL)
-    } else {
-        mainWindow.loadFile(path.join(__dirname, `../renderer/${STUDIO_VITE_NAME}/index.html`));
+        const size = this.desiredSize
+        await this.initializeWindow(size.width, size.height)
+
+        this.handleAppEvents()
     }
-    // Open the DevTools.
-    if (isDev) {
-        // mainWindow.webContents.openDevTools();
+
+    public get desiredSize(): WindowSize {
+        return windowSize169()
+    }
+
+    private initializeMenu() {
+        this.menu = createMenu()
+    }
+
+    private async initializeWindow(width: number, height: number) {
+        this.mainWindow = new MainWindow(width, height)
+        // this.viewerWindow = new ViewerWindow(width, height)
+
+        await this.mainWindow.load()
+        // await this.viewerWindow.load()
+    }
+
+    private async initializeServer() {
+        await studioServerBootstrap()
+    }
+
+    private handleAppEvents() {
+        app.on('activate',  async () => {
+            // On macOS it's common to re-create a window in the app when the
+            // dock icon is clicked and there are no other windows open.
+            if (BrowserWindow.getAllWindows().length === 0) {
+                await this.initializeWindow(this.desiredSize.width, this.desiredSize.height)
+            }
+        })
+        // Quit when all windows are closed, except on macOS. There, it's common
+        // for applications and their menu bar to stay active until the user quits
+        // explicitly with Cmd + Q.
+        app.on('window-all-closed', () => {
+            if (process.platform !== 'darwin') {
+                app.quit()
+            }
+        })
+
     }
 }
 
-async function setup() {
-    // This method will be called when Electron has finished
-    // initialization and is ready to create browser windows.
-    // Some APIs can only be used after this event occurs.
-    await app.whenReady()
+const zernikalosStudio = new ZernikalosStudio()
+zernikalosStudio.initialize()
 
-    createMenu()
-
-    // We cannot require the screen module until the app is ready.
-    //const { screen } = require('electron')
-
-    // Create a window that fills the screen's available work area.
-    const primaryDisplay = screen.getPrimaryDisplay()
-    const { width, height } = primaryDisplay.workAreaSize
-
-    createWindow(width, height)
-    await studioServerBootstrap()
-    app.on('activate', function () {
-        // On macOS it's common to re-create a window in the app when the
-        // dock icon is clicked and there are no other windows open.
-        if (BrowserWindow.getAllWindows().length === 0) createWindow(width, height)
-    })
-    // Quit when all windows are closed, except on macOS. There, it's common
-    // for applications and their menu bar to stay active until the user quits
-    // explicitly with Cmd + Q.
-    app.on('window-all-closed', () => {
-        if (process.platform !== 'darwin') {
-            app.quit()
-        }
-    })
-}
-
-setup()
 
 

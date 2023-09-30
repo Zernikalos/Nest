@@ -1,6 +1,7 @@
 import {app, Menu} from "electron"
-import {Constants} from "../constants";
-import {fileMenu} from "./fileMenu";
+import {Constants} from "../constants"
+import {fileMenu} from "./fileMenu"
+import {sceneMenu} from "./sceneMenu";
 
 const template = [
     // { role: 'appMenu' }
@@ -22,6 +23,7 @@ const template = [
         : []),
     // { role: 'fileMenu' }
     fileMenu,
+    sceneMenu,
     // { role: 'editMenu' }
     // {
     //     label: 'Edit',
@@ -104,4 +106,6 @@ export function createMenu() {
     //@ts-ignore
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
+
+    return menu
 }

@@ -50,7 +50,8 @@ onMounted(() => {
         language: monacoLanguage.value,
         theme: `vs-${props.theme}`,
         automaticLayout: true,
-        wordWrap: "off"
+        wordWrap: "on",
+        minimap: {enabled: false}
     })
 
     editor.onDidChangeModelContent(function(_e) {

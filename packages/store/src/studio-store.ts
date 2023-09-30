@@ -1,5 +1,13 @@
 import {defineStore} from "pinia"
-import {DEFAULT_PARSE_OPTIONS, findById, LoadOptions, ParseOptions, ZObject} from "@zernikalos/zkbuilder"
+import {
+    DEFAULT_PARSE_OPTIONS,
+    findById,
+    LoadOptions,
+    ParseOptions,
+    ProtoZkObject,
+    ZObject,
+    ZObjectType,
+} from "@zernikalos/zkbuilder"
 import {ref} from "vue"
 import {useZkBuilderStore} from "./zkbuilder-store"
 import _ from "lodash"
@@ -22,7 +30,7 @@ export const useStudioStore = defineStore("studioStore", () => {
     }
 
     async function parseFile(loadOptions: LoadOptions, parseOptions: ParseOptions = DEFAULT_PARSE_OPTIONS) {
-        root.value = await zkbuilderStore.parseFile(loadOptions, _.merge({}, parseOptions, {defaultCamera: false, defaultScene: false}))
+        root.value = await zkbuilderStore.parseFile(loadOptions, _.merge({}, parseOptions, {defaultCamera: true, defaultScene: true}))
     }
 
     async function exportRootAsProtoString(): Promise<string | undefined> {
@@ -32,32 +40,49 @@ export const useStudioStore = defineStore("studioStore", () => {
         return zkbuilderStore.exportAsProtoString(root.value)
     }
 
-    async function exportRootAsJsonString(): Promise<string | undefined> {
+    function _cleanDataArrays(node: ProtoZkObject) {
+        if (node.type === ZObjectType.MODEL) {
+            const model = node.model!!
+            Object.values(model.mesh.rawBuffers).forEach((buff: any) => delete buff.dataArray)
+            const texture = model?.material?.texture
+            if (!_.isNil(texture)) {
+                delete texture.dataArray
+            }
+        }
+        delete node.children
+        // node.children = node.children.map((c) => cleanDataArrays(c))
+        return node
+    }
+
+    async function _objectToCleanJson(node: ZObject | undefined) {
+        if (_.isNil(node)) {
+            return
+        }
+        const result = await zkbuilderStore.exportAsObject(node)
+        _cleanDataArrays(result)
+
+        return JSON.stringify(result, null, 4)
+    }
+
+    async function exportRootAsJsonStringFull(): Promise<string | undefined> {
         if (_.isNil(root.value)) {
             return
         }
-        return zkbuilderStore.exportAsJsonString(root.value)
+        return await zkbuilderStore.exportAsJsonString(root.value)
     }
 
-    async function exportSelectedAsJsonString(): Promise<string | ""> {
-        if (_.isNil(obj.value)) {
-            return ""
-        }
-        return zkbuilderStore.exportAsJsonString(obj.value)
+    async function exportRootAsJsonString(): Promise<string | undefined> {
+        return await _objectToCleanJson(root.value)
     }
 
-    async function exportSelectedAsCleanedJson(): Promise<string | ""> {
-        const exported = await zkbuilderStore.exportAsObject(obj.value)
-        debugger
-        delete exported.children
-
-        return JSON.stringify(exported)
+    async function exportSelectedAsJsonString(): Promise<string | undefined> {
+        return await _objectToCleanJson(obj.value)
     }
 
     return {root, obj, parseFile, select, selectById,
         exportRootAsProtoString,
         exportRootAsJsonString,
-        exportSelectedAsJsonString,
-        exportSelectedAsCleanedJson
+        exportRootAsJsonStringFull,
+        exportSelectedAsJsonString
     }
 })

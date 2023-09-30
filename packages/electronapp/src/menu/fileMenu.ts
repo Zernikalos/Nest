@@ -1,5 +1,6 @@
 import {MenuItem} from "electron"
 import {Constants} from "../constants";
+import {MenuEvents} from "./MenuEvents";
 
 export const fileMenu = new MenuItem({
     label: 'File',
@@ -7,7 +8,7 @@ export const fileMenu = new MenuItem({
         {
             label: 'Import file...',
             click: (menuItem, browserWindow, event) => {
-                console.log("me pulsan")
+                browserWindow?.emit(MenuEvents.IMPORT_FILE)
             }
         },
         {type: 'separator'},
