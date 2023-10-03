@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@zernikalos/store": "0.0.1",
-    "@zernikalos/zkbuilder": "link:../../../Zernikalos-Builder",
+    "@zernikalos/zkbuilder": "file:../../../Zernikalos-Builder",
     "lodash": "4.17.21",
     "vue": "3.3.4",
     "vue-router": "4.2.5",
@@ -25,15 +25,14 @@
     "@vueuse/core": "10.4.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "4.3.4",
+    "@vitejs/plugin-vue": "4.4.0",
     "@vue/test-utils": "2.4.1",
     "autoprefixer": "10.4.16",
     "postcss": "8.4.31",
     "tailwindcss": "3.3.3",
-    "daisyui": "3.8.2",
+    "daisyui": "3.8.3",
     "vite": "4.4.9",
-    "vitest": "^0.34.6",
-    "vite-plugin-monaco-editor": "1.1.0"
+    "vitest": "0.34.6"
   },
   "engines": {
     "node": "^18 || ^20",
