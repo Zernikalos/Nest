@@ -4,7 +4,7 @@ import {
     ExportOptions,
     LoadOptions,
     ParseOptions,
-    ProtoZObject,
+    ProtoZkObject,
     zkExport,
     zkLoad,
     zkParse,
@@ -50,7 +50,7 @@ export const useZkBuilderStore = defineStore("zkbuilder", () => {
         }) as string
     }
 
-    async function exportAsObject(obj: ZObject): Promise<ProtoZObject> {
+    async function exportAsObject(obj: ZObject): Promise<ProtoZkObject> {
         if (_.isNil(obj)) {
             return ""
         }

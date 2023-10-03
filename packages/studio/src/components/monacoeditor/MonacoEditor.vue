@@ -4,12 +4,12 @@
 
 <script setup lang="ts">
 import * as monaco from "monaco-editor"
-import {editor} from "monaco-editor"
+import {editor as monacoEditor} from "monaco-editor"
 import {computed, onMounted, ref, watch} from "vue"
 import {monacoGlslConf, monacoGlslLanguage} from "./glsl.language";
 
 const refEditor = ref()
-let editor: editor.IStandaloneCodeEditor
+let editor: monacoEditor.IStandaloneCodeEditor
 
 interface Props {
     modelValue: string
@@ -38,14 +38,14 @@ watch(() => props.modelValue, (newValue) => {
 })
 
 watch(() => props.language, (newValue) => {
-    const model = monaco.editor.createModel(editor?.getValue() ?? "", toMonacoLanguage(newValue))
+    const model = monacoEditor.createModel(editor?.getValue() ?? "", toMonacoLanguage(newValue))
     editor?.setModel(model)
 })
 
 setUpGlsl()
 
 onMounted(() => {
-    editor = monaco.editor.create(refEditor.value, {
+    editor = monacoEditor.create(refEditor.value, {
         value: props.modelValue,
         language: monacoLanguage.value,
         theme: `vs-${props.theme}`,

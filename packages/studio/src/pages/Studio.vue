@@ -11,7 +11,7 @@
                     <StudioViewSelector v-model="mode"></StudioViewSelector>
                 </div>
                 <div class="h-full" >
-                    <MonacoEditor v-model="editorText" theme="dark" language="json" v-if="mode==='code'"></MonacoEditor>
+                    <MonacoEditor v-model="editorText" @update:modelValue="handleEditorUpdate" theme="dark" language="json" v-if="mode==='code'"></MonacoEditor>
                     <FormZObject v-else-if="mode==='form'"></FormZObject>
                 </div>
             </div>
@@ -65,6 +65,11 @@ async function handleSelected(treeNode) {
     studioStore.selectById(treeNode.id)
 
     editorText.value = await studioStore.exportSelectedAsJsonString()
+}
+
+function handleEditorUpdate(newTextData) {
+    // console.log(newTextData)
+    studioStore.updateSelected(newTextData)
 }
 
 </script>

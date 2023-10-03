@@ -14,11 +14,11 @@ import _ from "lodash"
 
 export const useStudioStore = defineStore("studioStore", () => {
     const root = ref<ZObject>()
-    const obj = ref<ZObject>()
+    const selected = ref<ZObject>()
     const zkbuilderStore = useZkBuilderStore()
 
     function select(newSelected: ZObject | undefined) {
-        obj.value = newSelected
+        selected.value = newSelected
     }
 
     function selectById(id: string) {
@@ -49,17 +49,30 @@ export const useStudioStore = defineStore("studioStore", () => {
                 delete texture.dataArray
             }
         }
-        delete node.children
-        // node.children = node.children.map((c) => cleanDataArrays(c))
+        // delete node.children
         return node
+    }
+
+    function _cleanProtoZkObjectForEdit(node: ProtoZkObject) {
+        switch (node.type) {
+            case ZObjectType.MODEL:
+                return node.model
+            case ZObjectType.CAMERA:
+                return node.camera
+            case ZObjectType.GROUP:
+                return node.group
+            case ZObjectType.SCENE:
+                return node.scene
+        }
     }
 
     async function _objectToCleanJson(node: ZObject | undefined) {
         if (_.isNil(node)) {
             return
         }
-        const result = await zkbuilderStore.exportAsObject(node)
-        _cleanDataArrays(result)
+        let result = await zkbuilderStore.exportAsObject(node)
+        result = _cleanDataArrays(result)
+        result = _cleanProtoZkObjectForEdit(result)
 
         return JSON.stringify(result, null, 4)
     }
@@ -76,13 +89,24 @@ export const useStudioStore = defineStore("studioStore", () => {
     }
 
     async function exportSelectedAsJsonString(): Promise<string | undefined> {
-        return await _objectToCleanJson(obj.value)
+        return await _objectToCleanJson(selected.value)
     }
 
-    return {root, obj, parseFile, select, selectById,
+    function updateSelected(jsonStr: string) {
+        try {
+            const newData = JSON.parse(jsonStr)
+            _.merge(selected.value, newData)
+        } catch (_e) {
+
+        }
+
+    }
+
+    return {root, selected, parseFile, select, selectById,
         exportRootAsProtoString,
         exportRootAsJsonString,
         exportRootAsJsonStringFull,
-        exportSelectedAsJsonString
+        exportSelectedAsJsonString,
+        updateSelected
     }
 })
