@@ -1,8 +1,6 @@
 <template>
     <div class="flex flex-col grow h-full">
         <div class="flex">
-            <FileSelectorFormat :formats="inputFormats" v-model:format-selected="selectedInputFormat" @update:file-selected="handleUpdateFileSelected"></FileSelectorFormat>
-
             <Toggle
                 left-label="PROTO" left-value="proto"
                 right-label="JSON" right-value="json"
@@ -11,8 +9,6 @@
             ></Toggle>
         </div>
 
-        <Button @click="handleBundleClick">Export</Button>
-
         <div class="flex flex-1 space-x-5">
             <MonacoEditor class="grow" v-model="editorText" :language="selectedOutputFormat === 'proto' ? 'text' : 'json'" format="json"></MonacoEditor>
         </div>
@@ -20,13 +16,10 @@
 </template>
 
 <script setup>
-import {computed, onMounted, ref} from "vue"
-import _ from "lodash"
+import {onMounted, ref} from "vue"
 
 import MonacoEditor from "@studio/components/monacoeditor/MonacoEditor.vue"
 import Toggle from "@studio/components/toggle/Toggle.vue"
-import Button from "@studio/components/Button.vue"
-import FileSelectorFormat from "@studio/components/fileselector/FileSelectorFormat.vue"
 
 import {useFileApiStore, useStudioStore} from "@zernikalos/store";
 

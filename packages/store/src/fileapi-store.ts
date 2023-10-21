@@ -1,24 +1,21 @@
 import {defineStore} from "pinia"
 import {api} from "./httpClient"
+import _ from "lodash";
 
 export const useFileApiStore = defineStore("fileApi", () => {
-    async function expose(filePath: string): Promise<number> {
+    async function __expose(filePath: string): Promise<number> {
         return (await api.post("/files/expose", {path: filePath})).data
     }
 
-    function buildFilePath(exposeId: number, fileName: string) {
+    function __buildFileUrl(exposeId: number, fileName: string): string {
     // @ts-ignore
         return `http://localhost:3000/files/${exposeId}/${fileName}`
     }
 
-    async function getUrlForFile(filePath: string, fileName: string) {
-        const exposeId = await expose(filePath)
-        return buildFilePath(exposeId, fileName)
+    async function getUrlForFile(filePath: {path: string, fileName: string}): Promise<string> {
+        const exposeId = await __expose(filePath.path)
+        return __buildFileUrl(exposeId, filePath.fileName)
     }
 
-    async function getFile(exposeId: number, fileName: string) {
-        return await api.get(`/files/${exposeId}/${fileName}`)
-    }
-
-    return {getUrlForFile, getFile}
+    return {getUrlForFile}
 })
