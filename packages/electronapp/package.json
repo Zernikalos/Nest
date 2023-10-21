@@ -17,9 +17,8 @@
     "@zernikalos/studioserver": "0.0.1"
   },
   "devDependencies": {
-    "concurrently": "8.2.1",
-    "typescript": "5.2.2",
-    "electron": "26.2.4",
+    "concurrently": "8.2.2",
+    "electron": "27.0.2",
     "@electron-forge/cli": "6.4.2",
     "@electron-forge/maker-dmg": "6.4.2",
     "@electron-forge/plugin-vite": "6.4.2"
