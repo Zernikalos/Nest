@@ -22,18 +22,21 @@
 <script setup>
 import ResizablePanel from "@studio/components/resizablepanel/ResizablePanel.vue"
 import TreeView from "@studio/components/treeview/TreeView.vue"
-import {computed, onMounted, reactive, ref, watch} from "vue";
+import {computed, ref, watch} from "vue";
 import {useStudioStore} from "@zernikalos/store";
 import MonacoEditor from "@studio/components/monacoeditor/MonacoEditor.vue";
 import StudioViewSelector from "@studio/views/StudioViewSelector.vue";
 import FormZObject from "@studio/views/forms/FormZObject.vue";
+import _ from "lodash";
+import {storeToRefs} from "pinia";
 
 const studioStore = useStudioStore()
 const mode = ref('code')
+const treeViewItems = ref([])
 
 function convertToHierarchy(obj) {
     if (!obj) {
-        return []
+        return undefined
     }
     const convertToHierarchyRecursive = (obj) => {
         const res = {
@@ -44,8 +47,7 @@ function convertToHierarchy(obj) {
         res.children = obj.children.map((c) => convertToHierarchyRecursive(c))
         return res
     }
-    const result = convertToHierarchyRecursive(obj)
-    return [result]
+    return convertToHierarchyRecursive(obj)
 }
 
 const typesIcons = {
@@ -54,9 +56,20 @@ const typesIcons = {
     "Model": "bi-box"
 }
 
-const treeViewItems = computed(() => {
-    return convertToHierarchy(studioStore.root)
+const { root } = storeToRefs(studioStore)
+
+watch(root, () => {
+    const transformed = convertToHierarchy(studioStore.root)
+    treeViewItems.value.splice(0)
+    if (_.isNil(transformed)) {
+        return
+    }
+    treeViewItems.value.push(transformed)
 })
+
+// const treeViewItems = computed(() => {
+//     return convertToHierarchy(studioStore.root)
+// })
 
 
 const editorText = ref("")

@@ -5,7 +5,7 @@
                 draggable="true"
                 class="item-text"
                 :style="{'padding-left': `${props.level * 1.25}rem`}"
-                :class="{'bg-neutral-focus': props.isSelected}"
+                :class="{'selected': props.isSelected}"
                 :tabindex="-1"
                 @dblclick="onDbClick"
                 @click="onClick"
@@ -140,8 +140,8 @@ function forwardUpEvent(event: string, treeView: TreeNodeView) {
 .item {
     @apply cursor-default
 }
-.bold {
-    @apply font-bold
+.selected {
+    @apply bg-neutral-focus
 }
 
 </style>

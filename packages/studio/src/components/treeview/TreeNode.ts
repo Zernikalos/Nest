@@ -1,5 +1,5 @@
 import _, {isNil} from "lodash"
-import {computed, reactive, ref, Ref} from "vue"
+import {computed, ref, Ref} from "vue"
 
 export interface TreeNode {
     id: string
@@ -19,11 +19,11 @@ export interface TreeNodeView extends TreeNode {
 
 export function useTreeViewState() {
 
-    let root: TreeNodeView | null = null
+    let root: Ref<TreeNodeView | undefined> = ref(undefined)
 
     const labelMap: Map<string, TreeNodeView> = new Map()
     const selected: Ref<TreeNodeView[]> = ref([])
-    const treeList: TreeNodeView[] = []
+    const treeList: Ref<TreeNodeView[]> = ref([])
 
     function innerConvertToTreeView(node: TreeNode, parent: TreeNodeView | null): TreeNodeView {
         const tv: TreeNodeView = {
@@ -35,22 +35,24 @@ export function useTreeViewState() {
             parent,
             level: isNil(parent) ? 1 : parent.level + 1
         }
-        const rtv = reactive(tv)
 
-        treeList.push(rtv)
+        treeList.value.push(tv)
 
         if (_.isNil(node.children) || _.isEmpty(node.children)) {
-            labelMap.set(rtv.label, rtv)
-            return rtv
+            labelMap.set(tv.label, tv)
+            return tv
         }
 
-        rtv.children = node.children.map((child) => innerConvertToTreeView(child, rtv))
-        labelMap.set(rtv.label, rtv)
-        return rtv
+        tv.children = node.children.map((child) => innerConvertToTreeView(child, tv))
+        labelMap.set(tv.label, tv)
+        return tv
     }
 
-    function convertToTreeView(node: TreeNode) {
-        root = innerConvertToTreeView(node, null)
+    function convertRootToTreeView(node: TreeNode | undefined) {
+        if (_.isNil(node)) {
+            return
+        }
+        root.value = innerConvertToTreeView(node, null)
         return root
     }
 
@@ -58,30 +60,32 @@ export function useTreeViewState() {
         return labelMap.get(label)
     }
 
+    function findVisibleNodeIndexById(node: TreeNodeView) {
+        return _.findIndex(visibleList.value, (e) => e.id === node.id)
+    }
+
     function select(node: TreeNodeView) {
         if (_.isNil(node)) {
             return
         }
+        const selectedNode = treeList.value.find((tv: TreeNodeView) => tv.id === node.id)
+        if (_.isNil(selectedNode)) {
+            return;
+        }
         selected.value.forEach((s) => s.isSelected = false)
         selected.value.splice(0)
-        node.isSelected = true
-        selected.value.push(node)
+        selectedNode.isSelected = true
+        selected.value.push(selectedNode)
     }
 
     function selectPrevVisible(node: TreeNodeView) {
-        const idx = _.findIndex(visibleList.value, (e) => e.id === node.id)
-        if (idx === 0) {
-            return
-        }
+        const idx = findVisibleNodeIndexById(node)
         const nextNode = visibleList.value[idx - 1]
         select(nextNode)
     }
 
     function selectNextVisible(node: TreeNodeView) {
-        const idx = _.findIndex(visibleList.value, (e) => e.id === node.id)
-        if (idx === visibleList.value.length - 1) {
-            return
-        }
+        const idx = findVisibleNodeIndexById(node)
         const nextNode = visibleList.value[idx + 1]
         select(nextNode)
     }
@@ -96,7 +100,7 @@ export function useTreeViewState() {
     }
 
     function open(node: TreeNodeView) {
-        const found = _.find(treeList, (e) => e.id === node.id)
+        const found = _.find(treeList.value, (e) => e.id === node.id)
         if (_.isNil(found)){
             return
         }
@@ -116,7 +120,7 @@ export function useTreeViewState() {
     }
 
     function close(node: TreeNodeView) {
-        const found = _.find(treeList, (e) => e.id === node.id)
+        const found = _.find(treeList.value, (e) => e.id === node.id)
         if (_.isNil(found)){
             return
         }
@@ -125,9 +129,9 @@ export function useTreeViewState() {
         closeRecursive(found)
     }
 
-    const visibleList = computed(() => treeList.filter(e => e.visible))
-    const openList = computed(() => treeList.filter(e => e.isOpen))
+    const visibleList = computed(() => treeList.value.filter(e => e.visible))
+    const openList = computed(() => treeList.value.filter(e => e.isOpen))
     const lastSelected = computed(() => _.last(selected.value))
 
-    return {root, convertToTreeView, findByLabel, select, selectNextVisible, selectPrevVisible, open, close, visibleList, openList, treeList, selected, lastSelected}
+    return {root, convertRootToTreeView, findByLabel, select, selectNextVisible, selectPrevVisible, open, close, visibleList, openList, treeList, selected, lastSelected}
 }

@@ -22,7 +22,8 @@
     "monaco-editor": "0.44.0",
     "axios": "1.5.1",
     "bootstrap-icons": "1.11.1",
-    "@vueuse/core": "10.5.0"
+    "@vueuse/core": "10.5.0",
+    "pinia": "2.1.7"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "4.4.0",
