@@ -1,6 +1,7 @@
-import {BrowserWindow} from "electron";
-import path from "path";
-import {MenuEvents, RendererMenuEvents} from "./menu/MenuEvents";
+import {BrowserWindow} from "electron"
+import path from "path"
+import {MenuEvents, RendererMenuEvents} from "./menu/MenuEvents"
+import {importFileDialog} from "./dialogs/importFileDialog"
 
 declare const STUDIO_VITE_DEV_SERVER_URL: string
 declare const STUDIO_VITE_NAME: string
@@ -28,17 +29,30 @@ export class MainWindow {
         if (STUDIO_VITE_DEV_SERVER_URL) {
             await this.mainWindow.loadURL(STUDIO_VITE_DEV_SERVER_URL)
         } else {
-            await this.mainWindow.loadFile(path.join(__dirname, `../renderer/${STUDIO_VITE_NAME}/index.html`));
+            await this.mainWindow.loadFile(path.join(__dirname, `../dist/renderer/index.html`));
         }
     }
 
+    private sendToRenderer(ev: RendererMenuEvents, payload: any = undefined) {
+        this.mainWindow!.webContents.send(ev, payload)
+    }
+
     private subscribeToEvents() {
-        this.mainWindow!.on(MenuEvents.IMPORT_FILE, () => {
-            this.mainWindow!.webContents.send(RendererMenuEvents.IMPORT_FILE)
+        this.mainWindow.on(MenuEvents.IMPORT_FILE, async (ev: {format: string}) => {
+            const dialogReturnValue = await importFileDialog(this.mainWindow, ev.format)
+            if (dialogReturnValue.canceled) {
+                return
+            }
+            const parsedPath = path.parse(dialogReturnValue.filePaths[0])
+            this.sendToRenderer(RendererMenuEvents.IMPORT_FILE, {
+                path: parsedPath.dir,
+                fileName: parsedPath.base,
+                format: ev.format
+            })
         })
 
         this.mainWindow!.on(MenuEvents.BUNDLE_SCENE, () => {
-            this.mainWindow!.webContents.send(RendererMenuEvents.BUNDLE_SCENE)
+            this.sendToRenderer(RendererMenuEvents.BUNDLE_SCENE)
         })
     }
 

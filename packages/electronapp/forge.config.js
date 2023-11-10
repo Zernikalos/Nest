@@ -1,6 +1,6 @@
 module.exports = {
     packagerConfig: {
-        icon: './assets/zklogo.icns'
+        icon: './assets/zklogo'
     },
     makers: [
         {

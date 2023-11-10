@@ -14,26 +14,12 @@
             </div>
         </div>
     </div>
-    <div v-if="showModal">
-        <ImportFileModal v-model:open="showModal">
-        </ImportFileModal>
-    </div>
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue"
-
 import {RouterView} from "vue-router"
 import Navbar from "@studio/components/Navbar.vue"
 import Sidebar from "@studio/components/sidebar/Sidebar.vue"
-import {useNativeStudio} from "@zernikalos/store"
-import ImportFileModal from "@studio/views/ImportFileModal.vue";
-
-const nativeStudio = useNativeStudio()
-
-const showModal = ref(false)
-
-nativeStudio.handleShowImport(() => showModal.value = true)
 
 </script>
 
