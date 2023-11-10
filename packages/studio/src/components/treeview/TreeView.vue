@@ -1,7 +1,7 @@
 <template>
     <ul v-if="hasItems">
         <TreeViewItem
-            v-bind="treeItems[0]"
+            v-bind="treeViewState.root.value"
             @node:select="handleNodeSelect"
             @node:open="handleNodeOpen"
             @node:close="handleNodeClose"
@@ -16,8 +16,8 @@
 
 <script setup lang="ts">
 import TreeViewItem from "./TreeViewItem.vue"
-import {computed, onMounted, reactive, ref, watch} from "vue"
-import {TreeNode, TreeNodeView, TreeNodeViewImpl, useTreeViewState} from "./TreeNode";
+import {computed, watch} from "vue"
+import {TreeNode, TreeNodeView, useTreeViewState} from "./TreeNode";
 import {isNil} from "lodash";
 
 const props = defineProps<{
@@ -32,7 +32,13 @@ const hasItems = computed(() => props.items.length > 0)
 
 const treeViewState = useTreeViewState()
 
-const treeItems = computed(() => [...props.items.map(treeViewState.convertToTreeView)])
+watch(props.items, () => {
+    const root = props.items.length > 0 ? props.items[0] : undefined
+    treeViewState.convertRootToTreeView(root)
+})
+
+const root = props.items.length > 0 ? props.items[0] : undefined
+treeViewState.convertRootToTreeView(root)
 
 function handleNodeSelect(ev: TreeNodeView) {
     const treeNode = treeViewState.findByLabel(ev.label)
