@@ -1,6 +1,6 @@
 import {defineStore} from "pinia"
-import {useStudioStore} from "./studio-store";
-import {useFileApiStore} from "./fileapi-store";
+import {useStudioStore} from "./studioStore";
+import {useFileApiStore} from "./fileapiStore";
 import _ from "lodash";
 
 export const useNativeStudio = defineStore("NativeStudio", () => {

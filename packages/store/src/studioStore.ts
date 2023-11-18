@@ -8,7 +8,7 @@ import {
     ZObjectType,
 } from "@zernikalos/zkbuilder"
 import {ref} from "vue"
-import {useZkBuilderStore} from "./zkbuilder-store"
+import {useZkBuilderStore} from "./zkbuilderStore"
 import _ from "lodash"
 
 export const useStudioStore = defineStore("studioStore", () => {

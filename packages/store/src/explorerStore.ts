@@ -3,7 +3,7 @@ import {ref} from "vue";
 import {ZObject} from "@zernikalos/zkbuilder";
 import _, {isNil} from "lodash";
 import {findById} from "@zernikalos/zkbuilder";
-import {useStudioStore} from "./studio-store";
+import {useStudioStore} from "./studioStore";
 
 interface ExplorerItem {
     id: string
