@@ -63,6 +63,12 @@ export const useStudioStore = defineStore("studioStore", () => {
                 return node.group
             case ZObjectType.SCENE:
                 return node.scene
+            case ZObjectType.BONE:
+                return node.bone
+            case ZObjectType.JOINT:
+                return node.joint
+            case ZObjectType.SKELETON:
+                return node.skeleton
         }
     }
 

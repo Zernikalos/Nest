@@ -22,7 +22,7 @@
 <script setup>
 import ResizablePanel from "@studio/components/resizablepanel/ResizablePanel.vue"
 import TreeView from "@studio/components/treeview/TreeView.vue"
-import {computed, ref, watch} from "vue";
+import {onActivated, ref, watch} from "vue";
 import {useStudioStore} from "@zernikalos/store";
 import MonacoEditor from "@studio/components/monacoeditor/MonacoEditor.vue";
 import StudioViewSelector from "@studio/views/StudioViewSelector.vue";
@@ -33,6 +33,10 @@ import {storeToRefs} from "pinia";
 const studioStore = useStudioStore()
 const mode = ref('code')
 const treeViewItems = ref([])
+
+onActivated(() => {
+    updateTreeView()
+})
 
 function convertToHierarchy(obj) {
     if (!obj) {
@@ -53,24 +57,25 @@ function convertToHierarchy(obj) {
 const typesIcons = {
     "Scene": "bi-map", //bi-aspect-ratio
     "Group": "bi-layout-wtf",
-    "Model": "bi-box"
+    "Model": "bi-box",
+    "Bone": "bi-bezier2",
+    "Skeleton": "bi-person-arms-up"
 }
 
 const { root } = storeToRefs(studioStore)
 
 watch(root, () => {
+    updateTreeView()
+})
+
+function updateTreeView() {
     const transformed = convertToHierarchy(studioStore.root)
     treeViewItems.value.splice(0)
     if (_.isNil(transformed)) {
         return
     }
     treeViewItems.value.push(transformed)
-})
-
-// const treeViewItems = computed(() => {
-//     return convertToHierarchy(studioStore.root)
-// })
-
+}
 
 const editorText = ref("")
 
@@ -81,7 +86,6 @@ async function handleSelected(treeNode) {
 }
 
 function handleEditorUpdate(newTextData) {
-    // console.log(newTextData)
     studioStore.updateSelected(newTextData)
 }
 
