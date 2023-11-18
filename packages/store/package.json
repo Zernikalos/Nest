@@ -7,10 +7,10 @@
   "scripts": {
   },
   "dependencies": {
-    "@zernikalos/zkbuilder": "file:../../../Zernikalos-Builder",
+    "@zernikalos/zkbuilder": "file:../../../ZKBuilder",
     "pinia": "2.1.7",
-    "vue": "3.3.6",
-    "axios": "1.5.1",
+    "vue": "3.3.8",
+    "axios": "1.6.2",
     "lodash": "4.17.21"
   },
   "devDependencies": {
