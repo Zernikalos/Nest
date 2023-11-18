@@ -22,6 +22,5 @@ export function windowSize169(maxScale: number = 0.8): WindowSize {
     const height = Math.floor(fullSize.height * maxScale)
     const width = Math.floor(factor*height)
 
-    console.log(`${width}x${height}`)
     return {width, height}
 }

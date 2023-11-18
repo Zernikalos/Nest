@@ -2,6 +2,7 @@ import {BrowserWindow} from "electron"
 import path from "path"
 import {MenuEvents, RendererMenuEvents} from "./menu/MenuEvents"
 import {importFileDialog} from "./dialogs/importFileDialog"
+import {bundleSceneDialog} from "./dialogs/bundleSceneDialog";
 
 declare const STUDIO_VITE_DEV_SERVER_URL: string
 declare const STUDIO_VITE_NAME: string
@@ -51,8 +52,16 @@ export class MainWindow {
             })
         })
 
-        this.mainWindow!.on(MenuEvents.BUNDLE_SCENE, () => {
-            this.sendToRenderer(RendererMenuEvents.BUNDLE_SCENE)
+        this.mainWindow!.on(MenuEvents.BUNDLE_SCENE, async () => {
+            const dialogReturnValue = await bundleSceneDialog(this.mainWindow)
+            if (dialogReturnValue.canceled) {
+                return
+            }
+            const parsedPath = path.parse(dialogReturnValue.filePath!)
+            this.sendToRenderer(RendererMenuEvents.BUNDLE_SCENE, {
+                path: parsedPath.dir,
+                fileName: parsedPath.base,
+            })
         })
     }
 

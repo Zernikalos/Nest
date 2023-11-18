@@ -1,7 +1,6 @@
 import {defineStore} from "pinia"
 import {
     DEFAULT_PARSE_OPTIONS,
-    findById,
     LoadOptions,
     ParseOptions,
     ProtoZkObject,
@@ -14,20 +13,7 @@ import _ from "lodash"
 
 export const useStudioStore = defineStore("studioStore", () => {
     const root = ref<ZObject>()
-    const selected = ref<ZObject>()
     const zkbuilderStore = useZkBuilderStore()
-
-    function select(newSelected: ZObject | undefined) {
-        selected.value = newSelected
-    }
-
-    function selectById(id: string) {
-        if (_.isNil(root.value)) {
-            return
-        }
-        const newSelect = findById(root.value, id)
-        select(newSelect)
-    }
 
     async function parseFile(loadOptions: LoadOptions, parseOptions: ParseOptions = DEFAULT_PARSE_OPTIONS) {
         root.value = await zkbuilderStore.parseFile(loadOptions, _.merge({}, parseOptions, {defaultCamera: true, defaultScene: true}))
@@ -94,25 +80,14 @@ export const useStudioStore = defineStore("studioStore", () => {
         return await _objectToCleanJson(root.value)
     }
 
-    async function exportSelectedAsJsonString(): Promise<string | undefined> {
-        return await _objectToCleanJson(selected.value)
+    async function exportObjectAsJsonString(obj: ZObject): Promise<string | undefined> {
+        return await _objectToCleanJson(obj)
     }
 
-    function updateSelected(jsonStr: string) {
-        try {
-            const newData = JSON.parse(jsonStr)
-            _.merge(selected.value, newData)
-        } catch (_e) {
-
-        }
-
-    }
-
-    return {root, selected, parseFile, select, selectById,
+    return {root, parseFile,
         exportRootAsProtoString,
         exportRootAsJsonString,
         exportRootAsJsonStringFull,
-        exportSelectedAsJsonString,
-        updateSelected
+        exportObjectAsJsonString
     }
 })
