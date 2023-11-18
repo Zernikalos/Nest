@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@zernikalos/store": "0.0.1",
-    "@zernikalos/zkbuilder": "file:../../../Zernikalos-Builder",
+    "@zernikalos/zkbuilder": "file:../../../ZKBuilder",
     "lodash": "4.17.21",
     "vue": "3.3.6",
     "vue-router": "4.2.5",
