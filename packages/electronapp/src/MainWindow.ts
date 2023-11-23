@@ -23,7 +23,6 @@ export class MainWindow {
         })
 
         this.subscribeToEvents()
-
     }
 
     public async load() {
