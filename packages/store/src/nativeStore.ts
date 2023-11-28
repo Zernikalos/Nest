@@ -17,5 +17,17 @@ export const useNativeStudio = defineStore("NativeStudio", () => {
         await studioStore.parseFile({filePath: url, format: payload.format})
     })
 
-    return {}
+    async function requestDownload(): Promise<{path: string, fileName: string}> {
+        return new Promise((resolve) => {
+            // @ts-ignore
+            window.NativeZernikalos.handleBundleScene(async (ev, payload: {path: string, fileName: string}) => {
+                resolve(payload)
+            })
+
+            // @ts-ignore
+            window.NativeZernikalos.actionDownload()
+        })
+    }
+
+    return {requestDownload}
 })

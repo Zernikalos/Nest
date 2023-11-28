@@ -26,6 +26,13 @@ export const useStudioStore = defineStore("studioStore", () => {
         return zkbuilderStore.exportAsProtoString(root.value)
     }
 
+    async function exportRootAsProtoBuffer(): Promise<Uint8Array | undefined> {
+        if (_.isNil(root.value)) {
+            return
+        }
+        return zkbuilderStore.exportAsProtoBuffer(root.value)
+    }
+
     function _cleanDataArrays(node: ProtoZkObject) {
         if (node.type === ZObjectType.MODEL) {
             const model = node.model!!
@@ -49,8 +56,6 @@ export const useStudioStore = defineStore("studioStore", () => {
                 return node.group
             case ZObjectType.SCENE:
                 return node.scene
-            case ZObjectType.BONE:
-                return node.bone
             case ZObjectType.JOINT:
                 return node.joint
             case ZObjectType.SKELETON:
@@ -86,6 +91,7 @@ export const useStudioStore = defineStore("studioStore", () => {
 
     return {root, parseFile,
         exportRootAsProtoString,
+        exportRootAsProtoBuffer,
         exportRootAsJsonString,
         exportRootAsJsonStringFull,
         exportObjectAsJsonString

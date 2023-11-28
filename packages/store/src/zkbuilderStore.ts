@@ -39,6 +39,16 @@ export const useZkBuilderStore = defineStore("zkbuilder", () => {
         }) as string
     }
 
+    async function exportAsProtoBuffer(obj: ZObject): Promise<Uint8Array | undefined> {
+        if (_.isNil(obj)) {
+            return
+        }
+        return await zkExport(obj, {
+            format: "proto",
+            stringify: false
+        }) as Uint8Array
+    }
+
     async function exportAsJsonString(obj: ZObject): Promise<string> {
         if (_.isNil(obj)) {
             return ""
@@ -59,5 +69,5 @@ export const useZkBuilderStore = defineStore("zkbuilder", () => {
         })
     }
 
-    return {parseFile, exportAs, exportAsProtoString, exportAsJsonString, exportAsObject}
+    return {parseFile, exportAs, exportAsProtoString, exportAsJsonString, exportAsObject, exportAsProtoBuffer}
 })
