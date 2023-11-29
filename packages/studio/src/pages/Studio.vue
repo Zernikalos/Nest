@@ -19,16 +19,17 @@
     </ResizablePanel>
 </template>
 
-<script setup>
-import ResizablePanel from "@studio/components/resizablepanel/ResizablePanel.vue"
-import TreeView from "@studio/components/treeview/TreeView.vue"
+<script setup lang="ts">
 import {onActivated, ref, watch} from "vue";
 import {useStudioStore} from "@zernikalos/store";
-import MonacoEditor from "@studio/components/monacoeditor/MonacoEditor.vue";
-import StudioViewSelector from "@studio/views/StudioViewSelector.vue";
-import FormZObject from "@studio/views/forms/FormZObject.vue";
+import MonacoEditor from "@studio/components/monacoeditor/MonacoEditor.vue"
 import {storeToRefs} from "pinia";
 import {useExplorerStore} from "@zernikalos/store/src/explorerStore";
+import ResizablePanel from "@studio/components/resizablepanel/ResizablePanel.vue"
+import TreeView from "@studio/components/treeview/TreeView.vue"
+import StudioViewSelector from "@studio/views/StudioViewSelector.vue"
+import FormZObject from "@studio/views/forms/FormZObject.vue"
+import {TreeNode} from "@studio/components/treeview/TreeNode";
 
 const studioStore = useStudioStore()
 const explorerStore = useExplorerStore()
@@ -50,13 +51,13 @@ function updateTreeView() {
 
 const editorText = ref("")
 
-async function handleSelected(treeNode) {
+async function handleSelected(treeNode: TreeNode) {
     explorerStore.selectById(treeNode.id)
 
     editorText.value = await studioStore.exportObjectAsJsonString(explorerStore.selected)
 }
 
-function handleEditorUpdate(newTextData) {
+function handleEditorUpdate(newTextData: string) {
     explorerStore.updateSelected(newTextData)
 }
 

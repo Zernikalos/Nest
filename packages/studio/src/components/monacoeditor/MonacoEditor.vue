@@ -7,7 +7,7 @@ import * as monaco from "monaco-editor"
 import {editor as monacoEditor} from "monaco-editor"
 import "./useWorker"
 import {computed, onMounted, ref, watch} from "vue"
-import {monacoGlslConf, monacoGlslLanguage} from "./glsl.language";
+import {monacoGlslConf, monacoGlslLanguage} from "./glsl.language"
 
 const refEditor = ref()
 let editor: monacoEditor.IStandaloneCodeEditor

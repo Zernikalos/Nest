@@ -67,9 +67,9 @@ export const useStudioStore = defineStore("studioStore", () => {
         if (_.isNil(node)) {
             return
         }
-        let result = await zkbuilderStore.exportAsObject(node)
-        result = _cleanDataArrays(result)
-        result = _cleanProtoZkObjectForEdit(result)
+        let result: unknown = await zkbuilderStore.exportAsObject(node)
+        result = _cleanDataArrays(result as ProtoZkObject)
+        result = _cleanProtoZkObjectForEdit(result as ProtoZkObject)
 
         return JSON.stringify(result, null, 4)
     }
@@ -85,7 +85,7 @@ export const useStudioStore = defineStore("studioStore", () => {
         return await _objectToCleanJson(root.value)
     }
 
-    async function exportObjectAsJsonString(obj: ZObject): Promise<string | undefined> {
+    async function exportObjectAsJsonString(obj: ZObject | undefined): Promise<string | undefined> {
         return await _objectToCleanJson(obj)
     }
 
