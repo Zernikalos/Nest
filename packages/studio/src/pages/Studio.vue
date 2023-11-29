@@ -2,7 +2,7 @@
     <ResizablePanel>
         <template v-slot:panel1>
             <div class="bg-base-100 common-panel">
-                <TreeView :items="treeViewItems" @selected="handleSelected"></TreeView>
+                <TreeView :items="explorerStore.explorerItems" @selected="handleSelected"></TreeView>
             </div>
         </template>
         <template v-slot:panel2>
@@ -27,40 +27,16 @@ import {useStudioStore} from "@zernikalos/store";
 import MonacoEditor from "@studio/components/monacoeditor/MonacoEditor.vue";
 import StudioViewSelector from "@studio/views/StudioViewSelector.vue";
 import FormZObject from "@studio/views/forms/FormZObject.vue";
-import _ from "lodash";
 import {storeToRefs} from "pinia";
+import {useExplorerStore} from "@zernikalos/store/src/explorerStore";
 
 const studioStore = useStudioStore()
+const explorerStore = useExplorerStore()
 const mode = ref('code')
-const treeViewItems = ref([])
 
 onActivated(() => {
     updateTreeView()
 })
-
-function convertToHierarchy(obj) {
-    if (!obj) {
-        return undefined
-    }
-    const convertToHierarchyRecursive = (obj) => {
-        const res = {
-            id: obj.id,
-            label: obj.name,
-            icon: typesIcons[obj.type]
-        }
-        res.children = obj.children.map((c) => convertToHierarchyRecursive(c))
-        return res
-    }
-    return convertToHierarchyRecursive(obj)
-}
-
-const typesIcons = {
-    "Scene": "bi-map", //bi-aspect-ratio
-    "Group": "bi-layout-wtf",
-    "Model": "bi-box",
-    "Bone": "bi-bezier2",
-    "Skeleton": "bi-person-arms-up"
-}
 
 const { root } = storeToRefs(studioStore)
 
@@ -69,24 +45,19 @@ watch(root, () => {
 })
 
 function updateTreeView() {
-    const transformed = convertToHierarchy(studioStore.root)
-    treeViewItems.value.splice(0)
-    if (_.isNil(transformed)) {
-        return
-    }
-    treeViewItems.value.push(transformed)
+    explorerStore.load()
 }
 
 const editorText = ref("")
 
 async function handleSelected(treeNode) {
-    studioStore.selectById(treeNode.id)
+    explorerStore.selectById(treeNode.id)
 
-    editorText.value = await studioStore.exportSelectedAsJsonString()
+    editorText.value = await studioStore.exportObjectAsJsonString(explorerStore.selected)
 }
 
 function handleEditorUpdate(newTextData) {
-    studioStore.updateSelected(newTextData)
+    explorerStore.updateSelected(newTextData)
 }
 
 </script>

@@ -2,7 +2,19 @@ const webpack = require('webpack');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
-module.exports = {
+const babelLoaderRule = {
+    loader: 'babel-loader',
+    options: {
+        cacheDirectory: true,
+        //configFile: path.join(ROOT_PATH, 'babel.config.js')
+    }
+};
+
+const tsLoaderRule = {
+    loader: 'ts-loader'
+}
+
+const config = {
     entry: ['./src/main.ts'],
     target: 'node',
     externals: [
@@ -11,19 +23,31 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /.tsx?$/,
-                use: 'ts-loader',
-                exclude: /node_modules/,
+                test: /\.ts?$/,
+                use: [
+                    babelLoaderRule,
+                    tsLoaderRule
+                ],
+                exclude: []
             },
-        ],
+            {
+                test: /\.js?$/,
+                use: [
+                    babelLoaderRule
+                ],
+                exclude: [/node_modules/]
+            }
+        ]
     },
     mode: 'development',
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
+        symlinks: true
     },
     experiments: {
         outputModule: true
     },
+    devtool: 'inline-source-map',
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.IgnorePlugin({
@@ -32,11 +56,11 @@ module.exports = {
                     '@nestjs/microservices',
                     '@nestjs/websockets',
                     '@nestjs/websockets/socket-module',
-                    '@nestjs/platform-express',
+                    // '@nestjs/platform-express',
                     '@nestjs/microservices/microservices-module',
-                    'cache-manager',
-                    'class-validator',
-                    'class-transformer'
+                    // 'cache-manager',
+                    // 'class-validator',
+                    // 'class-transformer'
                 ];
                 if (!lazyImports.includes(resource)) {
                     return false;
@@ -59,3 +83,5 @@ module.exports = {
         }
     },
 };
+
+module.exports = config

@@ -141,7 +141,7 @@ function forwardUpEvent(event: string, treeView: TreeNodeView) {
     @apply cursor-default
 }
 .selected {
-    @apply bg-neutral-focus
+    @apply bg-neutral
 }
 
 </style>

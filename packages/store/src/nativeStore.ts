@@ -1,6 +1,6 @@
 import {defineStore} from "pinia"
-import {useStudioStore} from "./studio-store";
-import {useFileApiStore} from "./fileapi-store";
+import {useStudioStore} from "./studioStore";
+import {useFileApiStore} from "./fileapiStore";
 import _ from "lodash";
 
 export const useNativeStudio = defineStore("NativeStudio", () => {
@@ -17,5 +17,17 @@ export const useNativeStudio = defineStore("NativeStudio", () => {
         await studioStore.parseFile({filePath: url, format: payload.format})
     })
 
-    return {}
+    async function requestDownload(): Promise<{path: string, fileName: string}> {
+        return new Promise((resolve) => {
+            // @ts-ignore
+            window.NativeZernikalos.handleBundleScene(async (ev, payload: {path: string, fileName: string}) => {
+                resolve(payload)
+            })
+
+            // @ts-ignore
+            window.NativeZernikalos.actionDownload()
+        })
+    }
+
+    return {requestDownload}
 })
