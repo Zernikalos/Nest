@@ -8,6 +8,7 @@ import {editor as monacoEditor} from "monaco-editor"
 import "./useWorker"
 import {computed, onMounted, ref, watch} from "vue"
 import {monacoGlslConf, monacoGlslLanguage} from "./glsl.language"
+import * as solarizedDarkTheme from "./themes/solarized-dark.json"
 
 const refEditor = ref()
 let editor: monacoEditor.IStandaloneCodeEditor
@@ -46,6 +47,8 @@ watch(() => props.language, (newValue) => {
 setUpGlsl()
 
 onMounted(() => {
+    monaco.editor.defineTheme("solarized-dark", solarizedDarkTheme)
+
     editor = monacoEditor.create(refEditor.value, {
         value: props.modelValue,
         language: monacoLanguage.value,

@@ -27,6 +27,6 @@ const data = useVModel(props, 'modelValue', emit)
 
 <style scoped>
 .studio-view-selector-btn {
-    @apply join-item btn btn-xs bg-primary
+    @apply join-item btn btn-xs bg-primary-content
 }
 </style>

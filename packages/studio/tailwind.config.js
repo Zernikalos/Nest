@@ -2,6 +2,14 @@
 // const colors = require("tailwindcss/colors");
 const path = require("path")
 
+const daisyUiThemes = ["light", "dark", "cupcake", "retro", "sunset"]
+const transformedThemes = daisyUiThemes.map((themeName) => ({
+    [themeName]: {
+        ...require("daisyui/src/theming/themes")[themeName],
+        "--rounded-btn": "0rem"
+    }
+}))
+
 module.exports = {
     darkMode: 'class',
     content: [
@@ -9,30 +17,13 @@ module.exports = {
         path.join(__dirname, "./src/**/*.{vue,js}")
     ],
     theme: {
-        // colors: {
-        //     ...colors,
-        //     backcolor: "#1d232a",
-        //     primar: colors.purple["600"]
-        // }
     },
     plugins: [
         require("@tailwindcss/typography"),
         require("daisyui")
     ],
     daisyui: {
-        themes: [
-            // {
-            //     mytheme: {
-            //         ...require("daisyui/src/theming/themes")["dark"],
-            //         neutral: "rgb(31 41 55)",
-            //         primary: "rgb(147 51 234)"
-            //     }
-            // },
-            "light",
-            "dark",
-            "cupcake",
-            "retro"
-        ], // true: all themes | false: only light + dark | array: specific themes like this ["light", "dark", "cupcake"]
+        themes: transformedThemes, // true: all themes | false: only light + dark | array: specific themes like this ["light", "dark", "cupcake"]
         darkTheme: "dark", // name of one of the included themes for dark mode
         base: true, // applies background color and foreground color for root element by default
         styled: true, // include daisyUI colors and design decisions for all components

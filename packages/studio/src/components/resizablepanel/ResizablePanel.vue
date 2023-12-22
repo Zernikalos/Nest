@@ -61,7 +61,7 @@ function handleDragging(ev: MouseEvent) {
     @apply flex m-0 pb-0 w-full h-full
 }
 .divider-f {
-    @apply h-full w-1 cursor-ew-resize border-l border-l-neutral-content
+    @apply h-full w-1 cursor-ew-resize border-l border-l-base-content
 }
 .divider-f:hover {
     cursor: col-resize;

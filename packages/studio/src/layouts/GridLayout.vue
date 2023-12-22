@@ -25,8 +25,5 @@ import Sidebar from "@studio/components/sidebar/Sidebar.vue"
 </script>
 
 <style scoped>
-.wrapper {
-    width: calc(theme(width.full) - theme(width.14));
-}
 
 </style>
