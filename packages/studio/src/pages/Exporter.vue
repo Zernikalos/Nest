@@ -82,7 +82,6 @@ async function handleBundleClick() {
 
 async function handleDownload() {
     const content = await studioStore.exportRootAsProtoBuffer()
-    debugger
 
     const {fileUri, name} = useWriteToFile("sample.zko", content)
     function saveBlob(uri, fileName) {
