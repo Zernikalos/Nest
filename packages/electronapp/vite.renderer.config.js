@@ -6,7 +6,7 @@ export default defineConfig({
     // base: './aux/dist',
     // build: {
     //     rollupOptions: {
-    //         input: {main_window: resolve(__dirname, '../studio/dist/index.html')}
+    //         input: {main_window: resolve(__dirname, '../nestui/dist/index.html')}
     //     },
     // },
     root: './aux/dist'

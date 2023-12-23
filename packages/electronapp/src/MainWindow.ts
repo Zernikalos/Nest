@@ -5,8 +5,8 @@ import {importFileDialog} from "./dialogs/importFileDialog"
 import {bundleSceneDialog} from "./dialogs/bundleSceneDialog";
 import {NestEvents} from "./NestEvents";
 
-declare const STUDIO_VITE_DEV_SERVER_URL: string
-declare const STUDIO_VITE_NAME: string
+declare const NESTUI_VITE_DEV_SERVER_URL: string
+declare const NESTUI_VITE_NAME: string
 
 export class MainWindow {
 
@@ -17,7 +17,7 @@ export class MainWindow {
             icon: '../assets/zklogo.icns',
             width: width,
             height: height,
-            title: "Zernikalos Studio",
+            title: "Zernikalos Nest",
             webPreferences: {
                 preload: path.join(__dirname, './preload.js'),
             },
@@ -27,8 +27,8 @@ export class MainWindow {
     }
 
     public async load() {
-        if (STUDIO_VITE_DEV_SERVER_URL) {
-            await this.mainWindow.loadURL(STUDIO_VITE_DEV_SERVER_URL)
+        if (NESTUI_VITE_DEV_SERVER_URL) {
+            await this.mainWindow.loadURL(NESTUI_VITE_DEV_SERVER_URL)
         } else {
             await this.mainWindow.loadFile(path.join(__dirname, `../dist/renderer/index.html`));
         }

@@ -1,11 +1,11 @@
 import {defineStore} from "pinia"
-import {useStudioStore} from "./studioStore";
-import {useFileApiStore} from "./fileapiStore";
-import _ from "lodash";
+import {useNestStore} from "./nestStore"
+import {useFileApiStore} from "./fileapiStore"
+import _ from "lodash"
 
-export const useNativeStudio = defineStore("NativeStudio", () => {
+export const useNativeNest = defineStore("NativeNest", () => {
 
-    const studioStore = useStudioStore()
+    const nestStore = useNestStore()
     const fileApiStore = useFileApiStore()
 
     // @ts-ignore
@@ -14,7 +14,7 @@ export const useNativeStudio = defineStore("NativeStudio", () => {
         if (_.isNil(url)) {
             return
         }
-        await studioStore.parseFile({filePath: url, format: payload.format})
+        await nestStore.parseFile({filePath: url, format: payload.format})
     })
 
     async function requestDownload(): Promise<{path: string, fileName: string}> {

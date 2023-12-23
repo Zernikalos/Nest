@@ -3,7 +3,7 @@ import {ref} from "vue";
 import {ZObject} from "@zernikalos/zkbuilder";
 import _, {isNil} from "lodash";
 import {findById} from "@zernikalos/zkbuilder";
-import {useStudioStore} from "./studioStore";
+import {useNestStore} from "./nestStore";
 
 interface ExplorerItem {
     id: string
@@ -39,7 +39,7 @@ function convertToHierarchy(obj: ZObject) {
 
 export const useExplorerStore = defineStore("explorerStore", () => {
     const explorerItems = ref<ExplorerItem[]>([])
-    const studioStore = useStudioStore()
+    const nestStore = useNestStore()
     const selected = ref<ZObject>()
 
     function select(newSelected: ZObject | undefined) {
@@ -47,10 +47,10 @@ export const useExplorerStore = defineStore("explorerStore", () => {
     }
 
     function load() {
-        if (isNil(studioStore.root)) {
+        if (isNil(nestStore.root)) {
             return;
         }
-        const transformed = convertToHierarchy(studioStore.root as ZObject)
+        const transformed = convertToHierarchy(nestStore.root as ZObject)
         explorerItems.value.splice(0)
         if (_.isNil(transformed)) {
             return
@@ -59,10 +59,10 @@ export const useExplorerStore = defineStore("explorerStore", () => {
     }
 
     function selectById(id: string) {
-        if (_.isNil(studioStore.root)) {
+        if (_.isNil(nestStore.root)) {
             return
         }
-        const newSelect = findById(studioStore.root as ZObject, id)
+        const newSelect = findById(nestStore.root as ZObject, id)
         select(newSelect)
     }
 

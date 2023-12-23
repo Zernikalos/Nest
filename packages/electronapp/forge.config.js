@@ -6,7 +6,7 @@ module.exports = {
         {
             name: '@electron-forge/maker-dmg',
             config: {
-                name: 'Zernikalos Studio',
+                name: 'Zernikalos Nest',
                 icon: './assets/zklogo.icns',
                 overwrite: true
             }
@@ -32,8 +32,8 @@ module.exports = {
                 ],
                 renderer: [
                     {
-                        name: 'studio',
-                        config: '../studio/vite.config.js'
+                        name: 'nestui',
+                        config: '../nestui/vite.config.js'
                     }
                 ]
             }

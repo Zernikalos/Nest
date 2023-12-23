@@ -2,10 +2,10 @@ import {createPinia} from "pinia"
 import {App} from "vue";
 
 export {useFileApiStore} from "./src/fileapiStore"
-export {useStudioStore} from "./src/studioStore"
+export {useNestStore} from "./src/nestStore"
 export {useZkBuilderStore} from "./src/zkbuilderStore"
-export {useNativeStudio} from "./src/nativeStore"
+export {useNativeNest} from "./src/nativeStore"
 
-export function createStudioStore(app: App) {
+export function createNestStore(app: App) {
     createPinia().install(app)
 }

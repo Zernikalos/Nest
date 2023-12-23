@@ -4,14 +4,14 @@ import {
     BrowserWindow,
     Menu
 } from 'electron'
-import {studioServerBootstrap} from "@zernikalos/studioserver"
+import {nestServerBootstrap} from "@zernikalos/nestserver"
 
 import {createMenu} from "./menu";
 import {MainWindow} from "./MainWindow";
 // import {ViewerWindow} from "./ViewerWindow";
 import {WindowSize, windowSize169} from "./tools/desiredWindowSize";
 
-class ZernikalosStudio {
+class ZernikalosNest {
 
     private mainWindow: MainWindow
     // private viewerWindow: ViewerWindow
@@ -50,7 +50,7 @@ class ZernikalosStudio {
     }
 
     private async initializeServer() {
-        await studioServerBootstrap()
+        await nestServerBootstrap()
     }
 
     private handleAppEvents() {
@@ -73,8 +73,8 @@ class ZernikalosStudio {
     }
 }
 
-const zernikalosStudio = new ZernikalosStudio()
-zernikalosStudio.initialize()
+const zernikalosNest = new ZernikalosNest()
+zernikalosNest.initialize()
 
 
 
