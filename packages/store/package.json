@@ -10,7 +10,7 @@
     "@zernikalos/zkbuilder": "file:../../../ZKBuilder",
     "pinia": "2.1.7",
     "vue": "3.3.13",
-    "axios": "1.6.2",
+    "axios": "1.6.3",
     "lodash": "4.17.21"
   },
   "devDependencies": {
