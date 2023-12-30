@@ -19,6 +19,6 @@ const emit = defineEmits(['update:selected'])
 
 <style scoped>
 .selector {
-    @apply select select-primary
+    @apply select select-bordered
 }
 </style>
