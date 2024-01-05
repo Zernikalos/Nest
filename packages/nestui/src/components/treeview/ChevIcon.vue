@@ -7,7 +7,9 @@ const props = defineProps<{
 </script>
 
 <template>
-    <span :class="{
+    <span
+        class="mr-0.5"
+        :class="{
         'bi-chevron-right': !isOpen,
         'bi-chevron-down': isOpen,
         invisible: !hasChildren

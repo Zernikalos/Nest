@@ -6,21 +6,20 @@
             </div>
         </template>
         <template v-slot:panel2>
-            <div class="flex flex-col common-panel">
+            <div class="flex flex-col h-full" v-if="tabs.length > 0">
+                <TabList :tabs="tabs"></TabList>
                 <div class="absolute z-10 right-0">
                     <EditorViewSelector v-model="mode"></EditorViewSelector>
                 </div>
-                <div class="h-full" >
-                    <MonacoEditor v-model="editorText" @update:modelValue="handleEditorUpdate" theme="dark" language="json" v-if="mode==='code'"></MonacoEditor>
-                    <FormZObject v-else-if="mode==='form'"></FormZObject>
-                </div>
+                <MonacoEditor class="flex-1" v-model="editorText" @update:modelValue="handleEditorUpdate" theme="dark" language="json" v-if="mode==='code'"></MonacoEditor>
+                <FormZObject v-else-if="mode==='form'"></FormZObject>
             </div>
         </template>
     </ResizablePanel>
 </template>
 
 <script setup lang="ts">
-import {onActivated, ref, watch} from "vue";
+import {onActivated, reactive, ref, watch} from "vue";
 import {useNestStore} from "@zernikalos/store";
 import MonacoEditor from "@nestui/components/monacoeditor/MonacoEditor.vue"
 import {storeToRefs} from "pinia";
@@ -30,10 +29,13 @@ import TreeView from "@nestui/components/treeview/TreeView.vue"
 import EditorViewSelector from "@nestui/views/EditorViewSelector.vue"
 import FormZObject from "@nestui/views/forms/FormZObject.vue"
 import {TreeNode} from "@nestui/components/treeview/TreeNode";
+import TabList from "@nestui/components/tabs/TabList.vue";
 
 const nestStore = useNestStore()
 const explorerStore = useExplorerStore()
 const mode = ref('code')
+
+const tabs = reactive([])
 
 onActivated(() => {
     updateTreeView()
@@ -53,6 +55,7 @@ const editorText = ref("")
 
 async function handleSelected(treeNode: TreeNode) {
     explorerStore.selectById(treeNode.id)
+    tabs.push({title: explorerStore.selected?.name!, id: explorerStore.selected?.id!})
 
     editorText.value = await nestStore.exportObjectAsJsonString(explorerStore.selected)
 }

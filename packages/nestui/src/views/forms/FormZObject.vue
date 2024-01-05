@@ -1,12 +1,38 @@
 <template>
-    <div class="flex flex-col" v-if="nestStore.obj">
-        <label>ID</label>
-        <input class="input" v-model="nestStore.obj.id" disabled>
+    <div class="flex flex-col" v-if="explorerStore.selected">
+        <div class="join join-horizontal">
+            <label class="label join-item">
+                <span class="label-text">ID</span>
+            </label>
+            <input class="input join-item grow" v-model="explorerStore.selected.id" disabled>
+        </div>
 
-        <label>Name</label>
-        <input class="input" v-model="nestStore.obj.name">
+        <div class="join join-horizontal">
+            <label class="label join-item">
+                <span class="label-text">Name</span>
+            </label>
+            <input class="input join-item grow" v-model="explorerStore.selected.name">
+        </div>
 
-        <DropDownSelector :options="Object.values(ZObjectType)" />
+        <div class="join join-horizontal">
+            <label class="label join-item">
+                <span class="label-text">Object type</span>
+            </label>
+            <DropDownSelector class="join-item grow" :options="Object.values(ZObjectType)" :selected="explorerStore.selected.type" />
+        </div>
+
+<!--        <div class="collapse collapse-arrow bg-base rounded-none">-->
+<!--            <input type="checkbox" />-->
+<!--            <div class="collapse-title text-xl font-medium">-->
+<!--                Transform-->
+<!--            </div>-->
+<!--            <div class="collapse-content bg-base">-->
+<!--                <p>tabindex="0" attribute is necessary to make the div focusable</p>-->
+<!--            </div>-->
+<!--        </div>-->
+        <Collapse title="Transform">
+            Some content here
+        </Collapse>
     </div>
 
 <!--        <q-expansion-item-->
@@ -27,11 +53,12 @@
 </template>
 
 <script setup lang="ts">
-import {useNestStore} from "@zernikalos/store"
 import {ZObjectType} from "@zernikalos/zkbuilder"
 import DropDownSelector from "../../components/dropdownselector/DropDownSelector.vue";
+import {useExplorerStore} from "@zernikalos/store/src/explorerStore";
+import Collapse from "@nestui/components/Collapse.vue";
 
-const nestStore = useNestStore()
+const explorerStore = useExplorerStore()
 
 </script>
 

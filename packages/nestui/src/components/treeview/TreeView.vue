@@ -10,7 +10,7 @@
         />
     </ul>
     <span v-if="!hasItems">
-      <h1>No elements</h1>
+      <h1 class="mt-1.5 ml-1.5">No elements</h1>
     </span>
 </template>
 

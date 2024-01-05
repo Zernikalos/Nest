@@ -1,36 +1,36 @@
 <template>
     <li class="item">
         <div
-                ref="viewitem"
-                draggable="true"
-                class="item-text"
-                :style="{'padding-left': `${props.level * 1.25}rem`}"
-                :class="{'selected': props.isSelected}"
-                :tabindex="-1"
-                @dblclick="onDbClick"
-                @click="onClick"
-                @keydown.down="onKeyDown"
-                @keydown.up="onKeyUp"
-                @keydown.right="onKeyRight"
-                @keydown.left="onKeyLeft"
+            ref="viewitem"
+            draggable="true"
+            class="item-text"
+            :style="{'padding-left': `${props.level * 1.25}rem`}"
+            :class="{'selected': props.isSelected}"
+            :tabindex="-1"
+            @dblclick="onDbClick"
+            @click="onClick"
+            @keydown.down="onKeyDown"
+            @keydown.up="onKeyUp"
+            @keydown.right="onKeyRight"
+            @keydown.left="onKeyLeft"
         >
             <ChevIcon :is-open="isOpen" :has-children="hasChildren"></ChevIcon>
-            <span :class="props.icon" v-if="props.icon"></span>
+            <span class="mr-1.5" :class="props.icon" v-if="props.icon"></span>
             <span>
                  {{props.label}}
             </span>
         </div>
         <ul>
             <TreeViewItem
-                    v-show="isOpen"
-                    v-if="hasChildren"
-                    v-for="child in props.children"
-                    v-bind="child"
-                    @node:select="(e) => forwardUpEvent('select', e)"
-                    @node:open="(e) => forwardUpEvent('open', e)"
-                    @node:close="(e) => forwardUpEvent('close', e)"
-                    @node:select-prev="(e) => forwardUpEvent('select-prev', e)"
-                    @node:select-next="(e) => forwardUpEvent('select-next', e)"
+                v-show="isOpen"
+                v-if="hasChildren"
+                v-for="child in props.children"
+                v-bind="child"
+                @node:select="(e) => forwardUpEvent('select', e)"
+                @node:open="(e) => forwardUpEvent('open', e)"
+                @node:close="(e) => forwardUpEvent('close', e)"
+                @node:select-prev="(e) => forwardUpEvent('select-prev', e)"
+                @node:select-next="(e) => forwardUpEvent('select-next', e)"
             >
             </TreeViewItem>
         </ul>
@@ -141,7 +141,7 @@ function forwardUpEvent(event: string, treeView: TreeNodeView) {
     @apply cursor-default
 }
 .selected {
-    @apply bg-primary-content
+    @apply bg-primary-content inline-block
 }
 
 </style>
