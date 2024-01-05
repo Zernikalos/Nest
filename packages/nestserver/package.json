@@ -9,6 +9,7 @@
   "main": "./dist/server.js",
   "scripts": {
     "build": "webpack",
+    "nestbuild": "nest build",
     "prebuild": "rimraf dist",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:dev": "nest start --watch",
@@ -25,7 +26,6 @@
     "@nestjs/common": "10.3.0",
     "@nestjs/core": "10.3.0",
     "@nestjs/platform-express": "10.3.0",
-    "reflect-metadata": "0.2.1",
     "rxjs": "7.8.1",
     "crc-32": "1.2.2",
     "class-validator": "0.14.0",

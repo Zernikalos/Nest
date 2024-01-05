@@ -42,7 +42,7 @@ const config = {
     mode: 'development',
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
-        symlinks: true
+        // symlinks: true
     },
     experiments: {
         outputModule: true
