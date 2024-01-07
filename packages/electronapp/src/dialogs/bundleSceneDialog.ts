@@ -1,5 +1,4 @@
 import {BrowserWindow, dialog} from "electron";
-
 export function bundleSceneDialog(browserWindow: BrowserWindow) {
     return dialog.showSaveDialog(browserWindow,{
         title: "Bundle scene",

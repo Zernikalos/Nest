@@ -1,6 +1,5 @@
 import {BrowserWindow} from "electron";
 import path from "path";
-import {MenuEvents, RendererMenuEvents} from "./menu/MenuEvents";
 
 declare const NESTUI_VITE_DEV_SERVER_URL: string
 declare const NESTUI_VITE_NAME: string

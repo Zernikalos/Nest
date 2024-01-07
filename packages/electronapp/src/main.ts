@@ -1,6 +1,5 @@
 import {
     app,
-    screen,
     BrowserWindow,
     Menu
 } from 'electron'
@@ -13,7 +12,7 @@ import {WindowSize, windowSize169} from "./tools/desiredWindowSize";
 
 class ZernikalosNest {
 
-    private mainWindow: MainWindow
+    private mainWindow!: MainWindow
     // private viewerWindow: ViewerWindow
     public menu?: Menu
 
@@ -50,7 +49,8 @@ class ZernikalosNest {
     }
 
     private async initializeServer() {
-        await nestServerBootstrap()
+        const nestApp = await nestServerBootstrap()
+        console.log(nestApp.app.sayHello())
     }
 
     private handleAppEvents() {

@@ -6,7 +6,7 @@ import {bundleSceneDialog} from "./dialogs/bundleSceneDialog";
 import {NestEvents} from "./NestEvents";
 
 declare const NESTUI_VITE_DEV_SERVER_URL: string
-declare const NESTUI_VITE_NAME: string
+//declare const NESTUI_VITE_NAME: string
 
 export class MainWindow {
 

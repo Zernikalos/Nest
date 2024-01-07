@@ -1,5 +1,4 @@
 import {MenuItem} from "electron";
-import {Constants} from "../constants";
 import {MenuEvents} from "./MenuEvents";
 
 export const sceneMenu = new MenuItem({

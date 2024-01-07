@@ -14,4 +14,9 @@ export async function nestServerBootstrap() {
     }))
 
     await app.listen(3000)
+
+    const appModule = app.get(AppModule)
+    return {
+        app: appModule
+    }
 }
