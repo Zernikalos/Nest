@@ -19,5 +19,5 @@ contextBridge.exposeInMainWorld('NativeZernikalos', {
     handleShowImport: (callback: any) => ipcRenderer.on(RendererMenuEvents.IMPORT_FILE, callback),
     handleBundleScene: (callback: any) => ipcRenderer.on(RendererMenuEvents.BUNDLE_SCENE, callback),
 
-    actionDownload: () => ipcRenderer.send(NestEvents.DOWNLOAD)
+    actionSaveFile: (fileData: Uint8Array) => ipcRenderer.send(NestEvents.SAVE_FILE, fileData)
 })

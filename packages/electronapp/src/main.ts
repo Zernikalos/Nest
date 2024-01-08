@@ -49,8 +49,7 @@ class ZernikalosNest {
     }
 
     private async initializeServer() {
-        const nestApp = await nestServerBootstrap()
-        console.log(nestApp.app.sayHello())
+        await nestServerBootstrap()
     }
 
     private handleAppEvents() {

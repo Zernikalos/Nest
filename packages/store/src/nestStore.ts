@@ -30,7 +30,7 @@ export const useNestStore = defineStore("nestStore", () => {
         if (_.isNil(root.value)) {
             return
         }
-        return zkbuilderStore.exportAsProtoBuffer(root.value)
+        return await zkbuilderStore.exportAsProtoBuffer(root.value)
     }
 
     function _cleanDataArrays(node: ProtoZkObject) {

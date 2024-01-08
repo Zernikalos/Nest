@@ -1,9 +1,10 @@
-import {BrowserWindow} from "electron"
+import {BrowserWindow, ipcMain} from "electron"
 import path from "path"
 import {MenuEvents, RendererMenuEvents} from "./menu/MenuEvents"
 import {importFileDialog} from "./dialogs/importFileDialog"
 import {bundleSceneDialog} from "./dialogs/bundleSceneDialog";
 import {NestEvents} from "./NestEvents";
+import * as fs from "node:fs/promises";
 
 declare const NESTUI_VITE_DEV_SERVER_URL: string
 //declare const NESTUI_VITE_NAME: string
@@ -57,22 +58,19 @@ export class MainWindow {
             if (dialogReturnValue.canceled) {
                 return
             }
-            const parsedPath = path.parse(dialogReturnValue.filePath!)
+            const destPath = dialogReturnValue.filePath!
+            const parsedPath = path.parse(destPath)
             this.sendToRenderer(RendererMenuEvents.BUNDLE_SCENE, {
                 path: parsedPath.dir,
                 fileName: parsedPath.base,
             })
-        })
 
-        this.mainWindow!.on(NestEvents.DOWNLOAD, async () => {
-            const dialogReturnValue = await bundleSceneDialog(this.mainWindow)
-            if (dialogReturnValue.canceled) {
-                return
-            }
-            const parsedPath = path.parse(dialogReturnValue.filePath!)
-            this.sendToRenderer(RendererMenuEvents.BUNDLE_SCENE, {
-                path: parsedPath.dir,
-                fileName: parsedPath.base,
+            ipcMain.once(NestEvents.SAVE_FILE, async (ev, fileData: Uint8Array) => {
+                try {
+                    await fs.writeFile(destPath, fileData)
+                } catch (e) {
+                    console.log(`Unable to write file to ${path}. Error: ${e}`)
+                }
             })
         })
 

@@ -1,3 +1,3 @@
 export enum NestEvents {
-    DOWNLOAD = "download"
+    SAVE_FILE = "save_file"
 }
