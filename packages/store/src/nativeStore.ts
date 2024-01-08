@@ -17,17 +17,27 @@ export const useNativeNest = defineStore("NativeNest", () => {
         await nestStore.parseFile({filePath: url, format: payload.format})
     })
 
-    async function requestDownload(): Promise<{path: string, fileName: string}> {
-        return new Promise((resolve) => {
-            // @ts-ignore
-            window.NativeZernikalos.handleBundleScene(async (ev, payload: {path: string, fileName: string}) => {
-                resolve(payload)
-            })
+    // @ts-ignore
+    window.NativeZernikalos.handleBundleScene(async (ev, payload: {path: string, fileName: string}) => {
+        const fileData = await nestStore.exportRootAsProtoBuffer()
+        if (_.isNil(fileData)) {
+            return
+        }
+        // @ts-ignore
+        window.NativeZernikalos.actionSaveFile(fileData)
+    })
 
-            // @ts-ignore
-            window.NativeZernikalos.actionDownload()
-        })
-    }
+    // async function requestDownload(): Promise<{path: string, fileName: string}> {
+    //     return new Promise((resolve) => {
+    //         // @ts-ignore
+    //         window.NativeZernikalos.handleBundleScene(async (ev, payload: {path: string, fileName: string}) => {
+    //             resolve(payload)
+    //         })
+    //
+    //         // @ts-ignore
+    //         window.NativeZernikalos.actionDownload()
+    //     })
+    // }
 
-    return {requestDownload}
+    return {}
 })

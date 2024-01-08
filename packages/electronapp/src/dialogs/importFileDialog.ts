@@ -1,5 +1,4 @@
 import {BrowserWindow, dialog} from "electron"
-
 function buildFiltersFromFormat(format: "gltf" | "obj" | "fbx") {
     switch (format) {
         case "gltf":

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import {Logger, Module} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FilesModule } from './files/files.module';
@@ -8,4 +8,11 @@ import { FilesModule } from './files/files.module';
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+
+    private readonly logger = new Logger(AppModule.name);
+
+    sayHello() {
+        return "hello"
+    }
+}
