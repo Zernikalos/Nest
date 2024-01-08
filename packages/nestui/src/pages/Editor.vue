@@ -2,12 +2,12 @@
     <ResizablePanel>
         <template v-slot:panel1>
             <div class="bg-base-100 common-panel">
-                <TreeView :items="explorerStore.explorerItems" @selected="handleSelected"></TreeView>
+                <TreeView :items="explorerStore.explorerItems" @select="handleSelectTree"></TreeView>
             </div>
         </template>
         <template v-slot:panel2>
             <div class="flex flex-col h-full" v-if="tabs.length > 0">
-                <TabList :tabs="tabs"></TabList>
+                <TabList :tabs="tabs" @select="handleSelectTab"></TabList>
                 <div class="absolute z-10 right-0">
                     <EditorViewSelector v-model="mode"></EditorViewSelector>
                 </div>
@@ -30,6 +30,7 @@ import EditorViewSelector from "@nestui/views/EditorViewSelector.vue"
 import FormZObject from "@nestui/views/forms/FormZObject.vue"
 import {TreeNode} from "@nestui/components/treeview/TreeNode";
 import TabList from "@nestui/components/tabs/TabList.vue";
+import {TabModel} from "@nestui/components/tabs/TabModel";
 
 const nestStore = useNestStore()
 const explorerStore = useExplorerStore()
@@ -53,8 +54,16 @@ function updateTreeView() {
 
 const editorText = ref("")
 
-async function handleSelected(treeNode: TreeNode) {
-    explorerStore.selectById(treeNode.id)
+async function handleSelectTree(treeNode: TreeNode) {
+    await handleSelected(treeNode.id)
+}
+
+async function handleSelectTab(tab: TabModel) {
+    await handleSelected(tab.id)
+}
+
+async function handleSelected(nodeId: string) {
+    explorerStore.selectById(nodeId)
     tabs.push({title: explorerStore.selected?.name!, id: explorerStore.selected?.id!})
 
     editorText.value = await nestStore.exportObjectAsJsonString(explorerStore.selected)

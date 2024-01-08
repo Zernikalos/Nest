@@ -25,7 +25,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-    'selected': TreeNode[]
+    'select': TreeNode[]
 }>()
 
 const hasItems = computed(() => props.items.length > 0)
@@ -68,7 +68,7 @@ watch(treeViewState.lastSelected, () => {
     if (isNil(treeViewState.lastSelected.value)) {
         return
     }
-    emit('selected', treeViewState.lastSelected.value)
+    emit('select', treeViewState.lastSelected.value)
 })
 
 </script>

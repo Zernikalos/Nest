@@ -29,7 +29,6 @@ export function useTabStore() {
         if (_.isNil(selectedTab)) {
             return
         }
-        // tabSet.value.forEach((tab) => tab.isActive = false)
         tabList.value.forEach(tab => tab.isActive = false)
         selectedTab.isActive = true
     }
