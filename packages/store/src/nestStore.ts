@@ -34,7 +34,7 @@ export const useNestStore = defineStore("nestStore", () => {
     }
 
     function _cleanDataArrays(node: ProtoZkObject) {
-        if (node.type === ZObjectType.MODEL) {
+        if (node.type === ZObjectType.MODEL.name) {
             const model = node.model!!
             Object.values(model.mesh.rawBuffers).forEach((buff: any) => delete buff.dataArray)
             const texture = model?.material?.texture
@@ -48,17 +48,17 @@ export const useNestStore = defineStore("nestStore", () => {
 
     function _cleanProtoZkObjectForEdit(node: ProtoZkObject) {
         switch (node.type) {
-            case ZObjectType.MODEL:
+            case ZObjectType.MODEL.name:
                 return node.model
-            case ZObjectType.CAMERA:
+            case ZObjectType.CAMERA.name:
                 return node.camera
-            case ZObjectType.GROUP:
+            case ZObjectType.GROUP.name:
                 return node.group
-            case ZObjectType.SCENE:
+            case ZObjectType.SCENE.name:
                 return node.scene
-            case ZObjectType.JOINT:
-                return node.joint
-            case ZObjectType.SKELETON:
+            // case ZObjectType.JOINT.name:
+            //     return node.joint
+            case ZObjectType.SKELETON.name:
                 return node.skeleton
         }
     }

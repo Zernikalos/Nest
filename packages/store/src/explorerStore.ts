@@ -13,11 +13,11 @@ interface ExplorerItem {
 }
 
 const typesIcons: {[key: string]: string} = {
-    "Scene": "bi-map", //bi-aspect-ratio
-    "Group": "bi-layout-wtf",
-    "Model": "bi-box",
-    "Bone": "bi-bezier2",
-    "Skeleton": "bi-person-arms-up"
+    "SCENE": "bi-map", //bi-aspect-ratio
+    "GROUP": "bi-layout-wtf",
+    "MODEL": "bi-box",
+    "BONE": "bi-bezier2",
+    "SKELETON": "bi-person-arms-up"
 }
 
 function convertToHierarchy(obj: ZObject) {
@@ -28,7 +28,7 @@ function convertToHierarchy(obj: ZObject) {
         const res: ExplorerItem = {
             id: obj.id,
             label: obj.name,
-            icon: typesIcons[obj.type],
+            icon: typesIcons[obj.type.name],
             children: []
         }
         res.children = obj.children.map((c) => convertToHierarchyRecursive(c))
