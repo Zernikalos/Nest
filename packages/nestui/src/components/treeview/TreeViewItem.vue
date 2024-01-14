@@ -138,7 +138,7 @@ function forwardUpEvent(event: string, treeView: TreeNodeView) {
     outline: none;
 }
 .item {
-    @apply cursor-default
+    @apply cursor-default select-none
 }
 .selected {
     @apply bg-primary-content inline-block

@@ -18,7 +18,7 @@
             <label class="label join-item">
                 <span class="label-text">Object type</span>
             </label>
-            <DropDownSelector class="join-item grow" :options="Object.values(ZObjectType)" :selected="explorerStore.selected.type" />
+            <DropDownSelector class="join-item grow" :options="ZObjectType.values().map((v: ZObjectType) => v.name)" :selected="explorerStore.selected.type" />
         </div>
 
 <!--        <div class="collapse collapse-arrow bg-base rounded-none">-->
@@ -53,13 +53,13 @@
 </template>
 
 <script setup lang="ts">
-import {ZObjectType} from "@zernikalos/zkbuilder"
+import {ZObject, ZObjectType} from "@zernikalos/zkbuilder"
 import DropDownSelector from "../../components/dropdownselector/DropDownSelector.vue";
 import {useExplorerStore} from "@zernikalos/store/src/explorerStore";
 import Collapse from "@nestui/components/Collapse.vue";
 
 const explorerStore = useExplorerStore()
-
+debugger
 </script>
 
 <style scoped>

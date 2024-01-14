@@ -1,5 +1,5 @@
 <template>
-    <div class="flex">
+    <div class="flex overflow-x-scroll">
         <div role="tablist" class="tabs tabs-lifted" v-for="tab in tabStore.tabList.value">
             <Tab v-bind="tab" @close="handleCloseTab(tab)" @select="handleSelectTab(tab)"></Tab>
         </div>
