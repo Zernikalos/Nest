@@ -37,9 +37,9 @@ export const useNestStore = defineStore("nestStore", () => {
         if (node.type === ZObjectType.MODEL.name) {
             const model = node.model!!
             Object.values(model.mesh.rawBuffers).forEach((buff: any) => delete buff.dataArray)
-            const texture = model?.material?.texture
+            const texture = model?.material?.data?.texture
             if (!_.isNil(texture)) {
-                delete texture.dataArray
+                delete texture.data.dataArray
             }
         }
         // delete node.children
