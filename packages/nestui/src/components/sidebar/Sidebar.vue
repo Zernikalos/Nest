@@ -13,7 +13,9 @@ import SidebarItem from "@nestui/components/sidebar/SidebarItem.vue"
 import {computed} from "vue"
 import {useRoute} from "vue-router"
 
-const routeName = computed(() => useRoute().name)
+const router = useRoute()
+
+const routeName = computed(() => router.name)
 
 </script>
 
