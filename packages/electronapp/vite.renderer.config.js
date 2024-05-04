@@ -1,13 +1,12 @@
 // vite.config.js
-import { resolve } from 'path'
-import { defineConfig } from 'vite'
+import { defineConfig, mergeConfig } from 'vite'
+import {nestUiConfig} from '../nestui/vite.config'
+import path from "path";
 
-export default defineConfig({
-    // base: './aux/dist',
-    // build: {
-    //     rollupOptions: {
-    //         input: {main_window: resolve(__dirname, '../nestui/dist/index.html')}
-    //     },
-    // },
-    root: './aux/dist'
+export default defineConfig((env) => {
+    return mergeConfig(nestUiConfig, {
+        build: {
+            outDir: path.join(__dirname, 'dist', 'renderer'),
+        }
+    })
 })

@@ -1,13 +1,13 @@
 module.exports = {
     packagerConfig: {
-        icon: './assets/zklogo'
+        icon: './assets/icons/zklogo'
     },
     makers: [
         {
             name: '@electron-forge/maker-dmg',
             config: {
                 name: 'Zernikalos Nest',
-                icon: './assets/zklogo.icns',
+                icon: './assets/icons/zklogo.icns',
                 overwrite: true
             }
         }
@@ -33,7 +33,7 @@ module.exports = {
                 renderer: [
                     {
                         name: 'nestui',
-                        config: '../nestui/vite.config.js'
+                        config: 'vite.renderer.config.js'
                     }
                 ]
             }

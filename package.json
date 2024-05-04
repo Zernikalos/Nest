@@ -27,7 +27,9 @@
     "commit": "git-cz",
     "start": "pnpm --filter @zernikalos/electron -r run start",
     "make": "pnpm --filter @zernikalos/electron -r run make",
-    "build": "pnpm --filter @zernikalos/nestserver -r run build",
+    "build": "pnpm run build:server && pnpm run build:electron",
+    "build:electron": "pnpm --filter @zernikalos/electron -r run build",
+    "build:server": "pnpm --filter @zernikalos/nestserver -r run build",
     "lint": "eslint ./engine/**/src/**/*.ts",
     "clean:packages": "pnpm -r exec rimraf node_modules dist",
     "clean": "pnpm clean:packages && rimraf node_modules"

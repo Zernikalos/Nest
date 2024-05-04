@@ -10,7 +10,7 @@ export class ViewerWindow {
     constructor(width: number, height: number) {
 
         this.viewerWindow = new BrowserWindow({
-            icon: '../assets/zklogo.icns',
+            icon: '../assets/icons/zklogo.icns',
             width: Math.floor(width * 0.5),
             height: Math.floor(height * 0.5),
             title: "Zernikalos Nest",

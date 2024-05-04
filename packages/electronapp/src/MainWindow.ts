@@ -6,7 +6,7 @@ import {bundleSceneDialog} from "./dialogs/bundleSceneDialog";
 import {NestEvents} from "./NestEvents";
 import * as fs from "node:fs/promises";
 
-declare const NESTUI_VITE_DEV_SERVER_URL: string
+const NESTUI_VITE_DEV_SERVER_URL: string = "http://localhost:5173/"
 //declare const NESTUI_VITE_NAME: string
 
 export class MainWindow {
@@ -15,7 +15,7 @@ export class MainWindow {
     constructor(width: number, height: number) {
 
         this.mainWindow = new BrowserWindow({
-            icon: '../assets/zklogo.icns',
+            icon: path.join(__dirname, '../assets/icons/zklogo.png'),
             width: width,
             height: height,
             title: "Zernikalos Nest",
@@ -40,7 +40,9 @@ export class MainWindow {
     }
 
     private subscribeToEvents() {
+        // @ts-ignore
         this.mainWindow.on(MenuEvents.IMPORT_FILE, async (ev: { format: string }) => {
+            // @ts-ignore
             const dialogReturnValue = await importFileDialog(this.mainWindow, ev.format)
             if (dialogReturnValue.canceled) {
                 return
@@ -53,6 +55,7 @@ export class MainWindow {
             })
         })
 
+        // @ts-ignore
         this.mainWindow!.on(MenuEvents.BUNDLE_SCENE, async () => {
             const dialogReturnValue = await bundleSceneDialog(this.mainWindow)
             if (dialogReturnValue.canceled) {
