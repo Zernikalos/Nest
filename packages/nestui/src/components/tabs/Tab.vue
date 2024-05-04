@@ -1,9 +1,9 @@
 <template>
     <div role="tab" class="tab tab-component" :class="{'active': props.isActive}" @click="emit('select')">
-            {{props.title}}
-            <button class="close-btn" @click="emit('close')">
-                <span class="bi-x"></span>
-            </button>
+        {{props.title}}
+        <button class="close-btn" @click="emit('close')">
+            <span class="bi-x"></span>
+        </button>
     </div>
 </template>
 
@@ -18,9 +18,9 @@ const emit = defineEmits(['close', 'select'])
 
 </script>
 
-<style scoped>
+<style scoped lang="postcss">
 .tab-component {
-
+    @apply whitespace-nowrap inline-block
 }
 
 .tab-component:hover .close-btn {
@@ -36,7 +36,7 @@ const emit = defineEmits(['close', 'select'])
 }
 
 .active {
-    @apply tab-active [--tab-border-color:oklch(var(--n))] [--tab-radius:0] [--tab-bg:oklch(var(--b3))]
+    @apply tab-active [--tab-border-color:oklch(var(--n))] [--tab-bg:oklch(var(--b3))]
 }
 
 .active::before {

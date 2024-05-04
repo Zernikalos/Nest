@@ -1,7 +1,7 @@
 <template>
     <div class="flex overflow-x-scroll">
-        <div role="tablist" class="tabs tabs-lifted" v-for="tab in tabStore.tabList.value">
-            <Tab v-bind="tab" @close="handleCloseTab(tab)" @select="handleSelectTab(tab)"></Tab>
+        <div role="tablist" class="tabs tabs-lifted">
+            <Tab v-for="tab in tabStore.tabList.value" v-bind="tab" @close="handleCloseTab(tab)" @select="handleSelectTab(tab)"></Tab>
         </div>
         <span class="grow border-b border-base-300"></span>
     </div>
@@ -42,6 +42,6 @@ function handleSelectTab(tab: TabModel) {
 
 </script>
 
-<style scoped>
+<style scoped lang="postcss">
 
 </style>

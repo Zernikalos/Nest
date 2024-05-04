@@ -1,5 +1,8 @@
 <template>
-    <ResizablePanel>
+    <div v-if="!explorerStore.hasItems">
+        <NewProject></NewProject>
+    </div>
+    <ResizablePanel v-else>
         <template v-slot:panel1>
             <div class="bg-base-100 common-panel">
                 <TreeView :items="explorerStore.explorerItems" @select="handleSelectTree"></TreeView>
@@ -7,7 +10,7 @@
         </template>
         <template v-slot:panel2>
             <div class="flex flex-col h-full" v-if="tabs.length > 0">
-                <TabList :tabs="tabs" @select="handleSelectTab"></TabList>
+                <TabList class="pt-0.5" :tabs="tabs" @select="handleSelectTab"></TabList>
                 <div class="absolute z-10 right-0">
                     <EditorViewSelector v-model="mode"></EditorViewSelector>
                 </div>
@@ -31,6 +34,7 @@ import FormZObject from "@nestui/views/forms/FormZObject.vue"
 import {TreeNode} from "@nestui/components/treeview/TreeNode";
 import TabList from "@nestui/components/tabs/TabList.vue";
 import {TabModel} from "@nestui/components/tabs/TabModel";
+import NewProject from "@nestui/views/NewProject.vue";
 
 const nestStore = useNestStore()
 const explorerStore = useExplorerStore()

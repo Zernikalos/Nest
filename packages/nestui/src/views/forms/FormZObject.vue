@@ -18,7 +18,7 @@
             <label class="label join-item">
                 <span class="label-text">Object type</span>
             </label>
-            <DropDownSelector class="join-item grow" :options="ZObjectType.values().map((v: ZObjectType) => v.name)" :selected="explorerStore.selected.type" />
+            <DropDownSelector class="join-item grow" :options="ZObjectType.values().map((v: ZObjectType) => v.name)" :selected="explorerStore.selected.type.name" />
         </div>
 
 <!--        <div class="collapse collapse-arrow bg-base rounded-none">-->
@@ -59,7 +59,6 @@ import {useExplorerStore} from "@zernikalos/store/src/explorerStore";
 import Collapse from "@nestui/components/Collapse.vue";
 
 const explorerStore = useExplorerStore()
-debugger
 </script>
 
 <style scoped>

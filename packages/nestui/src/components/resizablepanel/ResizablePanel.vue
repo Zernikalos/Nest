@@ -55,16 +55,16 @@ function handleDragging(ev: MouseEvent) {
     @apply z-20
 }
 .panel2 {
-
+    @apply mx-auto
 }
 .divider-container {
-    @apply flex m-0 pb-0 w-full h-full
+    @apply mx-auto flex m-0 pb-0 w-full h-full
 }
 .divider-f {
     /*
     z-20 is required for better grabbing
      */
-    @apply h-full w-1 cursor-ew-resize border-l border-l-base-content z-20
+    @apply h-full cursor-ew-resize border-l border-l-neutral z-20
 }
 .divider-f:hover {
     cursor: col-resize;

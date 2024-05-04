@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {ZObject} from "@zernikalos/zkbuilder";
 import _, {isNil} from "lodash";
 import {findById} from "@zernikalos/zkbuilder";
@@ -42,6 +42,8 @@ export const useExplorerStore = defineStore("explorerStore", () => {
     const nestStore = useNestStore()
     const selected = ref<ZObject>()
 
+    const hasItems = computed(() => !_.isEmpty(explorerItems.value))
+
     function select(newSelected: ZObject | undefined) {
         selected.value = newSelected
     }
@@ -75,5 +77,5 @@ export const useExplorerStore = defineStore("explorerStore", () => {
         }
     }
 
-    return {selected, explorerItems, load, select, selectById, updateSelected}
+    return {selected, explorerItems, hasItems, load, select, selectById, updateSelected}
 })
