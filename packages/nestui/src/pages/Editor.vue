@@ -15,7 +15,7 @@
                     <EditorViewSelector v-model="mode"></EditorViewSelector>
                 </div>
                 <MonacoEditor class="flex-1" v-model="editorText" @update:modelValue="handleEditorUpdate" theme="dark" language="json" v-if="mode==='code'"></MonacoEditor>
-                <FormZObject v-else-if="mode==='form'"></FormZObject>
+                <FormZObject :obj="explorerStore.selected" v-else-if="mode==='form'"></FormZObject>
             </div>
         </template>
     </ResizablePanel>

@@ -6,7 +6,7 @@
 
         <div class="divider-f" :style="`right: ${100 - dividerPosition}%`" @mousedown="startDragging"></div>
 
-        <div :style="{width: `${100 - dividerPosition}%`}" class="panel2">
+        <div :style="{width: `${100 - dividerPosition}%`}" class="panel2 overflow-hidden">
             <slot name="panel2" ></slot>
         </div>
 
