@@ -10,10 +10,13 @@ export function useTabStore() {
 
     function addTab(tab: TabModel) {
         if (tabSet.value.has(tab.id)) {
-            selectTab(tab)
+            //selectTab(tab)
             return
         }
         tabSet.value.set(tab.id, tab)
+        if (tabSet.value.size === 1) {
+            selectTab(tab)
+        }
     }
 
     function addTabs(tabs: TabModel[]) {
@@ -24,13 +27,17 @@ export function useTabStore() {
         tabSet.value.delete(tab.id)
     }
 
-    function selectTab(tab: TabModel) {
-        const selectedTab = tabSet.value.get(tab.id)
+    function selectTabById(tabId: string | number) {
+        const selectedTab = tabSet.value.get(tabId)
         if (_.isNil(selectedTab)) {
             return
         }
         tabList.value.forEach(tab => tab.isActive = false)
         selectedTab.isActive = true
+    }
+
+    function selectTab(tab: TabModel) {
+        selectTabById(tab.id)
     }
 
     return {
@@ -39,6 +46,7 @@ export function useTabStore() {
         addTab,
         addTabs,
         removeTab,
-        selectTab
+        selectTab,
+        selectTabById
     }
 }

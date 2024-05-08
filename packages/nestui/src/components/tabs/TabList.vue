@@ -16,7 +16,10 @@ import {watch} from "vue";
 
 const tabStore = useTabStore()
 
-const props = defineProps<{tabs: TabModel[]}>()
+const props = defineProps<{
+    tabs: TabModel[],
+    selected?: string | number
+}>()
 const emit = defineEmits(['update:tabs', 'select'])
 const data = useVModel(props, 'tabs', emit)
 
@@ -24,12 +27,16 @@ watch(() => props.tabs.length, (newValue) => {
     tabStore.addTabs(props.tabs)
 })
 
+watch(() => props.selected, (newValue) => {
+    tabStore.selectTabById(newValue)
+})
+
 watch(tabStore.tabList, (newValue) => {
     data.value.splice(0)
     data.value.push(...newValue)
 })
 
-tabStore.addTabs(data.value)
+tabStore.addTabs(props.tabs)
 
 function handleCloseTab(tab: TabModel) {
     tabStore.removeTab(tab)

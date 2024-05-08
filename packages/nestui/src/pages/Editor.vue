@@ -10,7 +10,7 @@
         </template>
         <template v-slot:panel2>
             <div class="flex flex-col h-full" v-if="tabs.length > 0">
-                <TabList class="pt-0.5" :tabs="tabs" @select="handleSelectTab"></TabList>
+                <TabList class="pt-0.5" :selected="explorerStore.selected?.id" :tabs="tabs" @select="handleSelectTab"></TabList>
                 <div class="absolute z-10 right-0">
                     <EditorViewSelector v-model="mode"></EditorViewSelector>
                 </div>
@@ -40,7 +40,7 @@ const nestStore = useNestStore()
 const explorerStore = useExplorerStore()
 const mode = ref('code')
 
-const tabs = reactive([])
+const tabs = reactive<TabModel[]>([])
 
 onActivated(() => {
     updateTreeView()
@@ -68,7 +68,8 @@ async function handleSelectTab(tab: TabModel) {
 
 async function handleSelected(nodeId: string) {
     explorerStore.selectById(nodeId)
-    tabs.push({title: explorerStore.selected?.name!, id: explorerStore.selected?.id!})
+    const tab = {title: explorerStore.selected?.name!, id: explorerStore.selected?.id!}
+    tabs.push(tab)
 
     editorText.value = await nestStore.exportObjectAsJsonString(explorerStore.selected)
 }

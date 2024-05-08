@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import {computed, ref, watch, Ref} from "vue";
 import ChevIcon from "./ChevIcon.vue";
-import {TreeNodeView} from "./TreeNode";
+import {TreeNodeView} from "./TreeViewStore";
 
 const props = defineProps<TreeNodeView>()
 const emit = defineEmits<{
