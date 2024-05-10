@@ -1,7 +1,7 @@
 <template>
     <div class="flex overflow-x-scroll">
-        <div role="tablist" class="tabs tabs-lifted" v-for="tab in tabStore.tabList.value">
-            <Tab v-bind="tab" @close="handleCloseTab(tab)" @select="handleSelectTab(tab)"></Tab>
+        <div role="tablist" class="tabs tabs-lifted">
+            <Tab v-for="tab in tabStore.tabList.value" v-bind="tab" @close="handleCloseTab(tab)" @select="handleSelectTab(tab)"></Tab>
         </div>
         <span class="grow border-b border-base-300"></span>
     </div>
@@ -16,7 +16,10 @@ import {watch} from "vue";
 
 const tabStore = useTabStore()
 
-const props = defineProps<{tabs: TabModel[]}>()
+const props = defineProps<{
+    tabs: TabModel[],
+    selected?: string | number
+}>()
 const emit = defineEmits(['update:tabs', 'select'])
 const data = useVModel(props, 'tabs', emit)
 
@@ -24,12 +27,16 @@ watch(() => props.tabs.length, (newValue) => {
     tabStore.addTabs(props.tabs)
 })
 
+watch(() => props.selected, (newValue) => {
+    tabStore.selectTabById(newValue)
+})
+
 watch(tabStore.tabList, (newValue) => {
     data.value.splice(0)
     data.value.push(...newValue)
 })
 
-tabStore.addTabs(data.value)
+tabStore.addTabs(props.tabs)
 
 function handleCloseTab(tab: TabModel) {
     tabStore.removeTab(tab)
@@ -42,6 +49,6 @@ function handleSelectTab(tab: TabModel) {
 
 </script>
 
-<style scoped>
+<style scoped lang="postcss">
 
 </style>

@@ -7,10 +7,10 @@
   "license": "GPLv3",
   "main": "dist/main.js",
   "scripts": {
-    "ts": "tsc",
+    "build": "tsc",
     "lint": "eslint -c .eslintrc --ext .ts ./src",
 
-    "start": "electron-forge start",
+    "start": "electron-forge start --enable-logging",
     "make": "electron-forge make"
   },
   "dependencies": {
@@ -18,10 +18,10 @@
   },
   "devDependencies": {
     "concurrently": "8.2.2",
-    "electron": "30.0.1",
-    "@electron-forge/cli": "7.4.0",
-    "@electron-forge/maker-dmg": "7.4.0",
-    "@electron-forge/plugin-vite": "7.4.0"
+    "electron": "30.0.2",
+    "@electron-forge/cli": "7.2.0",
+    "@electron-forge/maker-dmg": "7.2.0",
+    "@electron-forge/plugin-vite": "7.2.0"
   },
   "build": {
     "appId": "ZernikalosNest",

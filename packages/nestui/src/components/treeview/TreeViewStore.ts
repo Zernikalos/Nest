@@ -1,12 +1,6 @@
-import _, {isNil} from "lodash"
-import {computed, ref, Ref} from "vue"
-
-export interface TreeNode {
-    id: string
-    label: string;
-    icon?: string;
-    children: TreeNode[]
-}
+import {computed, ref, Ref} from "vue";
+import _, {isNil} from "lodash";
+import {TreeNode} from "./TreeViewModel";
 
 export interface TreeNodeView extends TreeNode {
     parent: TreeNodeView | null
@@ -17,7 +11,7 @@ export interface TreeNodeView extends TreeNode {
     level: number
 }
 
-export function useTreeViewState() {
+export function useTreeViewStore() {
 
     let root: Ref<TreeNodeView | undefined> = ref(undefined)
 

@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col h-screen">
-        <Navbar class="h-[5%] min-h-12 max-h-12"></Navbar>
+<!--        <Navbar class="h-[5%] min-h-12 max-h-12"></Navbar>-->
         <div class="flex h-[96%]">
             <Sidebar class="w-14"></Sidebar>
             <div class="wrapper h-full">

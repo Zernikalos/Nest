@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue'
 const languageWorkers = ['editorWorkerService', 'json', 'typescript']
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export const nestUiConfig = defineConfig({
     root: __dirname,
     plugins: [vue()],
     build: {

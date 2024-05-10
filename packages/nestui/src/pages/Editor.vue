@@ -1,5 +1,8 @@
 <template>
-    <ResizablePanel>
+    <div v-if="!explorerStore.hasItems">
+        <NewProject></NewProject>
+    </div>
+    <ResizablePanel v-else>
         <template v-slot:panel1>
             <div class="bg-base-100 common-panel">
                 <TreeView :items="explorerStore.explorerItems" @select="handleSelectTree"></TreeView>
@@ -7,12 +10,12 @@
         </template>
         <template v-slot:panel2>
             <div class="flex flex-col h-full" v-if="tabs.length > 0">
-                <TabList :tabs="tabs" @select="handleSelectTab"></TabList>
+                <TabList class="pt-0.5" :selected="explorerStore.selected?.id" :tabs="tabs" @select="handleSelectTab"></TabList>
                 <div class="absolute z-10 right-0">
                     <EditorViewSelector v-model="mode"></EditorViewSelector>
                 </div>
                 <MonacoEditor class="flex-1" v-model="editorText" @update:modelValue="handleEditorUpdate" theme="dark" language="json" v-if="mode==='code'"></MonacoEditor>
-                <FormZObject v-else-if="mode==='form'"></FormZObject>
+                <FormZObject :obj="explorerStore.selected" v-else-if="mode==='form'"></FormZObject>
             </div>
         </template>
     </ResizablePanel>
@@ -31,12 +34,13 @@ import FormZObject from "@nestui/views/forms/FormZObject.vue"
 import {TreeNode} from "@nestui/components/treeview/TreeNode";
 import TabList from "@nestui/components/tabs/TabList.vue";
 import {TabModel} from "@nestui/components/tabs/TabModel";
+import NewProject from "@nestui/views/NewProject.vue";
 
 const nestStore = useNestStore()
 const explorerStore = useExplorerStore()
 const mode = ref('code')
 
-const tabs = reactive([])
+const tabs = reactive<TabModel[]>([])
 
 onActivated(() => {
     updateTreeView()
@@ -64,7 +68,8 @@ async function handleSelectTab(tab: TabModel) {
 
 async function handleSelected(nodeId: string) {
     explorerStore.selectById(nodeId)
-    tabs.push({title: explorerStore.selected?.name!, id: explorerStore.selected?.id!})
+    const tab = {title: explorerStore.selected?.name!, id: explorerStore.selected?.id!}
+    tabs.push(tab)
 
     editorText.value = await nestStore.exportObjectAsJsonString(explorerStore.selected)
 }

@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import {computed, ref, watch, Ref} from "vue";
 import ChevIcon from "./ChevIcon.vue";
-import {TreeNodeView} from "./TreeNode";
+import {TreeNodeView} from "./TreeViewStore";
 
 const props = defineProps<TreeNodeView>()
 const emit = defineEmits<{
@@ -141,7 +141,7 @@ function forwardUpEvent(event: string, treeView: TreeNodeView) {
     @apply cursor-default select-none
 }
 .selected {
-    @apply bg-primary-content inline-block
+    @apply bg-base-300 inline-block
 }
 
 </style>

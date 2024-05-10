@@ -1,7 +1,7 @@
 <template>
     <ul v-if="hasItems">
         <TreeViewItem
-            v-bind="treeViewState.root.value"
+            v-bind="treeViewStore.root.value"
             @node:select="handleNodeSelect"
             @node:open="handleNodeOpen"
             @node:close="handleNodeClose"
@@ -17,7 +17,8 @@
 <script setup lang="ts">
 import TreeViewItem from "./TreeViewItem.vue"
 import {computed, watch} from "vue"
-import {TreeNode, TreeNodeView, useTreeViewState} from "./TreeNode";
+import {TreeNode} from "./TreeViewModel"
+import {TreeNodeView, useTreeViewStore} from "./TreeViewStore";
 import {isNil} from "lodash";
 
 const props = defineProps<{
@@ -30,45 +31,45 @@ const emit = defineEmits<{
 
 const hasItems = computed(() => props.items.length > 0)
 
-const treeViewState = useTreeViewState()
+const treeViewStore = useTreeViewStore()
 
 watch(props.items, () => {
     const root = props.items.length > 0 ? props.items[0] : undefined
-    treeViewState.convertRootToTreeView(root)
+    treeViewStore.convertRootToTreeView(root)
 })
 
 const root = props.items.length > 0 ? props.items[0] : undefined
-treeViewState.convertRootToTreeView(root)
+treeViewStore.convertRootToTreeView(root)
 
 function handleNodeSelect(ev: TreeNodeView) {
-    const treeNode = treeViewState.findByLabel(ev.label)
+    const treeNode = treeViewStore.findByLabel(ev.label)
     if (isNil(treeNode)) {
         return
     }
-    treeViewState.select(treeNode)
+    treeViewStore.select(treeNode)
 }
 
 function handleSelectPrev(ev: TreeNodeView) {
-    treeViewState.selectPrevVisible(ev)
+    treeViewStore.selectPrevVisible(ev)
 }
 
 function handleSelectNext(ev: TreeNodeView) {
-    treeViewState.selectNextVisible(ev)
+    treeViewStore.selectNextVisible(ev)
 }
 
 function handleNodeOpen(ev: TreeNodeView) {
-    treeViewState.open(ev)
+    treeViewStore.open(ev)
 }
 
 function handleNodeClose(ev: TreeNodeView) {
-    treeViewState.close(ev)
+    treeViewStore.close(ev)
 }
 
-watch(treeViewState.lastSelected, () => {
-    if (isNil(treeViewState.lastSelected.value)) {
+watch(treeViewStore.lastSelected, () => {
+    if (isNil(treeViewStore.lastSelected.value)) {
         return
     }
-    emit('select', treeViewState.lastSelected.value)
+    emit('select', treeViewStore.lastSelected.value)
 })
 
 </script>

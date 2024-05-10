@@ -18,8 +18,8 @@
     "webpack": "5.91.0",
     "webpack-cli": "5.1.4",
     "webpack-dev-server": "5.0.4",
-    "@types/node": "20.12.7",
-    "@types/lodash": "4.17.0",
+    "@types/node": "20.12.10",
+    "@types/lodash": "4.17.1",
     "@types/jest": "29.5.12",
     "@types/express": "4.17.21"
   },
@@ -27,7 +27,9 @@
     "commit": "git-cz",
     "start": "pnpm --filter @zernikalos/electron -r run start",
     "make": "pnpm --filter @zernikalos/electron -r run make",
-    "build": "pnpm --filter @zernikalos/nestserver -r run build",
+    "build": "pnpm run build:server && pnpm run build:electron",
+    "build:electron": "pnpm --filter @zernikalos/electron -r run build",
+    "build:server": "pnpm --filter @zernikalos/nestserver -r run build",
     "lint": "eslint ./engine/**/src/**/*.ts",
     "clean:packages": "pnpm -r exec rimraf node_modules dist",
     "clean": "pnpm clean:packages && rimraf node_modules"
