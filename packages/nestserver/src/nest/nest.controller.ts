@@ -7,9 +7,9 @@ export class NestController {
     constructor(private readonly nestService: NestService) {
     }
 
-    @Get("alive")
-    isAlive(): boolean {
-        return true;
+    @Get("ping")
+    isAlive(): string {
+        return "pong";
     }
 
     @Get("info")

@@ -1,4 +1,4 @@
-import os from "os";
+import * as os from "node:os";
 import { Injectable } from '@nestjs/common';
 import {ConfigService} from "@nestjs/config";
 
