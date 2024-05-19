@@ -22,7 +22,7 @@ import {onMounted, ref} from "vue"
 import MonacoEditor from "@nestui/components/monacoeditor/MonacoEditor.vue"
 import Toggle from "@nestui/components/toggle/Toggle.vue"
 
-import {useFileApiStore, useNestStore, useNativeNest} from "@zernikalos/store";
+import {useFileApiStore, useNestStore, useNativeNest, useNestApiStore} from "@zernikalos/store";
 import Button from "@nestui/components/Button.vue";
 import useWriteToFile from "@nestui/hooks/useWriteToFile";
 
@@ -48,6 +48,7 @@ const zko = ref()
 const nestStore = useNestStore()
 const fileApiStore = useFileApiStore()
 const nativeStore = useNativeNest()
+const nestApiStore = useNestApiStore()
 
 onMounted(() => {
     updateEditor()
@@ -79,22 +80,24 @@ async function handleBundleClick() {
 }
 
 async function handleDownload() {
+    // const content = await nestStore.exportRootAsProtoBuffer()
+    //
+    // const {fileUri, name} = useWriteToFile("sample.zko", content)
+    // function saveBlob(uri, fileName) {
+    //     var a = document.createElement("a");
+    //     document.body.appendChild(a);
+    //     a.style = "display: none";
+    //
+    //     // var url = window.URL.createObjectURL(blob);
+    //     a.href = uri;
+    //     a.download = fileName;
+    //     a.click();
+    //     window.URL.revokeObjectURL(uri);
+    // }
+    //
+    // saveBlob(fileUri, name)
     const content = await nestStore.exportRootAsProtoBuffer()
-
-    const {fileUri, name} = useWriteToFile("sample.zko", content)
-    function saveBlob(uri, fileName) {
-        var a = document.createElement("a");
-        document.body.appendChild(a);
-        a.style = "display: none";
-
-        // var url = window.URL.createObjectURL(blob);
-        a.href = uri;
-        a.download = fileName;
-        a.click();
-        window.URL.revokeObjectURL(uri);
-    }
-
-    saveBlob(fileUri, name)
+    nestApiStore.sendData(content.buffer)
 }
 
 </script>

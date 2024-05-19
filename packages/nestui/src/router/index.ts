@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({
+  // TODO: Check this meta env
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
@@ -12,6 +13,11 @@ const router = createRouter({
       path: '/editor',
       name: 'editor',
       component: () => import('@nestui/pages/Editor.vue')
+    },
+    {
+      path: "/devices",
+      name: "devices",
+      component: () => import("@nestui/pages/Devices.vue")
     },
     {
       path: '/settings',

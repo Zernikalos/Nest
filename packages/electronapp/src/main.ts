@@ -1,7 +1,7 @@
 import {
     app,
     BrowserWindow,
-    Menu
+    Menu,
 } from 'electron'
 import {nestServerBootstrap} from "@zernikalos/nestserver"
 
@@ -9,6 +9,7 @@ import {createMenu} from "./menu";
 import {MainWindow} from "./MainWindow";
 // import {ViewerWindow} from "./ViewerWindow";
 import {WindowSize, windowSize169} from "./tools/desiredWindowSize";
+import {Constants} from "./constants";
 
 class ZernikalosNest {
 
@@ -17,6 +18,8 @@ class ZernikalosNest {
     public menu?: Menu
 
     public async initialize() {
+        app.dock.setIcon(Constants.trayIcon)
+
         // This method will be called when Electron has finished
         // initialization and is ready to create browser windows.
         // Some APIs can only be used after this event occurs.

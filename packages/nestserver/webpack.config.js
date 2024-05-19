@@ -50,29 +50,29 @@ const config = {
     devtool: 'inline-source-map',
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.IgnorePlugin({
-            checkResource(resource) {
-                const lazyImports = [
-                    '@nestjs/microservices',
-                    '@nestjs/websockets',
-                    '@nestjs/websockets/socket-module',
-                    // '@nestjs/platform-express',
-                    '@nestjs/microservices/microservices-module',
-                    // 'cache-manager',
-                    // 'class-validator',
-                    // 'class-transformer'
-                ];
-                if (!lazyImports.includes(resource)) {
-                    return false;
-                }
-                try {
-                    require.resolve(resource);
-                } catch (err) {
-                    return true;
-                }
-                return false;
-            },
-        }),
+        // new webpack.IgnorePlugin({
+        //     checkResource(resource) {
+        //         const lazyImports = [
+        //             '@nestjs/microservices',
+        //             // '@nestjs/websockets',
+        //             '@nestjs/websockets/socket-module',
+        //             // '@nestjs/platform-express',
+        //             '@nestjs/microservices/microservices-module',
+        //             // 'cache-manager',
+        //             // 'class-validator',
+        //             // 'class-transformer'
+        //         ];
+        //         if (!lazyImports.includes(resource)) {
+        //             return false;
+        //         }
+        //         try {
+        //             require.resolve(resource);
+        //         } catch (err) {
+        //             return true;
+        //         }
+        //         return false;
+        //     },
+        // }),
     ],
     output: {
         path: path.join(__dirname, 'dist'),
