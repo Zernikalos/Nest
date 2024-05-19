@@ -1,10 +1,11 @@
-import {BrowserWindow, ipcMain} from "electron"
+import {BrowserWindow, ipcMain, nativeImage} from "electron"
 import path from "path"
 import {MenuEvents, RendererMenuEvents} from "./menu/MenuEvents"
 import {importFileDialog} from "./dialogs/importFileDialog"
 import {bundleSceneDialog} from "./dialogs/bundleSceneDialog";
 import {NestEvents} from "./NestEvents";
 import * as fs from "node:fs/promises";
+import {Constants} from "./constants";
 
 const NESTUI_VITE_DEV_SERVER_URL: string = "http://localhost:5173/"
 //declare const NESTUI_VITE_NAME: string
@@ -15,7 +16,7 @@ export class MainWindow {
     constructor(width: number, height: number) {
 
         this.mainWindow = new BrowserWindow({
-            icon: path.join(__dirname, '../assets/icons/zklogo.png'),
+            icon: Constants.trayIcon,
             width: width,
             height: height,
             title: "Zernikalos Nest",
