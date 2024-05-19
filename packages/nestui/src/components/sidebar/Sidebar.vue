@@ -5,7 +5,8 @@
                 <Logo></Logo>
             </li>
             <SidebarItem :id="0" path="/editor" name="Editor" :selected="routeName === 'editor'" icon="bi-journal-code" />
-            <SidebarItem :id="1" path="/exporter" name="Export" :selected="routeName === 'exporter'" icon="bi-boxes" />
+            <SidebarItem :id="1" path="/devices" name="Devices" :selected="routeName === 'devices'" icon="bi-phone" />
+            <SidebarItem :id="2" path="/exporter" name="Export" :selected="routeName === 'exporter'" icon="bi-boxes" />
             <SidebarItem class="mt-auto" name="Settings" :id="2" path="/settings" :selected="routeName === 'settings'" icon="bi-gear" />
         </ul>
     </div>

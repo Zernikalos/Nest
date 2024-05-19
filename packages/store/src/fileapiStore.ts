@@ -1,6 +1,5 @@
 import {defineStore} from "pinia"
 import {api} from "./httpClient"
-import _ from "lodash";
 
 export const useFileApiStore = defineStore("fileApi", () => {
     async function __expose(filePath: string): Promise<number> {
@@ -8,7 +7,7 @@ export const useFileApiStore = defineStore("fileApi", () => {
     }
 
     function __buildFileUrl(exposeId: number, fileName: string): string {
-    // @ts-ignore
+        // TODO: Localhost is being used here
         return `http://localhost:3000/files/${exposeId}/${fileName}`
     }
 
