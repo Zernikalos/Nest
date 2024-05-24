@@ -8,7 +8,7 @@ import {nestServerBootstrap} from "@zernikalos/nestserver"
 import {createMenu} from "./menu";
 import {MainWindow} from "./MainWindow";
 // import {ViewerWindow} from "./ViewerWindow";
-import {WindowSize, windowSize169} from "./tools/desiredWindowSize";
+import {desiredWindowSize, WindowSize, windowSize169} from "./tools/desiredWindowSize";
 import {Constants} from "./constants";
 
 class ZernikalosNest {
@@ -36,7 +36,7 @@ class ZernikalosNest {
     }
 
     public get desiredSize(): WindowSize {
-        return windowSize169()
+        return desiredWindowSize()
     }
 
     private initializeMenu() {

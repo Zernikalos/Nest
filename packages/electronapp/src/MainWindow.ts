@@ -6,6 +6,7 @@ import {bundleSceneDialog} from "./dialogs/bundleSceneDialog";
 import {NestEvents} from "./NestEvents";
 import * as fs from "node:fs/promises";
 import {Constants} from "./constants";
+import {store} from "./electronStore";
 
 const NESTUI_VITE_DEV_SERVER_URL: string = "http://localhost:5173/"
 //declare const NESTUI_VITE_NAME: string
@@ -41,6 +42,11 @@ export class MainWindow {
     }
 
     private subscribeToEvents() {
+        this.mainWindow.on("resize", () => {
+            const [width, heigt] = this.mainWindow.getSize()
+            store.set('windowSize', {width, heigt})
+        })
+
         // @ts-ignore
         this.mainWindow.on(MenuEvents.IMPORT_FILE, async (ev: { format: string }) => {
             // @ts-ignore

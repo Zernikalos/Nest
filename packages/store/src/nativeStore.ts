@@ -9,7 +9,7 @@ export const useNativeNest = defineStore("NativeNest", () => {
     const fileApiStore = useFileApiStore()
 
     // @ts-ignore
-    window.NativeZernikalos.handleShowImport(async (ev, payload: {path: string, fileName: string, format:  "obj" | "gltf" | "fbx" | undefined}) => {
+    window.NativeZernikalos.handleShowImport(async (ev, payload: {path: string, fileName: string, format:  "obj" | "gltf" | "fbx" | "collada" | undefined}) => {
         const url = await fileApiStore.getUrlForFile({path: payload.path, fileName: payload.fileName})
         if (_.isNil(url)) {
             return

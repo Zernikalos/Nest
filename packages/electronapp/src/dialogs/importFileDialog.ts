@@ -1,5 +1,5 @@
 import {BrowserWindow, dialog} from "electron"
-function buildFiltersFromFormat(format: "gltf" | "obj" | "fbx") {
+function buildFiltersFromFormat(format: "gltf" | "obj" | "fbx" | "collada") {
     switch (format) {
         case "gltf":
             return { name: 'GLTF', extensions: ['gltf', 'glb'] }
@@ -7,6 +7,8 @@ function buildFiltersFromFormat(format: "gltf" | "obj" | "fbx") {
             return { name: 'OBJ', extensions: ['obj'] }
         case "fbx":
             return { name: 'FBX', extensions: ['fbx'] }
+        case "collada":
+            return { name: 'Collada', extensions: ['dae'] }
     }
 }
 
