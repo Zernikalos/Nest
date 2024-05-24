@@ -9,7 +9,7 @@ export const fileMenu = new MenuItem({
             label: "Import file...",
             submenu: [
                 {
-                    label: "Import GLTF (.gltf, .glb)",
+                    label: "Import GlTF (.gltf, .glb)",
                     click: (menuItem, browserWindow) => {
                         browserWindow?.emit(MenuEvents.IMPORT_FILE, {format: "gltf"})
                     }
@@ -24,6 +24,12 @@ export const fileMenu = new MenuItem({
                     label: "Import FBX (.fbx)",
                     click: (menuItem, browserWindow) => {
                         browserWindow?.emit(MenuEvents.IMPORT_FILE, {format: "fbx"})
+                    }
+                },
+                {
+                    label: "Import Collada (.dae)",
+                    click: (menuItem, browserWindow) => {
+                        browserWindow?.emit(MenuEvents.IMPORT_FILE, {format: "collada"})
                     }
                 }
             ],

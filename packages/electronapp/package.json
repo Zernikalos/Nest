@@ -14,7 +14,8 @@
     "make": "electron-forge make"
   },
   "dependencies": {
-    "@zernikalos/nestserver": "0.0.1"
+    "@zernikalos/nestserver": "0.0.1",
+    "electron-store": "8.2.0"
   },
   "devDependencies": {
     "concurrently": "8.2.2",
