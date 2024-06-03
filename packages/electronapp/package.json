@@ -31,6 +31,14 @@
       "buildResources": "assets",
       "output": "release/${version}"
     },
+    "fileAssociations": [
+      {
+        "ext": "zko",
+        "name": "Zernikalos Engine scene object file",
+        "perMachine": "true",
+        "icon": "assets/icons/zklogo"
+      }
+    ],
     "files": [
       "dist"
     ],

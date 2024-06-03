@@ -26,6 +26,15 @@ export class ZDebuggerGateway implements OnGatewayInit {
         this.bridgeService.sendToNest(JSON.stringify(message))
     }
 
+    @SubscribeMessage("stats")
+    handleStatsEvents(@MessageBody() data: any) {
+        const message = {
+            event: "stats",
+            data
+        }
+        this.bridgeService.sendToNest(JSON.stringify(message))
+    }
+
     private sendToAllClients(message: string) {
         this.server.clients
             .forEach(client => client.send(message))
