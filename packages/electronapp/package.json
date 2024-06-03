@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "concurrently": "8.2.2",
-    "electron": "30.0.2",
+    "electron": "30.0.9",
     "@electron-forge/cli": "7.2.0",
     "@electron-forge/maker-dmg": "7.2.0",
     "@electron-forge/plugin-vite": "7.2.0"
@@ -31,6 +31,14 @@
       "buildResources": "assets",
       "output": "release/${version}"
     },
+    "fileAssociations": [
+      {
+        "ext": "zko",
+        "name": "Zernikalos Engine scene object file",
+        "perMachine": "true",
+        "icon": "assets/icons/zklogo"
+      }
+    ],
     "files": [
       "dist"
     ],
