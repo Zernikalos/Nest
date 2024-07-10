@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full w-full" ref="refEditor"></div>
+    <div class="editor" ref="refEditor"></div>
 </template>
 
 <script setup lang="ts">
@@ -80,5 +80,9 @@ function toMonacoLanguage(language: string) {
 </script>
 
 <style scoped>
+
+.editor {
+    @apply h-full w-full;
+}
 
 </style>

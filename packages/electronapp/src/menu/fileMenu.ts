@@ -1,10 +1,17 @@
-import {MenuItem} from "electron"
+import {BrowserWindow, MenuItem} from "electron"
 import {Constants} from "../constants";
 import {MenuEvents} from "./MenuEvents";
 
 export const fileMenu = new MenuItem({
     label: 'File',
     submenu: [
+        {
+            label: "Load Zko file",
+            click: (menuItem, browserWindow) => {
+                browserWindow?.emit(MenuEvents.LOAD_ZKO, {})
+            }
+        },
+        {type: "separator"},
         {
             label: "Import file...",
             submenu: [
