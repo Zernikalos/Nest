@@ -90,11 +90,16 @@ export const useNestStore = defineStore("nestStore", () => {
         return await _objectToCleanJson(obj)
     }
 
+    function importZkoFile(fileData: Uint8Array): ZObject {
+        root.value = zkbuilderStore.importZko(new Int8Array(fileData))
+    }
+
     return {root, parseFile,
         exportRootAsProtoString,
         exportRootAsProtoBuffer,
         exportRootAsJsonString,
         exportRootAsJsonStringFull,
-        exportObjectAsJsonString
+        exportObjectAsJsonString,
+        importZkoFile
     }
 })

@@ -6,6 +6,7 @@ import {
     ParseOptions,
     ProtoZkObject,
     zkExport,
+    zkImport,
     zkLoad,
     zkParse,
     ZObject
@@ -69,5 +70,9 @@ export const useZkBuilderStore = defineStore("zkbuilder", () => {
         })
     }
 
-    return {parseFile, exportAs, exportAsProtoString, exportAsJsonString, exportAsObject, exportAsProtoBuffer}
+    function importZko(fileData: Uint8Array): ZObject {
+        return zkImport({data: fileData})
+    }
+
+    return {parseFile, exportAs, exportAsProtoString, exportAsJsonString, exportAsObject, exportAsProtoBuffer, importZko}
 })

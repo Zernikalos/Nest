@@ -1,5 +1,6 @@
 import {defineStore} from "pinia"
 import {api} from "./httpClient"
+import {AxiosResponse} from "axios";
 
 export const useFileApiStore = defineStore("fileApi", () => {
     async function __expose(filePath: string): Promise<number> {
@@ -16,5 +17,15 @@ export const useFileApiStore = defineStore("fileApi", () => {
         return __buildFileUrl(exposeId, filePath.fileName)
     }
 
-    return {getUrlForFile}
+    async function getFile(filePath: {path: string, fileName: string}): Promise<any> {
+        const exposeId = await __expose(filePath.path)
+        const url = __buildFileUrl(exposeId, filePath.fileName)
+        const response = await api.get(url,  {responseType: "arraybuffer"})
+        if (response.status !== 200) {
+            return
+        }
+        return response.data
+    }
+
+    return {getUrlForFile, getFile}
 })

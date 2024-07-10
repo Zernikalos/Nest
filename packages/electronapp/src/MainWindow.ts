@@ -1,12 +1,13 @@
-import {BrowserWindow, ipcMain, nativeImage} from "electron"
+import {BrowserWindow, ipcMain} from "electron"
 import path from "path"
 import {MenuEvents, RendererMenuEvents} from "./menu/MenuEvents"
 import {importFileDialog} from "./dialogs/importFileDialog"
-import {bundleSceneDialog} from "./dialogs/bundleSceneDialog";
-import {NestEvents} from "./NestEvents";
-import * as fs from "node:fs/promises";
-import {Constants} from "./constants";
-import {store} from "./electronStore";
+import {bundleSceneDialog} from "./dialogs/bundleSceneDialog"
+import {NestEvents} from "./NestEvents"
+import * as fs from "node:fs/promises"
+import {Constants} from "./constants"
+import {store} from "./electronStore"
+import {loadZkoDialog} from "./dialogs/loadZkoDialog"
 
 const NESTUI_VITE_DEV_SERVER_URL: string = "http://localhost:5173/"
 //declare const NESTUI_VITE_NAME: string
@@ -45,6 +46,20 @@ export class MainWindow {
         this.mainWindow.on("resize", () => {
             const [width, heigt] = this.mainWindow.getSize()
             store.set('windowSize', {width, heigt})
+        })
+
+        // @ts-ignore
+        this.mainWindow.on(MenuEvents.LOAD_ZKO, async () => {
+            const dialogReturnValue = await loadZkoDialog(this.mainWindow)
+
+            if (dialogReturnValue.canceled) {
+                return
+            }
+            const parsedPath = path.parse(dialogReturnValue.filePaths[0])
+            this.sendToRenderer(RendererMenuEvents.LOAD_ZKO, {
+                path: parsedPath.dir,
+                fileName: parsedPath.base
+            })
         })
 
         // @ts-ignore

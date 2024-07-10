@@ -16,6 +16,7 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 
 contextBridge.exposeInMainWorld('NativeZernikalos', {
+    handleLoadZko: (callback: any) => ipcRenderer.on(RendererMenuEvents.LOAD_ZKO, callback),
     handleShowImport: (callback: any) => ipcRenderer.on(RendererMenuEvents.IMPORT_FILE, callback),
     handleBundleScene: (callback: any) => ipcRenderer.on(RendererMenuEvents.BUNDLE_SCENE, callback),
 

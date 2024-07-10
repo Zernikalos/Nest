@@ -8,6 +8,14 @@ export const useNativeNest = defineStore("NativeNest", () => {
     const nestStore = useNestStore()
     const fileApiStore = useFileApiStore()
 
+    window.NativeZernikalos.handleLoadZko( async (ev, payload: {path: string,  fileName: string}) => {
+        const fileData = await fileApiStore.getFile({path: payload.path, fileName: payload.fileName})
+        if (_.isNil(fileData)) {
+            return
+        }
+        nestStore.importZkoFile(fileData)
+    })
+
     // @ts-ignore
     window.NativeZernikalos.handleShowImport(async (ev, payload: {path: string, fileName: string, format:  "obj" | "gltf" | "fbx" | "collada" | undefined}) => {
         const url = await fileApiStore.getUrlForFile({path: payload.path, fileName: payload.fileName})
@@ -26,18 +34,6 @@ export const useNativeNest = defineStore("NativeNest", () => {
         // @ts-ignore
         window.NativeZernikalos.actionSaveFile(fileData)
     })
-
-    // async function requestDownload(): Promise<{path: string, fileName: string}> {
-    //     return new Promise((resolve) => {
-    //         // @ts-ignore
-    //         window.NativeZernikalos.handleBundleScene(async (ev, payload: {path: string, fileName: string}) => {
-    //             resolve(payload)
-    //         })
-    //
-    //         // @ts-ignore
-    //         window.NativeZernikalos.actionDownload()
-    //     })
-    // }
 
     return {}
 })
