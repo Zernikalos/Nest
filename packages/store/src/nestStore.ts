@@ -16,8 +16,7 @@ export const useNestStore = defineStore("nestStore", () => {
     const zkbuilderStore = useZkBuilderStore()
 
     async function parseFile(loadOptions: LoadOptions, parseOptions: ParseOptions = DEFAULT_PARSE_OPTIONS) {
-        // TODO: Review the default camera and scene
-        root.value = await zkbuilderStore.parseFile(loadOptions, _.merge({}, parseOptions, {defaultCamera: true, defaultScene: true}))
+        root.value = await zkbuilderStore.parseFile(loadOptions, _.merge({}, parseOptions, {}))
     }
 
     async function exportRootAsProtoString(): Promise<string | undefined> {
