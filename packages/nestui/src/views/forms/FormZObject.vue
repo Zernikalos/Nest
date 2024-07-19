@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col mx-14 mt-4" v-if="data">
+    <div class="overflow-y-scroll mt-4 xl:mx-auto xl:w-10/12 px-4 md:w-full" v-if="data">
         <FormZObjectInfo v-model="data"/>
 
         <Collapse title="Transform">
