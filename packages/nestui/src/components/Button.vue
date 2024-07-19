@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, reactive} from "vue";
+import {computed} from "vue";
 
 const props = withDefaults(defineProps<{
     color?: 'primary' | 'info'
