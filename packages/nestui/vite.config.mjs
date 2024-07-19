@@ -25,3 +25,5 @@ export const nestUiConfig = defineConfig({
         }
     }
 })
+
+export default nestUiConfig

@@ -26,7 +26,7 @@
   "scripts": {
     "commit": "git-cz",
     "start": "pnpm --filter @zernikalos/electron -r run start",
-    "make": "pnpm --filter @zernikalos/electron -r run make",
+    "make": "npm --workspace @zernikalos/electron -r run make",
     "build": "pnpm run build:server && pnpm run build:electron",
     "build:electron": "pnpm --filter @zernikalos/electron -r run build",
     "build:server": "pnpm --filter @zernikalos/nestserver -r run build",
