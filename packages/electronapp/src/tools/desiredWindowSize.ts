@@ -1,5 +1,5 @@
 import {screen} from "electron"
-import {store} from "../electronStore"
+import {getStore} from "../electronStore"
 
 export interface WindowSize {
     width: number
@@ -25,7 +25,7 @@ export function windowSize169(maxScale: number = 0.8): WindowSize {
 
 export function desiredWindowSize(): WindowSize {
     // @ts-ignore
-    const storeWindowSize: WindowSize = store.get('windowSize')
+    const storeWindowSize: WindowSize = getStore().get('windowSize')
     const size169 = windowSize169()
     const fullSize = fullWindowSize()
 

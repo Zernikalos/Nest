@@ -1,9 +1,9 @@
 <template>
-    <div class="join join-horizontal">
-        <span class="join-item text-style borders">
+    <div class="join join-horizontal bg-base-300">
+        <span class="join-item text-style borders border-base-300">
             {{label}}
         </span>
-        <input type="number" lang="en" id="vector" v-model="data"  class="join-item coordinate-input text-style input-borders">
+        <input type="number" lang="en" id="vector" v-model="data"  class="join-item bg-base-200 coordinate-input text-style input-borders">
     </div>
 </template>
 
@@ -23,7 +23,7 @@ const data = useVModel(props, 'modelValue', emit)
 
 <style scoped>
 .text-style {
-    @apply font-mono text-sm p-2 items-center text-center;
+    @apply font-mono text-sm p-2 items-center text-center text-base-content;
 }
 
 .borders {

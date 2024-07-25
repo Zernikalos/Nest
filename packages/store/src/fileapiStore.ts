@@ -1,6 +1,5 @@
 import {defineStore} from "pinia"
 import {api} from "./httpClient"
-import {AxiosResponse} from "axios";
 
 export const useFileApiStore = defineStore("fileApi", () => {
     async function __expose(filePath: string): Promise<number> {

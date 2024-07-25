@@ -6,7 +6,7 @@ import {bundleSceneDialog} from "./dialogs/bundleSceneDialog"
 import {NestEvents} from "./NestEvents"
 import * as fs from "node:fs/promises"
 import {Constants} from "./constants"
-import {store} from "./electronStore"
+import {getStore} from "./electronStore"
 import {loadZkoDialog} from "./dialogs/loadZkoDialog"
 
 const NESTUI_VITE_DEV_SERVER_URL: string = "http://localhost:5173/"
@@ -45,7 +45,7 @@ export class MainWindow {
     private subscribeToEvents() {
         this.mainWindow.on("resize", () => {
             const [width, heigt] = this.mainWindow.getSize()
-            store.set('windowSize', {width, heigt})
+            getStore().set('windowSize', {width, heigt})
         })
 
         // @ts-ignore
@@ -97,6 +97,14 @@ export class MainWindow {
                     console.log(`Unable to write file to ${path}. Error: ${e}`)
                 }
             })
+        })
+
+        ipcMain.handle("userSettings:get", (event, key) => {
+            return getStore().get(key)
+        })
+
+        ipcMain.handle("userSettings:set", (event, key, value) => {
+            getStore().set(key, value)
         })
 
     }

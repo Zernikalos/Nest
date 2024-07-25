@@ -1,6 +1,6 @@
 import {
     app,
-    BrowserWindow,
+    BrowserWindow, ipcMain,
     Menu,
 } from 'electron'
 import {nestServerBootstrap} from "@zernikalos/nestserver"
@@ -10,6 +10,7 @@ import {MainWindow} from "./MainWindow";
 // import {ViewerWindow} from "./ViewerWindow";
 import {desiredWindowSize, WindowSize, windowSize169} from "./tools/desiredWindowSize";
 import {Constants} from "./constants";
+import {getStore} from "./electronStore";
 
 class ZernikalosNest {
 
@@ -18,6 +19,7 @@ class ZernikalosNest {
     public menu?: Menu
 
     public async initialize() {
+        getStore()
         app.dock.setIcon(Constants.trayIcon)
 
         // This method will be called when Electron has finished

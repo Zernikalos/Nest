@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 // const colors = require("tailwindcss/colors");
 const path = require("path")
+const daisyUiThemes = require("./daisyUiThemes")
 
-const daisyUiThemes = ["light", "dark", "cupcake", "retro", "sunset"]
 const transformedThemes = daisyUiThemes.map((themeName) => ({
     [themeName]: {
         ...require("daisyui/src/theming/themes")[themeName],

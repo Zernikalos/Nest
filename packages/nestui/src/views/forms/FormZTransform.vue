@@ -1,8 +1,8 @@
 <template>
-    <div class="flex">
-        <FormVector class="w-1/3" vec3 v-model="data.location" label="Location"/>
-        <FormVector class="w-1/3" quat v-model="data.rotation" label="Rotation"/>
-        <FormVector class="w-1/3" vec3 v-model="data.scale" label="Scale" />
+    <div class="flex mx-auto">
+        <FormVector vec3 v-model="data.location" label="Location"/>
+        <FormVector quat v-model="data.rotation" label="Rotation"/>
+        <FormVector vec3 v-model="data.scale" label="Scale" />
     </div>
 
 </template>
