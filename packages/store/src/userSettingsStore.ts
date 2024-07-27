@@ -15,7 +15,6 @@ export const useUserSettingsStore = defineStore("UserSettingsStore", () => {
     }
 
     watch(theme, async (newTheme) => {
-        debugger
         await store.set("theme", newTheme)
     })
 

@@ -1,7 +1,16 @@
 <template>
     <div class="flex flex-col">
         <label for="vector" class="mb-2 text-sm">{{label}}</label>
-        <FormVectorCoordinate :class="{'rounded-t': index == 0, 'rounded-b': index == size - 1, 'border-y-0': index > 0 && index < size -1}" v-model="data[key]" :size="size" :label="key" v-for="(key, index) of validKeys"></FormVectorCoordinate>
+        <FormVectorCoordinate
+            class="border"
+            :class="{'rounded-t border-b-0': index == 0,
+            'rounded-b border-t-0': index == size - 1,
+            'border-y-0': index > 0 && index < size -1}"
+            v-model="data[key]"
+            :size="size"
+            :label="key"
+            v-for="(key, index) of validKeys">
+        </FormVectorCoordinate>
     </div>
 </template>
 

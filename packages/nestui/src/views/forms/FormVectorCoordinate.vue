@@ -1,6 +1,6 @@
 <template>
-    <div class="join join-horizontal bg-base-300">
-        <span class="join-item text-style borders border-base-300">
+    <div class="join join-horizontal py-0.5">
+        <span class="join-item text-style bg-base-300">
             {{label}}
         </span>
         <input type="number" lang="en" id="vector" v-model="data"  class="join-item bg-base-200 coordinate-input text-style input-borders">
@@ -35,7 +35,7 @@ const data = useVModel(props, 'modelValue', emit)
 }
 
 .input-borders {
-    @apply rounded-e-md border focus:ring-blue-500 focus:border-blue-500;
+    @apply rounded-e-md focus:ring-blue-500 focus:border-blue-500;
 }
 
 </style>
