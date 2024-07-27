@@ -3,7 +3,7 @@
         <div
             ref="viewitem"
             draggable="true"
-            class="item-text"
+            class="item-text px-2 rounded-l rounded-r"
             :style="{'padding-left': `${props.level * 1.25}rem`}"
             :class="{'selected': props.isSelected}"
             :tabindex="-1"
@@ -141,7 +141,7 @@ function forwardUpEvent(event: string, treeView: TreeNodeView) {
     @apply cursor-default select-none
 }
 .selected {
-    @apply bg-base-300 inline-block
+    @apply inline-block bg-primary text-primary-content
 }
 
 </style>

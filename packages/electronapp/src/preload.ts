@@ -1,6 +1,10 @@
 import {contextBridge, ipcRenderer, ipcMain} from "electron"
 import {RendererMenuEvents} from "./menu/MenuEvents";
 import {NestEvents} from "./NestEvents";
+//import Store from "electron-store";
+import {getStore} from "./electronStore"
+//const store = new Store({name: "nest-config"});
+
 
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
@@ -20,5 +24,14 @@ contextBridge.exposeInMainWorld('NativeZernikalos', {
     handleShowImport: (callback: any) => ipcRenderer.on(RendererMenuEvents.IMPORT_FILE, callback),
     handleBundleScene: (callback: any) => ipcRenderer.on(RendererMenuEvents.BUNDLE_SCENE, callback),
 
-    actionSaveFile: (fileData: Uint8Array) => ipcRenderer.send(NestEvents.SAVE_FILE, fileData)
+    actionSaveFile: (fileData: Uint8Array) => ipcRenderer.send(NestEvents.SAVE_FILE, fileData),
 })
+
+contextBridge.exposeInMainWorld('userSettings', {
+    get: (key: string) => {
+        return ipcRenderer.invoke("userSettings:get", key)
+    },
+    set: (key: string, value: any) => {
+        return ipcRenderer.invoke("userSettings:set", key, value)
+    },
+});

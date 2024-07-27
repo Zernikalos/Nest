@@ -70,7 +70,7 @@ export const useZkBuilderStore = defineStore("zkbuilder", () => {
         })
     }
 
-    function importZko(fileData: Uint8Array): ZObject {
+    function importZko(fileData: Int8Array): ZObject {
         return zkImport({data: fileData})
     }
 

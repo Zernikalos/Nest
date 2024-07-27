@@ -8,6 +8,7 @@ export const useNativeNest = defineStore("NativeNest", () => {
     const nestStore = useNestStore()
     const fileApiStore = useFileApiStore()
 
+    // @ts-ignore
     window.NativeZernikalos.handleLoadZko( async (ev, payload: {path: string,  fileName: string}) => {
         const fileData = await fileApiStore.getFile({path: payload.path, fileName: payload.fileName})
         if (_.isNil(fileData)) {
