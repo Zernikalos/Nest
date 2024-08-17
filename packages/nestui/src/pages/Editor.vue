@@ -14,7 +14,7 @@
                 <div class="absolute z-10 right-0">
                     <EditorViewSelector v-model="mode"></EditorViewSelector>
                 </div>
-                <MonacoEditor class="flex-1" v-model="editorText" @update:modelValue="handleEditorUpdate" theme="dark" language="json" v-if="mode==='code'"></MonacoEditor>
+                <MonacoEditor class="flex-1" v-model="editorText" @update:modelValue="handleEditorUpdate" :theme="editorTheme" language="json" v-if="mode==='code'"></MonacoEditor>
                 <FormZObject :obj="explorerStore.selected" v-else-if="mode==='form'"></FormZObject>
             </div>
         </template>
@@ -22,8 +22,8 @@
 </template>
 
 <script setup lang="ts">
-import {onActivated, reactive, ref, watch} from "vue";
-import {useNestStore} from "@zernikalos/store";
+import {computed, onActivated, reactive, ref, watch} from "vue";
+import {useNestStore, useUserSettingsStore} from "@zernikalos/store";
 import MonacoEditor from "@nestui/components/monacoeditor/MonacoEditor.vue"
 import {storeToRefs} from "pinia";
 import {useExplorerStore} from "@zernikalos/store/src/explorerStore";
@@ -38,6 +38,7 @@ import NewProject from "@nestui/views/NewProject.vue";
 
 const nestStore = useNestStore()
 const explorerStore = useExplorerStore()
+const themeStore = useUserSettingsStore()
 const mode = ref('code')
 
 const tabs = reactive<TabModel[]>([])
@@ -57,6 +58,8 @@ function updateTreeView() {
 }
 
 const editorText = ref("")
+
+const editorTheme = computed(() => themeStore.isDarkTheme ? "dark" : "light")
 
 async function handleSelectTree(treeNode: TreeNode) {
     await handleSelected(treeNode.id)
