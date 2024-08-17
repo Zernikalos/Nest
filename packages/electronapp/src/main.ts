@@ -20,7 +20,7 @@ class ZernikalosNest {
 
     public async initialize() {
         getStore()
-        app.dock.setIcon(Constants.trayIcon)
+        app.dock?.setIcon(Constants.trayIcon)
 
         // This method will be called when Electron has finished
         // initialization and is ready to create browser windows.
