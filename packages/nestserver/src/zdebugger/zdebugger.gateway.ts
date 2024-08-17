@@ -1,6 +1,8 @@
 import {MessageBody, OnGatewayInit, SubscribeMessage, WebSocketGateway} from "@nestjs/websockets";
-import {Server} from "ws";
+//import {Server} from "ws";
 import {BridgeService} from "../bridge/bridge.service";
+
+type Server = any
 
 @WebSocketGateway({ path: 'zdebugger', transports: ['websocket'] })
 export class ZDebuggerGateway implements OnGatewayInit {

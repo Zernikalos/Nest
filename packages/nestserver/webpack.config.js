@@ -16,7 +16,7 @@ const tsLoaderRule = {
 
 const config = {
     entry: ['./src/main.ts'],
-    target: 'node',
+    target: 'electron-main',
     externals: [
         nodeExternals()
     ],
@@ -35,21 +35,46 @@ const config = {
                 use: [
                     babelLoaderRule
                 ],
-                exclude: [/node_modules/]
+                //exclude: [/node_modules/]
             }
         ]
     },
     mode: 'development',
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
-        // symlinks: true
+        symlinks: true
     },
-    experiments: {
-        outputModule: true
-    },
+    // experiments: {
+    //     outputModule: true
+    // },
     devtool: 'inline-source-map',
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
+
+        new webpack.IgnorePlugin({
+            checkResource(resource) {
+                const lazyImports = [
+                    '@nestjs/microservices',
+                    '@nestjs/microservices/microservices-module',
+                    //'@nestjs/platform-express',
+                    '@nestjs/grahpql',
+                    'cache-manager',
+                    'class-validator',
+                    'class-transformer',
+                    'graphql'
+                ];
+                if (!lazyImports.includes(resource)) {
+                    return false;
+                }
+                try {
+                    require.resolve(resource);
+                } catch (err) {
+                    return true;
+                }
+                return false;
+            },
+        }),
+
         // new webpack.IgnorePlugin({
         //     checkResource(resource) {
         //         const lazyImports = [
@@ -76,10 +101,10 @@ const config = {
     ],
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'server.js',
-        chunkFormat: "module",
+        filename: 'main.js',
+        //chunkFormat: "module",
         library: {
-            type: "module"
+            type: "umd"
         }
     },
 };

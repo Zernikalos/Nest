@@ -1,10 +1,57 @@
 module.exports = {
     packagerConfig: {
-        icon: './assets/icons/zklogo'
+        name: 'ZernikalosNest',
+        icon: './assets/icons/zklogo',
+        asar: true,
+        osxSign: {},
+        appCategoryType: 'public.app-category.developer-tools',
+        directories: {
+            "buildResources": "assets",
+            "output": "release/${version}"
+        },
+        fileAssociations: [
+            {
+                "ext": "zko",
+                "name": "Zernikalos Engine scene object file",
+                "perMachine": "true",
+                "icon": "assets/icons/zklogo"
+            }
+        ],
+
+        // mac: {
+        //     "artifactName": "ZernikalosNest_${version}.${ext}",
+        //     "target": [
+        //         "dmg"
+        //     ]
+        // },
+        // win: {
+        //     "target": [{
+        //         "target": "nsis",
+        //         "arch": [
+        //             "x64"
+        //         ]
+        //     }],
+        //     "artifactName": "${productName}_${version}.${ext}"
+        // },
+        // nsis: {
+        //     "oneClick": false,
+        //     "perMachine": false,
+        //     "allowToChangeInstallationDirectory": true,
+        //     "deleteAppDataOnUninstall": false
+        // }
     },
     makers: [
         {
             name: '@electron-forge/maker-dmg',
+            config: {
+                name: 'Zernikalos Nest',
+                icon: './assets/icons/zklogo.icns',
+                overwrite: true
+            }
+        },
+        {
+            name: '@electron-forge/maker-zip',
+            platforms: ['linux'],
             config: {
                 name: 'Zernikalos Nest',
                 icon: './assets/icons/zklogo.icns',

@@ -4,8 +4,10 @@ import {
     WebSocketGateway,
     WebSocketServer
 } from "@nestjs/websockets"
-import {Server} from "ws"
+// import {Server} from "ws"
 import {BridgeService} from "../bridge/bridge.service"
+
+type Server = any
 
 @WebSocketGateway({ path: 'nest', transports: ['websocket'] })
 export class NestGateway implements OnGatewayConnection, OnGatewayInit {
