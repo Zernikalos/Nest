@@ -1,24 +1,38 @@
 import {defineStore} from "pinia"
-import {ref, watch} from "vue"
+import {computed, ref} from "vue"
 // @ts-ignore
-import daisyUiThemes from "../../nestui/daisyUiThemes"
+import daisyUiThemes, {darkThemes, lightThemes} from "../../nestui/daisyUiThemes"
 
 export const useUserSettingsStore = defineStore("UserSettingsStore", () => {
     const availableThemes = daisyUiThemes
     // @ts-ignore
     const store = window.userSettings
 
-    const theme = ref("dark")
+    const _theme = ref("dark")
+    const theme = computed(() => _theme.value)
 
-    async function startStore() {
-        theme.value = await store?.get("theme") ?? "dark"
+    async function setTheme(newTheme: string) {
+        if (!availableThemes.includes(newTheme)) {
+            console.error(`Theme ${newTheme} not available`)
+            return
+        }
+        await store.set("theme", newTheme)
+        _theme.value = newTheme
     }
 
-    watch(theme, async (newTheme) => {
-        await store.set("theme", newTheme)
+    async function startStore() {
+        _theme.value = await store?.get("theme") ?? "dark"
+    }
+
+    const isLightTheme = computed(() => {
+        return lightThemes.includes(_theme.value)
+    })
+
+    const isDarkTheme = computed(() => {
+        return darkThemes.includes(_theme.value)
     })
 
     startStore()
 
-    return {theme, availableThemes}
+    return {theme, setTheme, availableThemes, isDarkTheme, isLightTheme}
 })
