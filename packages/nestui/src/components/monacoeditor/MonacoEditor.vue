@@ -44,6 +44,10 @@ watch(() => props.language, (newValue) => {
     editor?.setModel(model)
 })
 
+watch(() => props.theme, (newValue) => {
+    monacoEditor.setTheme(`vs-${newValue}`)
+})
+
 setUpGlsl()
 
 onMounted(() => {

@@ -5,7 +5,7 @@
             <span class="text-lg">Theme</span>
             <div class="divider mt-0"></div>
             <div class="w-1/2 mb-2">
-                <Select :options="userSettingsStore.availableThemes" v-model="userSettingsStore.theme"/>
+                <Select :options="userSettingsStore.availableThemes" :model-value="userSettingsStore.theme" @update:modelValue="userSettingsStore.setTheme"/>
             </div>
         </div>
     </div>
