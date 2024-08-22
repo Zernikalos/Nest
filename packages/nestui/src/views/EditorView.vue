@@ -1,5 +1,5 @@
 <template>
-    <GridPanel orientation="horizontal">
+    <ResizablePanel orientation="horizontal">
         <template v-slot:panel1>
             <div class="panel1">
                 <TreeView :items="explorerStore.explorerItems" @select="handleSelectTree"></TreeView>
@@ -15,13 +15,13 @@
                 <FormZObject :obj="explorerStore.selected" v-else-if="mode==='form'"></FormZObject>
             </div>
         </template>
-    </GridPanel>
+    </ResizablePanel>
 </template>
 
 <script setup lang="ts">
 import TabList from "@nestui/components/tabs/TabList.vue";
 import FormZObject from "@nestui/views/forms/FormZObject.vue";
-import GridPanel from "@nestui/components/GridPanel.vue";
+import ResizablePanel from "@nestui/components/ResizablePanel.vue";
 import MonacoEditor from "@nestui/components/monacoeditor/MonacoEditor.vue";
 import TreeView from "@nestui/components/treeview/TreeView.vue";
 import EditorViewSelector from "@nestui/views/EditorViewSelector.vue";
@@ -36,20 +36,6 @@ const explorerStore = useExplorerStore()
 const mode = ref('code')
 
 const tabs = reactive<TabModel[]>([])
-
-onActivated(() => {
-    updateTreeView()
-})
-
-const { root } = storeToRefs(nestStore)
-
-watch(root, () => {
-    updateTreeView()
-})
-
-function updateTreeView() {
-    explorerStore.load()
-}
 
 const editorText = ref("")
 

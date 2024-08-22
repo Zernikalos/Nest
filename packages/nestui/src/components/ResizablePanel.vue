@@ -1,20 +1,15 @@
 <template>
+    <div ref="gridPanel" class="grid-panel h-full w-full overflow-hidden break-normal" :style="[gridClass]">
+        <div class="panel1">
+            <slot name="panel1"></slot>
+        </div>
 
-    <div>
-        <div ref="gridPanel" class="grid-panel h-full w-full overflow-hidden break-normal" :style="[gridClass]">
-            <div class="panel1">
-                <slot name="panel1"></slot>
-            </div>
+        <div ref="divider" class="divider-f" :class="[dividerClass]"></div>
 
-            <div ref="divider" class="divider-f" :class="[dividerClass]"></div>
-
-            <div class="panel2">
-                <slot name="panel2"></slot>
-            </div>
-
+        <div class="panel2">
+            <slot name="panel2"></slot>
         </div>
     </div>
-
 </template>
 
 <script setup lang="ts">
