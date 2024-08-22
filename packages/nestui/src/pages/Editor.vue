@@ -2,7 +2,7 @@
     <div v-if="!explorerStore.hasItems">
         <NewProject></NewProject>
     </div>
-    <ResizablePanel v-else>
+    <GridPanel orientation="horizontal" v-else>
         <template v-slot:panel1>
             <div class="bg-base-100 common-panel">
                 <TreeView :items="explorerStore.explorerItems" @select="handleSelectTree"></TreeView>
@@ -18,7 +18,7 @@
                 <FormZObject :obj="explorerStore.selected" v-else-if="mode==='form'"></FormZObject>
             </div>
         </template>
-    </ResizablePanel>
+    </GridPanel>
 </template>
 
 <script setup lang="ts">
@@ -35,6 +35,7 @@ import {TreeNode} from "@nestui/components/treeview/TreeNode";
 import TabList from "@nestui/components/tabs/TabList.vue";
 import {TabModel} from "@nestui/components/tabs/TabModel";
 import NewProject from "@nestui/views/NewProject.vue";
+import GridPanel from "@nestui/components/GridPanel.vue";
 
 const nestStore = useNestStore()
 const explorerStore = useExplorerStore()
