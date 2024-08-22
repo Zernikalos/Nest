@@ -4,12 +4,12 @@
     </div>
     <GridPanel orientation="horizontal" v-else>
         <template v-slot:panel1>
-            <div class="bg-base-100 common-panel">
+            <div class="panel1">
                 <TreeView :items="explorerStore.explorerItems" @select="handleSelectTree"></TreeView>
             </div>
         </template>
         <template v-slot:panel2>
-            <div class="flex flex-col h-full" v-if="tabs.length > 0">
+            <div class="panel2 flex flex-col h-full" v-if="tabs.length > 0">
                 <TabList class="pt-0.5" :selected="explorerStore.selected?.id" :tabs="tabs" @select="handleSelectTab"></TabList>
                 <div class="absolute z-10 right-0">
                     <EditorViewSelector v-model="mode"></EditorViewSelector>
@@ -85,8 +85,12 @@ function handleEditorUpdate(newTextData: string) {
 </script>
 
 <style scoped>
-.common-panel {
+.panel1 {
     @apply overflow-x-auto overflow-y-auto h-full
+}
+
+.panel2 {
+    @apply overflow-x-auto overflow-y-auto
 }
 
 </style>
