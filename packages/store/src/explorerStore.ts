@@ -37,7 +37,7 @@ function convertToHierarchy(obj: ZObject) {
     return convertToHierarchyRecursive(obj)
 }
 
-export const    useExplorerStore = defineStore("explorerStore", () => {
+export const useExplorerStore = defineStore("explorerStore", () => {
     const internalExplorerItems = ref<ExplorerItem[]>([])
     const nestStore = useNestStore()
     const selected = ref<ZObject>()
