@@ -11,7 +11,7 @@
                 <div class="absolute z-10 right-0">
                     <EditorViewSelector v-model="mode"></EditorViewSelector>
                 </div>
-                <MonacoEditor class="flex-1" v-model="editorText" @update:modelValue="handleEditorUpdate" theme="dark" language="json" v-if="mode==='code'"></MonacoEditor>
+                <MonacoEditor class="flex-1" v-model="editorText" @update:modelValue="handleEditorUpdate" :theme="editorTheme" language="json" v-if="mode==='code'"></MonacoEditor>
                 <FormZObject :obj="explorerStore.selected" v-else-if="mode==='form'"></FormZObject>
             </div>
         </template>
@@ -25,19 +25,21 @@ import ResizablePanel from "@nestui/components/ResizablePanel.vue";
 import MonacoEditor from "@nestui/components/monacoeditor/MonacoEditor.vue";
 import TreeView from "@nestui/components/treeview/TreeView.vue";
 import EditorViewSelector from "@nestui/views/EditorViewSelector.vue";
-import {onActivated, reactive, ref, watch} from "vue";
+import {computed, reactive, ref} from "vue";
 import {TabModel} from "@nestui/components/tabs/TabModel";
-import {storeToRefs} from "pinia";
 import {TreeNode} from "@nestui/components/treeview/TreeViewModel";
-import {useNestStore, useExplorerStore} from "@zernikalos/store"
+import {useNestStore, useExplorerStore, useUserSettingsStore} from "@zernikalos/store"
 
 const nestStore = useNestStore()
 const explorerStore = useExplorerStore()
+const themeStore = useUserSettingsStore()
 const mode = ref('code')
 
 const tabs = reactive<TabModel[]>([])
 
 const editorText = ref("")
+
+const editorTheme = computed(() => themeStore.isDarkTheme ? "dark" : "light")
 
 async function handleSelectTree(treeNode: TreeNode) {
     await handleSelected(treeNode.id)
