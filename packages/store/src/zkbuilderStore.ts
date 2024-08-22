@@ -4,10 +4,9 @@ import {
     ExportOptions,
     LoadOptions,
     ParseOptions,
-    ProtoZkObject,
     zkExport,
     zkImport,
-    zkLoad,
+    zkLoad, ZkoFile, ZkoParsed,
     zkParse,
     ZObject
 } from "@zernikalos/zkbuilder"
@@ -22,50 +21,50 @@ export const useZkBuilderStore = defineStore("zkbuilder", () => {
         return await zkParse(parseableObj, mergedParseOptions)
     }
 
-    async function exportAs(obj: ZObject, exportOptions: ExportOptions) {
-        if (_.isNil(obj)) {
+    async function exportAs(zkoParsed: ZkoParsed, exportOptions: ExportOptions) {
+        if (_.isNil(zkoParsed)) {
             return ""
         }
-        return await zkExport(obj, exportOptions)
+        return await zkExport(zkoParsed, exportOptions)
     }
 
-    async function exportAsProtoString(obj: ZObject): Promise<string> {
-        if (_.isNil(obj)) {
+    async function exportAsProtoString(zkoParsed: ZkoParsed): Promise<string> {
+        if (_.isNil(zkoParsed)) {
             return ""
         }
-        return await zkExport(obj, {
+        return await zkExport(zkoParsed, {
             beauty: true,
             format: "proto",
             stringify: true
         }) as string
     }
 
-    async function exportAsProtoBuffer(obj: ZObject): Promise<Uint8Array | undefined> {
-        if (_.isNil(obj)) {
+    async function exportAsProtoBuffer(zkoParsed: ZkoParsed): Promise<Uint8Array | undefined> {
+        if (_.isNil(zkoParsed)) {
             return
         }
-        return await zkExport(obj, {
+        return await zkExport(zkoParsed, {
             format: "proto",
             stringify: false
         }) as Uint8Array
     }
 
-    async function exportAsJsonString(obj: ZObject): Promise<string> {
-        if (_.isNil(obj)) {
+    async function exportAsJsonString(zkoParsed: ZkoParsed): Promise<string> {
+        if (_.isNil(zkoParsed)) {
             return ""
         }
-        return await zkExport(obj, {
+        return await zkExport(zkoParsed, {
             beauty: true,
             format: "json",
             stringify: true
         }) as string
     }
 
-    async function exportAsObject(obj: ZObject): Promise<ProtoZkObject> {
-        if (_.isNil(obj)) {
+    async function exportAsObject(zkoParsed: ZkoParsed): Promise<ZkoFile> {
+        if (_.isNil(zkoParsed)) {
             return ""
         }
-        return await zkExport(obj, {
+        return await zkExport(zkoParsed, {
             format: "object"
         })
     }

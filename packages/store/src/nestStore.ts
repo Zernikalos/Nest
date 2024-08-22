@@ -3,9 +3,10 @@ import {
     DEFAULT_PARSE_OPTIONS,
     LoadOptions,
     ParseOptions,
-    ProtoZkObject,
+    ZkoParsed,
     ZObject,
     ZObjectType,
+    ZkoFile, ProtoZkObject,
 } from "@zernikalos/zkbuilder"
 import {ref} from "vue"
 import {useZkBuilderStore} from "./zkbuilderStore"
@@ -13,24 +14,35 @@ import _ from "lodash"
 
 export const useNestStore = defineStore("nestStore", () => {
     const root = ref<ZObject>()
+    const zkoParsed = ref<ZkoParsed>()
+    const zkoFileObject = ref<ZkoFile>()
     const zkbuilderStore = useZkBuilderStore()
 
     async function parseFile(loadOptions: LoadOptions, parseOptions: ParseOptions = DEFAULT_PARSE_OPTIONS) {
-        root.value = await zkbuilderStore.parseFile(loadOptions, _.merge({}, parseOptions, {}))
+        zkoParsed.value = await zkbuilderStore.parseFile(loadOptions, _.merge({}, parseOptions, {}))
+        zkoFileObject.value = await zkbuilderStore.exportAsObject(zkoParsed.value)
+        root.value = zkoParsed.value.root
     }
 
     async function exportRootAsProtoString(): Promise<string | undefined> {
         if (_.isNil(root.value)) {
             return
         }
-        return zkbuilderStore.exportAsProtoString(root.value)
+        return zkbuilderStore.exportAsProtoString(zkoParsed.value!)
     }
 
     async function exportRootAsProtoBuffer(): Promise<Uint8Array | undefined> {
         if (_.isNil(root.value)) {
             return
         }
-        return await zkbuilderStore.exportAsProtoBuffer(root.value)
+        return await zkbuilderStore.exportAsProtoBuffer(zkoParsed.value!)
+    }
+
+    async function exportRootAsJsonStringFull(): Promise<string | undefined> {
+        if (_.isNil(root.value)) {
+            return
+        }
+        return await zkbuilderStore.exportAsJsonString(zkoParsed.value!)
     }
 
     function _cleanDataArrays(node: ProtoZkObject) {
@@ -42,7 +54,6 @@ export const useNestStore = defineStore("nestStore", () => {
                 delete texture.data.dataArray
             }
         }
-        // delete node.children
         return node
     }
 
@@ -67,18 +78,12 @@ export const useNestStore = defineStore("nestStore", () => {
         if (_.isNil(node)) {
             return
         }
-        let result: unknown = await zkbuilderStore.exportAsObject(node)
-        result = _cleanDataArrays(result as ProtoZkObject)
-        result = _cleanProtoZkObjectForEdit(result as ProtoZkObject)
+        let result = await zkbuilderStore.exportAsObject({root: node})
+        result = result.root
+        result = _cleanDataArrays(result)
+        result = _cleanProtoZkObjectForEdit(result)
 
         return JSON.stringify(result, null, 4)
-    }
-
-    async function exportRootAsJsonStringFull(): Promise<string | undefined> {
-        if (_.isNil(root.value)) {
-            return
-        }
-        return await zkbuilderStore.exportAsJsonString(root.value)
     }
 
     async function exportRootAsJsonString(): Promise<string | undefined> {
