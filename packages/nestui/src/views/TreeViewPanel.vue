@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-base-100 common-panel">
+    <div class="bg-base-100 panel1">
         <TreeView :items="treeViewItems" @selected="handleSelected"></TreeView>
     </div>
 

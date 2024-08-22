@@ -37,8 +37,8 @@ function convertToHierarchy(obj: ZObject) {
     return convertToHierarchyRecursive(obj)
 }
 
-export const useExplorerStore = defineStore("explorerStore", () => {
-    const explorerItems = ref<ExplorerItem[]>([])
+export const    useExplorerStore = defineStore("explorerStore", () => {
+    const internalExplorerItems = ref<ExplorerItem[]>([])
     const nestStore = useNestStore()
     const selected = ref<ZObject>()
 
@@ -48,17 +48,18 @@ export const useExplorerStore = defineStore("explorerStore", () => {
         selected.value = newSelected
     }
 
-    function load() {
+    const explorerItems = computed(() => {
         if (isNil(nestStore.root)) {
-            return;
-        }
-        const transformed = convertToHierarchy(nestStore.root as ZObject)
-        explorerItems.value.splice(0)
-        if (_.isNil(transformed)) {
             return
         }
-        explorerItems.value.push(transformed)
-    }
+        const transformed = convertToHierarchy(nestStore.root as ZObject)
+        internalExplorerItems.value.splice(0)
+        if (_.isNil(transformed)) {
+            return internalExplorerItems.value
+        }
+        internalExplorerItems.value.push(transformed)
+        return internalExplorerItems.value
+    })
 
     function selectById(id: string) {
         if (_.isNil(nestStore.root)) {
@@ -77,5 +78,5 @@ export const useExplorerStore = defineStore("explorerStore", () => {
         }
     }
 
-    return {selected, explorerItems, hasItems, load, select, selectById, updateSelected}
+    return {selected, explorerItems, hasItems, select, selectById, updateSelected}
 })
