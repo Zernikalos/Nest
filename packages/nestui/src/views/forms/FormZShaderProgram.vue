@@ -14,8 +14,7 @@
 </template>
 
 <script setup lang="ts">
-
-import {useNestStore} from "stores/nestui-store"
+import {useStudioStore} from "@zernikalos/store"
 import {computed} from "vue"
 import {ZModel} from "@zernikalos/zkbuilder"
 import MonacoEditor from "components/monacoeditor/MonacoEditor.vue"

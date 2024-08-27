@@ -11,7 +11,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "test:unit": "vitest --environment jsdom",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+    "lint": "eslint ./src"
   },
   "dependencies": {
     "@zernikalos/store": "0.0.1",
@@ -19,10 +19,10 @@
     "lodash": "4.17.21",
     "vue": "3.4.38",
     "vue-router": "4.4.3",
-    "monaco-editor": "0.50.0",
+    "monaco-editor": "0.51.0",
     "bootstrap-icons": "1.11.3",
-    "@vueuse/core": "11.0.1",
-    "@vueuse/components": "11.0.1",
+    "@vueuse/core": "11.0.3",
+    "@vueuse/components": "11.0.3",
     "pinia": "2.2.2"
   },
   "devDependencies": {

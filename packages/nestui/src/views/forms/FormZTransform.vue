@@ -1,10 +1,21 @@
 <template>
     <div class="flex mx-auto">
-        <FormVector vec3 v-model="data.location" label="Location"/>
-        <FormVector quat v-model="data.rotation" label="Rotation"/>
-        <FormVector vec3 v-model="data.scale" label="Scale" />
+        <FormVector
+            v-model="data.location"
+            vec3
+            label="Location"
+        />
+        <FormVector
+            v-model="data.rotation"
+            quat
+            label="Rotation"
+        />
+        <FormVector
+            v-model="data.scale"
+            vec3
+            label="Scale"
+        />
     </div>
-
 </template>
 
 <script setup lang="ts">

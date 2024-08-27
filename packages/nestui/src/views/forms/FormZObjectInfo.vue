@@ -1,8 +1,19 @@
 <template>
     <div class="flex flex-col">
-        <Input v-model="data.id" label="ID" disabled></Input>
-        <Input v-model="data.name" label="Name"></Input>
-        <Select label="Object type" v-model="data.type.name" :options="zObjectTypeNames"/>
+        <Input
+            v-model="data.id"
+            label="ID"
+            disabled
+        />
+        <Input
+            v-model="data.name"
+            label="Name"
+        />
+        <Select
+            v-model="data.type.name"
+            label="Object type"
+            :options="zObjectTypeNames"
+        />
     </div>
 </template>
 

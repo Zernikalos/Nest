@@ -1,6 +1,6 @@
 <template>
     <div :data-theme="userSettingsStore.theme">
-        <GridLayout></GridLayout>
+        <GridLayout />
     </div>
 </template>
 
