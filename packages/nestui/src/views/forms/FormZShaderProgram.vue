@@ -1,13 +1,24 @@
 <template>
     <div class="column">
-        <div class="row" style="height: 300px;">
+        <div
+            class="row"
+            style="height: 300px;"
+        >
             <div class="col">
                 Vertex Shader
-                <MonacoEditor class="shader-box" language="glsl" v-model="shaderProgram.vertexShader.source"></MonacoEditor>
+                <MonacoEditor
+                    v-model="shaderProgram.vertexShader.source"
+                    class="shader-box"
+                    language="glsl"
+                />
             </div>
             <div class="col">
                 Fragment Shader
-                <MonacoEditor class="shader-box" language="glsl" v-model="shaderProgram.fragmentShader.source"></MonacoEditor>
+                <MonacoEditor
+                    v-model="shaderProgram.fragmentShader.source"
+                    class="shader-box"
+                    language="glsl"
+                />
             </div>
         </div>
     </div>

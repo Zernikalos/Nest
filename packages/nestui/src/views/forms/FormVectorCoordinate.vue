@@ -1,23 +1,29 @@
 <template>
     <div class="join join-horizontal py-0.5">
         <span class="join-item text-style bg-base-300">
-            {{label}}
+            {{ label }}
         </span>
-        <input type="number" lang="en" id="vector" v-model="data"  class="join-item bg-base-200 coordinate-input text-style input-borders">
+        <input
+            id="vector"
+            v-model="data"
+            type="number"
+            lang="en"
+            class="join-item bg-base-200 coordinate-input text-style input-borders"
+        >
     </div>
 </template>
 
 <script setup lang="ts">
 
-import {useVModel} from "@vueuse/core";
+import {useVModel} from "@vueuse/core"
 
 const props = defineProps<{
     label: string,
     size: number,
     modelValue: number
 }>()
-const emit = defineEmits(['update:modelValue'])
-const data = useVModel(props, 'modelValue', emit)
+const emit = defineEmits(["update:modelValue"])
+const data = useVModel(props, "modelValue", emit)
 
 </script>
 

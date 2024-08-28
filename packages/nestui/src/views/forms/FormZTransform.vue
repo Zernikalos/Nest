@@ -20,15 +20,15 @@
 
 <script setup lang="ts">
 import {ZTransform} from "@zernikalos/zkbuilder"
-import {useVModel} from "@vueuse/core";
-import FormVector from "./FormVector.vue";
+import {useVModel} from "@vueuse/core"
+import FormVector from "./FormVector.vue"
 
 const props = defineProps<{
     modelValue: ZTransform
 }>()
 
 const emit = defineEmits(["update:modelValue"])
-const data = useVModel(props, 'modelValue', emit)
+const data = useVModel(props, "modelValue", emit)
 
 </script>
 

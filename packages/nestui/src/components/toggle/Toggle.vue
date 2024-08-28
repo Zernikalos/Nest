@@ -1,22 +1,36 @@
 <template>
     <div class="toggle-wrapper">
-        <label for="toogle" class="dual-toggle">
+        <label
+            for="toogle"
+            class="dual-toggle"
+        >
             <!-- label -->
-            <div v-show="props.leftLabel !== undefined" class="label-text mr-4">
-                {{props.leftLabel}}
+            <div
+                v-show="props.leftLabel !== undefined"
+                class="label-text mr-4"
+            >
+                {{ props.leftLabel }}
             </div>
             <!-- toggle -->
             <div class="relative">
                 <!-- input -->
-                <input id="toogle" type="checkbox" class="sr-only" v-model="toggleValue"/>
+                <input
+                    id="toogle"
+                    v-model="toggleValue"
+                    type="checkbox"
+                    class="sr-only"
+                >
                 <!-- line -->
-                <div class="line"></div>
+                <div class="line" />
                 <!-- dot -->
-                <div class="dot"></div>
+                <div class="dot" />
             </div>
             <!-- label -->
-            <div v-show="props.rightLabel !== undefined" class="label-text">
-                {{props.rightLabel}}
+            <div
+                v-show="props.rightLabel !== undefined"
+                class="label-text"
+            >
+                {{ props.rightLabel }}
             </div>
         </label>
     </div>
@@ -24,25 +38,25 @@
 
 <script setup lang="ts">
 
-import {ref, watch} from "vue";
+import {ref, watch} from "vue"
 
 const props = defineProps<{
     leftLabel?: string
-    leftValue: any
+    leftValue: unknown
     rightLabel?: string
-    rightValue: any
+    rightValue: unknown
     selected: any
 }>()
 
-const emit = defineEmits(['update:selected'])
+const emit = defineEmits(["update:selected"])
 
 const toggleValue = ref(props.selected === props.rightValue)
 
 watch(toggleValue, (newValue) => {
     if (newValue) {
-        emit('update:selected', props.rightValue)
+        emit("update:selected", props.rightValue)
     } else {
-        emit('update:selected', props.leftValue)
+        emit("update:selected", props.leftValue)
     }
 })
 

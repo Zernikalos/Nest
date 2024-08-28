@@ -1,6 +1,6 @@
-import {computed, ref, Ref} from "vue";
-import _, {isNil} from "lodash";
-import {TreeNode} from "./TreeViewModel";
+import {computed, ref, Ref} from "vue"
+import _, {isNil} from "lodash"
+import {TreeNode} from "./TreeViewModel"
 
 export interface TreeNodeView extends TreeNode {
     parent: TreeNodeView | null
@@ -13,7 +13,7 @@ export interface TreeNodeView extends TreeNode {
 
 export function useTreeViewStore() {
 
-    let root: Ref<TreeNodeView | undefined> = ref(undefined)
+    const root: Ref<TreeNodeView | undefined> = ref(undefined)
 
     const labelMap: Map<string, TreeNodeView> = new Map()
     const selected: Ref<TreeNodeView[]> = ref([])
@@ -64,7 +64,7 @@ export function useTreeViewStore() {
         }
         const selectedNode = treeList.value.find((tv: TreeNodeView) => tv.id === node.id)
         if (_.isNil(selectedNode)) {
-            return;
+            return
         }
         selected.value.forEach((s) => s.isSelected = false)
         selected.value.splice(0)

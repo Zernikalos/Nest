@@ -1,21 +1,25 @@
 <template>
-    <button class="btn rounded" :class="[btnColor, glassy]" @click="emit('click')">
-        <slot></slot>
+    <button
+        class="btn rounded"
+        :class="[btnColor, glassy]"
+        @click="emit('click')"
+    >
+        <slot />
     </button>
 </template>
 
 <script lang="ts" setup>
-import {computed} from "vue";
+import {computed} from "vue"
 
 const props = withDefaults(defineProps<{
-    color?: 'primary' | 'info'
+    color?: "primary" | "info"
     glass?: boolean
 }>(), {
     color: "primary",
     glass: false
 })
 
-const emit = defineEmits(['click'])
+const emit = defineEmits(["click"])
 const btnColor = computed(() => {
     switch (props.color) {
         case "primary":
@@ -24,7 +28,7 @@ const btnColor = computed(() => {
             return "btn-info"
     }
 })
-const glassy = computed(() => props.glass ? 'glass' : '')
+const glassy = computed(() => props.glass ? "glass" : "")
 
 </script>
 

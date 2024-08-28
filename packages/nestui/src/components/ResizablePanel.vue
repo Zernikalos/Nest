@@ -1,20 +1,28 @@
 <template>
-    <div ref="gridPanel" class="grid-panel h-full w-full overflow-hidden break-normal" :style="[gridClass]">
+    <div
+        ref="gridPanel"
+        class="grid-panel h-full w-full overflow-hidden break-normal"
+        :style="[gridClass]"
+    >
         <div class="panel1">
-            <slot name="panel1"></slot>
+            <slot name="panel1" />
         </div>
 
-        <div ref="divider" class="divider-f" :class="[dividerClass]"></div>
+        <div
+            ref="divider"
+            class="divider-f"
+            :class="[dividerClass]"
+        />
 
         <div class="panel2">
-            <slot name="panel2"></slot>
+            <slot name="panel2" />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 
-import {computed, ref} from "vue";
+import {computed, ref} from "vue"
 import {useMouse, useMousePressed} from "@vueuse/core"
 import _ from "lodash"
 
@@ -31,20 +39,20 @@ const gridPanel = ref(null)
 const currentDividerPercentage = ref("10")
 
 const gridClass = computed(() => {
-    if (props.orientation === "horizontal") {
-        return `grid-template-columns: ${dividerPosition.value}% auto 1fr;`
-    }
-    if (props.orientation === "vertical") {
-        return `grid-template-rows: ${dividerPosition.value}% auto 1fr;`
+    switch (props.orientation) {
+        case "horizontal":
+            return `grid-template-columns: ${dividerPosition.value}% auto 1fr;`
+        case "vertical":
+            return `grid-template-rows: ${dividerPosition.value}% auto 1fr;`
     }
 })
 
 const dividerClass = computed(() => {
-    if (props.orientation === "horizontal") {
-        return `divider-f-horizontal`
-    }
-    if (props.orientation === "vertical") {
-        return `divider-f-vertical`
+    switch (props.orientation) {
+        case "horizontal":
+            return "divider-f-horizontal"
+        case "vertical":
+            return "divider-f-vertical"
     }
 })
 
@@ -55,7 +63,7 @@ const dividerPosition = computed(() => {
     if (!pressed.value || _.isNil(gridPanel.value)) {
         return currentDividerPercentage.value
     }
-    const div: HTMLDivElement = gridPanel.value as any as HTMLDivElement
+    const div: HTMLDivElement = gridPanel.value as HTMLDivElement
     const rect = div.getBoundingClientRect()
 
     if (props.orientation === "horizontal") {

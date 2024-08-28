@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 
-import Button from "@nestui/components/Button.vue";
+import Button from "@nestui/components/Button.vue"
 </script>
 
 <style scoped>

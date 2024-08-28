@@ -4,25 +4,26 @@
             class="view-selector-btn bi-ui-checks"
             :class="{'!bg-base-200-focus': data =='form'}"
             :disabled="data == 'form'"
-            @click="() => data = 'form'"></button>
+            @click="() => data = 'form'"
+        />
         <button
             class="view-selector-btn bi-code-square"
             :class="{'!bg-base-200-focus': data =='code'}"
             :disabled="data == 'code'"
             @click="() => data = 'code'"
-        ></button>
+        />
     </div>
 </template>
 
 <script setup lang="ts">
-import {useVModel} from "@vueuse/core";
+import {useVModel} from "@vueuse/core"
 
 const props = defineProps<{
-    modelValue: 'code' | 'form'
+    modelValue: "code" | "form"
 }>()
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(["update:modelValue"])
 
-const data = useVModel(props, 'modelValue', emit)
+const data = useVModel(props, "modelValue", emit)
 </script>
 
 <style scoped>

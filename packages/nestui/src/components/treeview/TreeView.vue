@@ -10,7 +10,7 @@
         />
     </ul>
     <span v-if="!hasItems">
-      <h1 class="mt-1.5 ml-1.5">No elements</h1>
+        <h1 class="mt-1.5 ml-1.5">No elements</h1>
     </span>
 </template>
 
@@ -18,15 +18,15 @@
 import TreeViewItem from "./TreeViewItem.vue"
 import {computed, watch} from "vue"
 import {TreeNode} from "./TreeViewModel"
-import {TreeNodeView, useTreeViewStore} from "./TreeViewStore";
-import {isNil} from "lodash";
+import {TreeNodeView, useTreeViewStore} from "./TreeViewStore"
+import {isNil} from "lodash"
 
 const props = defineProps<{
     items: TreeNode[]
 }>()
 
 const emit = defineEmits<{
-    'select': TreeNode[]
+    "select": TreeNode[]
 }>()
 
 const hasItems = computed(() => props.items.length > 0)
@@ -69,7 +69,7 @@ watch(treeViewStore.lastSelected, () => {
     if (isNil(treeViewStore.lastSelected.value)) {
         return
     }
-    emit('select', treeViewStore.lastSelected.value)
+    emit("select", treeViewStore.lastSelected.value)
 })
 
 </script>

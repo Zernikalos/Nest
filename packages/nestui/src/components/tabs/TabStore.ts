@@ -1,6 +1,6 @@
-import {computed, Ref, ref} from "vue";
-import {TabModel} from "./TabModel";
-import _ from "lodash";
+import {computed, Ref, ref} from "vue"
+import {TabModel} from "./TabModel"
+import _ from "lodash"
 
 export function useTabStore() {
 

@@ -2,8 +2,11 @@
     <div class="h-screen">
         <div class="grid-layout h-screen">
             <div class="grid grid-rows-1 grid-cols-[56px_minmax(0,1fr)] max-h-screen">
-                <Sidebar class="w-14"></Sidebar>
-                <RouterView id="router-view" v-slot="{ Component }">
+                <Sidebar class="w-14" />
+                <RouterView
+                    id="router-view"
+                    v-slot="{ Component }"
+                >
                     <keep-alive>
                         <component :is="Component" />
                     </keep-alive>

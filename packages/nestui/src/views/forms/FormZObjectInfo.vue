@@ -22,13 +22,13 @@ import {ZObject, ZObjectType} from "@zernikalos/zkbuilder"
 import {useVModel} from "@vueuse/core"
 import Select from "@nestui/components/Select.vue"
 import Input from "../../components/Input.vue"
-import {computed} from "vue";
+import {computed} from "vue"
 
 const props = defineProps<{
     modelValue: ZObject
 }>()
-const emit = defineEmits(['update:modelValue'])
-const data = useVModel(props, 'modelValue', emit)
+const emit = defineEmits(["update:modelValue"])
+const data = useVModel(props, "modelValue", emit)
 
 const zObjectTypeNames = computed(() => {
     return ZObjectType.values().map((v: ZObjectType) => v.name)

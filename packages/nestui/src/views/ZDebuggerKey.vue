@@ -5,10 +5,20 @@
         :class="{'cursor-pointer': isHovered}"
         @click="handleCopyButton()"
     >
-        <span type="text" class="grow text-center select-none">{{deviceKey}}</span>
-        <div :data-tip="copyState" class="tooltip tooltip-top" :class="{'tooltip-open': isHovered}">
-            <button class="btn btn-square rounded btn-sm btn-neutral" :class="{'invisible': !isHovered}">
-                <i class="bi bi-clipboard"></i>
+        <span
+            type="text"
+            class="grow text-center select-none"
+        >{{ deviceKey }}</span>
+        <div
+            :data-tip="copyState"
+            class="tooltip tooltip-top"
+            :class="{'tooltip-open': isHovered}"
+        >
+            <button
+                class="btn btn-square rounded btn-sm btn-neutral"
+                :class="{'invisible': !isHovered}"
+            >
+                <i class="bi bi-clipboard" />
             </button>
         </div>
     </div>
@@ -17,7 +27,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue"
 import {useNestApiStore} from "@zernikalos/store"
-import {useElementHover} from "@vueuse/core";
+import {useElementHover} from "@vueuse/core"
 
 const nestApiStore = useNestApiStore()
 

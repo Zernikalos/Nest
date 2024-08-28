@@ -1,26 +1,28 @@
 <template>
     <div class="flex flex-col">
-        <label for="vector" class="mb-2 text-sm">{{label}}</label>
+        <label
+            for="vector"
+            class="mb-2 text-sm"
+        >{{ label }}</label>
         <FormVectorCoordinate
+            v-for="(key, index) of validKeys"
+            :key="key"
+            v-model="data[key]"
             class="border"
             :class="{'rounded-t border-b-0': index == 0,
-            'rounded-b border-t-0': index == size - 1,
-            'border-y-0': index > 0 && index < size -1}"
-            v-model="data[key]"
+                     'rounded-b border-t-0': index == size - 1,
+                     'border-y-0': index > 0 && index < size -1}"
             :size="size"
             :label="key"
-            v-for="(key, index) of validKeys">
-        </FormVectorCoordinate>
+        />
     </div>
 </template>
 
 <script setup lang="ts">
-
-import _ from "lodash"
 import {computed} from "vue"
 import {ZVector3, ZVector4, ZQuaternion} from "@zernikalos/zkbuilder"
-import {useVModel} from "@vueuse/core";
-import FormVectorCoordinate from "./FormVectorCoordinate.vue";
+import {useVModel} from "@vueuse/core"
+import FormVectorCoordinate from "./FormVectorCoordinate.vue"
 
 const props = withDefaults(defineProps<{
     label: string
@@ -34,7 +36,7 @@ const props = withDefaults(defineProps<{
     quat: false
 })
 const emit = defineEmits(["update:modelValue"])
-const data = useVModel(props, 'modelValue', emit)
+const data = useVModel(props, "modelValue", emit)
 
 const size = computed(() => {
     if (props.vec3) {
