@@ -1,8 +1,16 @@
 <template>
-    <div role="tab" class="tab tab-component" :class="{'active': props.isActive}" @click="emit('select')">
-        {{props.title}}
-        <button class="close-btn" @click="emit('close')">
-            <span class="bi-x"></span>
+    <div
+        role="tab"
+        class="tab tab-component"
+        :class="{'active': props.isActive}"
+        @click="emit('select')"
+    >
+        {{ props.title }}
+        <button
+            class="close-btn"
+            @click="emit('close')"
+        >
+            <span class="bi-x" />
         </button>
     </div>
 </template>
@@ -14,7 +22,7 @@ const props = withDefaults(defineProps<TabModel>(), {
     isActive: false
 })
 
-const emit = defineEmits(['close', 'select'])
+const emit = defineEmits(["close", "select"])
 
 </script>
 

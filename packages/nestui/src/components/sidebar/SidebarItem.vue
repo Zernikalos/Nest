@@ -1,7 +1,14 @@
 <template>
-    <li @click="select" :class="`sidebar-border tooltip tooltip-right z-30 ${props.selected ? 'sidebar-item-selected' : ''}`" :data-tip="props.name">
-        <RouterLink :class="`sidebar-item`" :to="props.path">
-            <i :class="`bi ${props.icon}`"></i>
+    <li
+        :class="`sidebar-border tooltip tooltip-right z-30 ${props.selected ? 'sidebar-item-selected' : ''}`"
+        :data-tip="props.name"
+        @click="select"
+    >
+        <RouterLink
+            :class="`sidebar-item`"
+            :to="props.path"
+        >
+            <i :class="`bi ${props.icon}`" />
         </RouterLink>
     </li>
 </template>
@@ -9,7 +16,7 @@
 <script setup lang="ts">
     import {defineEmits} from "vue"
 
-    const emit = defineEmits(['item-selected'])
+    const emit = defineEmits(["item-selected"])
 
     const props = defineProps<{
         id: number,
@@ -20,7 +27,7 @@
     }>()
 
     function select() {
-        emit('item-selected', props.id)
+        emit("item-selected", props.id)
     }
 
 </script>

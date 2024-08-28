@@ -1,5 +1,8 @@
 <template>
-    <div class="editor" ref="refEditor"></div>
+    <div
+        ref="refEditor"
+        class="editor"
+    />
 </template>
 
 <script setup lang="ts">
@@ -24,7 +27,9 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     modelValue: "",
     language: "text",
-    theme: "dark"
+    theme: "dark",
+    width: undefined,
+    height: undefined,
 })
 
 const emit = defineEmits(["update:modelValue"])
@@ -62,7 +67,7 @@ onMounted(() => {
         minimap: {enabled: false}
     })
 
-    editor.onDidChangeModelContent(function(_e) {
+    editor.onDidChangeModelContent(function() {
         emit("update:modelValue", editor.getValue())
     })
 

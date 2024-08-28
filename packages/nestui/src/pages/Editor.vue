@@ -1,15 +1,15 @@
 <template>
     <div v-if="!hasItems">
-        <NewProject></NewProject>
+        <NewProject />
     </div>
-    <EditorView v-else></EditorView>
+    <EditorView v-else />
 </template>
 
 <script setup lang="ts">
 import {useExplorerStore} from "@zernikalos/store"
-import NewProject from "@nestui/views/NewProject.vue";
-import EditorView from "@nestui/views/EditorView.vue";
-import {storeToRefs} from "pinia";
+import NewProject from "@nestui/views/NewProject.vue"
+import EditorView from "@nestui/views/EditorView.vue"
+import {storeToRefs} from "pinia"
 
 const explorerStore = useExplorerStore()
 

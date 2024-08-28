@@ -1,14 +1,14 @@
 <template>
     <nav class="flex items-center justify-between p-2 border-b border-b-base-content border-t-2 border-t-primary row-span-full">
         <div class="flex items-center mr-6">
-            <Logo></Logo>
+            <Logo />
         </div>
     </nav>
 </template>
 
 <script setup>
 
-import Logo from "@nestui/components/Logo.vue";
+import Logo from "@nestui/components/Logo.vue"
 </script>
 
 <style scoped>

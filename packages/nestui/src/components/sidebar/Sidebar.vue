@@ -2,12 +2,37 @@
     <div class="sidebar">
         <ul class="flex flex-col h-full">
             <li class="align-middle p-2 h-12">
-                <Logo></Logo>
+                <Logo />
             </li>
-            <SidebarItem :id="0" path="/editor" name="Editor" :selected="routeName === 'editor'" icon="bi-journal-code" />
-            <SidebarItem :id="1" path="/devices" name="Devices" :selected="routeName === 'devices'" icon="bi-phone" />
-            <SidebarItem :id="2" path="/exporter" name="Export" :selected="routeName === 'exporter'" icon="bi-boxes" />
-            <SidebarItem class="mt-auto" name="Settings" :id="2" path="/settings" :selected="routeName === 'settings'" icon="bi-gear" />
+            <SidebarItem
+                :id="0"
+                path="/editor"
+                name="Editor"
+                :selected="routeName === 'editor'"
+                icon="bi-journal-code"
+            />
+            <SidebarItem
+                :id="1"
+                path="/devices"
+                name="Devices"
+                :selected="routeName === 'devices'"
+                icon="bi-phone"
+            />
+            <SidebarItem
+                :id="2"
+                path="/exporter"
+                name="Export"
+                :selected="routeName === 'exporter'"
+                icon="bi-boxes"
+            />
+            <SidebarItem
+                :id="2"
+                class="mt-auto"
+                name="Settings"
+                path="/settings"
+                :selected="routeName === 'settings'"
+                icon="bi-gear"
+            />
         </ul>
     </div>
 </template>
@@ -16,7 +41,7 @@
 import SidebarItem from "@nestui/components/sidebar/SidebarItem.vue"
 import {computed} from "vue"
 import {useRoute} from "vue-router"
-import Logo from "@nestui/components/Logo.vue";
+import Logo from "@nestui/components/Logo.vue"
 
 const router = useRoute()
 

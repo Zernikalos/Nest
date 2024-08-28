@@ -1,12 +1,12 @@
 <template>
     <div :data-theme="userSettingsStore.theme">
-        <GridLayout></GridLayout>
+        <GridLayout />
     </div>
 </template>
 
 <script setup>
 import {useNativeNest, useNestApiStore, useUserSettingsStore} from "@zernikalos/store"
-import GridLayout from "@nestui/layouts/GridLayout.vue";
+import GridLayout from "@nestui/layouts/GridLayout.vue"
 
 useNativeNest()
 const nestApiStore = useNestApiStore()

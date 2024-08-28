@@ -1,6 +1,9 @@
 <template>
     <div class="join">
-        <input type="number" class="input input-bordered">
+        <input
+            type="number"
+            class="input input-bordered"
+        >
     </div>
 </template>
 
