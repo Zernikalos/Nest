@@ -8,6 +8,7 @@ import * as fs from "node:fs/promises"
 import {Constants} from "./constants"
 import {getStore} from "./electronStore"
 import {loadZkoDialog} from "./dialogs/loadZkoDialog"
+import _ from "lodash";
 
 const NESTUI_VITE_DEV_SERVER_URL: string = "http://localhost:5173/"
 //declare const NESTUI_VITE_NAME: string
@@ -50,49 +51,46 @@ export class MainWindow {
 
         // @ts-ignore
         this.mainWindow.on(MenuEvents.LOAD_ZKO, async () => {
-            const dialogReturnValue = await loadZkoDialog(this.mainWindow)
+            const pathInfo = await loadZkoDialog(this.mainWindow)
 
-            if (dialogReturnValue.canceled) {
+            if (_.isNil(pathInfo)) {
                 return
             }
-            const parsedPath = path.parse(dialogReturnValue.filePaths[0])
             this.sendToRenderer(RendererMenuEvents.LOAD_ZKO, {
-                path: parsedPath.dir,
-                fileName: parsedPath.base
+                path: pathInfo.parsedPath.dir,
+                fileName: pathInfo.parsedPath.base
             })
         })
 
         // @ts-ignore
         this.mainWindow.on(MenuEvents.IMPORT_FILE, async (ev: { format: string }) => {
             // @ts-ignore
-            const dialogReturnValue = await importFileDialog(this.mainWindow, ev.format)
-            if (dialogReturnValue.canceled) {
+            const pathInfo = await importFileDialog(this.mainWindow, ev.format)
+            if (_.isNil(pathInfo)) {
                 return
             }
-            const parsedPath = path.parse(dialogReturnValue.filePaths[0])
             this.sendToRenderer(RendererMenuEvents.IMPORT_FILE, {
-                path: parsedPath.dir,
-                fileName: parsedPath.base,
+                path: pathInfo.parsedPath.dir,
+                fileName: pathInfo.parsedPath.base,
                 format: ev.format
             })
         })
 
         // @ts-ignore
         this.mainWindow!.on(MenuEvents.BUNDLE_SCENE, async () => {
-            const dialogReturnValue = await bundleSceneDialog(this.mainWindow)
-            if (dialogReturnValue.canceled) {
-                return
+            const pathInfo = await bundleSceneDialog(this.mainWindow)
+            if (_.isNil(pathInfo)) {
+                return;
             }
-            const destPath = dialogReturnValue.filePath!
-            const parsedPath = path.parse(destPath)
+
             this.sendToRenderer(RendererMenuEvents.BUNDLE_SCENE, {
-                path: parsedPath.dir,
-                fileName: parsedPath.base,
+                path: pathInfo.parsedPath.dir,
+                fileName: pathInfo.parsedPath.base,
             })
 
             ipcMain.once(NestEvents.SAVE_FILE, async (ev, fileData: Uint8Array) => {
                 try {
-                    await fs.writeFile(destPath, fileData)
+                    await fs.writeFile(pathInfo.filePath, fileData)
                 } catch (e) {
                     console.log(`Unable to write file to ${path}. Error: ${e}`)
                 }
