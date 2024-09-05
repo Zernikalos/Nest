@@ -7,10 +7,14 @@
   "license": "GPLv3",
   "types": "./dist/main.d.ts",
   "main": "./dist/main.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "nest build",
+    "build": "webpack",
     "prebuild": "rimraf dist",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "nest:build": "nest build",
     "start": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
