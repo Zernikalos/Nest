@@ -42,44 +42,35 @@ const config = {
     mode: 'development',
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
-        // symlinks: true
-    },
-    experiments: {
-        outputModule: true
+        symlinks: false
     },
     devtool: 'inline-source-map',
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        // new webpack.IgnorePlugin({
-        //     checkResource(resource) {
-        //         const lazyImports = [
-        //             '@nestjs/microservices',
-        //             // '@nestjs/websockets',
-        //             '@nestjs/websockets/socket-module',
-        //             // '@nestjs/platform-express',
-        //             '@nestjs/microservices/microservices-module',
-        //             // 'cache-manager',
-        //             // 'class-validator',
-        //             // 'class-transformer'
-        //         ];
-        //         if (!lazyImports.includes(resource)) {
-        //             return false;
-        //         }
-        //         try {
-        //             require.resolve(resource);
-        //         } catch (err) {
-        //             return true;
-        //         }
-        //         return false;
-        //     },
-        // }),
+        new webpack.IgnorePlugin({
+            checkResource(resource) {
+                const lazyImports = [
+                    '@nestjs/microservices',
+                    '@nestjs/websockets/socket-module',
+                    '@nestjs/microservices/microservices-module',
+                ];
+                if (!lazyImports.includes(resource)) {
+                    return false;
+                }
+                try {
+                    require.resolve(resource);
+                } catch (err) {
+                    return true;
+                }
+                return false;
+            },
+        }),
     ],
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'server.js',
-        chunkFormat: "module",
+        filename: 'main.js',
         library: {
-            type: "module"
+            type: "commonjs2"
         }
     },
 };
