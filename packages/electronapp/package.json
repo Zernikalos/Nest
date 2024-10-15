@@ -1,32 +1,48 @@
 {
-  "name": "@zernikalos/electron",
+  "name": "@zernikalos/electronapp",
   "productName": "Nest",
   "version": "0.0.1",
   "description": "Electron app for Zernikalos Nest",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
   "license": "GPLv3",
-  "main": "dist/main.js",
+  "main": ".webpack/main/main.js",
   "scripts": {
-    "build": "rimraf dist && tsc",
+    "build": "rimraf dist && npm run webpack:main",
     "lint": "eslint .",
 
     "start": "electron-forge start --enable-logging",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "package": "electron-forge package --verbose",
+    "package:debug": "DEBUG=electron-packager electron-forge package --verbose",
+    "make": "electron-forge make --verbose",
+    "make:debug": "DEBUG=electron-packager electron-forge make --verbose --skip-package",
+    "webpack:main": "webpack -c webpack.main.config.js",
+    "webpack:renderer": "webpack -c webpack.renderer.config.js --stats-error-details"
   },
   "dependencies": {
-    "@zernikalos/nestserver": "0.0.1",
-    "electron-store": "8.2.0"
+    "@zernikalos/nestserver": "file:../nestserver",
+    "electron-store": "8.2.0",
+    "lodash": "4.17.21",
+    "events": "3.3.0"
   },
   "devDependencies": {
     "concurrently": "9.0.1",
-    "electron": "32.1.2",
+    "electron": "33.0.2",
     "@electron-forge/cli": "7.5.0",
     "@electron-forge/maker-dmg": "7.5.0",
     "@electron-forge/plugin-vite": "7.5.0",
+    "@electron-forge/plugin-webpack": "7.5.0",
     "@electron-forge/maker-zip": "7.5.0",
+    "pkg-up": "5.0.0",
+    "ts-loader": "9.5.1",
+    "babel-loader": "9.2.1",
+    "@babel/preset-env": "7.25.9",
+    "webpack": "5.95.0",
+    "copy-webpack-plugin": "12.0.2",
+    "html-webpack-plugin": "5.6.3",
+    "mini-css-extract-plugin": "2.9.1",
+    "css-loader": "7.1.2",
+    "node-abi": "3.71.0",
 
-    "rfdc": "1.4.1",
-    "is-obj": "3.0.0"
+    "rfdc": "1.4.1"
   }
 }

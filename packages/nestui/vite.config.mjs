@@ -9,13 +9,13 @@ export const nestUiConfig = defineConfig({
     root: __dirname,
     plugins: [vue()],
     build: {
-        outDir: path.join(__dirname, '..', 'electronapp', 'dist', 'renderer'),
-        // outDir: path.join(__dirname, 'dist'),
+        //outDir: path.join(__dirname, '..', 'electronapp', 'dist', 'renderer'),
+        outDir: path.join(__dirname, 'dist'),
         rollupOptions: {
             output: {
-                entryFileNames: `assets/[name].js`,
-                chunkFileNames: `assets/[name].js`,
-                assetFileNames: `assets/[name].[ext]`
+                entryFileNames: "assets/[name].js",
+                chunkFileNames: "assets/[name].js",
+                assetFileNames: "assets/[name].[ext]"
             }
         }
     },

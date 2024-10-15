@@ -5,11 +5,15 @@ import _ from "lodash"
 
 export const useNativeNest = defineStore("NativeNest", () => {
 
+    if (_.isNil(window.NativeZernikalos)) {
+        console.warn("NativeZernikalos is not exposed")
+        return
+    }
+
     const nestStore = useNestStore()
     const fileApiStore = useFileApiStore()
 
-    // @ts-ignore
-    window.NativeZernikalos.handleLoadZko( async (ev, payload: {path: string,  fileName: string}) => {
+    window.NativeZernikalos.handleLoadZko( async (_ev: string, payload: {path: string,  fileName: string}) => {
         const fileData = await fileApiStore.getFile({path: payload.path, fileName: payload.fileName})
         if (_.isNil(fileData)) {
             return
@@ -17,8 +21,7 @@ export const useNativeNest = defineStore("NativeNest", () => {
         nestStore.importZkoFile(fileData)
     })
 
-    // @ts-ignore
-    window.NativeZernikalos.handleShowImport(async (ev, payload: {path: string, fileName: string, format:  "obj" | "gltf" | "fbx" | "collada" | undefined}) => {
+    window.NativeZernikalos.handleShowImport(async (_ev: string, payload: {path: string, fileName: string, format:  "obj" | "gltf" | "fbx" | "collada" | undefined}) => {
         const url = await fileApiStore.getUrlForFile({path: payload.path, fileName: payload.fileName})
         if (_.isNil(url)) {
             return
@@ -26,13 +29,11 @@ export const useNativeNest = defineStore("NativeNest", () => {
         await nestStore.parseFile({filePath: url, format: payload.format})
     })
 
-    // @ts-ignore
-    window.NativeZernikalos.handleBundleScene(async (ev, payload: {path: string, fileName: string}) => {
+    window.NativeZernikalos.handleBundleScene(async (_ev: string, _payload: {path: string, fileName: string}) => {
         const fileData = await nestStore.exportRootAsProtoBuffer()
         if (_.isNil(fileData)) {
             return
         }
-        // @ts-ignore
         window.NativeZernikalos.actionSaveFile(fileData)
     })
 

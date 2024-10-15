@@ -4,43 +4,46 @@
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
   "license": "GPLv3",
   "devDependencies": {
-    "eslint": "9.11.1",
     "git-cz": "4.9.0",
     "jsdom": "25.0.1",
     "rimraf": "6.0.1",
     "ts-loader": "9.5.1",
     "babel-loader": "9.2.1",
-    "typescript": "5.6.2",
+    "typescript": "5.6.3",
     "jest": "29.7.0",
     "ts-jest": "29.2.5",
     "webpack": "5.95.0",
     "webpack-cli": "5.1.4",
     "webpack-dev-server": "5.1.0",
-    "@types/node": "22.7.4",
-    "@types/lodash": "4.17.9",
+    "@types/node": "22.7.5",
+    "@types/lodash": "4.17.10",
     "@types/jest": "29.5.13",
     "@types/express": "5.0.0",
-    "@eslint/js": "9.11.1",
-    "typescript-eslint": "8.7.0",
-    "eslint-plugin-vue": "9.28.0"
+    "@eslint/js": "9.12.0",
+    "eslint": "9.12.0",
+    "typescript-eslint": "8.9.0",
+    "eslint-plugin-vue": "9.29.0"
   },
   "scripts": {
     "commit": "git-cz",
-    "start": "npm --workspace @zernikalos/electron -r run start",
-    "make": "npm --workspace @zernikalos/electron -r run make",
-    "build": "pnpm run build:server && pnpm run build:electron",
-    "build:electron": "pnpm --filter @zernikalos/electron -r run build",
-    "build:server": "pnpm --filter @zernikalos/nestserver -r run build",
+    "start": "pnpm --filter @zernikalos/electronapp run start",
+    "make": "npm --workspace @zernikalos/electronapp -r run make",
+    "build": "npm run build:ui && npm run build:server",
+    "build:ui": "pnpm --filter @zernikalos/nestui run build",
+    "build:server": "pnpm --filter @zernikalos/nestserver run build",
+    "build:electron": "pnpm --filter @zernikalos/electronapp run build",
     "lint": "eslint ./engine/**/src/**/*.ts",
     "clean:packages": "pnpm -r exec rimraf node_modules dist",
     "clean": "pnpm clean:packages && rimraf node_modules"
   },
   "workspaces": {
     "packages": [
-      "./packages/*"
+      "packages/nestserver",
+      "packages/nestui",
+      "packages/store"
     ],
     "nohoist": [
-      "**electron**"
+      "**electron/"
     ]
   }
 }

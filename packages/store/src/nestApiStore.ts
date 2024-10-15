@@ -61,8 +61,8 @@ export const useNestApiStore = defineStore("nestApiStore", () => {
      *. The returned promises resolve to objects containing the status and optional data.
      *
      */
-    function connectNestWebSocket(url: string) {
-        return socket.connect(url)
+    function connectNestWebSocket() {
+        return socket.connect("ws://localhost:3002/nest")
     }
 
     function sendData(data: Uint8Array | string) {

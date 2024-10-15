@@ -1,10 +1,6 @@
-import {contextBridge, ipcRenderer, ipcMain} from "electron"
+import {contextBridge, ipcRenderer} from "electron"
 import {RendererMenuEvents} from "./menu/MenuEvents";
 import {NestEvents} from "./NestEvents";
-//import Store from "electron-store";
-import {getStore} from "./electronStore"
-//const store = new Store({name: "nest-config"});
-
 
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.

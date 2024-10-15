@@ -5,14 +5,14 @@
   "private": true,
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
   "license": "GPLv3",
-  "types": "./dist/main.d.ts",
+  "types": "./dts/main.d.ts",
   "main": "./dist/main.js",
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "webpack",
-    "prebuild": "rimraf dist",
+    "prebuild": "rimraf dist dts",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "nest:build": "nest build",
     "start": "nest start --watch",
@@ -34,6 +34,7 @@
     "@nestjs/config": "3.2.3",
     "@nestjs/mapped-types": "2.0.5",
     "ws": "8.18.0",
+
     "rxjs": "7.8.1",
     "crc-32": "1.2.2",
     "class-validator": "0.14.1",
@@ -49,7 +50,6 @@
     "supertest": "7.0.0",
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
-    "webpack-node-externals": "3.0.0",
 
     "reflect-metadata": "0.2.2"
   },

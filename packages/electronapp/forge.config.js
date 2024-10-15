@@ -2,7 +2,8 @@ module.exports = {
     packagerConfig: {
         name: 'ZernikalosNest',
         icon: './assets/icons/zklogo',
-        asar: true,
+        // For testing is better setting this to false
+        asar: false,
         osxSign: {},
         appCategoryType: 'public.app-category.developer-tools',
         directories: {
@@ -39,28 +40,21 @@ module.exports = {
     ],
     plugins: [
         {
-            name: '@electron-forge/plugin-vite',
+            name: '@electron-forge/plugin-webpack',
             config: {
-                // `build` can specify multiple entry builds, which can be
-                // Main process, Preload scripts, Worker process, etc.
-                build: [
-                    {
-                        // `entry` is an alias for `build.lib.entry`
-                        // in the corresponding file of `config`.
-                        entry: './src/main.ts',
-                        config: 'vite.main.config.js'
-                    },
-                    {
-                        entry: './src/preload.ts',
-                        config: 'vite.preload.config.js'
-                    }
-                ],
-                renderer: [
-                    {
-                        name: 'nestui',
-                        config: 'vite.renderer.config.js'
-                    }
-                ]
+                mainConfig: './webpack.main.config.js',
+                devContentSecurityPolicy: "default-src 'self' 'unsafe-eval' 'unsafe-inline' http://localhost:* ws://localhost:*;",
+                renderer: {
+                    config: './webpack.renderer.config.js',
+                    entryPoints: [{
+                        name: 'zernikalos_nest_main_window',
+                        html: '../nestui/dist/index.html',
+                        js: '../nestui/dist/assets/index.js',
+                        preload: {
+                            js: './src/preload.ts'
+                        }
+                    }]
+                }
             }
         }
     ]

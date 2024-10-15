@@ -10,7 +10,7 @@ import GridLayout from "@nestui/layouts/GridLayout.vue"
 
 useNativeNest()
 const nestApiStore = useNestApiStore()
-nestApiStore.connectNestWebSocket("ws://localhost:3000/nest")
+nestApiStore.connectNestWebSocket()
     .subscribe(msg => console.log(msg))
 
 const userSettingsStore = useUserSettingsStore()
