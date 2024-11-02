@@ -4,7 +4,7 @@ import {
     WebSocketGateway,
     WebSocketServer
 } from "@nestjs/websockets"
-import {Server} from "ws"
+import * as ws from "ws"
 import {BridgeService} from "../bridge/bridge.service"
 
 @WebSocketGateway({ path: 'nest', transports: ['websocket'] })
@@ -17,10 +17,10 @@ export class NestGateway implements OnGatewayConnection, OnGatewayInit {
     }
 
     @WebSocketServer()
-    private server: Server
+    private server: ws.WebSocketServer
 
-    afterInit(server: Server): any {
-        this.server = server
+    afterInit(server: ws.WebSocket): any {
+        this.server = server as any as ws.WebSocketServer
         server.on("connection", (ws) => {
             ws.on("message", (message) => {
                 if (typeof message === "string") {
@@ -34,7 +34,7 @@ export class NestGateway implements OnGatewayConnection, OnGatewayInit {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    handleConnection(client: WebSocket): any {
+    handleConnection(client: ws.WebSocket): any {
         console.log("New Nest connection");
     }
 

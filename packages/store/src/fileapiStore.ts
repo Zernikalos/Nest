@@ -8,7 +8,7 @@ export const useFileApiStore = defineStore("fileApi", () => {
 
     function __buildFileUrl(exposeId: number, fileName: string): string {
         // TODO: Localhost is being used here
-        return `http://localhost:3000/files/${exposeId}/${fileName}`
+        return `http://localhost:3002/files/${exposeId}/${fileName}`
     }
 
     async function getUrlForFile(filePath: {path: string, fileName: string}): Promise<string> {

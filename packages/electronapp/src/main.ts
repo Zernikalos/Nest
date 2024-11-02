@@ -3,7 +3,7 @@ import {
     BrowserWindow, ipcMain,
     Menu,
 } from 'electron'
-import {nestServerBootstrap} from "@zernikalos/nestserver"
+import * as nestserver from "@zernikalos/nestserver"
 
 import {createMenu} from "./menu";
 import {MainWindow} from "./MainWindow";
@@ -54,7 +54,7 @@ class ZernikalosNest {
     }
 
     private async initializeServer() {
-        await nestServerBootstrap()
+        await nestserver.nestServerBootstrap()
     }
 
     private handleAppEvents() {

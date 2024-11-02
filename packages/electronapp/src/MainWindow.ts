@@ -10,8 +10,8 @@ import {getStore} from "./electronStore"
 import {loadZkoDialog} from "./dialogs/loadZkoDialog"
 import _ from "lodash";
 
-const NESTUI_VITE_DEV_SERVER_URL: string = "http://localhost:5173/"
-//declare const NESTUI_VITE_NAME: string
+declare const ZERNIKALOS_NEST_MAIN_WINDOW_WEBPACK_ENTRY: string
+declare const ZERNIKALOS_NEST_MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
 export class MainWindow {
 
@@ -24,7 +24,8 @@ export class MainWindow {
             height: height,
             title: "Zernikalos Nest",
             webPreferences: {
-                preload: path.join(__dirname, './preload.js'),
+                preload: ZERNIKALOS_NEST_MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
+                // preload: path.join(__dirname, './preload.js'),
             },
         })
 
@@ -32,8 +33,8 @@ export class MainWindow {
     }
 
     public async load() {
-        if (NESTUI_VITE_DEV_SERVER_URL) {
-            await this.mainWindow.loadURL(NESTUI_VITE_DEV_SERVER_URL)
+        if (ZERNIKALOS_NEST_MAIN_WINDOW_WEBPACK_ENTRY) {
+            await this.mainWindow.loadURL(ZERNIKALOS_NEST_MAIN_WINDOW_WEBPACK_ENTRY)
         } else {
             await this.mainWindow.loadFile(path.join(__dirname, `../dist/renderer/index.html`));
         }

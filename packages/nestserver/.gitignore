@@ -1,5 +1,6 @@
 # compiled output
 /dist
+/dts
 /node_modules
 
 # Logs

@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const nodeExternals = require('webpack-node-externals');
 
 const babelLoaderRule = {
     loader: 'babel-loader',
@@ -18,7 +17,6 @@ const config = {
     entry: ['./src/main.ts'],
     target: 'node',
     externals: [
-        nodeExternals()
     ],
     module: {
         rules: [
@@ -28,7 +26,7 @@ const config = {
                     babelLoaderRule,
                     tsLoaderRule
                 ],
-                exclude: []
+                exclude: [/node_modules/]
             },
             {
                 test: /\.js?$/,
@@ -42,7 +40,7 @@ const config = {
     mode: 'development',
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
-        symlinks: false
+        symlinks: true
     },
     devtool: 'inline-source-map',
     plugins: [
@@ -51,8 +49,11 @@ const config = {
             checkResource(resource) {
                 const lazyImports = [
                     '@nestjs/microservices',
+                    '@nestjs/platform-socket.io',
                     '@nestjs/websockets/socket-module',
                     '@nestjs/microservices/microservices-module',
+                    'bufferutil',
+                    'utf-8-validate'
                 ];
                 if (!lazyImports.includes(resource)) {
                     return false;
