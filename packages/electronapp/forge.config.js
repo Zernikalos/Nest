@@ -43,7 +43,7 @@ module.exports = {
             name: '@electron-forge/plugin-webpack',
             config: {
                 mainConfig: './webpack.main.config.js',
-                devContentSecurityPolicy: "default-src 'self' 'unsafe-eval' 'unsafe-inline' http://localhost:* ws://localhost:*;",
+                devContentSecurityPolicy: "default-src 'self' 'unsafe-eval' 'unsafe-inline' blob: http://localhost:* ws://localhost:*;",
                 renderer: {
                     config: './webpack.renderer.config.js',
                     entryPoints: [{
