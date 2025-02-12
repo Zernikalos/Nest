@@ -1,7 +1,9 @@
+const path = require('path');
+
 module.exports = {
     packagerConfig: {
         name: 'ZernikalosNest',
-        icon: './assets/icons/zklogo',
+        icon: path.resolve(__dirname, './assets/icons/zklogo.icns'),
         // For testing is better setting this to false
         asar: false,
         osxSign: {},

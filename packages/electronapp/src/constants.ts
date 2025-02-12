@@ -10,8 +10,12 @@ export class Constants {
     private static _trayIcon: Electron.NativeImage
     public static get trayIcon(): Electron.NativeImage {
         if (_.isNil(Constants._trayIcon)) {
-            Constants._trayIcon = nativeImage.createFromPath(path.join(__dirname, '../assets/icons/zklogo.png'))
+            Constants._trayIcon = nativeImage.createFromPath(Constants.trayIconPath)
         }
         return Constants._trayIcon
+    }
+
+    public static get trayIconPath(): string {
+        return path.join(__dirname, '../../assets/icons/zklogo.png')
     }
 }
