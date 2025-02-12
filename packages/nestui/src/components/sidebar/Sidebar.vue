@@ -1,39 +1,42 @@
 <template>
     <div class="sidebar">
-        <ul class="flex flex-col h-full">
-            <li class="align-middle p-2 h-12">
-                <Logo />
-            </li>
-            <SidebarItem
-                :id="0"
-                path="/editor"
-                name="Editor"
-                :selected="routeName === 'editor'"
-                icon="bi-journal-code"
-            />
-            <SidebarItem
-                :id="1"
-                path="/devices"
-                name="Devices"
-                :selected="routeName === 'devices'"
-                icon="bi-phone"
-            />
-            <SidebarItem
-                :id="2"
-                path="/exporter"
-                name="Export"
-                :selected="routeName === 'exporter'"
-                icon="bi-boxes"
-            />
-            <SidebarItem
-                :id="2"
-                class="mt-auto"
-                name="Settings"
-                path="/settings"
-                :selected="routeName === 'settings'"
-                icon="bi-gear"
-            />
-        </ul>
+        <div class="flex flex-col h-full">
+            <div class="flex-1">
+                <div class="align-middle p-2 h-12">
+                    <Logo />
+                </div>
+                <SidebarItem
+                    :id="0"
+                    path="/editor"
+                    name="Editor"
+                    :selected="routeName === 'editor'"
+                    icon="bi-journal-code"
+                />
+                <SidebarItem
+                    :id="1"
+                    path="/devices"
+                    name="Devices"
+                    :selected="routeName === 'devices'"
+                    icon="bi-phone"
+                />
+                <SidebarItem
+                    :id="2"
+                    path="/exporter"
+                    name="Export"
+                    :selected="routeName === 'exporter'"
+                    icon="bi-boxes"
+                />
+            </div>
+            <div>
+                <SidebarItem
+                    :id="2"
+                    name="Settings"
+                    path="/settings"
+                    :selected="routeName === 'settings'"
+                    icon="bi-gear"
+                />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -51,10 +54,7 @@ const routeName = computed(() => router.name)
 
 <style scoped lang="postcss">
 .sidebar {
-    @apply shadow-md pl-0 px-1  bg-base-300
-}
-.margin-auto {
-    margin-top: auto;
+    @apply shadow-md pl-0 px-1 bg-base-300 max-w-[56px] max-h-screen h-screen
 }
 
 </style>

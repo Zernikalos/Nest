@@ -35,6 +35,7 @@ export class MainWindow {
     public async load() {
         if (ZERNIKALOS_NEST_MAIN_WINDOW_WEBPACK_ENTRY) {
             await this.mainWindow.loadURL(ZERNIKALOS_NEST_MAIN_WINDOW_WEBPACK_ENTRY)
+            //await this.mainWindow.loadURL("http://localhost:5173")
         } else {
             await this.mainWindow.loadFile(path.join(__dirname, `../dist/renderer/index.html`));
         }
