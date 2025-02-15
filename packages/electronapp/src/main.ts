@@ -1,6 +1,6 @@
 import {
     app,
-    BrowserWindow, ipcMain,
+    BrowserWindow,
     Menu,
 } from 'electron'
 import * as nestserver from "@zernikalos/nestserver"
@@ -8,7 +8,7 @@ import * as nestserver from "@zernikalos/nestserver"
 import {createMenu} from "./menu";
 import {MainWindow} from "./MainWindow";
 // import {ViewerWindow} from "./ViewerWindow";
-import {desiredWindowSize, WindowSize, windowSize169} from "./tools/desiredWindowSize";
+import {desiredWindowSize, WindowSize} from "./tools/desiredWindowSize";
 import {Constants} from "./constants";
 import {getStore} from "./electronStore";
 
@@ -20,7 +20,7 @@ class ZernikalosNest {
 
     public async initialize() {
         getStore()
-        app.dock?.setIcon(Constants.trayIcon)
+        app.dock?.setIcon(Constants.trayIconPath)
 
         // This method will be called when Electron has finished
         // initialization and is ready to create browser windows.
@@ -54,6 +54,9 @@ class ZernikalosNest {
     }
 
     private async initializeServer() {
+        if (!Constants.ShouldStartServer) {
+            return
+        }
         await nestserver.nestServerBootstrap()
     }
 
