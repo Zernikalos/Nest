@@ -8,14 +8,16 @@ module.exports = {
         main: './src/main.ts',
         nestServer: '@zernikalos/nestserver'
     },
+    target: 'electron-main',
     output: {
+        path: path.resolve(__dirname, '.webpack/main'),
         filename: '[name].js',
     },
     devtool: 'inline-source-map',
     externals: [
     ],
     resolve: {
-        extensions: ['.ts', '.js','.json', '!*.d.ts'],
+        extensions: ['.ts', '.js','.json', '.!*.d.ts'],
         mainFields: ['main', 'module', 'jsnext:main', 'jsnext'],
         symlinks: true,
         modules: [
@@ -55,6 +57,8 @@ module.exports = {
                     '@nestjs/platform-socket.io',
                     '@nestjs/websockets/socket-module',
                     '@nestjs/microservices/microservices-module',
+                    'bufferutil',
+                    'utf-8-validate'
                 ];
                 if (!lazyImports.includes(resource)) {
                     return false;

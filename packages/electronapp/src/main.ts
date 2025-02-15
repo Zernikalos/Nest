@@ -54,6 +54,9 @@ class ZernikalosNest {
     }
 
     private async initializeServer() {
+        if (!Constants.ShouldStartServer) {
+            return
+        }
         await nestserver.nestServerBootstrap()
     }
 

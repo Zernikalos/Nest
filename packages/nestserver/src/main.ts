@@ -25,6 +25,6 @@ export async function nestServerBootstrap() {
     }
 }
 
-if (configuration().env === 'dev') {
+if (configuration().shouldStartServer) {
     nestServerBootstrap()
 }

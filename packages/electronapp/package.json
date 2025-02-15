@@ -7,9 +7,9 @@
   "license": "GPLv3",
   "main": ".webpack/main/main.js",
   "scripts": {
-    "build": "rimraf dist && npm run webpack:main",
+    "build": "rimraf .webpack && npm run webpack:main",
     "lint": "eslint .",
-
+    "dev": "START_SERVER=false electron .webpack/main/main.js",
     "start": "electron-forge start --enable-logging",
     "package": "electron-forge package --verbose",
     "package:debug": "DEBUG=electron-packager electron-forge package --verbose",

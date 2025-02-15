@@ -10,9 +10,6 @@ import {getStore} from "./electronStore"
 import {loadZkoDialog} from "./dialogs/loadZkoDialog"
 import _ from "lodash";
 
-declare const ZERNIKALOS_NEST_MAIN_WINDOW_WEBPACK_ENTRY: string
-declare const ZERNIKALOS_NEST_MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
-
 export class MainWindow {
 
     private mainWindow: BrowserWindow
@@ -24,8 +21,7 @@ export class MainWindow {
             height: height,
             title: "Zernikalos Nest",
             webPreferences: {
-                preload: ZERNIKALOS_NEST_MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
-                // preload: path.join(__dirname, './preload.js'),
+                preload: Constants.PreloadScriptPath,
             },
         })
 
@@ -33,9 +29,8 @@ export class MainWindow {
     }
 
     public async load() {
-        if (ZERNIKALOS_NEST_MAIN_WINDOW_WEBPACK_ENTRY) {
-            await this.mainWindow.loadURL(ZERNIKALOS_NEST_MAIN_WINDOW_WEBPACK_ENTRY)
-            //await this.mainWindow.loadURL("http://localhost:5173")
+        if (Constants.MainScriptPath) {
+            await this.mainWindow.loadURL(Constants.MainScriptPath)
         } else {
             await this.mainWindow.loadFile(path.join(__dirname, `../dist/renderer/index.html`));
         }

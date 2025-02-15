@@ -7,6 +7,7 @@
   "license": "GPLv3",
   "private": true,
   "scripts": {
+    "dev": "vite",
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
@@ -15,7 +16,7 @@
   },
   "dependencies": {
     "@zernikalos/store": "file:../store",
-    "@zernikalos/zkbuilder": "file:../../../ZKBuilder",
+    "@zernikalos/zkbuilder": "file:../../../ZKBuilder/packages/zkbuilder",
     "lodash": "4.17.21",
     "vue": "3.5.13",
     "vue-router": "4.5.0",

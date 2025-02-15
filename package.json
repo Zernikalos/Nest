@@ -26,9 +26,10 @@
   },
   "scripts": {
     "commit": "git-cz",
+    "dev": "pnpm --recursive --parallel run dev",
     "start": "pnpm --filter @zernikalos/electronapp run start",
     "make": "npm --workspace @zernikalos/electronapp -r run make",
-    "build": "npm run build:ui && npm run build:server",
+    "build": "npm run build:ui && npm run build:server && npm run build:electron",
     "build:ui": "pnpm --filter @zernikalos/nestui run build",
     "build:server": "pnpm --filter @zernikalos/nestserver run build",
     "build:electron": "pnpm --filter @zernikalos/electronapp run build",
