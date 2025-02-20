@@ -6,7 +6,9 @@ import {
     ParseOptions,
     zkExport,
     zkImport,
-    zkLoad, ZkoFile, ZkoParsed,
+    zkLoad,
+    ZkoFormat,
+    ZkoParsed,
     zkParse,
     ZObject
 } from "@zernikalos/zkbuilder"
@@ -60,13 +62,13 @@ export const useZkBuilderStore = defineStore("zkbuilder", () => {
         }) as string
     }
 
-    async function exportAsObject(zkoParsed: ZkoParsed): Promise<ZkoFile> {
+    async function exportAsObject(zkoParsed: ZkoParsed): Promise<ZkoFormat | undefined> {
         if (_.isNil(zkoParsed)) {
-            return ""
+            return
         }
         return await zkExport(zkoParsed, {
             format: "object"
-        })
+        }) as ZkoFormat
     }
 
     function importZko(fileData: Int8Array): ZObject {
