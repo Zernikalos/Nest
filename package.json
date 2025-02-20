@@ -36,5 +36,8 @@
     "lint": "eslint ./engine/**/src/**/*.ts",
     "clean:packages": "pnpm -r exec rimraf node_modules dist",
     "clean": "pnpm clean:packages && rimraf node_modules"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

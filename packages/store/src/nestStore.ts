@@ -6,7 +6,9 @@ import {
     ZkoParsed,
     ZObject,
     ZObjectType,
-    ZkoFile, ProtoZkObject,
+    ZkoFormat,
+    ZkoObjectProto,
+    ZkObjectTypes
 } from "@zernikalos/zkbuilder"
 import {ref} from "vue"
 import {useZkBuilderStore} from "./zkbuilderStore"
@@ -15,7 +17,7 @@ import _ from "lodash"
 export const useNestStore = defineStore("nestStore", () => {
     const root = ref<ZObject>()
     const zkoParsed = ref<ZkoParsed>()
-    const zkoFileObject = ref<ZkoFile>()
+    const zkoFileObject = ref<ZkoFormat>()
     const zkbuilderStore = useZkBuilderStore()
 
     async function parseFile(loadOptions: LoadOptions, parseOptions: ParseOptions = DEFAULT_PARSE_OPTIONS) {
@@ -45,7 +47,7 @@ export const useNestStore = defineStore("nestStore", () => {
         return await zkbuilderStore.exportAsJsonString(zkoParsed.value!)
     }
 
-    function _cleanDataArrays(node: ProtoZkObject) {
+    function _cleanDataArrays(node: ZkoObjectProto) {
         if (node.type === ZObjectType.MODEL.name) {
             const model = node.model!!
             Object.values(model.mesh.rawBuffers).forEach((buff: any) => delete buff.dataArray)
@@ -57,20 +59,20 @@ export const useNestStore = defineStore("nestStore", () => {
         return node
     }
 
-    function _cleanProtoZkObjectForEdit(node: ProtoZkObject) {
+    function _cleanProtoZkObjectForEdit(node: ZkoObjectProto): ZkObjectTypes | undefined {
         switch (node.type) {
             case ZObjectType.MODEL.name:
-                return node.model
+                return node.model ?? undefined
             case ZObjectType.CAMERA.name:
-                return node.camera
+                return node.camera ?? undefined
             case ZObjectType.GROUP.name:
-                return node.group
+                return node.group ?? undefined
             case ZObjectType.SCENE.name:
-                return node.scene
+                return node.scene ?? undefined
             // case ZObjectType.JOINT.name:
             //     return node.joint
-            case ZObjectType.SKELETON.name:
-                return node.skeleton
+            // case ZObjectType.SKELETON.name:
+            //     return node.skeleton ?? undefined
         }
     }
 
@@ -78,12 +80,15 @@ export const useNestStore = defineStore("nestStore", () => {
         if (_.isNil(node)) {
             return
         }
-        let result = await zkbuilderStore.exportAsObject({root: node})
-        result = result.root
+        let exported = await zkbuilderStore.exportAsObject({root: node})
+        if (_.isNil(exported)) {
+            return
+        }
+        let result = exported?.objects[node.id]
         result = _cleanDataArrays(result)
-        result = _cleanProtoZkObjectForEdit(result)
+        const cleaned= _cleanProtoZkObjectForEdit(result)
 
-        return JSON.stringify(result, null, 4)
+        return JSON.stringify(cleaned, null, 4)
     }
 
     async function exportRootAsJsonString(): Promise<string | undefined> {
