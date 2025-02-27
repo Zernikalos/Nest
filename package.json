@@ -37,7 +37,16 @@
     "clean:packages": "pnpm -r exec rimraf node_modules dist",
     "clean": "pnpm clean:packages && rimraf node_modules"
   },
-  "workspaces": [
-    "packages/*"
-  ]
+  "workspaces": {
+    "packages": [
+      "packages/electronapp",
+      "packages/nestserver",
+      "packages/nestui",
+      "packages/store"
+    ],
+    "nohoist": [
+      "**@electron/**",
+      "**@electron-forge/**"
+    ]
+  }
 }

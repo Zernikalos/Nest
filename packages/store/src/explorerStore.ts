@@ -26,7 +26,7 @@ function convertToHierarchy(obj: ZObject) {
     }
     const convertToHierarchyRecursive = (obj: ZObject): ExplorerItem => {
         const res: ExplorerItem = {
-            id: obj.id,
+            id: obj.refId,
             label: obj.name,
             icon: typesIcons[obj.type.name],
             children: []
