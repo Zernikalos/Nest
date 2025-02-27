@@ -15,7 +15,7 @@
             >
                 <TabList
                     class="pt-0.5"
-                    :selected="explorerStore.selected?.id"
+                    :selected="explorerStore.selected?.refId"
                     :tabs="tabs"
                     @select="handleSelectTab"
                 />
@@ -76,8 +76,8 @@ async function handleSelected(nodeId: string) {
     if (_.isNil(explorerStore.selected)) {
         return
     }
-    const {name, id} = explorerStore.selected
-    const tab = {title: name, id}
+    const {name, refId} = explorerStore.selected
+    const tab = {title: name, id: refId}
     tabs.push(tab)
 
     editorText.value = await nestStore.exportObjectAsJsonString(explorerStore.selected)
