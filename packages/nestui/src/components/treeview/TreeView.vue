@@ -17,8 +17,7 @@
 <script setup lang="ts">
 import TreeViewItem from "./TreeViewItem.vue"
 import {computed, watch} from "vue"
-import {TreeNode} from "./TreeViewModel"
-import {TreeNodeView, useTreeViewStore} from "./TreeViewStore"
+import {TreeNode, TreeNodeView, useTreeViewStore} from "./TreeViewStore"
 import {isNil} from "lodash"
 
 const props = defineProps<{

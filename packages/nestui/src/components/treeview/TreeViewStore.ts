@@ -1,6 +1,12 @@
 import {computed, ref, Ref} from "vue"
 import _, {isNil} from "lodash"
-import {TreeNode} from "./TreeViewModel"
+
+export interface TreeNode {
+    id: string
+    label: string;
+    icon?: string;
+    children: TreeNode[]
+}
 
 export interface TreeNodeView extends TreeNode {
     parent: TreeNodeView | null

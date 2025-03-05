@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 
-import {computed, ref} from "vue"
+import {computed, ref, watch} from "vue"
 import {useMouse, useMousePressed} from "@vueuse/core"
 import _ from "lodash"
 
@@ -36,7 +36,7 @@ const props = withDefaults(defineProps<{
 
 const divider = ref(null)
 const gridPanel = ref(null)
-const currentDividerPercentage = ref("10")
+const dividerPosition = ref(10)
 
 const gridClass = computed(() => {
     switch (props.orientation) {
@@ -59,46 +59,23 @@ const dividerClass = computed(() => {
 const { pressed } = useMousePressed({ target: divider })
 const { x, y } = useMouse({target: gridPanel})
 
-const dividerPosition = computed(() => {
+watch([pressed, x, y, gridPanel], () => {
     if (!pressed.value || _.isNil(gridPanel.value)) {
-        return currentDividerPercentage.value
+        return
     }
     const div: HTMLDivElement = gridPanel.value as HTMLDivElement
     const rect = div.getBoundingClientRect()
 
-    if (props.orientation === "horizontal") {
-        computeCurrentDividerPercentageX(rect)
-    }
-    if (props.orientation === "vertical") {
-        computeCurrentDividerPercentageY(rect)
-    }
-    return currentDividerPercentage.value
+    const percentage = props.orientation === "horizontal" ?
+        (x.value - rect.left) / rect.width * 100 :
+        y.value / rect.height * 100
+
+    dividerPosition.value = _.clamp(
+        percentage,
+        props.minmaxPercentage.min!,
+        props.minmaxPercentage.max!
+    )
 })
-
-function setUpCurrentDividerPercentage(percentage: number) {
-    if (percentage <= props.minmaxPercentage.min!) {
-        currentDividerPercentage.value = props.minmaxPercentage.min!.toFixed(2)
-        return
-    }
-
-    if (percentage >= props.minmaxPercentage.max!) {
-        currentDividerPercentage.value = props.minmaxPercentage.max!.toFixed(2)
-        return
-    }
-
-    currentDividerPercentage.value = percentage.toFixed(2)
-}
-
-function computeCurrentDividerPercentageX(rect: DOMRect) {
-    const percentage = (x.value - rect.left) / rect.width * 100
-    setUpCurrentDividerPercentage(percentage)
-}
-
-function computeCurrentDividerPercentageY(rect: DOMRect) {
-    const percentage = y.value / rect.height * 100
-    setUpCurrentDividerPercentage(percentage)
-}
-
 
 </script>
 

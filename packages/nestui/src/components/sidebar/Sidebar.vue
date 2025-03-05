@@ -10,21 +10,21 @@
                     path="/editor"
                     name="Editor"
                     :selected="routeName === 'editor'"
-                    icon="bi-journal-code"
+                    icon="journal-code"
                 />
                 <SidebarItem
                     :id="1"
                     path="/devices"
                     name="Devices"
                     :selected="routeName === 'devices'"
-                    icon="bi-phone"
+                    icon="phone"
                 />
                 <SidebarItem
                     :id="2"
                     path="/exporter"
                     name="Export"
                     :selected="routeName === 'exporter'"
-                    icon="bi-boxes"
+                    icon="boxes"
                 />
             </div>
             <div>

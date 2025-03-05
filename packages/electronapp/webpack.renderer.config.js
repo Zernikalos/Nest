@@ -6,9 +6,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     devtool: 'inline-source-map',
+    output: {
+        path: path.resolve(__dirname, '.webpack/renderer'),
+    },
     resolve: {
         extensions: ['.ts', '.js','.json', '!*.d.ts'],
     },
+    // target: 'electron-renderer',
     mode: 'development',
     plugins: [
         new HtmlWebpackPlugin({
