@@ -1,7 +1,10 @@
 const path = require('path');
 
 module.exports = {
+    outDir: 'dist',
     packagerConfig: {
+        dir: 'dist',
+        out: 'out',
         name: 'ZernikalosNest',
         icon: path.resolve(__dirname, './assets/icons/zklogo.icns'),
         // For testing is better setting this to false
@@ -42,23 +45,40 @@ module.exports = {
     ],
     plugins: [
         {
-            name: '@electron-forge/plugin-webpack',
+            name: '@electron-forge/plugin-vite',
             config: {
-                mainConfig: './webpack.main.config.js',
-                devContentSecurityPolicy: "default-src 'self' 'unsafe-eval' 'unsafe-inline' blob: http://localhost:* ws://localhost:*;",
-                renderer: {
-                    config: './webpack.renderer.config.js',
-                    entryPoints: []
-                    // entryPoints: [{
-                    //     name: 'zernikalos_nest_main_window',
-                    //     html: '../nestui/dist/index.html',
-                    //     js: '../nestui/dist/assets/index.js',
-                    //     preload: {
-                    //         js: './src/preload.ts'
-                    //     }
-                    // }]
-                }
+                build: [
+                    {
+                        entry: './src/preload.ts',
+                        config: 'vite.preload.config.js'
+                    }
+                ],
+                renderer: [
+                    {
+                        name: 'zernikalos_nest_main_window',
+                        config: 'vite.renderer.config.js',
+                    }
+                ]
             }
-        }
+        },
+        // {
+        //     name: '@electron-forge/plugin-webpack',
+        //     config: {
+        //         mainConfig: './webpack.main.config.js',
+        //         devContentSecurityPolicy: "default-src 'self' 'unsafe-eval' 'unsafe-inline' blob: http://localhost:* ws://localhost:*;",
+        //         renderer: {
+        //             config: './webpack.renderer.config.js',
+        //             entryPoints: []
+        //             // entryPoints: [{
+        //             //     name: 'zernikalos_nest_main_window',
+        //             //     html: '../nestui/dist/index.html',
+        //             //     js: '../nestui/dist/assets/index.js',
+        //             //     preload: {
+        //             //         js: './src/preload.ts'
+        //             //     }
+        //             // }]
+        //         }
+        //     }
+        // },
     ]
 };

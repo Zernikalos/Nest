@@ -28,11 +28,13 @@ export class MainWindow {
     }
 
     public async load() {
-        if (Constants.MainScriptPath) {
-            await this.mainWindow.loadURL(Constants.MainScriptPath)
-        } else {
-            await this.mainWindow.loadFile(path.join(__dirname, `renderer/index.html`));
-        }
+        await this.mainWindow.loadFile(path.join(__dirname, '..', `renderer/index.html`));
+
+        // if (Constants.MainScriptPath) {
+        //     await this.mainWindow.loadURL(Constants.MainScriptPath)
+        // } else {
+        //     await this.mainWindow.loadFile(path.join(__dirname, `renderer/index.html`));
+        // }
     }
 
     private sendToRenderer(ev: RendererMenuEvents, payload?: any) {

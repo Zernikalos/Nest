@@ -29,11 +29,13 @@ export class Constants {
     }
 
     public static get PreloadScriptPath(): string {
-        try {
-            return ZERNIKALOS_NEST_MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
-        } catch {
-            return path.join(__dirname, './preload.js')
-        }
+        return path.resolve(__dirname, '..', 'preload/preload.js')
+
+        // try {
+        //     return ZERNIKALOS_NEST_MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
+        // } catch {
+        //     return path.join(__dirname, '..', 'preload/preload.js')
+        // }
     }
 
     public static get MainScriptPath(): string {

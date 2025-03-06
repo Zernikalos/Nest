@@ -9,13 +9,16 @@
   "scripts": {
     "build": "rimraf .webpack && npm run webpack:main",
     "lint": "eslint .",
-    "dev": "START_SERVER=false electron .webpack/main",
+    "dev": "START_SERVER=false electron dist/main/index.js",
+    "dev2": "electron dist/main/index.js",
     "start": "electron-forge start --enable-logging",
     "package": "electron-forge package",
     "package:debug": "DEBUG=electron-packager electron-forge package",
     "make": "electron-forge make --verbose",
-    "make:debug": "DEBUG=electron-packager electron-forge make --verbose --skip-package",
+    "make:debug": "DEBUG=electron-packager electron-forge make --verbose",
     "webpack:main": "webpack -c webpack.main.config.js",
+    "vite:renderer": "vite build -c vite.renderer.config.js",
+    "vite:preload": "vite build -c vite.preload.config.js",
     "webpack:renderer": "webpack -c webpack.renderer.config.js --stats-error-details"
   },
   "dependencies": {

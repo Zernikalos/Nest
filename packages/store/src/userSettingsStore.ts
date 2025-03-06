@@ -1,7 +1,11 @@
 import {defineStore} from "pinia"
 import {computed, ref} from "vue"
 // @ts-ignore
-import daisyUiThemes, {darkThemes, lightThemes} from "../../nestui/daisyUiThemes"
+// import daisyUiThemes, {darkThemes, lightThemes} from "../../nestui/daisyUiThemes"
+
+const lightThemes = ["light", "cupcake", "retro"]
+const darkThemes = ["dark", "sunset"]
+const daisyUiThemes = [...lightThemes, ...darkThemes]
 
 export const useUserSettingsStore = defineStore("UserSettingsStore", () => {
     const availableThemes = daisyUiThemes
