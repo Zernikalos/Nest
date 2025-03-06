@@ -6,12 +6,12 @@ module.exports = {
         icon: path.resolve(__dirname, './assets/icons/zklogo.icns'),
         // For testing is better setting this to false
         asar: false,
-        osxSign: {},
+        //osxSign: {},
         appCategoryType: 'public.app-category.developer-tools',
-        directories: {
-            "buildResources": "assets",
-            "output": "release/${version}"
-        },
+        // directories: {
+        //     "buildResources": "assets",
+        //     "output": "release/${version}"
+        // },
         fileAssociations: [
             {
                 "ext": "zko",
@@ -27,7 +27,7 @@ module.exports = {
             config: {
                 name: 'Zernikalos Nest',
                 icon: './assets/icons/zklogo.icns',
-                overwrite: true
+                //overwrite: true
             }
         },
         {
@@ -36,7 +36,7 @@ module.exports = {
             config: {
                 name: 'Zernikalos Nest',
                 icon: './assets/icons/zklogo.icns',
-                overwrite: true
+                //overwrite: true
             }
         }
     ],
@@ -48,14 +48,15 @@ module.exports = {
                 devContentSecurityPolicy: "default-src 'self' 'unsafe-eval' 'unsafe-inline' blob: http://localhost:* ws://localhost:*;",
                 renderer: {
                     config: './webpack.renderer.config.js',
-                    entryPoints: [{
-                        name: 'zernikalos_nest_main_window',
-                        html: '../nestui/dist/index.html',
-                        js: '../nestui/dist/assets/index.js',
-                        preload: {
-                            js: './src/preload.ts'
-                        }
-                    }]
+                    entryPoints: []
+                    // entryPoints: [{
+                    //     name: 'zernikalos_nest_main_window',
+                    //     html: '../nestui/dist/index.html',
+                    //     js: '../nestui/dist/assets/index.js',
+                    //     preload: {
+                    //         js: './src/preload.ts'
+                    //     }
+                    // }]
                 }
             }
         }

@@ -5,21 +5,24 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     entry: {
-        main: './src/main.ts',
+        index: './src/main.ts',
         nestServer: '@zernikalos/nestserver'
     },
     target: 'electron-main',
     output: {
-        path: path.resolve(__dirname, '.webpack'),
-        filename: '[name]',
+        path: path.resolve(__dirname, '.webpack/main'),
+        filename: '[name].js',
+        library: {
+            type: 'commonjs2'
+        }
     },
-    devtool: 'inline-source-map',
-    externals: [
-    ],
+    // devtool: 'inline-source-map',
+    // externals: [
+    // ],
     resolve: {
         extensions: ['.ts', '.js','.json', '.!*.d.ts'],
         mainFields: ['main', 'module', 'jsnext:main', 'jsnext'],
-        symlinks: true,
+        // symlinks: true,
         modules: [
             path.resolve(__dirname, 'node_modules'),
             'node_modules',
@@ -28,6 +31,22 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                // We're specifying native_modules in the test because the asset relocator loader generates a
+                // "fake" .node file which is really a cjs file.
+                test: /native_modules[/\\].+\.node$/,
+                use: 'node-loader',
+            },
+            {
+                test: /[/\\]node_modules[/\\].+\.(m?js|node)$/,
+                parser: { amd: false },
+                use: {
+                    loader: '@vercel/webpack-asset-relocator-loader',
+                    options: {
+                        outputAssetBase: 'native_modules',
+                    },
+                },
+            },
             {
                 test: /\.ts$/,
                 use: 'ts-loader',
@@ -72,8 +91,8 @@ module.exports = {
             },
         }),
     ],
-    optimization: {
-        minimize: false,
-    },
+    // optimization: {
+    //     minimize: false,
+    // },
     mode: "development",
 };

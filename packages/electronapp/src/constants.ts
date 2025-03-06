@@ -21,7 +21,7 @@ export class Constants {
     }
 
     public static get trayIconPath(): string {
-        return path.join(__dirname, '../assets/icons/zklogo.png')
+        return path.join(__dirname, '../../assets/icons/zklogo.png')
     }
 
     public static get ShouldStartServer(): boolean {
