@@ -5,7 +5,7 @@
   "description": "Electron app for Zernikalos Nest",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
   "license": "GPLv3",
-  "main": ".webpack/main",
+  "main": "./dist/main/index.js",
   "scripts": {
     "build": "rimraf .webpack && npm run webpack:main",
     "lint": "eslint .",
@@ -38,6 +38,7 @@
     "@electron-forge/maker-zip": "7.7.0",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
     "ts-loader": "9.5.2",
+    "vite": "6.2.0",
     "webpack": "5.98.0",
     "babel-loader": "10.0.0",
     "@babel/preset-env": "7.26.9",

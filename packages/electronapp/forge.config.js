@@ -1,20 +1,44 @@
 const path = require('path');
 
 module.exports = {
-    outDir: 'dist',
     packagerConfig: {
-        dir: 'dist',
-        out: 'out',
+        dir: __dirname,
+        // out: 'out',
         name: 'ZernikalosNest',
         icon: path.resolve(__dirname, './assets/icons/zklogo.icns'),
         // For testing is better setting this to false
         asar: false,
         //osxSign: {},
         appCategoryType: 'public.app-category.developer-tools',
-        // directories: {
-        //     "buildResources": "assets",
-        //     "output": "release/${version}"
-        // },
+        directories: {
+            app: path.join(__dirname, 'dist')
+        },
+
+        ignore: (filePath) => {
+            const keepPatterns = [
+                'dist/',
+                'package.json',
+                'node_modules/@nestjs/common',
+                'node_modules/@nestjs/core',
+                'node_modules/@zernikalos/nestserver',
+            ];
+
+            for (const pattern of keepPatterns) {
+                if (filePath.includes(pattern)) {
+                    return false;
+                }
+            }
+
+            if (filePath.includes('node_modules')) {
+                return true;
+            }
+
+            return false; // No ignorar otros archivos del proyecto
+        },
+        extraResource: [
+            path.resolve(__dirname, '../nestserver')
+        ],
+
         fileAssociations: [
             {
                 "ext": "zko",
@@ -44,41 +68,6 @@ module.exports = {
         }
     ],
     plugins: [
-        {
-            name: '@electron-forge/plugin-vite',
-            config: {
-                build: [
-                    {
-                        entry: './src/preload.ts',
-                        config: 'vite.preload.config.js'
-                    }
-                ],
-                renderer: [
-                    {
-                        name: 'zernikalos_nest_main_window',
-                        config: 'vite.renderer.config.js',
-                    }
-                ]
-            }
-        },
-        // {
-        //     name: '@electron-forge/plugin-webpack',
-        //     config: {
-        //         mainConfig: './webpack.main.config.js',
-        //         devContentSecurityPolicy: "default-src 'self' 'unsafe-eval' 'unsafe-inline' blob: http://localhost:* ws://localhost:*;",
-        //         renderer: {
-        //             config: './webpack.renderer.config.js',
-        //             entryPoints: []
-        //             // entryPoints: [{
-        //             //     name: 'zernikalos_nest_main_window',
-        //             //     html: '../nestui/dist/index.html',
-        //             //     js: '../nestui/dist/assets/index.js',
-        //             //     preload: {
-        //             //         js: './src/preload.ts'
-        //             //     }
-        //             // }]
-        //         }
-        //     }
-        // },
+
     ]
 };
