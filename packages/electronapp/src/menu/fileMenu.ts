@@ -1,14 +1,15 @@
-import {BrowserWindow, MenuItem} from "electron"
-import {Constants} from "../constants";
-import {MenuEvents} from "./MenuEvents";
+import {MenuItem} from "electron"
+import {Constants} from "../constants"
+import {MenuEvents} from "./MenuEvents"
+import {ipcMain} from "electron"
 
 export const fileMenu = new MenuItem({
     label: 'File',
     submenu: [
         {
             label: "Load Zko file",
-            click: (menuItem, browserWindow) => {
-                browserWindow?.emit(MenuEvents.LOAD_ZKO, {})
+            click: () => {
+                ipcMain.emit(MenuEvents.LOAD_ZKO)
             }
         },
         {type: "separator"},
@@ -17,26 +18,26 @@ export const fileMenu = new MenuItem({
             submenu: [
                 {
                     label: "Import GlTF (.gltf, .glb)",
-                    click: (menuItem, browserWindow) => {
-                        browserWindow?.emit(MenuEvents.IMPORT_FILE, {format: "gltf"})
+                    click: () => {
+                        ipcMain.emit(MenuEvents.IMPORT_FILE, null, {format: "gltf"})
                     }
                 },
                 {
                     label: "Import OBJ (.obj)",
-                    click: (menuItem, browserWindow) => {
-                        browserWindow?.emit(MenuEvents.IMPORT_FILE, {format: "obj"})
+                    click: () => {
+                        ipcMain.emit(MenuEvents.IMPORT_FILE, null, {format: "obj"})
                     }
                 },
                 {
                     label: "Import FBX (.fbx)",
-                    click: (menuItem, browserWindow) => {
-                        browserWindow?.emit(MenuEvents.IMPORT_FILE, {format: "fbx"})
+                    click: () => {
+                        ipcMain.emit(MenuEvents.IMPORT_FILE, null, {format: "fbx"})
                     }
                 },
                 {
                     label: "Import Collada (.dae)",
-                    click: (menuItem, browserWindow) => {
-                        browserWindow?.emit(MenuEvents.IMPORT_FILE, {format: "collada"})
+                    click: () => {
+                        ipcMain.emit(MenuEvents.IMPORT_FILE, null, {format: "collada"})
                     }
                 }
             ],
@@ -45,4 +46,3 @@ export const fileMenu = new MenuItem({
         Constants.isMac ? { role: 'close' } : { role: 'quit' },
     ]
 })
-

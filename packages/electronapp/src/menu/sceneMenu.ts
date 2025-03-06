@@ -1,4 +1,4 @@
-import {MenuItem} from "electron";
+import {ipcMain, MenuItem} from "electron";
 import {MenuEvents} from "./MenuEvents";
 
 export const sceneMenu = new MenuItem({
@@ -7,7 +7,7 @@ export const sceneMenu = new MenuItem({
         {
             label: 'Bundle Scene',
             click: (menuItem, browserWindow, event) => {
-                browserWindow?.emit(MenuEvents.BUNDLE_SCENE)
+                ipcMain.emit(MenuEvents.BUNDLE_SCENE)
             }
         },
     ]

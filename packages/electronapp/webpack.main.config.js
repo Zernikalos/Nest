@@ -10,8 +10,8 @@ module.exports = {
     },
     target: 'electron-main',
     output: {
-        path: path.resolve(__dirname, '.webpack/main'),
-        filename: '[name].js',
+        path: path.resolve(__dirname, '.webpack'),
+        filename: '[name]',
     },
     devtool: 'inline-source-map',
     externals: [

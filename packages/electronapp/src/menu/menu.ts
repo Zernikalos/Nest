@@ -5,7 +5,6 @@ import {sceneMenu} from "./sceneMenu";
 import {editMenu} from "./editMenu";
 
 const template = [
-    // { role: 'appMenu' }
     ...(Constants.isMac
         ? [{
             label: app.name,
@@ -63,7 +62,7 @@ const template = [
                 label: 'Learn More',
                 click: async () => {
                     const { shell } = require('electron')
-                    await shell.openExternal('https://electronjs.org')
+                    await shell.openExternal('https://zernikalos.dev')
                 }
             }
         ]

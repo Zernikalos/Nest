@@ -41,7 +41,7 @@ const root = props.items.length > 0 ? props.items[0] : undefined
 treeViewStore.convertRootToTreeView(root)
 
 function handleNodeSelect(ev: TreeNodeView) {
-    const treeNode = treeViewStore.findByLabel(ev.label)
+    const treeNode = treeViewStore.findById(ev.id)
     if (isNil(treeNode)) {
         return
     }
