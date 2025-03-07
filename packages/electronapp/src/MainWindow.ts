@@ -28,10 +28,10 @@ export class MainWindow {
     }
 
     public async load() {
-        if (Constants.MainScriptPath) {
-            await this.mainWindow.loadURL(Constants.MainScriptPath)
+        if (Constants.isDebug) {
+            await this.mainWindow.loadURL(Constants.MainWindowPath)
         } else {
-            await this.mainWindow.loadFile(path.join(__dirname, `../dist/renderer/index.html`));
+            await this.mainWindow.loadFile(Constants.MainWindowPath);
         }
     }
 

@@ -5,18 +5,20 @@
   "description": "Electron app for Zernikalos Nest",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
   "license": "GPLv3",
-  "main": ".webpack/main",
+  "main": "./dist/main/index.js",
   "scripts": {
-    "build": "rimraf .webpack && npm run webpack:main",
+    "build": "rimraf dist && pnpm run webpack:main && pnpm vite:preload && pnpm vite:renderer",
+    "clean": "rimraf dist out",
     "lint": "eslint .",
-    "dev": "START_SERVER=false electron .webpack/main",
+    "dev": "DEBUG=true electron dist/main/index.js",
     "start": "electron-forge start --enable-logging",
     "package": "electron-forge package",
     "package:debug": "DEBUG=electron-packager electron-forge package",
     "make": "electron-forge make --verbose",
-    "make:debug": "DEBUG=electron-packager electron-forge make --verbose --skip-package",
+    "make:debug": "DEBUG=electron-packager electron-forge make --verbose",
     "webpack:main": "webpack -c webpack.main.config.js",
-    "webpack:renderer": "webpack -c webpack.renderer.config.js --stats-error-details"
+    "vite:renderer": "vite build -c vite.renderer.config.js",
+    "vite:preload": "vite build -c vite.preload.config.js"
   },
   "dependencies": {
     "@zernikalos/nestserver": "file:../nestserver",
@@ -25,7 +27,6 @@
     "events": "3.3.0"
   },
   "devDependencies": {
-    "concurrently": "9.1.2",
     "electron": "35.0.0",
     "@electron-forge/cli": "7.7.0",
     "@electron-forge/maker-dmg": "7.7.0",
@@ -33,14 +34,9 @@
     "@electron-forge/plugin-vite": "7.7.0",
     "@electron-forge/maker-zip": "7.7.0",
     "ts-loader": "9.5.2",
+    "vite": "6.2.0",
     "webpack": "5.98.0",
     "babel-loader": "10.0.0",
-    "@babel/preset-env": "7.26.9",
-    "copy-webpack-plugin": "13.0.0",
-    "html-webpack-plugin": "5.6.3",
-    "mini-css-extract-plugin": "2.9.2",
-    "css-loader": "7.1.2",
-    "node-abi": "4.1.0",
-    "rfdc": "1.4.1"
+    "@babel/preset-env": "7.26.9"
   }
 }

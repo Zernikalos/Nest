@@ -1,6 +1,7 @@
 import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import daisyUiThemes from "./daisyUiThemes.js";
 
 const languageWorkers = ['editorWorkerService', 'json', 'typescript']
 
@@ -22,6 +23,7 @@ export const nestUiConfig = defineConfig({
     resolve: {
         alias: {
             '@nestui': path.resolve(__dirname, 'src'),
+            'daisyui': path.resolve(__dirname, 'daisyUiThemes.js'),
         }
     }
 })

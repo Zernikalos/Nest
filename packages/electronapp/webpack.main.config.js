@@ -5,13 +5,16 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     entry: {
-        main: './src/main.ts',
+        index: './src/main.ts',
         nestServer: '@zernikalos/nestserver'
     },
     target: 'electron-main',
     output: {
-        path: path.resolve(__dirname, '.webpack'),
-        filename: '[name]',
+        path: path.resolve(__dirname, 'dist/main'),
+        filename: '[name].js',
+        library: {
+            type: 'commonjs2'
+        }
     },
     devtool: 'inline-source-map',
     externals: [
@@ -19,7 +22,7 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.js','.json', '.!*.d.ts'],
         mainFields: ['main', 'module', 'jsnext:main', 'jsnext'],
-        symlinks: true,
+        // symlinks: true,
         modules: [
             path.resolve(__dirname, 'node_modules'),
             'node_modules',
