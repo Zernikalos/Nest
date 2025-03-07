@@ -33,7 +33,7 @@ module.exports = {
                 return true;
             }
 
-            return false; // No ignorar otros archivos del proyecto
+            return false;
         },
         extraResource: [
             path.resolve(__dirname, '../nestserver')

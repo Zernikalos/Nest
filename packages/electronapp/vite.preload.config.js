@@ -18,13 +18,11 @@ export default defineConfig({
         },
         target: 'node14',
         sourcemap: 'inline',
-        // Asegurarse que estos módulos se manejen correctamente
         commonjsOptions: {
             transformMixedEsModules: true
         }
     },
     resolve: {
-        // Asegúrate de que Vite pueda resolver las importaciones
         alias: {
             '@': resolve(__dirname, 'src')
         }
