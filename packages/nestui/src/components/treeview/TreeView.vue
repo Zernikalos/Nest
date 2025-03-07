@@ -17,8 +17,7 @@
 <script setup lang="ts">
 import TreeViewItem from "./TreeViewItem.vue"
 import {computed, watch} from "vue"
-import {TreeNode} from "./TreeViewModel"
-import {TreeNodeView, useTreeViewStore} from "./TreeViewStore"
+import {TreeNode, TreeNodeView, useTreeViewStore} from "./TreeViewStore"
 import {isNil} from "lodash"
 
 const props = defineProps<{
@@ -42,7 +41,7 @@ const root = props.items.length > 0 ? props.items[0] : undefined
 treeViewStore.convertRootToTreeView(root)
 
 function handleNodeSelect(ev: TreeNodeView) {
-    const treeNode = treeViewStore.findByLabel(ev.label)
+    const treeNode = treeViewStore.findById(ev.id)
     if (isNil(treeNode)) {
         return
     }

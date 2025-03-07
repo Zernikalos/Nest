@@ -69,10 +69,10 @@ export const useNestStore = defineStore("nestStore", () => {
                 return node.group ?? undefined
             case ZObjectType.SCENE.name:
                 return node.scene ?? undefined
+            case ZObjectType.SKELETON.name:
+                return node.skeleton ?? undefined
             // case ZObjectType.JOINT.name:
             //     return node.joint
-            // case ZObjectType.SKELETON.name:
-            //     return node.skeleton ?? undefined
         }
     }
 
@@ -84,7 +84,7 @@ export const useNestStore = defineStore("nestStore", () => {
         if (_.isNil(exported)) {
             return
         }
-        let result = exported?.objects[node.refId]
+        let result = exported?.objects.find(o => o.refId === node.refId)
         result = _cleanDataArrays(result)
         const cleaned= _cleanProtoZkObjectForEdit(result)
 

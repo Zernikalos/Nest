@@ -1,6 +1,12 @@
 import {computed, ref, Ref} from "vue"
 import _, {isNil} from "lodash"
-import {TreeNode} from "./TreeViewModel"
+
+export interface TreeNode {
+    id: string
+    label: string;
+    icon?: string;
+    children: TreeNode[]
+}
 
 export interface TreeNodeView extends TreeNode {
     parent: TreeNodeView | null
@@ -15,7 +21,7 @@ export function useTreeViewStore() {
 
     const root: Ref<TreeNodeView | undefined> = ref(undefined)
 
-    const labelMap: Map<string, TreeNodeView> = new Map()
+    const idMap: Map<string, TreeNodeView> = new Map()
     const selected: Ref<TreeNodeView[]> = ref([])
     const treeList: Ref<TreeNodeView[]> = ref([])
 
@@ -33,12 +39,12 @@ export function useTreeViewStore() {
         treeList.value.push(tv)
 
         if (_.isNil(node.children) || _.isEmpty(node.children)) {
-            labelMap.set(tv.label, tv)
+            idMap.set(tv.id, tv)
             return tv
         }
 
         tv.children = node.children.map((child) => innerConvertToTreeView(child, tv))
-        labelMap.set(tv.label, tv)
+        idMap.set(tv.id, tv)
         return tv
     }
 
@@ -50,8 +56,8 @@ export function useTreeViewStore() {
         return root
     }
 
-    function findByLabel(label: string): TreeNodeView | undefined {
-        return labelMap.get(label)
+    function findById(id: string): TreeNodeView | undefined {
+        return idMap.get(id)
     }
 
     function findVisibleNodeIndexById(node: TreeNodeView) {
@@ -127,5 +133,5 @@ export function useTreeViewStore() {
     const openList = computed(() => treeList.value.filter(e => e.isOpen))
     const lastSelected = computed(() => _.last(selected.value))
 
-    return {root, convertRootToTreeView, findByLabel, select, selectNextVisible, selectPrevVisible, open, close, visibleList, openList, treeList, selected, lastSelected}
+    return {root, convertRootToTreeView, findById, select, selectNextVisible, selectPrevVisible, open, close, visibleList, openList, treeList, selected, lastSelected}
 }

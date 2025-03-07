@@ -11,10 +11,9 @@ import {loadZkoDialog} from "./dialogs/loadZkoDialog"
 import _ from "lodash";
 
 export class MainWindow {
-
     private mainWindow: BrowserWindow
-    constructor(width: number, height: number) {
 
+    constructor(width: number, height: number) {
         this.mainWindow = new BrowserWindow({
             icon: Constants.trayIcon,
             width: width,
@@ -29,15 +28,17 @@ export class MainWindow {
     }
 
     public async load() {
-        if (Constants.MainScriptPath) {
-            await this.mainWindow.loadURL(Constants.MainScriptPath)
+        if (Constants.isDebug) {
+            await this.mainWindow.loadURL(Constants.MainWindowPath)
         } else {
-            await this.mainWindow.loadFile(path.join(__dirname, `../dist/renderer/index.html`));
+            await this.mainWindow.loadFile(Constants.MainWindowPath);
         }
     }
 
-    private sendToRenderer(ev: RendererMenuEvents, payload: any = undefined) {
-        this.mainWindow!.webContents.send(ev, payload)
+    private sendToRenderer(ev: RendererMenuEvents, payload?: any) {
+        if (!this.mainWindow.isDestroyed()) {
+            this.mainWindow.webContents.send(ev, payload)
+        }
     }
 
     private subscribeToEvents() {
@@ -46,8 +47,7 @@ export class MainWindow {
             getStore().set('windowSize', {width, heigt})
         })
 
-        // @ts-ignore
-        this.mainWindow.on(MenuEvents.LOAD_ZKO, async () => {
+        ipcMain.on(MenuEvents.LOAD_ZKO, async () => {
             const pathInfo = await loadZkoDialog(this.mainWindow)
 
             if (_.isNil(pathInfo)) {
@@ -59,22 +59,19 @@ export class MainWindow {
             })
         })
 
-        // @ts-ignore
-        this.mainWindow.on(MenuEvents.IMPORT_FILE, async (ev: { format: string }) => {
-            // @ts-ignore
-            const pathInfo = await importFileDialog(this.mainWindow, ev.format)
+        ipcMain.on(MenuEvents.IMPORT_FILE, async (event, data: { format: "gltf" | "obj" | "fbx" }) => {
+            const pathInfo = await importFileDialog(this.mainWindow, data.format)
             if (_.isNil(pathInfo)) {
                 return
             }
             this.sendToRenderer(RendererMenuEvents.IMPORT_FILE, {
                 path: pathInfo.parsedPath.dir,
                 fileName: pathInfo.parsedPath.base,
-                format: ev.format
+                format: data.format
             })
         })
 
-        // @ts-ignore
-        this.mainWindow!.on(MenuEvents.BUNDLE_SCENE, async () => {
+        ipcMain.on(MenuEvents.BUNDLE_SCENE, async () => {
             const pathInfo = await bundleSceneDialog(this.mainWindow)
             if (_.isNil(pathInfo)) {
                 return;
@@ -101,7 +98,5 @@ export class MainWindow {
         ipcMain.handle("userSettings:set", (event, key, value) => {
             getStore().set(key, value)
         })
-
     }
-
 }

@@ -8,13 +8,14 @@
             :class="`sidebar-item`"
             :to="props.path"
         >
-            <i :class="`bi ${props.icon}`" />
+            <Icon :icon="props.icon" />
         </RouterLink>
     </li>
 </template>
 
 <script setup lang="ts">
     import {defineEmits} from "vue"
+    import Icon from "@nestui/components/Icon.vue";
 
     const emit = defineEmits(["item-selected"])
 

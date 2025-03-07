@@ -1,5 +1,5 @@
 <template>
-    <li class="item">
+    <li class="item rounded-l rounded-r">
         <div
             ref="viewitem"
             draggable="true"
@@ -15,8 +15,8 @@
             @keydown.left="onKeyLeft"
         >
             <ChevIcon
-                :is-open="isOpen"
-                :has-children="hasChildren"
+                :direction="isOpen ? 'down' : 'right'"
+                :visible="hasChildren"
             />
             <span
                 v-if="props.icon"
@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import {computed, ref, watch, Ref} from "vue"
-import ChevIcon from "./ChevIcon.vue"
+import ChevIcon from "@nestui/components/ChevIcon.vue"
 import {TreeNodeView} from "./TreeViewStore"
 
 const props = defineProps<TreeNodeView>()
@@ -146,7 +146,7 @@ function forwardUpEvent(event: string, treeView: TreeNodeView) {
     @apply cursor-default select-none
 }
 .selected {
-    @apply inline-block bg-primary text-primary-content
+    @apply bg-primary text-primary-content
 }
 
 </style>

@@ -79,7 +79,6 @@ class ZernikalosNest {
 
     }
 }
-
 const zernikalosNest = new ZernikalosNest()
 zernikalosNest.initialize()
 
