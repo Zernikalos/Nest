@@ -6,17 +6,13 @@
         @click="emit('select')"
     >
         {{ props.title }}
-        <button
-            class="close-btn"
-            @click="emit('close')"
-        >
-            <span class="bi-x" />
-        </button>
+        <CloseButton class="close-btn" @click="emit('close')" />
     </div>
 </template>
 
 <script setup lang="ts">
 import {TabModel} from "./TabModel"
+import CloseButton from "@nestui/components/CloseButton.vue"
 
 const props = withDefaults(defineProps<TabModel>(), {
     isActive: false
@@ -36,11 +32,11 @@ const emit = defineEmits(["close", "select"])
 }
 
 .close-btn {
-    @apply badge badge-neutral badge-sm pl-0 pr-0 ml-1 invisible
+    @apply invisible
 }
 
 .close-btn:hover {
-    @apply bg-base-300 border-base-300
+    @apply visible
 }
 
 .active {
