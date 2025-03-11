@@ -33,7 +33,7 @@
                     name="Settings"
                     path="/settings"
                     :selected="routeName === 'settings'"
-                    icon="bi-gear"
+                    icon="gear"
                 />
             </div>
         </div>

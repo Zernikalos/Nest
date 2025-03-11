@@ -1,7 +1,7 @@
 <template>
     <div class="flex mx-auto">
         <FormVector
-            v-model="data.location"
+            v-model="data.position"
             vec3
             label="Location"
         />

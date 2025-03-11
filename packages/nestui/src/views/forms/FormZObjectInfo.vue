@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col">
         <Input
-            v-model="data.id"
+            v-model="data.refId"
             label="ID"
             disabled
         />
