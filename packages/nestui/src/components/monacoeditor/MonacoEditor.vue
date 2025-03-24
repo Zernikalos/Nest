@@ -89,6 +89,7 @@ function toMonacoLanguage(language: string) {
 </script>
 
 <style scoped>
+@reference "@nestui/assets/main.css";
 
 .editor {
     @apply h-full w-full;

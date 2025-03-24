@@ -89,6 +89,8 @@ function handleEditorUpdate(newTextData: string) {
 </script>
 
 <style scoped>
+@reference "@nestui/assets/main.css";
+
 .panel1 {
     @apply overflow-x-auto overflow-y-auto h-full
 }

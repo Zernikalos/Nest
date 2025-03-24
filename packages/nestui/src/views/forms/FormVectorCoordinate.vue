@@ -28,6 +28,8 @@ const data = useVModel(props, "modelValue", emit)
 </script>
 
 <style scoped>
+@reference "@nestui/assets/main.css";
+
 .text-style {
     @apply font-mono text-sm p-2 items-center text-center text-base-content;
 }

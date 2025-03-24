@@ -1,14 +1,14 @@
 import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import daisyUiThemes from "./daisyUiThemes.js";
+import tailwindcss from '@tailwindcss/vite'
 
 const languageWorkers = ['editorWorkerService', 'json', 'typescript']
 
 // https://vitejs.dev/config/
 export const nestUiConfig = defineConfig({
     root: __dirname,
-    plugins: [vue()],
+    plugins: [vue(), tailwindcss()],
     build: {
         //outDir: path.join(__dirname, '..', 'electronapp', 'dist', 'renderer'),
         outDir: path.join(__dirname, 'dist'),
@@ -23,7 +23,6 @@ export const nestUiConfig = defineConfig({
     resolve: {
         alias: {
             '@nestui': path.resolve(__dirname, 'src'),
-            'daisyui': path.resolve(__dirname, 'daisyUiThemes.js'),
         }
     }
 })

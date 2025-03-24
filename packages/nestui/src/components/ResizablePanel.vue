@@ -80,6 +80,7 @@ watch([pressed, x, y, gridPanel], () => {
 </script>
 
 <style scoped>
+@reference "@nestui/assets/main.css";
 
 .grid-panel {
     @apply grid gap-0

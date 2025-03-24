@@ -22,7 +22,9 @@ import Sidebar from "@nestui/components/sidebar/Sidebar.vue"
 
 </script>
 
-<style scoped lang="postcss">
+<style scoped>
+@reference "@nestui/assets/main.css";
+
 .grid-layout {
     /*@apply grid grid-rows-[48px_minmax(0,1fr)];*/
     @apply grid;

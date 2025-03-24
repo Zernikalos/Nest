@@ -74,5 +74,6 @@ watch(treeViewStore.lastSelected, () => {
 </script>
 
 <style scoped>
+@reference "@nestui/assets/main.css";
 
 </style>
