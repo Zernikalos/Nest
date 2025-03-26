@@ -29,7 +29,7 @@
 import {onMounted, ref} from "vue"
 
 import MonacoEditor from "@nestui/components/monacoeditor/MonacoEditor.vue"
-import Toggle from "@nestui/components/toggle/Toggle.vue"
+import Toggle from "@nestui/components/Toggle.vue"
 
 import {useNestStore, useNestApiStore} from "@zernikalos/store"
 import Button from "@nestui/components/Button.vue"

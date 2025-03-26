@@ -17,7 +17,7 @@
     "make": "electron-forge make --verbose",
     "make:debug": "DEBUG=electron-packager electron-forge make --verbose",
     "webpack:main": "webpack -c webpack.main.config.js",
-    "vite:renderer": "vite build -c vite.renderer.config.js",
+    "vite:renderer": "vite build -c vite.renderer.config.mjs",
     "vite:preload": "vite build -c vite.preload.config.js"
   },
   "dependencies": {
