@@ -17,7 +17,7 @@
     "make": "electron-forge make --verbose",
     "make:debug": "DEBUG=electron-packager electron-forge make --verbose",
     "webpack:main": "webpack -c webpack.main.config.js",
-    "vite:renderer": "vite build -c vite.renderer.config.js",
+    "vite:renderer": "vite build -c vite.renderer.config.mjs",
     "vite:preload": "vite build -c vite.preload.config.js"
   },
   "dependencies": {
@@ -27,14 +27,14 @@
     "events": "3.3.0"
   },
   "devDependencies": {
-    "electron": "35.0.1",
+    "electron": "35.0.3",
     "@electron-forge/cli": "7.7.0",
     "@electron-forge/maker-dmg": "7.7.0",
     "@electron-forge/plugin-webpack": "7.7.0",
     "@electron-forge/plugin-vite": "7.7.0",
     "@electron-forge/maker-zip": "7.7.0",
     "ts-loader": "9.5.2",
-    "vite": "6.2.1",
+    "vite": "6.2.2",
     "webpack": "5.98.0",
     "babel-loader": "10.0.0",
     "@babel/preset-env": "7.26.9"

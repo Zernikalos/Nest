@@ -63,6 +63,8 @@ watch(toggleValue, (newValue) => {
 </script>
 
 <style scoped>
+@reference "@nestui/assets/main.css";
+
 .toggle-wrapper {
     @apply flex items-center justify-center w-full
 }

@@ -4,6 +4,7 @@
         class="tab tab-component"
         :class="{'active': props.isActive}"
         @click="emit('select')"
+        :aria-selected="props.isActive.toString()"
     >
         {{ props.title }}
         <CloseButton class="close-btn" @click="emit('close')" />
@@ -22,13 +23,16 @@ const emit = defineEmits(["close", "select"])
 
 </script>
 
-<style scoped lang="postcss">
+<style scoped>
+@reference "@nestui/assets/main.css";
+
 .tab-component {
-    @apply whitespace-nowrap inline-block
+    @apply whitespace-nowrap inline-block;
+    height: calc(var(--size-field, 0.25rem)* 8);
 }
 
 .tab-component:hover .close-btn {
-    @apply visible
+    @apply visible;
 }
 
 .close-btn {
@@ -40,11 +44,11 @@ const emit = defineEmits(["close", "select"])
 }
 
 .active {
-    @apply tab-active [--tab-border-color:oklch(var(--n))] [--tab-bg:oklch(var(--b3))]
+    @apply [--tab-bg:var(--color-base-300)] [--tab-border-colors:var(--color-neutral)];
 }
 
 .active::before {
-    @apply w-0 !important
+    @apply w-0!;
 }
 
 </style>

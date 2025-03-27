@@ -34,7 +34,9 @@ const data = useVModel(props, "modelValue", emit)
 </script>
 
 <style scoped>
+@reference "@nestui/assets/main.css";
+
 .selector {
-    @apply select select-bordered rounded
+    @apply select rounded
 }
 </style>

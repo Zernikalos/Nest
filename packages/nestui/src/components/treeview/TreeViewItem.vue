@@ -64,8 +64,8 @@ const hasChildren = computed(() => {
     return childCount ? childCount > 0 : false
 })
 
-watch(() => props.isSelected, (newValue) => {
-    if (newValue) {
+watch(() => props.isSelected, (newIsSelected) => {
+    if (newIsSelected) {
         viewitem.value?.focus()
     }
 })
@@ -136,6 +136,8 @@ function forwardUpEvent(event: string, treeView: TreeNodeView) {
 </script>
 
 <style scoped>
+@reference "@nestui/assets/main.css";
+
 .item-text {
     @apply font-mono select-none whitespace-nowrap
 }

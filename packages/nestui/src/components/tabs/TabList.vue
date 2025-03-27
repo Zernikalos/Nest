@@ -2,7 +2,7 @@
     <div class="flex overflow-x-auto w-full">
         <div
             role="tablist"
-            class="tabs tabs-lifted"
+            class="tabs tabs-lift"
         >
             <Tab
                 v-for="tab in tabStore.tabList.value"
@@ -30,19 +30,20 @@ const props = defineProps<{
     selected?: string | number
 }>()
 const emit = defineEmits(["update:tabs", "select"])
-const data = useVModel(props, "tabs", emit)
+const openTabs = useVModel(props, "tabs", emit)
 
-watch(() => props.tabs.length, () => {
-    tabStore.addTabs(props.tabs)
-})
+watch(() => props.tabs, (newTabs) => {
+    const tabsToAdd = newTabs
+        .filter(tab => !tabStore.hasTab(tab.id))
+    tabStore.addTabs(tabsToAdd)
+}, {deep: true})
 
 watch(() => props.selected, (newValue) => {
     tabStore.selectTabById(newValue)
 })
 
-watch(tabStore.tabList, (newValue) => {
-    data.value.splice(0)
-    data.value.push(...newValue)
+watch(tabStore.tabList, (currentTabs) => {
+    openTabs.value = [...currentTabs]
 })
 
 tabStore.addTabs(props.tabs)
@@ -58,6 +59,6 @@ function handleSelectTab(tab: TabModel) {
 
 </script>
 
-<style scoped lang="postcss">
+<style scoped>
 
 </style>

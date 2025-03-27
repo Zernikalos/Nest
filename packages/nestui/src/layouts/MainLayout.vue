@@ -23,6 +23,8 @@ import Sidebar from "@nestui/components/sidebar/Sidebar.vue"
 </script>
 
 <style scoped>
+@reference "@nestui/assets/main.css";
+
 .wrapper {
     width: calc(theme(width.full) - theme(width.14));
 }

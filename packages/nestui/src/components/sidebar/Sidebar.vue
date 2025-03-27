@@ -52,7 +52,9 @@ const routeName = computed(() => router.name)
 
 </script>
 
-<style scoped lang="postcss">
+<style scoped>
+@reference "@nestui/assets/main.css";
+
 .sidebar {
     @apply shadow-md pl-0 px-1 bg-base-300 max-w-[56px] max-h-screen h-screen
 }
