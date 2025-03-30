@@ -4,5 +4,4 @@ packages:
   - 'packages/nestui'
   - 'packages/store'
 
-hoist-pattern:
-  - '!*electron*'
+
