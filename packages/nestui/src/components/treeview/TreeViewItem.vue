@@ -5,7 +5,7 @@
             draggable="true"
             class="item-text px-2 rounded-l rounded-r"
             :style="{'padding-left': `${props.level * 1.25}rem`}"
-            :class="{'selected': props.isSelected}"
+            :class="{'selected': isSelected}"
             :tabindex="-1"
             @dblclick="onDbClick"
             @click="onClick"
@@ -33,29 +33,19 @@
                 v-show="isOpen"
                 :key="index"
                 v-bind="child"
-                @node:select="(e) => forwardUpEvent('select', e)"
-                @node:open="(e) => forwardUpEvent('open', e)"
-                @node:close="(e) => forwardUpEvent('close', e)"
-                @node:select-prev="(e) => forwardUpEvent('select-prev', e)"
-                @node:select-next="(e) => forwardUpEvent('select-next', e)"
             />
         </ul>
     </li>
 </template>
 
 <script setup lang="ts">
-import {computed, ref, watch, Ref} from "vue"
+import {computed, ref, Ref} from "vue"
 import ChevIcon from "@nestui/components/ChevIcon.vue"
-import {TreeNodeView} from "./TreeViewStore"
+import {TreeNodeView, useTreeViewStore} from "./TreeViewStore"
+
+const treeViewStore = useTreeViewStore()
 
 const props = defineProps<TreeNodeView>()
-const emit = defineEmits<{
-    "node:select": [value: TreeNodeView],
-    "node:open": [value: TreeNodeView],
-    "node:close": [value: TreeNodeView],
-    "node:select-prev": [value: TreeNodeView],
-    "node:select-next": [value: TreeNodeView]
-}>()
 const isOpen = ref(false)
 const viewitem: Ref<HTMLDivElement | null> = ref(null)
 
@@ -64,14 +54,16 @@ const hasChildren = computed(() => {
     return childCount ? childCount > 0 : false
 })
 
-watch(() => props.isSelected, (newIsSelected) => {
-    if (newIsSelected) {
+const isSelected = computed(() => {
+    const result = props.isSelected
+    if (result) {
         viewitem.value?.focus()
     }
+    return result
 })
 
 function onClick() {
-    emit("node:select", props)
+    treeViewStore.select(props)
 }
 
 function onDbClick() {
@@ -79,11 +71,11 @@ function onDbClick() {
 }
 
 function onKeyDown() {
-    emit("node:select-next", props)
+    treeViewStore.selectNextVisible(props)
 }
 
 function onKeyUp() {
-    emit("node:select-prev", props)
+    treeViewStore.selectPrevVisible(props)
 }
 
 function onKeyRight() {
@@ -105,32 +97,12 @@ function toggle() {
 
 function openNode() {
     isOpen.value = true
-    emit("node:open", props)
+    treeViewStore.open(props)
 }
 
 function closeNode() {
     isOpen.value = false
-    emit("node:close", props)
-}
-
-function forwardUpEvent(event: string, treeView: TreeNodeView) {
-    switch (event) {
-        case "select":
-            emit("node:select", treeView)
-            break
-        case "open":
-            emit("node:open", treeView)
-            break
-        case "close":
-            emit("node:close", treeView)
-            break
-        case "select-next":
-            emit("node:select-next", treeView)
-            break
-        case "select-prev":
-            emit("node:select-prev", treeView)
-            break
-    }
+    treeViewStore.close(props)
 }
 
 </script>
