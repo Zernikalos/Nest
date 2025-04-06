@@ -1,20 +1,25 @@
 import {computed, Ref, ref} from "vue"
-import {TabModel} from "./TabModel"
 import _ from "lodash"
+import {defineStore} from "pinia"
 
-export function useTabStore() {
+export interface TabModel {
+    title: string
+    id: string
+    isActive?: boolean
+}
 
-    const tabSet: Ref<Map<string|number, TabModel>> = ref(new Map())
+export const useTabStore = defineStore('tabStore', () => {
 
-    const tabList = computed(() => [...tabSet.value.values()])
+    const tabList: Ref<TabModel[]> = ref([])
+    const tabMap: Ref<Map<string|number, TabModel>> = computed(() => new Map(tabList.value.map(t => [t.id, t])))
 
     function addTab(tab: TabModel) {
-        if (tabSet.value.has(tab.id)) {
+        if (tabMap.value.has(tab.id)) {
             selectTab(tab)
             return
         }
-        tabSet.value.set(tab.id, tab)
-        if (tabSet.value.size === 1) {
+        tabList.value.push(tab)
+        if (tabList.value.length === 1) {
             selectTab(tab)
         }
     }
@@ -24,14 +29,14 @@ export function useTabStore() {
     }
 
     function removeTab(tab: TabModel) {
-        tabSet.value.delete(tab.id)
+        tabList.value = tabList.value.filter(t => t.id !== tab.id)
         if (tab.isActive && tabList.value.length > 0) {
             selectTab(tabList.value[tabList.value.length - 1])
         }
     }
 
     function selectTabById(tabId: string | number) {
-        const selectedTab = tabSet.value.get(tabId)
+        const selectedTab = tabMap.value.get(tabId)
         if (_.isNil(selectedTab)) {
             return
         }
@@ -41,7 +46,7 @@ export function useTabStore() {
     }
 
     function hasTab(tabId: string | number): boolean {
-        return tabSet.value.has(tabId)
+        return tabMap.value.has(tabId)
     }
 
     function selectTab(tab: TabModel) {
@@ -49,7 +54,7 @@ export function useTabStore() {
     }
 
     return {
-        tabSet,
+        tabMap,
         tabList,
         hasTab,
         addTabs,
@@ -57,4 +62,4 @@ export function useTabStore() {
         selectTab,
         selectTabById
     }
-}
+})

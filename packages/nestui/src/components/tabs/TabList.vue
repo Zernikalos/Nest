@@ -5,7 +5,7 @@
             class="tabs tabs-lift"
         >
             <Tab
-                v-for="tab in tabStore.tabList.value"
+                v-for="tab in tabStore.tabList"
                 :key="tab.id"
                 v-bind="tab"
                 @close="handleCloseTab(tab)"
@@ -18,9 +18,8 @@
 
 <script setup lang="ts">
 import Tab from "@nestui/components/tabs/Tab.vue"
-import {TabModel} from "./TabModel"
 import {useVModel} from "@vueuse/core"
-import {useTabStore} from "@nestui/components/tabs/TabStore"
+import {TabModel, useTabStore} from "@nestui/components/tabs/TabStore"
 import {watch} from "vue"
 
 const tabStore = useTabStore()
