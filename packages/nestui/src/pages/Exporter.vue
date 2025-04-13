@@ -31,7 +31,7 @@ import {onMounted, ref} from "vue"
 import MonacoEditor from "@nestui/components/monacoeditor/MonacoEditor.vue"
 import Toggle from "@nestui/components/Toggle.vue"
 
-import {useNestStore, useNestApiStore} from "@zernikalos/store"
+import {useNestStore, useNestApiStore} from "@nestui/store"
 import Button from "@nestui/components/Button.vue"
 
 const editorText = ref()

@@ -84,7 +84,7 @@ export const useNestStore = defineStore("nestStore", () => {
         if (_.isNil(exported)) {
             return
         }
-        let result = exported?.objects.find(o => o.refId === node.refId)
+        let result = exported?.objects.find((o: any) => o.refId === node.refId)
         result = _cleanDataArrays(result)
         const cleaned= _cleanProtoZkObjectForEdit(result)
 

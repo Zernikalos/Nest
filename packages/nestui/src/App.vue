@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import {useNativeNest, useNestApiStore, useUserSettingsStore} from "@zernikalos/store"
+import {useNativeNest, useNestApiStore, useUserSettingsStore} from "@nestui/store"
 import GridLayout from "@nestui/layouts/GridLayout.vue"
 
 useNativeNest()

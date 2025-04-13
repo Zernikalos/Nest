@@ -1,5 +1,6 @@
 import {computed, ref, Ref} from "vue"
 import _, {isNil} from "lodash"
+import {defineStore} from "pinia"
 
 export interface TreeNode {
     id: string
@@ -17,7 +18,7 @@ export interface TreeNodeView extends TreeNode {
     level: number
 }
 
-export function useTreeViewStore() {
+export const useTreeViewStore = defineStore("treeViewStore", () => {
 
     const root: Ref<TreeNodeView | undefined> = ref(undefined)
 
@@ -25,11 +26,13 @@ export function useTreeViewStore() {
     const selected: Ref<TreeNodeView[]> = ref([])
     const treeList: Ref<TreeNodeView[]> = ref([])
 
+    const selectedIds = computed(() => selected.value.map(e => e.id))
+
     function innerConvertToTreeView(node: TreeNode, parent: TreeNodeView | null): TreeNodeView {
         const tv: TreeNodeView = {
             ...node,
             visible: isNil(parent),
-            isSelected: false,
+            get isSelected() { return isSelected(this.id) },
             isOpen: false,
             children: [],
             parent,
@@ -72,10 +75,13 @@ export function useTreeViewStore() {
         if (_.isNil(selectedNode)) {
             return
         }
-        selected.value.forEach((s) => s.isSelected = false)
+        // TODO: Add multiple selection support
         selected.value.splice(0)
-        selectedNode.isSelected = true
         selected.value.push(selectedNode)
+    }
+
+    function isSelected(nodeId: string) {
+        return selectedIds.value.includes(nodeId)
     }
 
     function selectPrevVisible(node: TreeNodeView) {
@@ -133,5 +139,5 @@ export function useTreeViewStore() {
     const openList = computed(() => treeList.value.filter(e => e.isOpen))
     const lastSelected = computed(() => _.last(selected.value))
 
-    return {root, convertRootToTreeView, findById, select, selectNextVisible, selectPrevVisible, open, close, visibleList, openList, treeList, selected, lastSelected}
-}
+    return {root, convertRootToTreeView, findById, select, isSelected, selectNextVisible, selectPrevVisible, open, close, visibleList, openList, treeList, selected, lastSelected}
+})

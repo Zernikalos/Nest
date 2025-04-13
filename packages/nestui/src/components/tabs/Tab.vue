@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import {TabModel} from "./TabModel"
+import {TabModel} from "./TabStore"
 import CloseButton from "@nestui/components/CloseButton.vue"
 
 const props = withDefaults(defineProps<TabModel>(), {
