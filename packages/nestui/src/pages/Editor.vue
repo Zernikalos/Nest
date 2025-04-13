@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import {useExplorerStore} from "@zernikalos/store"
+import {useExplorerStore} from "@nestui/store"
 import NewProject from "@nestui/views/NewProject.vue"
 import EditorView from "@nestui/views/EditorView.vue"
 import {storeToRefs} from "pinia"

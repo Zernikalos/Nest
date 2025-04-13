@@ -43,8 +43,7 @@
     "packages": [
       "packages/electronapp",
       "packages/nestserver",
-      "packages/nestui",
-      "packages/store"
+      "packages/nestui"
     ],
     "nohoist": [
       "**@electron/**",

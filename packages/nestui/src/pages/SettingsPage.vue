@@ -18,7 +18,7 @@
 <script setup lang="ts">
 
 import Select from "@nestui/components/Select.vue"
-import {useUserSettingsStore} from "@zernikalos/store"
+import {useUserSettingsStore} from "@nestui/store"
 
 const userSettingsStore = useUserSettingsStore()
 

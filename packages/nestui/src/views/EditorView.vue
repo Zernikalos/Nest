@@ -49,7 +49,7 @@ import EditorViewSelector from "@nestui/views/EditorViewSelector.vue"
 import {computed, reactive, ref} from "vue"
 import {TabModel} from "@nestui/components/tabs/TabModel"
 import {TreeNode} from "@nestui/components/treeview/TreeViewModel"
-import {useNestStore, useExplorerStore, useUserSettingsStore} from "@zernikalos/store"
+import {useNestStore, useExplorerStore, useUserSettingsStore} from "@nestui/store"
 import _ from "lodash"
 
 const nestStore = useNestStore()

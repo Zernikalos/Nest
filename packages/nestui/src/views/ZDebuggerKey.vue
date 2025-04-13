@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import {onMounted, ref} from "vue"
-import {useNestApiStore} from "@zernikalos/store"
+import {useNestApiStore} from "@nestui/store"
 import {useElementHover} from "@vueuse/core"
 
 const nestApiStore = useNestApiStore()

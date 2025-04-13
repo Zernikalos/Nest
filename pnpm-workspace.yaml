@@ -2,7 +2,6 @@ packages:
   - 'packages/electronapp'
   - 'packages/nestserver'
   - 'packages/nestui'
-  - 'packages/store'
 
 hoist-pattern:
   - '!*electron*'
