@@ -49,10 +49,10 @@ export const useNestStore = defineStore("nestStore", () => {
 
     function _cleanDataArrays(node: ZkoObjectProto) {
         if (node.type === ZObjectType.MODEL.name) {
-            const model = node.model!!
+            const model = node.model
             Object.values(model.mesh.rawBuffers).forEach((buff: any) => delete buff.dataArray)
             const texture = model?.material?.data?.texture
-            if (!_.isNil(texture)) {
+            if (!_.isNil(texture) && !texture.isReference) {
                 delete texture.data.dataArray
             }
         }
@@ -80,7 +80,7 @@ export const useNestStore = defineStore("nestStore", () => {
         if (_.isNil(node)) {
             return
         }
-        let exported = await zkbuilderStore.exportAsObject({root: node})
+        const exported = await zkbuilderStore.exportAsObject({root: node})
         if (_.isNil(exported)) {
             return
         }
