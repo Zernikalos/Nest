@@ -55,13 +55,11 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits(['click']);
 
-// --- DaisyUI classes computed from props ---
 const btnSize = computed(() => ({
   'btn-md': props.size === 'md',
   'btn-xs': props.size === 'xs',
   'btn-sm': props.size === 'sm',
   'btn-lg': props.size === 'lg',
-  // 'btn-md' is the default, no class needed
 }));
 
 const btnVariant = computed(() => ({
@@ -72,8 +70,6 @@ const btnVariant = computed(() => ({
 }));
 
 const btnColor = computed(() => {
-  // For solid buttons, the color class is all that's needed.
-  // For other variants, DaisyUI combines classes, e.g., `btn-outline btn-primary`.
   return `btn-${props.color}`;
 });
 

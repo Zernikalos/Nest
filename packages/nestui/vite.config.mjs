@@ -8,7 +8,17 @@ const languageWorkers = ['editorWorkerService', 'json', 'typescript']
 // https://vitejs.dev/config/
 export const nestUiConfig = defineConfig({
     root: __dirname,
-    plugins: [vue(), tailwindcss()],
+    plugins: [
+        vue(),
+        tailwindcss({
+            config: {
+                content: [
+                    './index.html',
+                    './src/**/*.{vue,js,ts,jsx,tsx}'
+                ]
+            }
+        })
+    ],
     build: {
         //outDir: path.join(__dirname, '..', 'electronapp', 'dist', 'renderer'),
         outDir: path.join(__dirname, 'dist'),

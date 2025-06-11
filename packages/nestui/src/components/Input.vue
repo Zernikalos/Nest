@@ -42,7 +42,6 @@ const props = withDefaults(defineProps<{
   disabled: false,
   type: 'text',
   size: 'md',
-  // No default color, to use DaisyUI's default input color
   bordered: true,
   helperText: "",
   error: false,
@@ -72,8 +71,17 @@ const inputBorder = computed(() => {
 <style scoped>
 @reference "@nestui/assets/main.css";
 
-/*
-  All input styles are primarily handled by DaisyUI component classes.
-  The classes are dynamically applied in the <script setup> section based on props.
-*/
+.input-xs {
+    @apply input-xs;
+}
+.input-sm {
+    @apply input-sm;
+}
+.input-md {
+    @apply input-md;
+}
+.input-lg {
+    @apply input-lg;
+}
+
 </style>
