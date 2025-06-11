@@ -1,6 +1,6 @@
 <template>
     <div class="flex h-full justify-center items-center">
-        <Button color="info">
+        <Button variant="solid" color="info">
             New Project
         </Button>
     </div>
