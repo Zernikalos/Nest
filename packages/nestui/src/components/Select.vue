@@ -11,9 +11,9 @@
             <option
                 v-for="(option, index) in props.options"
                 :key="index"
-                :value="option"
+                :value="typeof option === 'string' ? option : option.value"
             >
-                {{ option }}
+                {{ typeof option === 'string' ? option : option.name }}
             </option>
         </select>
     </label>
@@ -26,7 +26,7 @@ import {computed} from "vue"
 
 const props = defineProps<{
     label?: string,
-    options: string[],
+    options: Array<{ name: string, value: string } | string>,
     modelValue: string,
     size?: "xs" | "sm" | "md" | "lg"
 }>()
