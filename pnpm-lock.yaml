@@ -2321,8 +2321,9 @@ packages:
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
 
-  '@zernikalos/zernikalos@0.0.4':
-    resolution: {integrity: sha1-HZE+J633+5+EHjqr+7UVsX4jbHM=, tarball: https://gitlab.com/api/v4/projects/67293086/packages/npm/@zernikalos/zernikalos/-/@zernikalos/zernikalos-0.0.4.tgz}
+  '@zernikalos/zernikalos@file:../Zernikalos/build/js/packages/@zernikalos/zernikalos':
+    resolution: {directory: ../Zernikalos/build/js/packages/@zernikalos/zernikalos, type: directory}
+    bundledDependencies: []
 
   '@zernikalos/zkbuilder@file:../ZKBuilder/packages/zkbuilder':
     resolution: {directory: ../ZKBuilder/packages/zkbuilder, type: directory}
@@ -8945,14 +8946,14 @@ snapshots:
 
   '@xtuc/long@4.2.2': {}
 
-  '@zernikalos/zernikalos@0.0.4':
+  '@zernikalos/zernikalos@file:../Zernikalos/build/js/packages/@zernikalos/zernikalos':
     dependencies:
       ua-parser-js: 1.0.37
 
   '@zernikalos/zkbuilder@file:../ZKBuilder/packages/zkbuilder':
     dependencies:
       '@xmldom/xmldom': 0.9.8
-      '@zernikalos/zernikalos': 0.0.4
+      '@zernikalos/zernikalos': file:../Zernikalos/build/js/packages/@zernikalos/zernikalos
       get-own-enumerable-property-symbols: 3.0.2
       is-obj: 3.0.0
       is-regexp: 3.1.0
