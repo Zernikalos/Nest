@@ -1,4 +1,5 @@
-import { createApp } from "vue"
+import { createApp } from 'vue'
+import './fontInstaller'; 
 import App from "./App.vue"
 import router from "./router"
 import {createNestStore} from "@nestui/store"

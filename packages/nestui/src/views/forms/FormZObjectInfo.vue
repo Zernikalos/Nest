@@ -1,27 +1,35 @@
 <template>
-    <div class="flex flex-col">
-        <Input
-            v-model="data.refId"
-            label="ID"
-            disabled
-        />
-        <Input
-            v-model="data.name"
-            label="Name"
-        />
-        <Select
-            v-model="data.type.name"
-            label="Object type"
-            :options="zObjectTypeNames"
-        />
-    </div>
+    <FormGrid>
+        <FormRow label="ID">
+            <Input
+                v-model="data.refId"
+                disabled
+                size="sm"
+            />
+        </FormRow>
+        <FormRow label="Name">
+            <Input
+                v-model="data.name"
+                size="sm"
+            />
+        </FormRow>
+        <FormRow label="Object type">
+            <Select
+                v-model="data.type.name"
+                :options="zObjectTypeNames"
+                size="sm"
+            />
+        </FormRow>
+    </FormGrid>
 </template>
 
 <script setup lang="ts">
 import {ZObject, ZObjectType} from "@zernikalos/zkbuilder"
 import {useVModel} from "@vueuse/core"
 import Select from "@nestui/components/Select.vue"
-import Input from "../../components/Input.vue"
+import Input from "@nestui/components/Input.vue"
+import FormRow from "@nestui/components/forms/FormRow.vue"
+import FormGrid from "@nestui/components/forms/FormGrid.vue"
 import {computed} from "vue"
 
 const props = defineProps<{

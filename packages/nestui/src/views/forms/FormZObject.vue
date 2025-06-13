@@ -1,31 +1,32 @@
 <template>
     <div
         v-if="data"
-        class="overflow-y-scroll mt-4 xl:mx-auto xl:w-10/12 px-4 md:w-full"
+        class="mt-4 overflow-y-auto w-full px-4"
     >
-        <FormZObjectInfo v-model="data" />
+        <FormSection title="General">
+            <FormZObjectInfo v-model="data" />
+        </FormSection>
 
-        <Collapse title="Transform">
+        <FormSection title="Transform">
             <FormZTransform v-model="data.transform" />
-        </Collapse>
+        </FormSection>
     </div>
 </template>
 
 <script setup lang="ts">
-import {ZObject} from "@zernikalos/zkbuilder"
-import Collapse from "@nestui/components/Collapse.vue"
-import FormZTransform from "./FormZTransform.vue"
-import {useVModel} from "@vueuse/core"
-import FormZObjectInfo from "./FormZObjectInfo.vue"
+import { ZObject } from "@zernikalos/zkbuilder";
+import { useVModel } from "@vueuse/core";
+import FormZTransform from "@nestui/views/forms/FormZTransform.vue";
+import FormZObjectInfo from "@nestui/views/forms/FormZObjectInfo.vue";
+import FormSection from "@nestui/components/forms/FormSection.vue";
 
 const props = defineProps<{
-    obj: ZObject
-}>()
-const emit = defineEmits(["update:obj"])
-const data = useVModel(props, "obj", emit)
-
+    obj: ZObject;
+}>();
+const emit = defineEmits(["update:obj"]);
+const data = useVModel(props, "obj", emit);
 </script>
 
 <style scoped>
-
+/* Adjust scroll container height if needed */
 </style>

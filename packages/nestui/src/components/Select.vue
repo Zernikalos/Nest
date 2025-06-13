@@ -6,13 +6,14 @@
         <select
             v-model="data"
             class="selector"
+            :class="selectorSize"
         >
             <option
                 v-for="(option, index) in props.options"
                 :key="index"
-                :value="option"
+                :value="typeof option === 'string' ? option : option.value"
             >
-                {{ option }}
+                {{ typeof option === 'string' ? option : option.name }}
             </option>
         </select>
     </label>
@@ -21,15 +22,22 @@
 <script setup lang="ts">
 
 import {useVModel} from "@vueuse/core"
+import {computed} from "vue"
 
 const props = defineProps<{
     label?: string,
-    options: string[],
-    modelValue: string
+    options: Array<{ name: string, value: string } | string>,
+    modelValue: string,
+    size?: "xs" | "sm" | "md" | "lg"
 }>()
 
 const emit = defineEmits(["update:modelValue"])
 const data = useVModel(props, "modelValue", emit)
+
+const selectorSize = computed(() => {
+    if (props.size === "md") return ""
+    return `select-${props.size}`
+})
 
 </script>
 
@@ -37,6 +45,20 @@ const data = useVModel(props, "modelValue", emit)
 @reference "@nestui/assets/main.css";
 
 .selector {
-    @apply select rounded
+    @apply select w-full
 }
+
+.select-xs {
+    @apply select-xs;
+}
+.select-sm {
+    @apply select-sm;
+}
+.select-md {
+    @apply select-md;
+}
+.select-lg {
+    @apply select-lg;
+}
+
 </style>
