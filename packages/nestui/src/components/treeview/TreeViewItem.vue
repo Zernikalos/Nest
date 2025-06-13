@@ -5,7 +5,7 @@
             draggable="true"
             class="item-text px-2 rounded-l rounded-r"
             :style="{'padding-left': `${props.level * 1.25}rem`}"
-            :class="{'selected': isSelected}"
+            :class="{'selected': props.isSelected}"
             :tabindex="-1"
             @dblclick="onDbClick"
             @click="onClick"
@@ -15,7 +15,7 @@
             @keydown.left="onKeyLeft"
         >
             <ChevIcon
-                :direction="isOpen ? 'down' : 'right'"
+                :direction="props.isOpen ? 'down' : 'right'"
                 :visible="hasChildren"
             />
             <span
@@ -30,7 +30,7 @@
         <ul v-if="hasChildren">
             <TreeViewItem
                 v-for="(child, index) in props.children"
-                v-show="isOpen"
+                v-show="props.isOpen" 
                 :key="index"
                 v-bind="child"
             />
@@ -39,14 +39,13 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, Ref} from "vue"
+import {computed, ref, Ref, watch} from "vue"
 import ChevIcon from "@nestui/components/ChevIcon.vue"
 import {TreeNodeView, useTreeViewStore} from "./TreeViewStore"
 
 const treeViewStore = useTreeViewStore()
 
 const props = defineProps<TreeNodeView>()
-const isOpen = ref(false)
 const viewitem: Ref<HTMLDivElement | null> = ref(null)
 
 const hasChildren = computed(() => {
@@ -54,12 +53,11 @@ const hasChildren = computed(() => {
     return childCount ? childCount > 0 : false
 })
 
-const isSelected = computed(() => {
-    const result = props.isSelected
-    if (result) {
+// Watch for selection changes to focus the item
+watch(() => props.isSelected, (newValue) => {
+    if (newValue) {
         viewitem.value?.focus()
     }
-    return result
 })
 
 function onClick() {
@@ -79,30 +77,38 @@ function onKeyUp() {
 }
 
 function onKeyRight() {
-    openNode()
+    if (hasChildren.value && !props.isOpen) {
+        openNode()
+    }
 }
 
 function onKeyLeft() {
-    closeNode()
+    if (hasChildren.value && props.isOpen) {
+        closeNode()
+    } else if (props.parent) {
+        // Optionally, move selection to parent if node is closed or has no children
+        treeViewStore.select(props.parent)
+    }
 }
 
 function toggle() {
-    isOpen.value = !isOpen.value
-    if (isOpen.value) {
-        openNode()
-    } else {
+    if (props.isOpen) {
         closeNode()
+    } else {
+        openNode()
     }
 }
 
 function openNode() {
-    isOpen.value = true
-    treeViewStore.open(props)
+    if (hasChildren.value) {
+      treeViewStore.open(props)
+    }
 }
 
 function closeNode() {
-    isOpen.value = false
-    treeViewStore.close(props)
+    if (hasChildren.value) {
+      treeViewStore.close(props)
+    }
 }
 
 </script>
@@ -111,16 +117,24 @@ function closeNode() {
 @reference "@nestui/assets/main.css";
 
 .item-text {
-    @apply font-mono select-none whitespace-nowrap
+    @apply font-mono select-none whitespace-nowrap;
+    /* Ensure it can receive focus for the outline to appear */
+    outline: none; 
 }
 .item-text:focus-visible {
-    outline: none;
+    /* Using a common focus ring style, adjust color/size as needed */
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+    /* Alternatively, for DaisyUI consistency if preferred later:
+    outline: 2px solid oklch(var(--p)); 
+    outline-offset: 1px; 
+    */
 }
 .item {
-    @apply cursor-default select-none
+    @apply cursor-default select-none;
 }
 .selected {
-    @apply bg-primary text-primary-content
+    /* Styles for selected item, ensure it's distinct from focus or combine them */
+    @apply bg-primary text-primary-content;
 }
 
 </style>

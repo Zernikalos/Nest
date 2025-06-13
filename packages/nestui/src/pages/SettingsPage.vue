@@ -3,7 +3,7 @@
         <h1 class="text-3xl font-bold mb-10 text-base-content">Settings</h1>
 
         <!-- Settings Content Area -->
-        <div class="max-w-3xl w-full space-y-8">
+        <div class="max-w-5xl w-full space-y-8 mx-auto">
 
             <!-- Theme Setting Section -->
             <section aria-labelledby="theme-heading" class="max-w-lg mx-auto w-full">
