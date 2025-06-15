@@ -15,6 +15,39 @@ module.exports = {
         },
         extraResource: [
         ],
+        
+        ignore: (filePath) => {
+            const ignorePatterns = [
+                '.idea',
+                'docs',
+                'electronapp',
+                'nestserver',
+                'packages',
+                'samples',
+                '.gitignore',
+                '.eslintrc',
+                'forge.config.js',
+                'nest-cli.json',
+                'package-lock.json',
+                'pnpm-lock.yaml',
+                'pnpm-workspace.yaml',
+                'tsconfig.electron.json',
+                'tsconfig.json',
+                'tsconfig.nest.json',
+                'vite.preload.config.mjs',
+                'vite.renderer.config.mjs',
+                'vite.preload.config.js',
+                'webpack.main.config.js'
+            ]
+
+            for (const pattern of ignorePatterns) {
+                if (filePath.includes(pattern)) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
 
         fileAssociations: [
             {

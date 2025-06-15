@@ -7,6 +7,8 @@
   "scripts": {
     "commit": "git-cz",
     "start": "electron-forge start --enable-logging",
+
+    "premake": "rimraf out",
     "make": "DEBUG=electron-packager electron-forge make --verbose",
 
     "dev": "npm run dev:server & npm run dev:ui & npm run dev:main",
@@ -97,7 +99,8 @@
     ]
   },
   "engines": {
-    "node": ">=23"
+    "node": ">=23",
+    "pnpm": ">= 10"
   },
   "pnpm": {
     "dangerouslyAllowAllBuilds": true
