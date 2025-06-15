@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
   "main": "dist/main/index.js",
-  "license": "GPLv3",
+  "license": "MPL-2.0",
   "scripts": {
     "commit": "git-cz",
     "start": "electron-forge start --enable-logging",
