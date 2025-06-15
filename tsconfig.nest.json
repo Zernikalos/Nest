@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "declaration": true,
+      "removeComments": true,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "allowSyntheticDefaultImports": true,
+      "moduleResolution": "node",
+      "target": "esnext",
+      "sourceMap": true,
+      "outDir": "./dist/server",
+      "baseUrl": "./",
+      "incremental": true,
+      "skipLibCheck": true,
+      "strictNullChecks": false,
+      "noImplicitAny": false,
+      "strictBindCallApply": false,
+      "forceConsistentCasingInFileNames": false,
+      "noFallthroughCasesInSwitch": false
+    },
+    "include": ["./nestserver/**/*"],
+    "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+  }
+  
