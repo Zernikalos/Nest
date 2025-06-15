@@ -50,7 +50,9 @@
     ]
   },
   "engines": {
-    "node": ">=23",
-    "pnpm": ">=9 <10"
+    "node": ">=23"
+  },
+  "pnpm": {
+    "dangerouslyAllowAllBuilds": true
   }
 }

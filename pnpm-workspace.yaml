@@ -3,6 +3,8 @@ packages:
   - 'packages/nestserver'
   - 'packages/nestui'
 
+neverBuiltDependencies: []
+
 hoist-pattern:
   - '!*electron*'
 

@@ -7,7 +7,7 @@
   "license": "GPLv3",
   "main": "./dist/main/index.js",
   "scripts": {
-    "build": "rimraf dist && pnpm run webpack:main && pnpm vite:preload && pnpm vite:renderer",
+    "build": "rimraf dist && pnpm run build:main && pnpm build:preload && pnpm build:renderer",
     "clean": "rimraf dist out",
     "lint": "eslint .",
     "dev": "DEBUG=true electron dist/main/index.js",
@@ -16,9 +16,9 @@
     "package:debug": "DEBUG=electron-packager electron-forge package",
     "make": "electron-forge make --verbose",
     "make:debug": "DEBUG=electron-packager electron-forge make --verbose",
-    "webpack:main": "webpack -c webpack.main.config.js",
-    "vite:renderer": "vite build -c vite.renderer.config.mjs",
-    "vite:preload": "vite build -c vite.preload.config.js"
+    "build:main": "webpack -c webpack.main.config.js",
+    "build:renderer": "vite build -c vite.renderer.config.mjs",
+    "build:preload": "vite build -c vite.preload.config.js"
   },
   "dependencies": {
     "@zernikalos/nestserver": "file:../nestserver",
@@ -27,7 +27,7 @@
     "events": "3.3.0"
   },
   "devDependencies": {
-    "electron": "36.4.0",
+    "electron": "37.0.0-beta.5",
     "@electron-forge/cli": "7.8.1",
     "@electron-forge/maker-dmg": "7.8.1",
     "@electron-forge/plugin-webpack": "7.8.1",
