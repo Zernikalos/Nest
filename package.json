@@ -14,13 +14,32 @@
     "build": "npm run build:server && npm run build:electron",
     "build:ui": "pnpm --filter @zernikalos/nestui run build",
     "build:server": "nest build",
-    "build:electron": "pnpm --filter @zernikalos/electronapp run build",
+    "build:main": "webpack -c webpack.main.config.js",
 
     "checkbuild:server": "START_SERVER=true node dist/server/main.js",
 
     "lint": "eslint ./engine/**/src/**/*.ts",
     "clean:packages": "pnpm -r exec rimraf node_modules dist",
     "clean": "pnpm clean:packages && rimraf node_modules"
+  },
+  "dependencies": {
+    "@nestjs/common": "11.0.21",
+    "@nestjs/core": "11.0.21",
+    "@nestjs/platform-express": "11.0.21",
+    "@nestjs/websockets": "11.0.21",
+    "@nestjs/platform-ws": "11.0.21",
+    "@nestjs/config": "4.0.2",
+    "@nestjs/mapped-types": "2.1.0",
+    "path-to-regexp": "8.2.0",
+    "ws": "8.18.2",
+    "rxjs": "7.8.2",
+    "crc-32": "1.2.2",
+    "class-validator": "0.14.2",
+    "class-transformer": "0.5.1",
+    "strip-ansi": "7.1.0",
+    "electron-store": "8.2.0",
+    "lodash": "4.17.21",
+    "events": "3.3.0"
   },
   "devDependencies": {
     "@eslint/js": "9.28.0",
@@ -52,7 +71,15 @@
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
     "reflect-metadata": "0.2.2",
-    "chokidar": "4.0.3"
+    "chokidar": "4.0.3",
+    "electron": "37.0.0-beta.5",
+    "@electron-forge/cli": "7.8.1",
+    "@electron-forge/maker-dmg": "7.8.1",
+    "@electron-forge/plugin-webpack": "7.8.1",
+    "@electron-forge/plugin-vite": "7.8.1",
+    "@electron-forge/maker-zip": "7.8.1",
+    "vite": "6.3.5",
+    "@babel/preset-env": "7.27.2"
   },
   "workspaces": {
     "packages": [
@@ -66,22 +93,6 @@
   },
   "engines": {
     "node": ">=23"
-  },
-  "dependencies": {
-    "@nestjs/common": "11.0.21",
-    "@nestjs/core": "11.0.21",
-    "@nestjs/platform-express": "11.0.21",
-    "@nestjs/websockets": "11.0.21",
-    "@nestjs/platform-ws": "11.0.21",
-    "@nestjs/config": "4.0.2",
-    "@nestjs/mapped-types": "2.1.0",
-    "path-to-regexp": "8.2.0",
-    "ws": "8.18.2",
-    "rxjs": "7.8.2",
-    "crc-32": "1.2.2",
-    "class-validator": "0.14.2",
-    "class-transformer": "0.5.1",
-    "strip-ansi": "7.1.0"
   },
   "pnpm": {
     "dangerouslyAllowAllBuilds": true

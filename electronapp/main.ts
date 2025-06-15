@@ -3,7 +3,7 @@ import {
     BrowserWindow,
     Menu,
 } from 'electron'
-import * as nestserver from "@zernikalos/nestserver"
+import * as nestserver from "@nestserver"
 
 import {createMenu} from "./menu";
 import {MainWindow} from "./MainWindow";
