@@ -5,8 +5,7 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     entry: {
-        index: './src/main.ts',
-        nestServer: '@zernikalos/nestserver'
+        index: './electronapp/main.ts',
     },
     target: 'electron-main',
     output: {
@@ -17,23 +16,29 @@ module.exports = {
         }
     },
     devtool: 'inline-source-map',
-    externals: [
-    ],
+    externals: {
+        '@nestserver': `commonjs ../server/main`,
+    },
     resolve: {
-        extensions: ['.ts', '.js','.json', '.!*.d.ts'],
+        extensions: ['.ts', '.js', '.json'],
+        alias: {
+            '@nestserver': '../server/main',
+        },
         mainFields: ['main', 'module', 'jsnext:main', 'jsnext'],
-        // symlinks: true,
         modules: [
             path.resolve(__dirname, 'node_modules'),
-            'node_modules',
-            path.resolve(__dirname, '../..', 'node_modules'),
         ],
     },
     module: {
         rules: [
             {
                 test: /\.ts$/,
-                use: 'ts-loader',
+                use: {
+                    loader: 'ts-loader',
+                    options: {
+                        configFile: path.resolve(__dirname, 'tsconfig.electron.json'),
+                    }
+                },
                 exclude: [
                     /node_modules/,
                     /\.d\.ts$/,

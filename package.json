@@ -2,7 +2,49 @@
   "name": "zernikalos-nest",
   "version": "0.0.1",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
+  "main": "dist/main/index.js",
   "license": "GPLv3",
+  "scripts": {
+    "commit": "git-cz",
+    "start": "electron-forge start --enable-logging",
+    "make": "DEBUG=electron-packager electron-forge make --verbose",
+
+    "dev": "npm run dev:server & npm run dev:ui & npm run dev:main",
+    "dev:server": "START_SERVER=true nest start --watch -c nest-cli.json",
+    "dev:main": "DEBUG=true electron dist/main/index.js",
+    "dev:ui": "vite -c vite.renderer.config.mjs",
+
+    "build": "npm run build:server && npm run build:main && npm run build:preload && npm run build:ui",
+    "build:ui": "vite build -c vite.renderer.config.mjs",
+    "build:preload": "vite build -c vite.preload.config.js",
+    "build:server": "nest build",
+    "build:main": "webpack -c webpack.main.config.js",
+
+    "checkbuild:server": "START_SERVER=true node dist/server/main.js",
+
+    "lint": "eslint ./engine/**/src/**/*.ts",
+    "clean:packages": "pnpm -r exec rimraf node_modules dist",
+    "clean": "pnpm clean:packages && rimraf node_modules"
+  },
+  "dependencies": {
+    "@nestjs/common": "11.0.21",
+    "@nestjs/core": "11.0.21",
+    "@nestjs/platform-express": "11.0.21",
+    "@nestjs/websockets": "11.0.21",
+    "@nestjs/platform-ws": "11.0.21",
+    "@nestjs/config": "4.0.2",
+    "@nestjs/mapped-types": "2.1.0",
+    "path-to-regexp": "8.2.0",
+    "ws": "8.18.2",
+    "rxjs": "7.8.2",
+    "crc-32": "1.2.2",
+    "class-validator": "0.14.2",
+    "class-transformer": "0.5.1",
+    "strip-ansi": "7.1.0",
+    "lodash": "4.17.21",
+    "events": "3.3.0",
+    "reflect-metadata": "0.2.2"
+  },
   "devDependencies": {
     "@eslint/js": "9.28.0",
     "@types/express": "5.0.2",
@@ -23,25 +65,27 @@
     "vue-eslint-parser": "10.1.3",
     "webpack": "5.99.9",
     "webpack-cli": "6.0.1",
-    "webpack-dev-server": "5.2.2"
-  },
-  "scripts": {
-    "commit": "git-cz",
-    "dev": "pnpm --recursive --parallel run dev",
-    "start": "pnpm --filter @zernikalos/electronapp run start",
-    "make": "npm --workspace @zernikalos/electronapp -r run make",
-    "build": "npm run build:server && npm run build:electron",
-    "build:ui": "pnpm --filter @zernikalos/nestui run build",
-    "build:server": "pnpm --filter @zernikalos/nestserver run build",
-    "build:electron": "pnpm --filter @zernikalos/electronapp run build",
-    "lint": "eslint ./engine/**/src/**/*.ts",
-    "clean:packages": "pnpm -r exec rimraf node_modules dist",
-    "clean": "pnpm clean:packages && rimraf node_modules"
+    "webpack-dev-server": "5.2.2",
+    "@nestjs/cli": "11.0.7",
+    "@nestjs/schematics": "11.0.5",
+    "@nestjs/testing": "11.0.21",
+    "@types/supertest": "6.0.3",
+    "source-map-support": "0.5.21",
+    "supertest": "7.1.1",
+    "ts-node": "10.9.2",
+    "tsconfig-paths": "4.2.0",
+    "chokidar": "4.0.3",
+    "electron": "37.0.0-beta.5",
+    "@electron-forge/cli": "7.8.1",
+    "@electron-forge/maker-dmg": "7.8.1",
+    "@electron-forge/plugin-webpack": "7.8.1",
+    "@electron-forge/plugin-vite": "7.8.1",
+    "@electron-forge/maker-zip": "7.8.1",
+    "vite": "6.3.5",
+    "@babel/preset-env": "7.27.2"
   },
   "workspaces": {
     "packages": [
-      "packages/electronapp",
-      "packages/nestserver",
       "packages/nestui"
     ],
     "nohoist": [

@@ -12,10 +12,15 @@
         "esModuleInterop": true,
         "lib": ["esnext", "dom"],
         "skipLibCheck": true,
-        "outDir": "dist",
+        "outDir": "dist/main",
         "allowJs": true,
+        "baseUrl": ".",
+        "paths": {
+            "@nestserver/*": ["dist/server/*"],
+            "@nestserver": ["dist/server/main"]
+        }
     },
-    "include": ["src/**/*"],
+    "include": ["electronapp/**/*"],
     "exclude": ["node_modules", "test", "dist"]
 }
 

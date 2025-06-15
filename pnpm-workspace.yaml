@@ -1,6 +1,4 @@
 packages:
-  - 'packages/electronapp'
-  - 'packages/nestserver'
   - 'packages/nestui'
 
 neverBuiltDependencies: []
