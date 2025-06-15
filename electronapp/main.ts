@@ -57,7 +57,8 @@ class ZernikalosNest {
         if (!Constants.ShouldStartServer) {
             return
         }
-        await nestserver.nestServerBootstrap()
+        const dbPath = Constants.nestDbPath
+        await nestserver.nestServerBootstrap(dbPath)
     }
 
     private handleAppEvents() {

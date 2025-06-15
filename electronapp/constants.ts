@@ -1,5 +1,5 @@
 import _ from "lodash";
-import {nativeImage} from "electron";
+import {app, nativeImage} from "electron";
 import path from "path";
 
 const DEV_FRONTEND_URL = "http://localhost:5173"
@@ -29,6 +29,14 @@ export class Constants {
 
     public static get ShouldStartServer(): boolean {
         return !Constants.isDebug
+    }
+
+    public static get userDataPath(): string {
+        return app.getPath('userData')
+    }
+
+    public static get nestDbPath(): string {
+        return path.join(Constants.userDataPath, 'nest.sqlite')
     }
 
     public static get PreloadScriptPath(): string {

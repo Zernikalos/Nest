@@ -7,6 +7,8 @@
   "scripts": {
     "commit": "git-cz",
     "start": "electron-forge start --enable-logging",
+
+    "premake": "rimraf out",
     "make": "DEBUG=electron-packager electron-forge make --verbose",
 
     "dev": "npm run dev:server & npm run dev:ui & npm run dev:main",
@@ -24,7 +26,7 @@
 
     "lint": "eslint ./engine/**/src/**/*.ts",
     "clean:packages": "pnpm -r exec rimraf node_modules dist",
-    "clean": "pnpm clean:packages && rimraf node_modules"
+    "clean": "pnpm clean:packages && rimraf node_modules dist out"
   },
   "dependencies": {
     "@nestjs/common": "11.0.21",
@@ -32,6 +34,7 @@
     "@nestjs/platform-express": "11.0.21",
     "@nestjs/websockets": "11.0.21",
     "@nestjs/platform-ws": "11.0.21",
+    "@nestjs/typeorm": "11.0.0",
     "@nestjs/config": "4.0.2",
     "@nestjs/mapped-types": "2.1.0",
     "path-to-regexp": "8.2.0",
@@ -43,7 +46,9 @@
     "strip-ansi": "7.1.0",
     "lodash": "4.17.21",
     "events": "3.3.0",
-    "reflect-metadata": "0.2.2"
+    "reflect-metadata": "0.2.2",
+    "typeorm": "0.3.24",
+    "sqlite3": "5.1.7"
   },
   "devDependencies": {
     "@eslint/js": "9.28.0",
@@ -94,7 +99,8 @@
     ]
   },
   "engines": {
-    "node": ">=23"
+    "node": ">=23",
+    "pnpm": ">= 10"
   },
   "pnpm": {
     "dangerouslyAllowAllBuilds": true
