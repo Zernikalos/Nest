@@ -6,7 +6,7 @@ export default defineConfig({
     build: {
         outDir: 'dist/preload',
         lib: {
-            entry: resolve(__dirname, 'src/preload.ts'),
+            entry: resolve(__dirname, 'electronapp/preload.ts'),
             formats: ['cjs'],
             fileName: () => 'preload.js'
         },
@@ -24,7 +24,7 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            '@': resolve(__dirname, 'src')
+            '@': resolve(__dirname, 'electronapp')
         }
     }
 })

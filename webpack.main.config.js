@@ -17,12 +17,14 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     externals: {
-        '@nestserver': 'commonjs2 @nestserver',
+        // Tell Webpack to leave the require in place, but point it to the
+        // real compiled file so it can be resolved by Node at runtime.
+        '@nestserver': `commonjs ../server/main`,
     },
     resolve: {
         extensions: ['.ts', '.js', '.json'],
         alias: {
-            '@nestserver': path.resolve(__dirname, 'dist/server/main'),
+            '@nestserver': '../server/main',
         },
         mainFields: ['main', 'module', 'jsnext:main', 'jsnext'],
         modules: [

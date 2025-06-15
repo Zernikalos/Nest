@@ -1,6 +1,6 @@
 // vite.config.js
 import { defineConfig, mergeConfig } from 'vite'
-import {nestUiConfig} from '../nestui/vite.config.mjs'
+import {nestUiConfig} from './packages/nestui/vite.config.mjs'
 import path from "path";
 
 export default defineConfig((env) => {

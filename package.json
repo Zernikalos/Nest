@@ -2,17 +2,21 @@
   "name": "zernikalos-nest",
   "version": "0.0.1",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
+  "main": "dist/main/index.js",
   "license": "GPLv3",
   "scripts": {
     "commit": "git-cz",
-    "dev": "pnpm --recursive --parallel run dev",
-    "start": "pnpm --filter @zernikalos/electronapp run start",
+    "start": "electron-forge start --enable-logging",
     "make": "npm --workspace @zernikalos/electronapp -r run make",
 
+    "dev": "npm run dev:server & npm run dev:ui & npm run dev:main",
     "dev:server": "START_SERVER=true nest start --watch -c nest-cli.json",
+    "dev:main": "DEBUG=true electron dist/main/index.js",
+    "dev:ui": "vite -c vite.renderer.config.mjs",
 
     "build": "npm run build:server && npm run build:electron",
-    "build:ui": "pnpm --filter @zernikalos/nestui run build",
+    "build:ui": "vite build -c vite.renderer.config.mjs",
+    "build:preload": "vite build -c vite.preload.config.js",
     "build:server": "nest build",
     "build:main": "webpack -c webpack.main.config.js",
 
@@ -83,7 +87,6 @@
   },
   "workspaces": {
     "packages": [
-      "packages/electronapp",
       "packages/nestui"
     ],
     "nohoist": [
