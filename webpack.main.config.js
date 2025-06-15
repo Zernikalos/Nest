@@ -17,8 +17,6 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     externals: {
-        // Tell Webpack to leave the require in place, but point it to the
-        // real compiled file so it can be resolved by Node at runtime.
         '@nestserver': `commonjs ../server/main`,
     },
     resolve: {

@@ -11,32 +11,31 @@ module.exports = {
         //osxSign: {},
         appCategoryType: 'public.app-category.developer-tools',
         directories: {
-            app: path.join(__dirname, 'dist')
+            app: __dirname
         },
 
-        ignore: (filePath) => {
-            const keepPatterns = [
-                'dist/',
-                'package.json',
-                'node_modules/@nestjs/common',
-                'node_modules/@nestjs/core',
-                'node_modules/@zernikalos/nestserver',
-            ];
+        // ignore: (filePath) => {
+        //     const keepPatterns = [
+        //         'dist/',
+        //         'package.json',
+        //         'node_modules/@nestjs/common',
+        //         'node_modules/@nestjs/core',
+        //         'node_modules/reflect-metadata',
+        //     ];
 
-            for (const pattern of keepPatterns) {
-                if (filePath.includes(pattern)) {
-                    return false;
-                }
-            }
+        //     for (const pattern of keepPatterns) {
+        //         if (filePath.includes(pattern)) {
+        //             return false;
+        //         }
+        //     }
 
-            if (filePath.includes('node_modules')) {
-                return true;
-            }
+        //     // if (filePath.includes('node_modules')) {
+        //     //     return true;
+        //     // }
 
-            return false;
-        },
+        //     return false;
+        // },
         extraResource: [
-            path.resolve(__dirname, '../nestserver')
         ],
 
         fileAssociations: [

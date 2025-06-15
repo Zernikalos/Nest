@@ -7,14 +7,14 @@
   "scripts": {
     "commit": "git-cz",
     "start": "electron-forge start --enable-logging",
-    "make": "npm --workspace @zernikalos/electronapp -r run make",
+    "make": "DEBUG=electron-packager electron-forge make --verbose",
 
     "dev": "npm run dev:server & npm run dev:ui & npm run dev:main",
     "dev:server": "START_SERVER=true nest start --watch -c nest-cli.json",
     "dev:main": "DEBUG=true electron dist/main/index.js",
     "dev:ui": "vite -c vite.renderer.config.mjs",
 
-    "build": "npm run build:server && npm run build:electron",
+    "build": "npm run build:server && npm run build:main && npm run build:preload && npm run build:ui",
     "build:ui": "vite build -c vite.renderer.config.mjs",
     "build:preload": "vite build -c vite.preload.config.js",
     "build:server": "nest build",
@@ -41,9 +41,9 @@
     "class-validator": "0.14.2",
     "class-transformer": "0.5.1",
     "strip-ansi": "7.1.0",
-    "electron-store": "8.2.0",
     "lodash": "4.17.21",
-    "events": "3.3.0"
+    "events": "3.3.0",
+    "reflect-metadata": "0.2.2"
   },
   "devDependencies": {
     "@eslint/js": "9.28.0",
@@ -74,7 +74,6 @@
     "supertest": "7.1.1",
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
-    "reflect-metadata": "0.2.2",
     "chokidar": "4.0.3",
     "electron": "37.0.0-beta.5",
     "@electron-forge/cli": "7.8.1",
