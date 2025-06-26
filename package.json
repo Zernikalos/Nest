@@ -11,8 +11,7 @@
     "premake": "rimraf out",
     "make": "DEBUG=electron-packager electron-forge make --verbose",
 
-    "dev": "npm run dev:server & npm run dev:ui & npm run dev:main",
-    "dev:server": "START_SERVER=true nest start --watch -c nest-cli.json",
+    "dev": "npm run dev:ui & npm run dev:main",
     "dev:main": "DEBUG=true electron dist/main/index.js",
     "dev:ui": "vite -c vite.renderer.config.mjs",
 

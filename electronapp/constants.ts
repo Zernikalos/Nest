@@ -27,10 +27,6 @@ export class Constants {
         return !_.isNil(process.env.DEBUG) && process.env.DEBUG === 'true'
     }
 
-    public static get ShouldStartServer(): boolean {
-        return !Constants.isDebug
-    }
-
     public static get userDataPath(): string {
         return app.getPath('userData')
     }
