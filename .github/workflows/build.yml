@@ -17,12 +17,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
 
     # These permissions are crucial for accessing private packages
     permissions:
       contents: read
-      packages: read # Allows reading packages from GitHub Packages within the organization
+      packages: read
 
     steps:
       # 1. Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -58,10 +61,4 @@ jobs:
       - name: Package application
         run: pnpm make
 
-      # 7. Upload the packaged application as an artifact (only on release commits to main)
-      - name: Upload Artifact
-        if: github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'release: 🚀 v')
-        uses: actions/upload-artifact@v4
-        with:
-          name: zernikalos-studio-build-${{ github.run_number }}
-          path: out/make/
+
