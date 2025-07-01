@@ -15,7 +15,6 @@ import {getStore} from "./electronStore";
 class ZernikalosNest {
 
     private mainWindow!: MainWindow
-    // private viewerWindow: ViewerWindow
     public menu?: Menu
 
     public async initialize() {
@@ -54,9 +53,6 @@ class ZernikalosNest {
     }
 
     private async initializeServer() {
-        if (!Constants.ShouldStartServer) {
-            return
-        }
         const dbPath = Constants.nestDbPath
         await nestserver.nestServerBootstrap(dbPath)
     }
