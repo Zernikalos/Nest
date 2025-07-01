@@ -1,0 +1,77 @@
+# GitHub Action for Zernikalos-Studio CD (Release)
+
+name: Create Release
+
+# This workflow is triggered on pushes to tags that look like versions (e.g., v1.0.0)
+on:
+  # Trigger on tag push
+  push:
+    tags:
+      - 'v*'
+
+  # Allow manual trigger from the Actions tab
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'The tag to create (e.g., v1.2.3). The associated Git tag must exist.'
+        required: true
+
+jobs:
+  release:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    permissions:
+      contents: write # Needed to create releases and upload assets
+      packages: read   # Needed to read private packages during install
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Sets up pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      # Sets up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '23'
+          cache: 'pnpm'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@zernikalos'
+
+      # Configure pnpm for Electron Forge compatibility
+      - name: Configure pnpm node-linker
+        run: pnpm config set node-linker hoisted
+
+      # Installs dependencies
+      - name: Install dependencies
+        run: pnpm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Build the project
+      - name: Build project
+        run: pnpm build
+
+      # Package the application
+      - name: Package application
+        run: pnpm make
+
+      # Create the GitHub Release
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          # Use the manually provided tag, or fall back to the tag from the push event
+          tag: ${{ github.event.inputs.tag || github.ref_name }}
+          releaseName: "Release ${{ github.event.inputs.tag || github.ref_name }}"
+          artifacts: "out/make/**/*"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: true
