@@ -211,8 +211,8 @@ importers:
         specifier: 13.4.0
         version: 13.4.0(vue@3.5.17(typescript@5.8.3))
       '@zernikalos/zkbuilder':
-        specifier: file:../../../ZKBuilder/packages/zkbuilder
-        version: file:../ZKBuilder/packages/zkbuilder
+        specifier: '*'
+        version: 0.0.2
       axios:
         specifier: 1.10.0
         version: 1.10.0
@@ -2483,12 +2483,11 @@ packages:
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
 
-  '@zernikalos/zernikalos@file:../Zernikalos/build/js/packages/@zernikalos/zernikalos':
-    resolution: {directory: ../Zernikalos/build/js/packages/@zernikalos/zernikalos, type: directory}
-    bundledDependencies: []
+  '@zernikalos/zernikalos@0.2.0':
+    resolution: {integrity: sha512-kiI6SNLHF2u0lkq+lNgKKHt7SeyK5WQkDamJelD6qe05eoK8f6PimS21FGtkNi1r/GHt2OwOAMeNkIBvEDDWKQ==, tarball: https://npm.pkg.github.com/download/@zernikalos/zernikalos/0.2.0/3be53e40322881054c2a854b0805d407a56a6a55}
 
-  '@zernikalos/zkbuilder@file:../ZKBuilder/packages/zkbuilder':
-    resolution: {directory: ../ZKBuilder/packages/zkbuilder, type: directory}
+  '@zernikalos/zkbuilder@0.0.2':
+    resolution: {integrity: sha512-KmVA1z68t8FEVlH5x4jVBdDiu3o0bNkOGInAD1bcVmMrS2ctzAXLTYpkDAfdJ+tQy9KB+KGTU449UDLMRcvqGg==, tarball: https://npm.pkg.github.com/download/@zernikalos/zkbuilder/0.0.2/7bf09e4f9f9973bc7a7c3c1c51c47070dec686a2}
 
   abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -5357,8 +5356,8 @@ packages:
   proto-list@1.2.4:
     resolution: {integrity: sha512-vtK/94akxsTMhe0/cbfpR+syPuszcuwhqVjJq26CuNDgFGj682oRBXOP5MJpv2r7JtE8MsiepGIqvvOTBwn2vA==}
 
-  protobufjs@7.5.0:
-    resolution: {integrity: sha512-Z2E/kOY1QjoMlCytmexzYfDm/w5fKAiRwpSzGtdnXW1zC88Z2yXazHHrOtwCzn+7wSxyE8PYM4rvVcMphF9sOA==}
+  protobufjs@7.5.3:
+    resolution: {integrity: sha512-sildjKwVqOI2kmFDiXQ6aEB0fjYTafpEvIBs8tOR8qI4spuL9OPROLVu2qZqi/xgCfsHIwVqlaF8JBjWFHnKbw==}
     engines: {node: '>=12.0.0'}
 
   proxy-addr@2.0.7:
@@ -5985,8 +5984,8 @@ packages:
     peerDependencies:
       tslib: ^2
 
-  three@0.176.0:
-    resolution: {integrity: sha512-PWRKYWQo23ojf9oZSlRGH8K09q7nRSWx6LY/HF/UUrMdYgN9i1e2OwJYHoQjwc6HF/4lvvYLC5YC1X8UJL2ZpA==}
+  three@0.178.0:
+    resolution: {integrity: sha512-ybFIB0+x8mz0wnZgSGy2MO/WCO6xZhQSZnmfytSPyNpM0sBafGRVhdaj+erYh5U+RhQOAg/eXqw5uVDiM2BjhQ==}
 
   thunky@1.1.0:
     resolution: {integrity: sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==}
@@ -9394,21 +9393,21 @@ snapshots:
 
   '@xtuc/long@4.2.2': {}
 
-  '@zernikalos/zernikalos@file:../Zernikalos/build/js/packages/@zernikalos/zernikalos':
+  '@zernikalos/zernikalos@0.2.0':
     dependencies:
       ua-parser-js: 1.0.37
 
-  '@zernikalos/zkbuilder@file:../ZKBuilder/packages/zkbuilder':
+  '@zernikalos/zkbuilder@0.0.2':
     dependencies:
       '@xmldom/xmldom': 0.9.8
-      '@zernikalos/zernikalos': file:../Zernikalos/build/js/packages/@zernikalos/zernikalos
+      '@zernikalos/zernikalos': 0.2.0
       get-own-enumerable-property-symbols: 3.0.2
       is-obj: 3.0.0
       is-regexp: 3.1.0
       isbinaryfile: 5.0.4
       lodash: 4.17.21
-      protobufjs: 7.5.0
-      three: 0.176.0
+      protobufjs: 7.5.3
+      three: 0.178.0
 
   abbrev@1.1.1: {}
 
@@ -12636,7 +12635,7 @@ snapshots:
 
   proto-list@1.2.4: {}
 
-  protobufjs@7.5.0:
+  protobufjs@7.5.3:
     dependencies:
       '@protobufjs/aspromise': 1.1.2
       '@protobufjs/base64': 1.1.2
@@ -13401,7 +13400,7 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  three@0.176.0: {}
+  three@0.178.0: {}
 
   thunky@1.1.0: {}
 

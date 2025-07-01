@@ -16,6 +16,7 @@
     "lint": "eslint ./src"
   },
   "dependencies": {
+    "@zernikalos/zkbuilder": "*",
     "@fontsource/fira-code": "^5.2.6",
     "@fontsource/jetbrains-mono": "^5.2.6",
     "@fontsource/lato": "^5.2.6",
@@ -25,7 +26,6 @@
     "@fontsource/source-code-pro": "^5.2.6",
     "@vueuse/components": "13.4.0",
     "@vueuse/core": "13.4.0",
-    "@zernikalos/zkbuilder": "file:../../../ZKBuilder/packages/zkbuilder",
     "axios": "1.10.0",
     "bootstrap-icons": "1.13.1",
     "lodash": "4.17.21",
