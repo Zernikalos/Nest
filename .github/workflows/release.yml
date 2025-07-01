@@ -28,17 +28,17 @@ jobs:
       packages: read   # Needed to read private packages during install
 
     steps:
-      # 1. Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Sets up pnpm
+      # Sets up pnpm
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
         with:
           version: 9
 
-      # 3. Sets up Node.js
+      # Sets up Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -47,21 +47,25 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@zernikalos'
 
-      # 4. Installs dependencies
+      # Configure pnpm for Electron Forge compatibility
+      - name: Configure pnpm node-linker
+        run: pnpm config set node-linker hoisted
+
+      # Installs dependencies
       - name: Install dependencies
         run: pnpm install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 5. Build the project
+      # Build the project
       - name: Build project
         run: pnpm build
 
-      # 6. Package the application
+      # Package the application
       - name: Package application
         run: pnpm make
 
-      # 7. Create the GitHub Release
+      # Create the GitHub Release
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
