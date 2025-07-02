@@ -16,50 +16,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    # These permissions are crucial for accessing private packages
+  # This job calls the reusable workflow to build and package the application.
+  build-app:
+    uses: ./.github/workflows/common-build.yml
+    with:
+      os: ubuntu-latest
+    # Permissions are needed by the reusable workflow for checkout and package access.
     permissions:
       contents: read
       packages: read
-
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # Sets up pnpm (version from your package.json)
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 9
-
-      # Sets up Node.js and configures it to use the GitHub Packages registry for the @zernikalos scope
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '23'
-          cache: 'pnpm'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@zernikalos'
-
-      # Configure pnpm for Electron Forge compatibility
-      - name: Configure pnpm node-linker
-        run: pnpm config set node-linker hoisted
-
-      # Installs dependencies. The NODE_AUTH_TOKEN is automatically used by npm/pnpm for authentication.
-      - name: Install dependencies
-        run: pnpm install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Runs the build script for all parts of the application
-      - name: Build project
-        run: pnpm build
-
-      # Package the application to validate the process
-      - name: Package application
-        run: pnpm make
 
 

@@ -17,61 +17,34 @@ on:
         required: true
 
 jobs:
-  release:
+  build:
+    uses: ./.github/workflows/common-build.yml
+    with:
+      os: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-
     permissions:
-      contents: write # Needed to create releases and upload assets
-      packages: read   # Needed to read private packages during install
+      contents: read
+      packages: read
+
+  create-release:
+    runs-on: ubuntu-latest
+    needs: build # This job depends on the successful completion of the build job
+    permissions:
+      contents: write # Required to create the release
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # Sets up pnpm
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
         with:
-          version: 9
+          path: buildArtifacts # Download artifacts to a descriptive directory
 
-      # Sets up Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '23'
-          cache: 'pnpm'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@zernikalos'
-
-      # Configure pnpm for Electron Forge compatibility
-      - name: Configure pnpm node-linker
-        run: pnpm config set node-linker hoisted
-
-      # Installs dependencies
-      - name: Install dependencies
-        run: pnpm install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Build the project
-      - name: Build project
-        run: pnpm build
-
-      # Package the application
-      - name: Package application
-        run: pnpm make
-
-      # Create the GitHub Release
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
-          # Use the manually provided tag, or fall back to the tag from the push event
-          tag: ${{ github.event.inputs.tag || github.ref_name }}
-          releaseName: "Release ${{ github.event.inputs.tag || github.ref_name }}"
-          artifacts: "out/make/**/*"
+          artifacts: "buildArtifacts/**/*" # Upload all artifacts from all subdirectories
           token: ${{ secrets.GITHUB_TOKEN }}
           generateReleaseNotes: true
+          tag: ${{ github.event.inputs.tag || github.ref_name }}
+          releaseName: "Release ${{ github.event.inputs.tag || github.ref_name }}"
