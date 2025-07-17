@@ -4,9 +4,21 @@ import { ValidationPipe } from '@nestjs/common';
 import configuration from './config/configuration';
 import { WsAdapter } from '@nestjs/platform-ws';
 import * as path from 'path';
+import {SettingsService} from "./settings/settings.service";
 
-export async function nestServerBootstrap(dbPath: string) {
-    const app = await NestFactory.create(AppModule.register({ dbPath }), {
+export { SettingsService }
+
+export interface ZNestServer {
+    settings: SettingsService
+}
+
+export interface ServerOptions {
+    dbPath: string;
+    settingsPath: string;
+}
+
+export async function nestServerBootstrap(options: ServerOptions): Promise<ZNestServer> {
+    const app = await NestFactory.create(AppModule.register(options), {
         logger: ['error', 'warn', 'log', 'debug', 'verbose'],
     })
 
@@ -24,13 +36,17 @@ export async function nestServerBootstrap(dbPath: string) {
 
     await app.listen(port)
 
-    const appModule = app.get(AppModule)
+    // const appModule = app.get(AppModule)
     return {
-        app: appModule
+        settings: app.get(SettingsService)
     }
 }
 
 if (configuration().shouldStartServer) {
     const defaultDbPath = path.join(__dirname, '..', 'db', 'nest-dev.sqlite')
-    nestServerBootstrap(defaultDbPath)
+    const defaultSettingsPath = path.join(__dirname, '..', 'db', 'settings')
+    nestServerBootstrap({
+        dbPath: defaultDbPath,
+        settingsPath: defaultSettingsPath
+    })
 }

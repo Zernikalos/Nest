@@ -9,11 +9,16 @@ import {Constants} from "./constants"
 import {getStore} from "./electronStore"
 import {loadZkoDialog} from "./dialogs/loadZkoDialog"
 import _ from "lodash";
+import {SettingsService} from "@nestserver"
 
 export class MainWindow {
-    private mainWindow: BrowserWindow
+    private mainWindow!: BrowserWindow
 
-    constructor(width: number, height: number) {
+    constructor(private settings: SettingsService) {
+    }
+
+    private async createWindow() {
+        const {width, height} = await this.settings.getWindowSize()
         this.mainWindow = new BrowserWindow({
             icon: Constants.trayIcon,
             width: width,
@@ -23,11 +28,12 @@ export class MainWindow {
                 preload: Constants.PreloadScriptPath,
             },
         })
-
-        this.subscribeToEvents()
     }
 
     public async load() {
+        await this.createWindow()
+        this.subscribeToEvents()
+
         if (Constants.isDebug) {
             await this.mainWindow.loadURL(Constants.MainWindowPath)
         } else {
@@ -42,9 +48,9 @@ export class MainWindow {
     }
 
     private subscribeToEvents() {
-        this.mainWindow.on("resize", () => {
+        this.mainWindow.on("resize", async () => {
             const [width, heigt] = this.mainWindow.getSize()
-            getStore().set('windowSize', {width, heigt})
+            await this.settings.setWindowSize(width, heigt)
         })
 
         ipcMain.on(MenuEvents.LOAD_ZKO, async () => {

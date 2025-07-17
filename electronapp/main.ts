@@ -11,11 +11,13 @@ import {MainWindow} from "./MainWindow";
 import {desiredWindowSize, WindowSize} from "./tools/desiredWindowSize";
 import {Constants} from "./constants";
 import {getStore} from "./electronStore";
+//import {ZNestServer, nestServerBootstrap} from "../nestserver/main";
 
 class ZernikalosNest {
 
     private mainWindow!: MainWindow
     public menu?: Menu
+    private nestServer!: nestserver.ZNestServer
 
     public async initialize() {
         getStore()
@@ -45,7 +47,7 @@ class ZernikalosNest {
     }
 
     private async initializeWindow(width: number, height: number) {
-        this.mainWindow = new MainWindow(width, height)
+        this.mainWindow = new MainWindow(this.nestServer.settings)
         // this.viewerWindow = new ViewerWindow(width, height)
 
         await this.mainWindow.load()
@@ -54,7 +56,11 @@ class ZernikalosNest {
 
     private async initializeServer() {
         const dbPath = Constants.nestDbPath
-        await nestserver.nestServerBootstrap(dbPath)
+        const settingsPath = Constants.userDataPath
+        this.nestServer = await nestserver.nestServerBootstrap({
+            dbPath,
+            settingsPath
+        })
     }
 
     private handleAppEvents() {
