@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import {merge} from 'lodash';
 
 export interface AppSettings {
     windowSize?: {
@@ -57,7 +58,7 @@ export class SettingsRepository {
 
     async updateSettings(partialSettings: Partial<AppSettings>): Promise<AppSettings> {
         const currentSettings = await this.getSettings();
-        const updatedSettings = { ...currentSettings, ...partialSettings };
+        const updatedSettings = merge({}, currentSettings, partialSettings);
         await this.saveSettings(updatedSettings);
         return updatedSettings;
     }

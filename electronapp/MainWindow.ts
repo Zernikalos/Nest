@@ -6,7 +6,6 @@ import {bundleSceneDialog} from "./dialogs/bundleSceneDialog"
 import {NestEvents} from "./NestEvents"
 import * as fs from "node:fs/promises"
 import {Constants} from "./constants"
-import {getStore} from "./electronStore"
 import {loadZkoDialog} from "./dialogs/loadZkoDialog"
 import _ from "lodash";
 import {SettingsService} from "@nestserver"
@@ -97,12 +96,14 @@ export class MainWindow {
             })
         })
 
-        ipcMain.handle("userSettings:get", (event, key) => {
-            return getStore().get(key)
+        ipcMain.handle("userSettings:get", async (event, key: any) => {
+            const settings = await this.settings.getSettings()
+            // @ts-ignore
+            return settings[key]
         })
 
         ipcMain.handle("userSettings:set", (event, key, value) => {
-            getStore().set(key, value)
+            this.settings.updateSettings({[key]: value})
         })
     }
 }
