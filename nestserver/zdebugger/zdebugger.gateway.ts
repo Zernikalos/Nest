@@ -5,7 +5,7 @@ import {BridgeService} from "../bridge/bridge.service";
 @WebSocketGateway({ path: 'zdebugger', transports: ['websocket'] })
 export class ZDebuggerGateway implements OnGatewayInit {
 
-    private server: Server
+    private server!: Server
 
     constructor(private readonly bridgeService: BridgeService) {
         this.bridgeService.debuggerObservable.subscribe(message => {

@@ -6,8 +6,8 @@ interface PathExposeDTO {
 }
 
 class FileRequestDTO {
-    exposeId: string
-    fileName: string
+    exposeId!: string
+    fileName!: string
     // path?: string
 }
 

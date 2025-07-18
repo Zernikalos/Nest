@@ -1,7 +1,5 @@
 import { DynamicModule, Logger, Module } from '@nestjs/common'
 import * as path from 'path'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
 import { FilesModule } from './files/files.module'
 import { NestModule } from './nest/nest.module'
 import configuration from "./config/configuration"
@@ -39,8 +37,6 @@ export class AppModule {
                 ZdebuggerModule,
                 BridgeModule
             ],
-            controllers: [AppController],
-            providers: [AppService]
         }
     }
 }
