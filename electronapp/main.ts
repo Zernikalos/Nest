@@ -10,8 +10,6 @@ import {MainWindow} from "./MainWindow";
 // import {ViewerWindow} from "./ViewerWindow";
 import {desiredWindowSize, WindowSize} from "./tools/desiredWindowSize";
 import {Constants} from "./constants";
-import {getStore} from "./electronStore";
-//import {ZNestServer, nestServerBootstrap} from "../nestserver/main";
 
 class ZernikalosNest {
 
@@ -20,7 +18,6 @@ class ZernikalosNest {
     private nestServer!: nestserver.ZNestServer
 
     public async initialize() {
-        getStore()
         app.dock?.setIcon(Constants.trayIconPath)
 
         // This method will be called when Electron has finished
