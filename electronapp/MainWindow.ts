@@ -6,14 +6,18 @@ import {bundleSceneDialog} from "./dialogs/bundleSceneDialog"
 import {NestEvents} from "./NestEvents"
 import * as fs from "node:fs/promises"
 import {Constants} from "./constants"
-import {getStore} from "./electronStore"
 import {loadZkoDialog} from "./dialogs/loadZkoDialog"
 import _ from "lodash";
+import {SettingsService} from "@nestserver"
 
 export class MainWindow {
-    private mainWindow: BrowserWindow
+    private mainWindow!: BrowserWindow
 
-    constructor(width: number, height: number) {
+    constructor(private settings: SettingsService) {
+    }
+
+    private async createWindow() {
+        const {width, height} = await this.settings.getWindowSize()
         this.mainWindow = new BrowserWindow({
             icon: Constants.trayIcon,
             width: width,
@@ -23,11 +27,12 @@ export class MainWindow {
                 preload: Constants.PreloadScriptPath,
             },
         })
-
-        this.subscribeToEvents()
     }
 
     public async load() {
+        await this.createWindow()
+        this.subscribeToEvents()
+
         if (Constants.isDebug) {
             await this.mainWindow.loadURL(Constants.MainWindowPath)
         } else {
@@ -42,9 +47,9 @@ export class MainWindow {
     }
 
     private subscribeToEvents() {
-        this.mainWindow.on("resize", () => {
+        this.mainWindow.on("resize", async () => {
             const [width, heigt] = this.mainWindow.getSize()
-            getStore().set('windowSize', {width, heigt})
+            await this.settings.setWindowSize(width, heigt)
         })
 
         ipcMain.on(MenuEvents.LOAD_ZKO, async () => {
@@ -91,12 +96,14 @@ export class MainWindow {
             })
         })
 
-        ipcMain.handle("userSettings:get", (event, key) => {
-            return getStore().get(key)
+        ipcMain.handle("userSettings:get", async (event, key: any) => {
+            const settings = await this.settings.getSettings()
+            // @ts-ignore
+            return settings[key]
         })
 
         ipcMain.handle("userSettings:set", (event, key, value) => {
-            getStore().set(key, value)
+            this.settings.updateSettings({[key]: value})
         })
     }
 }
