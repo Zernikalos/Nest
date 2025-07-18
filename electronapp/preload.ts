@@ -21,6 +21,8 @@ contextBridge.exposeInMainWorld('NativeZernikalos', {
     handleBundleScene: (callback: any) => ipcRenderer.on(RendererMenuEvents.BUNDLE_SCENE, callback),
 
     actionSaveFile: (fileData: Uint8Array) => ipcRenderer.send(NestEvents.SAVE_FILE, fileData),
+
+    createNewProject: () => ipcRenderer.send('NEW_PROJECT'),
 })
 
 contextBridge.exposeInMainWorld('userSettings', {

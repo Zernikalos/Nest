@@ -3,6 +3,19 @@ import {useNestStore} from "./nestStore"
 import {useFileApiStore} from "./fileapiStore"
 import _ from "lodash"
 
+declare global {
+    interface NativeZernikalos {
+        createNewProject: () => void;
+        handleLoadZko: (callback: (ev: string, payload: { path: string; fileName: string; }) => Promise<void>) => void;
+        handleShowImport: (callback: (ev: string, payload: { path: string; fileName: string; format: "obj" | "gltf" | "fbx" | "collada" | undefined; }) => Promise<void>) => void;
+        handleBundleScene: (callback: (ev: string, _payload: { path: string; fileName: string; }) => Promise<void>) => void;
+        actionSaveFile: (data: Uint8Array<ArrayBufferLike> | undefined) => void;
+    }
+    interface Window {
+        NativeZernikalos: NativeZernikalos;
+    }
+}
+
 export const useNativeNest = defineStore("NativeNest", () => {
 
     if (_.isNil(window.NativeZernikalos)) {
@@ -37,5 +50,15 @@ export const useNativeNest = defineStore("NativeNest", () => {
         window.NativeZernikalos.actionSaveFile(fileData)
     })
 
-    return {}
+    function createNewProject() {
+        if (_.isNil(window.NativeZernikalos) || _.isNil(window.NativeZernikalos.createNewProject)) {
+            console.warn("Native function 'createNewProject' is not available")
+            return
+        }
+        window.NativeZernikalos.createNewProject()
+    }
+
+    return {
+        createNewProject
+    }
 })

@@ -1,14 +1,13 @@
 import {BrowserWindow, ipcMain} from "electron"
 import path from "path"
 import {MenuEvents, RendererMenuEvents} from "./menu/MenuEvents"
-import {importFileDialog} from "./dialogs/importFileDialog"
-import {bundleSceneDialog} from "./dialogs/bundleSceneDialog"
+import {importFileDialog, bundleSceneDialog, loadZkoDialog } from "./dialogs"
 import {NestEvents} from "./NestEvents"
 import * as fs from "node:fs/promises"
 import {Constants} from "./constants"
-import {loadZkoDialog} from "./dialogs/loadZkoDialog"
 import _ from "lodash";
 import {SettingsService} from "@nestserver"
+import { newProjectDialog } from "./dialogs/newProjectDialog"
 
 export class MainWindow {
     private mainWindow!: BrowserWindow
@@ -104,6 +103,23 @@ export class MainWindow {
 
         ipcMain.handle("userSettings:set", (event, key, value) => {
             this.settings.updateSettings({[key]: value})
+        })
+
+        // Handler for creating a new project
+        ipcMain.on('NEW_PROJECT', async () => {
+            const { filePath, canceled } = await newProjectDialog(this.mainWindow)
+            if (canceled || !filePath) return
+
+            const initialProject = {
+                version: "1.0.0",
+                inputs: [],
+                outputs: []
+            }
+            try {
+                await fs.writeFile(filePath, JSON.stringify(initialProject, null, 2))
+            } catch (e) {
+                console.error(`Failed to create project at ${filePath}:`, e)
+            }
         })
     }
 }
