@@ -106,20 +106,22 @@ export class MainWindow {
         })
 
         // Handler for creating a new project
-        ipcMain.on('NEW_PROJECT', async () => {
+        ipcMain.handle('NEW_PROJECT', async () => {
             const { filePath, canceled } = await newProjectDialog(this.mainWindow)
-            if (canceled || !filePath) return
+            if (canceled || !filePath) return { canceled: true };
 
             const initialProject = {
                 version: "1.0.0",
                 inputs: [],
-                outputs: []
-            }
+                outputs: [],
+            };
             try {
-                await fs.writeFile(filePath, JSON.stringify(initialProject, null, 2))
+                await fs.writeFile(filePath, JSON.stringify(initialProject, null, 2));
+                return { canceled: false, project: initialProject };
             } catch (e) {
-                console.error(`Failed to create project at ${filePath}:`, e)
+                console.error(`Failed to create project at ${filePath}:`, e);
+                return { canceled: true, error: String(e) };
             }
-        })
+        });
     }
 }

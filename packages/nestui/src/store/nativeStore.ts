@@ -2,10 +2,11 @@ import {defineStore} from "pinia"
 import {useNestStore} from "./nestStore"
 import {useFileApiStore} from "./fileapiStore"
 import _ from "lodash"
+import { ProjectData } from "./projectStore";
 
 declare global {
     interface NativeZernikalos {
-        createNewProject: () => void;
+        createNewProject: () => Promise<{canceled: boolean, project: ProjectData}>;
         handleLoadZko: (callback: (ev: string, payload: { path: string; fileName: string; }) => Promise<void>) => void;
         handleShowImport: (callback: (ev: string, payload: { path: string; fileName: string; format: "obj" | "gltf" | "fbx" | "collada" | undefined; }) => Promise<void>) => void;
         handleBundleScene: (callback: (ev: string, _payload: { path: string; fileName: string; }) => Promise<void>) => void;
@@ -50,12 +51,12 @@ export const useNativeNest = defineStore("NativeNest", () => {
         window.NativeZernikalos.actionSaveFile(fileData)
     })
 
-    function createNewProject() {
+    async function createNewProject(): Promise<{canceled: boolean, project: ProjectData} | undefined> {
         if (_.isNil(window.NativeZernikalos) || _.isNil(window.NativeZernikalos.createNewProject)) {
             console.warn("Native function 'createNewProject' is not available")
             return
         }
-        window.NativeZernikalos.createNewProject()
+        return await window.NativeZernikalos.createNewProject()
     }
 
     return {

@@ -22,7 +22,7 @@ contextBridge.exposeInMainWorld('NativeZernikalos', {
 
     actionSaveFile: (fileData: Uint8Array) => ipcRenderer.send(NestEvents.SAVE_FILE, fileData),
 
-    createNewProject: () => ipcRenderer.send('NEW_PROJECT'),
+    createNewProject: () => ipcRenderer.invoke('NEW_PROJECT'),
 })
 
 contextBridge.exposeInMainWorld('userSettings', {

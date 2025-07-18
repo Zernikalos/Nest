@@ -8,12 +8,12 @@
 
 <script setup lang="ts">
 import Button from "@nestui/components/Button.vue"
-import { useNativeNest } from "../store/nativeStore"
+import { useProjectStore } from "../store/projectStore";
 
-const nativeNest = useNativeNest()
+const projectStore = useProjectStore()
 
 function createNewProject() {
-    nativeNest.createNewProject()
+    projectStore.createProject()
 }
 </script>
 
