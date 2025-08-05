@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import { MainLayout } from './layouts/MainLayout';
 import Editor from './pages/Editor';
-import { SettingsPage } from './pages/Settings';
+import { SettingsPage } from './pages/settings/SettingsPage';
 
 export const router = createBrowserRouter([
     {

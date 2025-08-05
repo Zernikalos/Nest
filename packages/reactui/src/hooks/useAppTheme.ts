@@ -2,7 +2,16 @@ import { useContext } from "react"
 import { ThemeProviderContext } from "../providers/ThemeProvider"
 import { type Theme } from "../lib/themes"
 
-export const useAppTheme = (themeName?: Theme) => {
+// Function overloads for better type safety
+export function useAppTheme(): {
+  theme: Theme
+  setTheme: (theme: Theme) => void
+  availableThemes: Theme[]
+}
+
+export function useAppTheme(themeName: Theme): () => void
+
+export function useAppTheme(themeName?: Theme) {
   const context = useContext(ThemeProviderContext)
 
   if (context === undefined) {
