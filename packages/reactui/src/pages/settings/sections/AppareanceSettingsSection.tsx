@@ -1,4 +1,5 @@
 import { useAppTheme } from "@/hooks/useAppTheme"
+import { useAppFont } from "@/hooks/useAppFont"
 import { getThemeInfo, type Theme } from "@/lib/themes"
 import { Button } from "@/components/ui/button"
 import { 
@@ -8,19 +9,53 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select"
-import { MdPalette } from "react-icons/md"
+import { MdPalette, MdFontDownload } from "react-icons/md"
 import { SettingsMainContainer } from "../SettingsMainContainer"
 import { SettingsSectionItem } from "../SettingsSectionItem"
 
 // Appearance Settings Section
 export function AppearanceSettingsSection() {
     const { theme, setTheme, availableThemes } = useAppTheme()
+    const { font, setFont, availableFonts } = useAppFont()
   
     return (
       <SettingsMainContainer
         title="Appearance"
         description="Customize the look and feel of your application"
       >
+
+        {/* Font Selection */}
+        <SettingsSectionItem
+          title="Font"
+          description="Choose your preferred font family"
+          icon={<MdFontDownload className="h-5 w-5" />}
+        >
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Font Family</label>
+              <Select value={font} onValueChange={setFont}>
+                <SelectTrigger className="w-[300px]">
+                  <SelectValue placeholder="Select a font" />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableFonts.map((fontKey) => (
+                    <SelectItem key={fontKey} value={fontKey}>
+                      <div className="flex items-center gap-2">
+                        <span style={{ fontFamily: fontKey === 'system-ui' ? 'system-ui' : fontKey }}>
+                          {fontKey}
+                        </span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                The font will be applied immediately and saved for your next visit
+              </p>
+            </div>
+          </div>
+        </SettingsSectionItem>
+
         {/* Theme Selection */}
         <SettingsSectionItem
           title="Theme"

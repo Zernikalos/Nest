@@ -1,0 +1,11 @@
+export type Font = 
+  | "system-ui"
+  | "Menlo"
+  | "Fira Code"
+  | "JetBrains Mono"
+  | "Source Code Pro"
+  | "Roboto"
+  | "Open Sans"
+  | "Lato"
+  | "Verdana"
+  | "Rajdhani" 
