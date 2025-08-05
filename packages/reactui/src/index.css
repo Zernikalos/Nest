@@ -40,6 +40,7 @@
     --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* ===== EXISTING THEMES (shadcn/ui default) ===== */
 :root {
     --radius: 0.625rem;
     --background: #ffffff;
@@ -107,6 +108,188 @@
     --sidebar-accent-foreground: #ededed;
     --sidebar-border: #262626;
     --sidebar-ring: #a3a3a3;
+}
+
+/* ===== NEW THEMES (Additional color palettes) ===== */
+
+/* Theme: Ocean - Deep blue ocean theme */
+[data-theme="ocean"] {
+    --radius: 0.625rem;
+    --background: #0f172a;
+    --foreground: #e2e8f0;
+    --card: #1e293b;
+    --card-foreground: #e2e8f0;
+    --popover: #1e293b;
+    --popover-foreground: #e2e8f0;
+    --primary: #0ea5e9;
+    --primary-foreground: #ffffff;
+    --secondary: #1e293b;
+    --secondary-foreground: #cbd5e1;
+    --muted: #334155;
+    --muted-foreground: #94a3b8;
+    --accent: #0369a1;
+    --accent-foreground: #ffffff;
+    --destructive: #dc2626;
+    --border: #1e293b;
+    --input: #1e293b;
+    --ring: #0ea5e9;
+    --chart-1: #0ea5e9;
+    --chart-2: #0284c7;
+    --chart-3: #0369a1;
+    --chart-4: #075985;
+    --chart-5: #0c4a6e;
+    --sidebar: #1e293b;
+    --sidebar-foreground: #e2e8f0;
+    --sidebar-primary: #0ea5e9;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #334155;
+    --sidebar-accent-foreground: #cbd5e1;
+    --sidebar-border: #1e293b;
+    --sidebar-ring: #0ea5e9;
+}
+
+/* Theme: Forest - Natural green theme */
+[data-theme="forest"] {
+    --radius: 0.625rem;
+    --background: #064e3b;
+    --foreground: #d1fae5;
+    --card: #065f46;
+    --card-foreground: #d1fae5;
+    --popover: #065f46;
+    --popover-foreground: #d1fae5;
+    --primary: #10b981;
+    --primary-foreground: #ffffff;
+    --secondary: #065f46;
+    --secondary-foreground: #a7f3d0;
+    --muted: #065f46;
+    --muted-foreground: #6ee7b7;
+    --accent: #059669;
+    --accent-foreground: #ffffff;
+    --destructive: #dc2626;
+    --border: #065f46;
+    --input: #065f46;
+    --ring: #10b981;
+    --chart-1: #10b981;
+    --chart-2: #059669;
+    --chart-3: #047857;
+    --chart-4: #065f46;
+    --chart-5: #064e3b;
+    --sidebar: #065f46;
+    --sidebar-foreground: #d1fae5;
+    --sidebar-primary: #10b981;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #065f46;
+    --sidebar-accent-foreground: #a7f3d0;
+    --sidebar-border: #065f46;
+    --sidebar-ring: #10b981;
+}
+
+/* Theme: Sunset - Warm orange theme */
+[data-theme="sunset"] {
+    --radius: 0.625rem;
+    --background: #451a03;
+    --foreground: #fed7aa;
+    --card: #7c2d12;
+    --card-foreground: #fed7aa;
+    --popover: #7c2d12;
+    --popover-foreground: #fed7aa;
+    --primary: #f97316;
+    --primary-foreground: #ffffff;
+    --secondary: #7c2d12;
+    --secondary-foreground: #fed7aa;
+    --muted: #7c2d12;
+    --muted-foreground: #fdba74;
+    --accent: #ea580c;
+    --accent-foreground: #ffffff;
+    --destructive: #dc2626;
+    --border: #7c2d12;
+    --input: #7c2d12;
+    --ring: #f97316;
+    --chart-1: #f97316;
+    --chart-2: #ea580c;
+    --chart-3: #c2410c;
+    --chart-4: #9a3412;
+    --chart-5: #7c2d12;
+    --sidebar: #7c2d12;
+    --sidebar-foreground: #fed7aa;
+    --sidebar-primary: #f97316;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #7c2d12;
+    --sidebar-accent-foreground: #fed7aa;
+    --sidebar-border: #7c2d12;
+    --sidebar-ring: #f97316;
+}
+
+/* Theme: Purple - Royal purple theme */
+[data-theme="purple"] {
+    --radius: 0.625rem;
+    --background: #1e1b4b;
+    --foreground: #e0e7ff;
+    --card: #312e81;
+    --card-foreground: #e0e7ff;
+    --popover: #312e81;
+    --popover-foreground: #e0e7ff;
+    --primary: #8b5cf6;
+    --primary-foreground: #ffffff;
+    --secondary: #312e81;
+    --secondary-foreground: #c7d2fe;
+    --muted: #312e81;
+    --muted-foreground: #a5b4fc;
+    --accent: #7c3aed;
+    --accent-foreground: #ffffff;
+    --destructive: #dc2626;
+    --border: #312e81;
+    --input: #312e81;
+    --ring: #8b5cf6;
+    --chart-1: #8b5cf6;
+    --chart-2: #7c3aed;
+    --chart-3: #6d28d9;
+    --chart-4: #5b21b6;
+    --chart-5: #4c1d95;
+    --sidebar: #312e81;
+    --sidebar-foreground: #e0e7ff;
+    --sidebar-primary: #8b5cf6;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #312e81;
+    --sidebar-accent-foreground: #c7d2fe;
+    --sidebar-border: #312e81;
+    --sidebar-ring: #8b5cf6;
+}
+
+/* Theme: Rose - Pink/rose theme */
+[data-theme="rose"] {
+    --radius: 0.625rem;
+    --background: #4c0519;
+    --foreground: #fdf2f8;
+    --card: #881337;
+    --card-foreground: #fdf2f8;
+    --popover: #881337;
+    --popover-foreground: #fdf2f8;
+    --primary: #ec4899;
+    --primary-foreground: #ffffff;
+    --secondary: #881337;
+    --secondary-foreground: #fce7f3;
+    --muted: #881337;
+    --muted-foreground: #fbcfe8;
+    --accent: #db2777;
+    --accent-foreground: #ffffff;
+    --destructive: #dc2626;
+    --border: #881337;
+    --input: #881337;
+    --ring: #ec4899;
+    --chart-1: #ec4899;
+    --chart-2: #db2777;
+    --chart-3: #be185d;
+    --chart-4: #9d174d;
+    --chart-5: #831843;
+    --sidebar: #881337;
+    --sidebar-foreground: #fdf2f8;
+    --sidebar-primary: #ec4899;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #881337;
+    --sidebar-accent-foreground: #fce7f3;
+    --sidebar-border: #881337;
+    --sidebar-ring: #ec4899;
 }
 
 @layer base {

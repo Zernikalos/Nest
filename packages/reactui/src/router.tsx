@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import { MainLayout } from './layouts/MainLayout';
 import Editor from './pages/Editor';
+import { SettingsPage } from './pages/Settings';
 
 export const router = createBrowserRouter([
     {
@@ -26,7 +27,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'settings',
-                element: <div>Settings Page</div>, // Placeholder component
+                element: <SettingsPage />
             },
         ],
     },
