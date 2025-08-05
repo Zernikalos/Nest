@@ -81,7 +81,7 @@ export function ThemeDropdown() {
   const themeState = useAppTheme()
   
   // Ensure we get the state object, not a function
-  const { theme, setTheme, availableThemes } = typeof themeState === 'function' 
+  const { setTheme, availableThemes } = typeof themeState === 'function' 
     ? useAppTheme() as { theme: string; setTheme: (theme: string) => void; availableThemes: string[] }
     : themeState as { theme: string; setTheme: (theme: string) => void; availableThemes: string[] }
 

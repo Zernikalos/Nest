@@ -1,5 +1,6 @@
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect } from "react"
 import { themes, type Theme } from "../lib/themes"
+import { usePersistentState } from "../hooks/usePersistentState"
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -27,16 +28,11 @@ export function ThemeProvider({
   storageKey = "app-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    // Try to get theme from localStorage
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem(storageKey)
-      if (stored && stored in themes) {
-        return stored as Theme
-      }
-    }
-    return defaultTheme
-  })
+  const [theme, setTheme] = usePersistentState<Theme>(
+    storageKey,
+    defaultTheme,
+    (value): value is Theme => value in themes
+  )
 
   useEffect(() => {
     const root = window.document.documentElement
@@ -51,10 +47,7 @@ export function ThemeProvider({
     } else if (theme !== "default") {
       root.setAttribute("data-theme", theme)
     }
-    
-    // Save to localStorage
-    localStorage.setItem(storageKey, theme)
-  }, [theme, storageKey])
+  }, [theme])
 
   const value = {
     theme,

@@ -1,5 +1,6 @@
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect } from "react"
 import { type Font } from "../types/font"
+import { usePersistentState } from "../hooks/usePersistentState"
 
 type FontProviderProps = {
   children: React.ReactNode
@@ -57,24 +58,16 @@ export function FontProvider({
   storageKey = "app-font",
   ...props
 }: FontProviderProps) {
-  const [font, setFont] = useState<Font>(() => {
-    // Try to get font from localStorage
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem(storageKey)
-      if (stored && availableFonts.includes(stored as Font)) {
-        return stored as Font
-      }
-    }
-    return defaultFont
-  })
+  const [font, setFont] = usePersistentState<Font>(
+    storageKey,
+    defaultFont,
+    (value): value is Font => availableFonts.includes(value)
+  )
 
   useEffect(() => {
     // Apply the selected font to the document body
     document.body.style.fontFamily = getFontFamilyString(font)
-    
-    // Save to localStorage
-    localStorage.setItem(storageKey, font)
-  }, [font, storageKey])
+  }, [font])
 
   const value = {
     font,
