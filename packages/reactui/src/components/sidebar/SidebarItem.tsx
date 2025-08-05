@@ -22,7 +22,7 @@ export function SidebarItem({
     selected,
 }: SidebarItemProps) {
     return (
-        <li
+        <div
             className={cn(
                 'border-l-2 border-l-transparent',
                 selected && 'border-l-primary'
@@ -44,6 +44,6 @@ export function SidebarItem({
                     <p>{name}</p>
                 </TooltipContent>
             </Tooltip>
-        </li>
+        </div>
     );
 }

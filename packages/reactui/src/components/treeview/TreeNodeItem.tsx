@@ -14,9 +14,13 @@ const styles = {
     // Tree node item container
     nodeItem: 'flex flex-col',
 
-    // Default label container
-    defaultLabel:
-        'flex items-center gap-1 px-1 py-0.5 cursor-pointer hover:bg-accent w-full h-8',
+    // Tree node container
+    treeNode: cn(
+        // Positioning and layout
+        'flex items-center gap-1 px-1 py-0.5 w-full h-8',
+        // Interactive states
+        'cursor-pointer hover:bg-accent focus:outline-none'
+    ),
 
     // State variants
     selected: 'bg-accent text-accent-foreground',
@@ -88,7 +92,7 @@ export function TreeNodeItem({
     const defaultLabel = (
         <div
             className={cn(
-                styles.defaultLabel,
+                styles.treeNode,
                 isSelected && styles.selected,
                 isFocused && styles.focused
             )}
