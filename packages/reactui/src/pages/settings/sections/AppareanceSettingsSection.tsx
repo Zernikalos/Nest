@@ -75,7 +75,6 @@ export function AppearanceSettingsSection() {
                     return (
                       <SelectItem key={themeKey} value={themeKey}>
                         <div className="flex items-center gap-2">
-                          <span>{themeInfo.icon}</span>
                           <span>{themeInfo.name}</span>
                         </div>
                       </SelectItem>

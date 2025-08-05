@@ -3,7 +3,6 @@ interface ThemeInfo {
   name: string
   value: string
   description: string
-  icon: string
 }
 
 // Define the themes object with proper typing
@@ -11,44 +10,37 @@ export const themes: Record<string, ThemeInfo> = {
   default: {
     name: "Default",
     value: "default",
-    description: "Classic light theme",
-    icon: "☀️"
+    description: "Classic light theme"
   },
   dark: {
     name: "Dark",
     value: "dark", 
-    description: "Dark mode theme",
-    icon: "🌙"
+    description: "Dark mode theme"
   },
   ocean: {
     name: "Ocean",
     value: "ocean",
-    description: "Deep blue ocean theme",
-    icon: "🌊"
+    description: "Deep blue ocean theme"
   },
   forest: {
     name: "Forest",
     value: "forest",
-    description: "Natural green theme",
-    icon: "🌲"
+    description: "Natural green theme"
   },
   sunset: {
     name: "Sunset",
     value: "sunset",
-    description: "Warm orange theme",
-    icon: "🌅"
+    description: "Warm orange theme"
   },
   purple: {
     name: "Purple",
     value: "purple",
-    description: "Royal purple theme",
-    icon: "👑"
+    description: "Royal purple theme"
   },
   rose: {
     name: "Rose",
     value: "rose",
-    description: "Pink/rose theme",
-    icon: "🌹"
+    description: "Pink/rose theme"
   }
 } as const
 

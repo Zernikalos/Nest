@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import { MainLayout } from './layouts/MainLayout';
 import Editor from './pages/Editor';
-import { SettingsPage } from './pages/settings/SettingsPage';
+import { settingsRoutes } from './pages/settings/settingsRouter';
 
 export const router = createBrowserRouter([
     {
@@ -25,10 +25,7 @@ export const router = createBrowserRouter([
                 path: 'exporter',
                 element: <div>Export Page</div>, // Placeholder component
             },
-            {
-                path: 'settings',
-                element: <SettingsPage />
-            },
+            settingsRoutes,
         ],
     },
 ]);
