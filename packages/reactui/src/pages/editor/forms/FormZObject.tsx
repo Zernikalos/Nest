@@ -10,10 +10,26 @@ interface FormZObjectProps {
 }
 
 const FormZObject: React.FC<FormZObjectProps> = ({ zObject, onNameChange }) => {
+    const [localName, setLocalName] = React.useState(zObject.name);
+
+    // Update local name when zObject changes
+    React.useEffect(() => {
+        setLocalName(zObject.name);
+    }, [zObject.name]);
+
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newName = event.target.value;
-        if (onNameChange) {
-            onNameChange(newName);
+        setLocalName(event.target.value);
+    };
+
+    const handleNameBlur = () => {
+        if (localName !== zObject.name && onNameChange) {
+            onNameChange(localName);
+        }
+    };
+
+    const handleNameKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            event.currentTarget.blur();
         }
     };
 
@@ -38,8 +54,10 @@ const FormZObject: React.FC<FormZObjectProps> = ({ zObject, onNameChange }) => {
                     <Label htmlFor="name">Name</Label>
                     <Input
                         id="name"
-                        value={zObject.name}
+                        value={localName}
                         onChange={handleNameChange}
+                        onBlur={handleNameBlur}
+                        onKeyDown={handleNameKeyDown}
                         placeholder="Enter object name"
                     />
                 </div>
