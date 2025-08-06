@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useElectronEvents } from './useElectronEvents'
 import { useFileApi } from './useFileApi'
-import { useZkWorkflow } from './useZkWorkflow'
+import { useZkWorkflow, type WorkflowState } from './useZkWorkflow'
 import type { InputFileFormat, ZkoParsed } from '@zernikalos/zkbuilder'
 
 interface FileImportData {
@@ -24,14 +24,22 @@ interface UseFileImportWorkflowReturn {
     startFileImport: () => void
     cancelImport: () => void
     
-    // Workflow state (exposed from useZkWorkflow)
-    workflowState: ReturnType<typeof useZkWorkflow>
+    // Workflow functions
+    workflow: ReturnType<typeof useZkWorkflow>
 }
 
 export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
     const [isImporting, setIsImporting] = useState(false)
     const [importError, setImportError] = useState<string | null>(null)
     const [currentFile, setCurrentFile] = useState<FileImportData | null>(null)
+    const [workflowState, setWorkflowState] = useState<WorkflowState>({
+        currentStep: "idle",
+        loadedFile: null,
+        loadedData: null,
+        parsedData: null,
+        exportedData: null,
+        error: null
+    })
     
     const { onImportFile, isElectron } = useElectronEvents()
     const { getFileUrl, isLoading: isFileApiLoading, error: fileApiError } = useFileApi()
@@ -61,7 +69,8 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
             
             // Step 2: Process file through ZK workflow
             console.log('🔄 Processing file through ZK workflow...')
-            await workflow.processFile(fileUrl, data.format)
+            const result = await workflow.processFile(fileUrl, data.format)
+            setWorkflowState(result)
             console.log('✅ File processed successfully')
             
         } catch (error) {
@@ -71,7 +80,7 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
         } finally {
             setIsImporting(false)
         }
-    }, [isElectron, getFileUrl, workflow])
+    }, [isElectron, getFileUrl, workflow.processFile])
     
     // Setup Electron event listener - useElectronEvents already handles registration tracking
     useEffect(() => {
@@ -104,17 +113,24 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
         setIsImporting(false)
         setImportError(null)
         setCurrentFile(null)
-        workflow.reset()
-    }, [workflow])
+        setWorkflowState({
+            currentStep: "idle",
+            loadedFile: null,
+            loadedData: null,
+            parsedData: null,
+            exportedData: null,
+            error: null
+        })
+    }, [])
     
     return {
-        isImporting: isImporting || isFileApiLoading || workflow.currentStep !== "idle",
-        importError: importError || workflow.error,
+        isImporting: isImporting || isFileApiLoading || workflowState.currentStep !== "idle",
+        importError: importError || workflowState.error,
         currentFile,
-        parsedData: workflow.parsedData,
-        exportedData: workflow.exportedData,
+        parsedData: workflowState.parsedData,
+        exportedData: workflowState.exportedData,
         startFileImport,
         cancelImport,
-        workflowState: workflow
+        workflow
     }
 }

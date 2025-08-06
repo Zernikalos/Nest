@@ -60,18 +60,13 @@ const EditorView: React.FC = () => {
     // Get selected ZObject based on active node
     const selectedZObject = activeNode ? findZObjectById(parsedData?.root, activeNode) : null;
 
-    // Update tree when trigger changes
-    const treeWithTrigger = useMemo(() => {
-        return tree;
-    }, [tree, setTreeUpdateTrigger]);
-
     return (
         <ResizablePanelGroup direction="horizontal" className="h-full w-full">
             <ResizablePanel defaultSize={25}>
                 <SidebarProvider className="relative w-full">
                     <TreeView
                         className="w-full"
-                        data={treeWithTrigger}
+                        data={tree}
                         selectedIds={selectedIds}
                         onSelect={handleSelect}
                     />
