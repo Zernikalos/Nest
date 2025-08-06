@@ -313,6 +313,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.83.0
         version: 5.84.1(react@19.1.1)
+      '@zernikalos/zkbuilder':
+        specifier: '*'
+        version: 0.0.2
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
