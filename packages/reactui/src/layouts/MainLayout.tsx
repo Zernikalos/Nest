@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
 import { Sidebar } from '@/components/sidebar/Sidebar';
-import { FileImportIndicators } from '@/components/FileImportIndicators';
 
 export function MainLayout() {
     return (
@@ -14,9 +13,6 @@ export function MainLayout() {
                     </main>
                 </div>
             </div>
-            
-            {/* Global file import indicators */}
-            <FileImportIndicators />
         </div>
     );
 }

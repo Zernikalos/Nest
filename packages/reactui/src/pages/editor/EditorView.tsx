@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import TabList from '@/components/tablist/TabList';
 import { TreeView, type TreeNode } from '@/components/treeview';
@@ -8,38 +8,28 @@ import {
     ResizablePanelGroup,
 } from '@/components/ui/resizable';
 import { SidebarProvider } from '@/components/ui/sidebar';
+import { useFileImportWorkflow } from '@/hooks/useFileImportWorkflow';
 
-// Datos de ejemplo para el árbol
-const initialTree: TreeNode[] = [
-    {
-        id: '1',
-        label: 'src',
-        children: [
-            { id: '1-1', label: 'App.tsx' },
-            { id: '1-2', label: 'main.tsx' },
-            {
-                id: '1-3',
-                label: 'components',
-                children: [
-                    { id: '1-3-1', label: 'Button.tsx' },
-                    { id: '1-3-2', label: 'Input.tsx' },
-                ],
-            },
-        ],
-    },
-    {
-        id: '2',
-        label: 'public',
-        children: [{ id: '2-1', label: 'vite.svg' }],
-    },
-    {
-        id: '3',
-        label: 'README.md',
-    },
-];
+function convertZObjectToTreeNode(zObject: any): TreeNode {
+    return {
+        id: zObject.refId,
+        label: zObject.name,
+        children: zObject.children?.map((child: any) => convertZObjectToTreeNode(child)) || []
+    };
+}
 
 const EditorView: React.FC = () => {
-    const [tree, setTree] = useState<TreeNode[]>(initialTree);
+    const { parsedData } = useFileImportWorkflow();
+    
+    // Construir el árbol basado en parsedData.root si está disponible
+    const tree = useMemo(() => {
+        if (parsedData?.root) {
+            console.log('🔄 Converting parsed data to tree structure:', parsedData.root);
+            return [convertZObjectToTreeNode(parsedData.root)];
+        }
+        return [];
+    }, [parsedData]);
+
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [openFiles, setOpenFiles] = useState<TreeNode[]>([]);
     const [activeFile, setActiveFile] = useState<string | null>(null);
@@ -56,7 +46,8 @@ const EditorView: React.FC = () => {
     };
 
     const handleMove = (newTree: TreeNode[]) => {
-        setTree(newTree);
+        // Note: Tree movement is disabled when using parsed data
+        // setTree(newTree);
     };
 
     const handleTabChange = (fileId: string) => {

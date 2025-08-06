@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useElectronEvents } from './useElectronEvents'
 import { useFileApi } from './useFileApi'
 import { useZkWorkflow } from './useZkWorkflow'
-import type { InputFileFormat } from '@zernikalos/zkbuilder'
+import type { InputFileFormat, ZkoParsed } from '@zernikalos/zkbuilder'
 
 interface FileImportData {
     path: string
@@ -15,6 +15,10 @@ interface UseFileImportWorkflowReturn {
     isImporting: boolean
     importError: string | null
     currentFile: FileImportData | null
+    
+    // Main data
+    parsedData: ZkoParsed | null
+    exportedData: any | null
     
     // Actions
     startFileImport: () => void
@@ -107,6 +111,8 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
         isImporting: isImporting || isFileApiLoading || workflow.currentStep !== "idle",
         importError: importError || workflow.error,
         currentFile,
+        parsedData: workflow.parsedData,
+        exportedData: workflow.exportedData,
         startFileImport,
         cancelImport,
         workflowState: workflow
