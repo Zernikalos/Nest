@@ -1,9 +1,9 @@
 declare global {
     interface Window {
         NativeZernikalos?: {
-            handleLoadZko: (callback: (ev: any, data: any) => void) => void
-            handleShowImport: (callback: (ev: any, data: any) => void) => void
-            handleBundleScene: (callback: (ev: any, data: any) => void) => void
+            handleLoadZko: (callback: (ev: any, data: any) => void) => ElectronSubscription
+            handleShowImport: (callback: (ev: any, data: any) => void) => ElectronSubscription
+            handleBundleScene: (callback: (ev: any, data: any) => void) => ElectronSubscription
             actionSaveFile: (fileData: Uint8Array) => void
         }
         userSettings?: {
@@ -13,4 +13,5 @@ declare global {
     }
 }
 
-export type ElectronEventCallback = (ev: any, data: any) => void 
+export type ElectronEventCallback = (ev: any, data: any) => void
+export type ElectronSubscription = { off: () => void } 

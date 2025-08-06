@@ -21,7 +21,6 @@ interface UseFileImportWorkflowReturn {
     exportedData: any | null
     
     // Actions
-    startFileImport: () => void
     cancelImport: () => void
     
     // Workflow functions
@@ -41,7 +40,7 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
         error: null
     })
     
-    const { onImportFile, isElectron } = useElectronEvents()
+    const { onImportFile, offImportFile, isElectron } = useElectronEvents()
     const { getFileUrl, isLoading: isFileApiLoading, error: fileApiError } = useFileApi()
     const workflow = useZkWorkflow()
     
@@ -82,14 +81,18 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
         }
     }, [isElectron, getFileUrl, workflow.processFile])
     
-    // Setup Electron event listener - useElectronEvents already handles registration tracking
+    // Setup Electron event listener with cleanup
     useEffect(() => {
         if (isElectron) {
-            console.log('🔄 Registering file import callback with Electron...')
             onImportFile(handleFileImport)
             console.log('✅ File import callback registered successfully')
+            
+            // Cleanup when component unmounts
+            return () => {
+                offImportFile()
+            }
         }
-    }, [isElectron, onImportFile, handleFileImport])
+    }, [isElectron, onImportFile, offImportFile, handleFileImport])
     
     // Handle file API errors
     useEffect(() => {
@@ -98,16 +101,6 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
         }
     }, [fileApiError])
     
-    const startFileImport = useCallback(() => {
-        if (!isElectron) {
-            setImportError("File import only available in Electron environment")
-            return
-        }
-        
-        // This will trigger the Electron dialog
-        // The actual import will be handled by the callback
-        onImportFile(handleFileImport)
-    }, [isElectron, onImportFile, handleFileImport])
     
     const cancelImport = useCallback(() => {
         setIsImporting(false)
@@ -129,7 +122,6 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
         currentFile,
         parsedData: workflowState.parsedData,
         exportedData: workflowState.exportedData,
-        startFileImport,
         cancelImport,
         workflow
     }

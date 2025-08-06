@@ -8,7 +8,7 @@ import {
     ResizablePanelGroup,
 } from '@/components/ui/resizable';
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { useFileImportWorkflow } from '@/hooks/useFileImportWorkflow';
+import { useFileImport } from '@/providers/FileImportProvider';
 import {zernikalos} from '@zernikalos/zernikalos';
 import FormZObject from './forms/FormZObject';
 import { useEditorState } from './hooks/useEditorState';
@@ -22,7 +22,7 @@ function convertZObjectToTreeNode(zObject: zernikalos.objects.ZObject): TreeNode
 }
 
 const EditorView: React.FC = () => {
-    const { parsedData } = useFileImportWorkflow();
+    const { parsedData } = useFileImport();
     const [treeUpdateTrigger, setTreeUpdateTrigger] = useState(0);
     
     // Build tree from parsed data

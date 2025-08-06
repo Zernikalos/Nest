@@ -1,5 +1,5 @@
 import {contextBridge, ipcRenderer} from "electron"
-import {RendererMenuEvents} from "./menu/MenuEvents";
+import {RendererMenuEvents, MenuEvents} from "./menu/MenuEvents";
 import {NestEvents} from "./NestEvents";
 
 // All of the Node.js APIs are available in the preload process.
@@ -16,9 +16,24 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 
 contextBridge.exposeInMainWorld('NativeZernikalos', {
-    handleLoadZko: (callback: any) => ipcRenderer.on(RendererMenuEvents.LOAD_ZKO, callback),
-    handleShowImport: (callback: any) => ipcRenderer.on(RendererMenuEvents.IMPORT_FILE, callback),
-    handleBundleScene: (callback: any) => ipcRenderer.on(RendererMenuEvents.BUNDLE_SCENE, callback),
+    handleLoadZko: (callback: any) => {
+        ipcRenderer.on(RendererMenuEvents.LOAD_ZKO, callback)
+        return {
+            off: () => ipcRenderer.removeListener(RendererMenuEvents.LOAD_ZKO, callback)
+        }
+    },
+    handleShowImport: (callback: any) => {
+        ipcRenderer.on(RendererMenuEvents.IMPORT_FILE, callback)
+        return {
+            off: () => ipcRenderer.removeListener(RendererMenuEvents.IMPORT_FILE, callback)
+        }
+    },
+    handleBundleScene: (callback: any) => {
+        ipcRenderer.on(RendererMenuEvents.BUNDLE_SCENE, callback)
+        return {
+            off: () => ipcRenderer.removeListener(RendererMenuEvents.BUNDLE_SCENE, callback)
+        }
+    },
 
     actionSaveFile: (fileData: Uint8Array) => ipcRenderer.send(NestEvents.SAVE_FILE, fileData),
 })
