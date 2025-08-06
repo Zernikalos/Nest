@@ -1,7 +1,5 @@
 import { useCallback, useState } from "react"
-import { useZkLoad } from "./useZkLoad"
-import { useZkParse } from "./useZkParse"
-import { useZkExport } from "./useZkExport"
+import { zkLoad, zkParse, zkExport } from "@zernikalos/zkbuilder"
 import type { InputFileFormat, ParseOptions, ExportOptions, ZkoParsed, ZkoParseableObject } from "@zernikalos/zkbuilder"
 
 interface WorkflowState {
@@ -39,14 +37,10 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
         error: null
     })
 
-    const { loadFile: zkLoadFile, reset: resetLoad } = useZkLoad()
-    const { parseObject, reset: resetParse } = useZkParse()
-    const { exportFile, downloadFile, reset: resetExport } = useZkExport()
-
     const loadFile = useCallback(async (filePath: string, format?: InputFileFormat) => {
         setWorkflowState(prev => ({ ...prev, currentStep: "loading", error: null }))
         try {
-            const loadedData = await zkLoadFile(filePath, format)
+            const loadedData = await zkLoad({ filePath, format })
             setWorkflowState(prev => ({ 
                 ...prev, 
                 currentStep: "idle",
@@ -61,7 +55,7 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
                 error: error instanceof Error ? error.message : "Unknown error occurred"
             }))
         }
-    }, [zkLoadFile])
+    }, [])
 
     const parseLoaded = useCallback(async (options?: ParseOptions) => {
         if (!workflowState.loadedData) {
@@ -71,7 +65,7 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
 
         setWorkflowState(prev => ({ ...prev, currentStep: "parsing", error: null }))
         try {
-            const parsedData = await parseObject(workflowState.loadedData, options)
+            const parsedData = await zkParse(workflowState.loadedData, options)
             setWorkflowState(prev => ({ 
                 ...prev, 
                 currentStep: "idle",
@@ -85,7 +79,7 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
                 error: error instanceof Error ? error.message : "Unknown error occurred"
             }))
         }
-    }, [parseObject, workflowState.loadedData])
+    }, [workflowState.loadedData])
 
     const exportParsed = useCallback(async (options?: ExportOptions) => {
         if (!workflowState.parsedData) {
@@ -95,7 +89,7 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
 
         setWorkflowState(prev => ({ ...prev, currentStep: "exporting", error: null }))
         try {
-            const exportedData = await exportFile(workflowState.parsedData, options)
+            const exportedData = await zkExport(workflowState.parsedData, options)
             setWorkflowState(prev => ({ 
                 ...prev, 
                 currentStep: "completed",
@@ -109,7 +103,7 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
                 error: error instanceof Error ? error.message : "Unknown error occurred"
             }))
         }
-    }, [exportFile, workflowState.parsedData])
+    }, [workflowState.parsedData])
 
     const processFile = useCallback(async (filePath: string, format?: InputFileFormat) => {
         setWorkflowState(prev => ({ ...prev, currentStep: "loading", error: null }))
@@ -117,7 +111,7 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
         try {
             // Load
             console.log('🔄 Loading file...')
-            const loadedData = await zkLoadFile(filePath, format)
+            const loadedData = await zkLoad({ filePath, format })
             console.log('✅ File loaded:', loadedData)
             
             setWorkflowState(prev => ({ 
@@ -129,7 +123,7 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
             
             // Parse
             console.log('🔄 Parsing file...')
-            const parsedData = await parseObject(loadedData)
+            const parsedData = await zkParse(loadedData)
             console.log('✅ File parsed:', parsedData)
             
             setWorkflowState(prev => ({ 
@@ -146,7 +140,7 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
                 error: error instanceof Error ? error.message : "Unknown error occurred"
             }))
         }
-    }, [zkLoadFile, parseObject])
+    }, [])
 
     const exportCurrent = useCallback(async (options?: ExportOptions) => {
         if (!workflowState.parsedData) {
@@ -156,7 +150,7 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
 
         setWorkflowState(prev => ({ ...prev, currentStep: "exporting", error: null }))
         try {
-            const exportedData = await exportFile(workflowState.parsedData, options)
+            const exportedData = await zkExport(workflowState.parsedData, options)
             setWorkflowState(prev => ({ 
                 ...prev, 
                 currentStep: "completed",
@@ -170,7 +164,7 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
                 error: error instanceof Error ? error.message : "Unknown error occurred"
             }))
         }
-    }, [exportFile, workflowState.parsedData])
+    }, [workflowState.parsedData])
 
     const downloadCurrent = useCallback(async (filename: string, options?: ExportOptions) => {
         if (!workflowState.parsedData) {
@@ -180,7 +174,27 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
 
         setWorkflowState(prev => ({ ...prev, currentStep: "exporting", error: null }))
         try {
-            await downloadFile(workflowState.parsedData, filename, options)
+            const result = await zkExport(workflowState.parsedData, options)
+            
+            // Create blob and download
+            let blob: Blob
+            
+            if (options?.format === "proto") {
+                blob = new Blob([result as Uint8Array], { type: "application/octet-stream" })
+            } else {
+                const content = typeof result === "string" ? result : JSON.stringify(result)
+                blob = new Blob([content], { type: "application/json" })
+            }
+            
+            const url = URL.createObjectURL(blob)
+            const link = document.createElement("a")
+            link.href = url
+            link.download = filename
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
+            URL.revokeObjectURL(url)
+            
             setWorkflowState(prev => ({ 
                 ...prev, 
                 currentStep: "completed",
@@ -193,7 +207,7 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
                 error: error instanceof Error ? error.message : "Unknown error occurred"
             }))
         }
-    }, [downloadFile, workflowState.parsedData])
+    }, [workflowState.parsedData])
 
     const reset = useCallback(() => {
         setWorkflowState({
@@ -204,10 +218,7 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
             exportedData: null,
             error: null
         })
-        resetLoad()
-        resetParse()
-        resetExport()
-    }, [resetLoad, resetParse, resetExport])
+    }, [])
 
     const goToStep = useCallback((step: "load" | "parse" | "export") => {
         setWorkflowState(prev => ({ ...prev, currentStep: "idle" }))
