@@ -9,8 +9,10 @@ import {
 } from '@/components/ui/resizable';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { useFileImportWorkflow } from '@/hooks/useFileImportWorkflow';
+import {zernikalos} from '@zernikalos/zernikalos';
+import FormZObject from './forms/FormZObject';
 
-function convertZObjectToTreeNode(zObject: any): TreeNode {
+function convertZObjectToTreeNode(zObject: zernikalos.objects.ZObject): TreeNode {
     return {
         id: zObject.refId,
         label: zObject.name,
@@ -33,6 +35,7 @@ const EditorView: React.FC = () => {
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [openFiles, setOpenFiles] = useState<TreeNode[]>([]);
     const [activeFile, setActiveFile] = useState<string | null>(null);
+    const [selectedZObject, setSelectedZObject] = useState<zernikalos.objects.ZObject | null>(null);
 
     const handleSelect = (ids: string[]) => {
         setSelectedIds(ids);
@@ -42,6 +45,10 @@ const EditorView: React.FC = () => {
                 setOpenFiles([...openFiles, node]);
             }
             setActiveFile(node.id);
+            
+            // Find the corresponding ZObject
+            const zObject = findZObjectById(parsedData?.root, ids[ids.length - 1]);
+            setSelectedZObject(zObject || null);
         }
     };
 
@@ -52,6 +59,10 @@ const EditorView: React.FC = () => {
 
     const handleTabChange = (fileId: string) => {
         setActiveFile(fileId);
+        
+        // Find the corresponding ZObject for the active tab
+        const zObject = findZObjectById(parsedData?.root, fileId);
+        setSelectedZObject(zObject || null);
     };
 
     const handleTabClose = (fileId: string) => {
@@ -62,6 +73,23 @@ const EditorView: React.FC = () => {
                     ? openFiles.filter(f => f.id !== fileId)[0]?.id
                     : null;
             setActiveFile(newActiveFile || null);
+        }
+    };
+
+    const handleNameChange = (newName: string) => {
+        if (selectedZObject) {
+            selectedZObject.name = newName;
+            
+            // Update the tree structure to reflect the name change
+            const updatedTree = tree.map(node => {
+                if (node.id === selectedZObject.refId) {
+                    return { ...node, label: newName };
+                }
+                return updateNodeLabel(node, selectedZObject.refId, newName);
+            });
+            
+            // Force re-render by updating the tree
+            setSelectedIds([...selectedIds]);
         }
     };
 
@@ -80,13 +108,23 @@ const EditorView: React.FC = () => {
             <ResizableHandle />
             <ResizablePanel defaultSize={75}>
                 {openFiles.length > 0 ? (
-                    <TabList
-                        className="w-full"
-                        openTabs={openFiles}
-                        activeTab={activeFile}
-                        onTabChange={handleTabChange}
-                        onTabClose={handleTabClose}
-                    />
+                    <div className="flex flex-col h-full">
+                        <TabList
+                            className="w-full"
+                            openTabs={openFiles}
+                            activeTab={activeFile}
+                            onTabChange={handleTabChange}
+                            onTabClose={handleTabClose}
+                        />
+                        {selectedZObject && (
+                            <div className="p-6 border-t">
+                                <FormZObject 
+                                    zObject={selectedZObject}
+                                    onNameChange={handleNameChange}
+                                />
+                            </div>
+                        )}
+                    </div>
                 ) : (
                     <div className="flex h-full items-center justify-center p-6">
                         <span className="font-semibold">
@@ -99,7 +137,7 @@ const EditorView: React.FC = () => {
     );
 };
 
-// Utilidad para buscar un nodo por id
+// Utility function to find a node by id
 function findNodeById(tree: TreeNode[], id?: string): TreeNode | undefined {
     if (!id) return undefined;
     for (const node of tree) {
@@ -109,6 +147,20 @@ function findNodeById(tree: TreeNode[], id?: string): TreeNode | undefined {
             if (found) return found;
         }
     }
+    return undefined;
+}
+
+// Utility function to find a ZObject by refId
+function findZObjectById(zObject: zernikalos.objects.ZObject | undefined, refId?: string): zernikalos.objects.ZObject | undefined {
+    if (!zObject || !refId) return undefined;
+    
+    if (zObject.refId === refId) return zObject;
+    
+    for (const child of zObject.children || []) {
+        const found = findZObjectById(child, refId);
+        if (found) return found;
+    }
+    
     return undefined;
 }
 

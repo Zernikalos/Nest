@@ -22,7 +22,7 @@ interface TabListProps {
 // Moved outside component to avoid recreation on each render
 const styles = {
     // Main container
-    container: 'h-full flex flex-col',
+    container: 'flex flex-col',
 
     // Scroll area
     scrollArea: 'w-full border-b border-border',
