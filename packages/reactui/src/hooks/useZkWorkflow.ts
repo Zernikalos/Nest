@@ -110,7 +110,7 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
         
         try {
             // Load
-            console.log('🔄 Loading file...')
+            console.log('🔄 Loading file... ', filePath, format)
             const loadedData = await zkLoad({ filePath, format })
             console.log('✅ File loaded:', loadedData)
             
