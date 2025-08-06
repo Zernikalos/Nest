@@ -9,7 +9,7 @@ interface UseZkParseState {
 }
 
 interface UseZkParseReturn extends UseZkParseState {
-    parseObject: (parseableObject: ZkoParseableObject, options?: ParseOptions) => Promise<void>
+    parseObject: (parseableObject: ZkoParseableObject, options?: ParseOptions) => Promise<ZkoParsed>
     reset: () => void
 }
 
@@ -20,7 +20,7 @@ export function useZkParse(): UseZkParseReturn {
         error: null
     })
 
-    const parseObject = useCallback(async (parseableObject: ZkoParseableObject, options?: ParseOptions) => {
+    const parseObject = useCallback(async (parseableObject: ZkoParseableObject, options?: ParseOptions): Promise<ZkoParsed> => {
         setState(prev => ({ ...prev, loading: true, error: null }))
         
         try {
@@ -30,12 +30,15 @@ export function useZkParse(): UseZkParseReturn {
                 loading: false,
                 error: null
             })
+            return result
         } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "Unknown error occurred"
             setState({
                 data: null,
                 loading: false,
-                error: error instanceof Error ? error.message : "Unknown error occurred"
+                error: errorMessage
             })
+            throw new Error(errorMessage)
         }
     }, [])
 

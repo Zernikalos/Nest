@@ -2,11 +2,12 @@ import { useCallback, useState } from "react"
 import { useZkLoad } from "./useZkLoad"
 import { useZkParse } from "./useZkParse"
 import { useZkExport } from "./useZkExport"
-import type { InputFileFormat, ParseOptions, ExportOptions, ZkoParsed } from "@zernikalos/zkbuilder"
+import type { InputFileFormat, ParseOptions, ExportOptions, ZkoParsed, ZkoParseableObject } from "@zernikalos/zkbuilder"
 
 interface WorkflowState {
     currentStep: "idle" | "loading" | "parsing" | "exporting" | "completed" | "error"
     loadedFile: string | null
+    loadedData: ZkoParseableObject | null
     parsedData: ZkoParsed | null
     exportedData: any | null
     error: string | null
@@ -32,77 +33,48 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
     const [workflowState, setWorkflowState] = useState<WorkflowState>({
         currentStep: "idle",
         loadedFile: null,
+        loadedData: null,
         parsedData: null,
         exportedData: null,
         error: null
     })
 
-    const { loadFile: zkLoadFile, data: loadedData, loading: loadLoading, error: loadError } = useZkLoad()
-    const { parseObject, data: parsedData, loading: parseLoading, error: parseError } = useZkParse()
-    const { exportFile, downloadFile, data: exportedData, loading: exportLoading, error: exportError } = useZkExport()
+    const { loadFile: zkLoadFile, reset: resetLoad } = useZkLoad()
+    const { parseObject, reset: resetParse } = useZkParse()
+    const { exportFile, downloadFile, reset: resetExport } = useZkExport()
 
     const loadFile = useCallback(async (filePath: string, format?: InputFileFormat) => {
         setWorkflowState(prev => ({ ...prev, currentStep: "loading", error: null }))
-        await zkLoadFile(filePath, format)
-        setWorkflowState(prev => ({ 
-            ...prev, 
-            currentStep: loadError ? "error" : "idle",
-            loadedFile: filePath,
-            error: loadError
-        }))
-    }, [zkLoadFile, loadError])
+        try {
+            const loadedData = await zkLoadFile(filePath, format)
+            setWorkflowState(prev => ({ 
+                ...prev, 
+                currentStep: "idle",
+                loadedFile: filePath,
+                loadedData: loadedData,
+                error: null
+            }))
+        } catch (error) {
+            setWorkflowState(prev => ({ 
+                ...prev, 
+                currentStep: "error",
+                error: error instanceof Error ? error.message : "Unknown error occurred"
+            }))
+        }
+    }, [zkLoadFile])
 
     const parseLoaded = useCallback(async (options?: ParseOptions) => {
-        if (!loadedData) {
+        if (!workflowState.loadedData) {
             setWorkflowState(prev => ({ ...prev, error: "No file loaded to parse" }))
             return
         }
 
         setWorkflowState(prev => ({ ...prev, currentStep: "parsing", error: null }))
-        await parseObject(loadedData, options)
-        setWorkflowState(prev => ({ 
-            ...prev, 
-            currentStep: parseError ? "error" : "idle",
-            parsedData: parsedData,
-            error: parseError
-        }))
-    }, [loadedData, parseObject, parsedData, parseError])
-
-    const exportParsed = useCallback(async (options?: ExportOptions) => {
-        if (!parsedData) {
-            setWorkflowState(prev => ({ ...prev, error: "No parsed data to export" }))
-            return
-        }
-
-        setWorkflowState(prev => ({ ...prev, currentStep: "exporting", error: null }))
-        await exportFile(parsedData, options)
-        setWorkflowState(prev => ({ 
-            ...prev, 
-            currentStep: exportError ? "error" : "completed",
-            exportedData: exportedData,
-            error: exportError
-        }))
-    }, [parsedData, exportFile, exportedData, exportError])
-
-    const processFile = useCallback(async (filePath: string, format?: InputFileFormat) => {
-        setWorkflowState(prev => ({ ...prev, currentStep: "loading", error: null }))
-        
         try {
-            // Load
-            await zkLoadFile(filePath, format)
-            if (loadError) throw new Error(loadError)
-            
-            setWorkflowState(prev => ({ ...prev, currentStep: "parsing", loadedFile: filePath }))
-            
-            // Parse
-            if (loadedData) {
-                await parseObject(loadedData)
-                if (parseError) throw new Error(parseError)
-            }
-            
+            const parsedData = await parseObject(workflowState.loadedData, options)
             setWorkflowState(prev => ({ 
                 ...prev, 
-                currentStep: "completed",
+                currentStep: "idle",
                 parsedData: parsedData,
                 error: null
             }))
@@ -113,49 +85,129 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
                 error: error instanceof Error ? error.message : "Unknown error occurred"
             }))
         }
-    }, [zkLoadFile, loadError, loadedData, parseObject, parseError, parsedData])
+    }, [parseObject, workflowState.loadedData])
 
-    const exportCurrent = useCallback(async (options?: ExportOptions) => {
-        if (!parsedData) {
+    const exportParsed = useCallback(async (options?: ExportOptions) => {
+        if (!workflowState.parsedData) {
             setWorkflowState(prev => ({ ...prev, error: "No parsed data to export" }))
             return
         }
 
         setWorkflowState(prev => ({ ...prev, currentStep: "exporting", error: null }))
-        await exportFile(parsedData, options)
-        setWorkflowState(prev => ({ 
-            ...prev, 
-            currentStep: exportError ? "error" : "completed",
-            exportedData: exportedData,
-            error: exportError
-        }))
-    }, [parsedData, exportFile, exportedData, exportError])
+        try {
+            const exportedData = await exportFile(workflowState.parsedData, options)
+            setWorkflowState(prev => ({ 
+                ...prev, 
+                currentStep: "completed",
+                exportedData: exportedData,
+                error: null
+            }))
+        } catch (error) {
+            setWorkflowState(prev => ({ 
+                ...prev, 
+                currentStep: "error",
+                error: error instanceof Error ? error.message : "Unknown error occurred"
+            }))
+        }
+    }, [exportFile, workflowState.parsedData])
+
+    const processFile = useCallback(async (filePath: string, format?: InputFileFormat) => {
+        setWorkflowState(prev => ({ ...prev, currentStep: "loading", error: null }))
+        
+        try {
+            // Load
+            console.log('🔄 Loading file...')
+            const loadedData = await zkLoadFile(filePath, format)
+            console.log('✅ File loaded:', loadedData)
+            
+            setWorkflowState(prev => ({ 
+                ...prev, 
+                currentStep: "parsing", 
+                loadedFile: filePath,
+                loadedData: loadedData
+            }))
+            
+            // Parse
+            console.log('🔄 Parsing file...')
+            const parsedData = await parseObject(loadedData)
+            console.log('✅ File parsed:', parsedData)
+            
+            setWorkflowState(prev => ({ 
+                ...prev, 
+                currentStep: "completed",
+                parsedData: parsedData,
+                error: null
+            }))
+        } catch (error) {
+            console.error('❌ Workflow failed:', error)
+            setWorkflowState(prev => ({ 
+                ...prev, 
+                currentStep: "error",
+                error: error instanceof Error ? error.message : "Unknown error occurred"
+            }))
+        }
+    }, [zkLoadFile, parseObject])
+
+    const exportCurrent = useCallback(async (options?: ExportOptions) => {
+        if (!workflowState.parsedData) {
+            setWorkflowState(prev => ({ ...prev, error: "No parsed data to export" }))
+            return
+        }
+
+        setWorkflowState(prev => ({ ...prev, currentStep: "exporting", error: null }))
+        try {
+            const exportedData = await exportFile(workflowState.parsedData, options)
+            setWorkflowState(prev => ({ 
+                ...prev, 
+                currentStep: "completed",
+                exportedData: exportedData,
+                error: null
+            }))
+        } catch (error) {
+            setWorkflowState(prev => ({ 
+                ...prev, 
+                currentStep: "error",
+                error: error instanceof Error ? error.message : "Unknown error occurred"
+            }))
+        }
+    }, [exportFile, workflowState.parsedData])
 
     const downloadCurrent = useCallback(async (filename: string, options?: ExportOptions) => {
-        if (!parsedData) {
+        if (!workflowState.parsedData) {
             setWorkflowState(prev => ({ ...prev, error: "No parsed data to download" }))
             return
         }
 
         setWorkflowState(prev => ({ ...prev, currentStep: "exporting", error: null }))
-        await downloadFile(parsedData, filename, options)
-        setWorkflowState(prev => ({ 
-            ...prev, 
-            currentStep: exportError ? "error" : "completed",
-            exportedData: exportedData,
-            error: exportError
-        }))
-    }, [parsedData, downloadFile, exportedData, exportError])
+        try {
+            await downloadFile(workflowState.parsedData, filename, options)
+            setWorkflowState(prev => ({ 
+                ...prev, 
+                currentStep: "completed",
+                error: null
+            }))
+        } catch (error) {
+            setWorkflowState(prev => ({ 
+                ...prev, 
+                currentStep: "error",
+                error: error instanceof Error ? error.message : "Unknown error occurred"
+            }))
+        }
+    }, [downloadFile, workflowState.parsedData])
 
     const reset = useCallback(() => {
         setWorkflowState({
             currentStep: "idle",
             loadedFile: null,
+            loadedData: null,
             parsedData: null,
             exportedData: null,
             error: null
         })
-    }, [])
+        resetLoad()
+        resetParse()
+        resetExport()
+    }, [resetLoad, resetParse, resetExport])
 
     const goToStep = useCallback((step: "load" | "parse" | "export") => {
         setWorkflowState(prev => ({ ...prev, currentStep: "idle" }))

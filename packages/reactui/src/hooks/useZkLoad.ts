@@ -9,7 +9,7 @@ interface UseZkLoadState {
 }
 
 interface UseZkLoadReturn extends UseZkLoadState {
-    loadFile: (filePath: string, format?: InputFileFormat) => Promise<void>
+    loadFile: (filePath: string, format?: InputFileFormat) => Promise<ZkoParseableObject>
     reset: () => void
 }
 
@@ -20,7 +20,7 @@ export function useZkLoad(): UseZkLoadReturn {
         error: null
     })
 
-    const loadFile = useCallback(async (filePath: string, format?: InputFileFormat) => {
+    const loadFile = useCallback(async (filePath: string, format?: InputFileFormat): Promise<ZkoParseableObject> => {
         setState(prev => ({ ...prev, loading: true, error: null }))
         
         try {
@@ -35,12 +35,15 @@ export function useZkLoad(): UseZkLoadReturn {
                 loading: false,
                 error: null
             })
+            return result
         } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "Unknown error occurred"
             setState({
                 data: null,
                 loading: false,
-                error: error instanceof Error ? error.message : "Unknown error occurred"
+                error: errorMessage
             })
+            throw new Error(errorMessage)
         }
     }, [])
 
