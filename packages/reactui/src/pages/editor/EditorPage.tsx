@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import EditorView from '@/views/editor/EditorView';
-import NewProject from '@/views/editor/NewProject';
+import EditorView from '@/pages/editor/EditorView';
+import NewProject from '@/pages/editor/NewProject';
 
-const Editor: React.FC = () => {
+const EditorPage: React.FC = () => {
     const [projectActive, setProjectActive] = useState(true);
 
     const handleNewProject = () => {
@@ -21,4 +21,4 @@ const Editor: React.FC = () => {
     );
 };
 
-export default Editor;
+export default EditorPage;

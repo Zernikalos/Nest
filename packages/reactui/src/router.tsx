@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import { MainLayout } from './layouts/MainLayout';
-import Editor from './pages/Editor';
+import EditorPage from './pages/editor/EditorPage';
 import { settingsRoutes } from './pages/settings/settingsRouter';
 
 export const router = createBrowserRouter([
@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'editor',
-                element: <Editor />,
+                element: <EditorPage />,
             },
             {
                 path: 'devices',
