@@ -316,6 +316,9 @@ importers:
       '@zernikalos/zkbuilder':
         specifier: '*'
         version: 0.0.2
+      axios:
+        specifier: 1.10.0
+        version: 1.10.0
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
