@@ -25,7 +25,7 @@ export function SettingsSectionItem({
           {description}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-4">
         {children}
       </CardContent>
     </Card>
