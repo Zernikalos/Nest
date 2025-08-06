@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
 
-import { TooltipProvider } from './components/ui/tooltip';
 import { AppearanceProvider } from './providers';
 import { FileImportProvider } from './providers/FileImportProvider';
 import { router } from './router';
@@ -13,9 +12,7 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
             <AppearanceProvider defaultTheme="default" defaultFont="Rajdhani">
                 <FileImportProvider>
-                    <TooltipProvider disableHoverableContent>
-                        <RouterProvider router={router} />
-                    </TooltipProvider>
+                    <RouterProvider router={router} />
                 </FileImportProvider>
             </AppearanceProvider>
         </QueryClientProvider>

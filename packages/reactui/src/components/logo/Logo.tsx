@@ -1,6 +1,7 @@
 import logoSrc from '@/assets/zklogo.svg';
+import { memo } from 'react';
 
-export function Logo() {
+export const Logo = memo(() => {
     return (
         <img
             src={logoSrc}
@@ -10,4 +11,6 @@ export function Logo() {
             height="32"
         />
     );
-}
+})
+
+Logo.displayName = 'Logo';

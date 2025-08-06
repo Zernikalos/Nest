@@ -7,6 +7,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { memo } from 'react';
 
 interface SidebarItemProps {
     name: string;
@@ -15,12 +16,12 @@ interface SidebarItemProps {
     selected?: boolean;
 }
 
-export function SidebarItem({
+export const SidebarItem = memo(({
     name,
     path,
     icon: Icon,
     selected,
-}: SidebarItemProps) {
+}: SidebarItemProps) => {
     return (
         <div
             className={cn(
@@ -46,4 +47,6 @@ export function SidebarItem({
             </Tooltip>
         </div>
     );
-}
+})
+
+SidebarItem.displayName = 'SidebarItem';

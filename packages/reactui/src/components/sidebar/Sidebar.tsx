@@ -7,62 +7,68 @@ import {
 import { useLocation } from 'react-router-dom';
 
 import { Logo } from '../logo/Logo';
+import { TooltipProvider } from '../ui/tooltip';
 
 import { SidebarItem } from './SidebarItem';
 
 import { cn } from '@/lib/utils';
+import { useCallback } from 'react';
 
 export function Sidebar() {
     const location = useLocation();
     const pathname = location.pathname;
 
     // Helper function to check if a route is active
-    const isRouteActive = (path: string) => {
+    const isRouteActive = useCallback((path: string) => {
         if (path === '/editor') {
             return pathname === '/editor' || pathname === '/';
         }
         return pathname === path;
-    };
+    }, [pathname]);
 
     return (
-        <aside
-            className={cn(
-                'shadow-md pl-0 bg-sidebar max-w-[56px] max-h-screen h-screen'
-            )}
-        >
-            <div className="flex flex-col h-full">
-                <div className="flex-1">
-                    <div className="align-middle p-2 h-12">
-                        <Logo />
+        <TooltipProvider disableHoverableContent>
+            <aside
+                className={cn(
+                    'shadow-md pl-0 bg-sidebar max-w-[56px] max-h-screen h-screen'
+                )}
+            >
+                <div className="flex flex-col h-full">
+                    <div className="flex-1">
+                        <div className="align-middle p-2 h-12">
+                            <Logo />
+                        </div>
+                        <SidebarItem
+                            path="/editor"
+                            name="Editor"
+                            selected={isRouteActive('/editor')}
+                            icon={JournalCodeIcon}
+                        />
+                        <SidebarItem
+                            path="/devices"
+                            name="Devices"
+                            selected={isRouteActive('/devices')}
+                            icon={PhoneIcon}
+                        />
+                        <SidebarItem
+                            path="/exporter"
+                            name="Export"
+                            selected={isRouteActive('/exporter')}
+                            icon={BoxesIcon}
+                        />
                     </div>
-                    <SidebarItem
-                        path="/editor"
-                        name="Editor"
-                        selected={isRouteActive('/editor')}
-                        icon={JournalCodeIcon}
-                    />
-                    <SidebarItem
-                        path="/devices"
-                        name="Devices"
-                        selected={isRouteActive('/devices')}
-                        icon={PhoneIcon}
-                    />
-                    <SidebarItem
-                        path="/exporter"
-                        name="Export"
-                        selected={isRouteActive('/exporter')}
-                        icon={BoxesIcon}
-                    />
+                    <div>
+                        <SidebarItem
+                            path="/settings"
+                            name="Settings"
+                            selected={isRouteActive('/settings')}
+                            icon={GearIcon}
+                        />
+                    </div>
                 </div>
-                <div>
-                    <SidebarItem
-                        path="/settings"
-                        name="Settings"
-                        selected={isRouteActive('/settings')}
-                        icon={GearIcon}
-                    />
-                </div>
-            </div>
-        </aside>
+            </aside>
+        </TooltipProvider>
     );
 }
+
+Sidebar.displayName = 'Sidebar';
