@@ -14,8 +14,7 @@ interface WorkflowState {
 interface UseZkWorkflowReturn extends WorkflowState {
     // Main workflow functions
     processFile: (filePath: string, format?: InputFileFormat) => Promise<void>
-    exportCurrent: (options?: ExportOptions) => Promise<void>
-    downloadCurrent: (filename: string, options?: ExportOptions) => Promise<void>
+    downloadProcessed: (filename: string, options?: ExportOptions) => Promise<void>
     
     // Individual step functions
     loadFile: (filePath: string, format?: InputFileFormat) => Promise<void>
@@ -24,7 +23,6 @@ interface UseZkWorkflowReturn extends WorkflowState {
     
     // Utility functions
     reset: () => void
-    goToStep: (step: "load" | "parse" | "export") => void
 }
 
 export function useZkWorkflow(): UseZkWorkflowReturn {
@@ -142,31 +140,7 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
         }
     }, [])
 
-    const exportCurrent = useCallback(async (options?: ExportOptions) => {
-        if (!workflowState.parsedData) {
-            setWorkflowState(prev => ({ ...prev, error: "No parsed data to export" }))
-            return
-        }
-
-        setWorkflowState(prev => ({ ...prev, currentStep: "exporting", error: null }))
-        try {
-            const exportedData = await zkExport(workflowState.parsedData, options)
-            setWorkflowState(prev => ({ 
-                ...prev, 
-                currentStep: "completed",
-                exportedData: exportedData,
-                error: null
-            }))
-        } catch (error) {
-            setWorkflowState(prev => ({ 
-                ...prev, 
-                currentStep: "error",
-                error: error instanceof Error ? error.message : "Unknown error occurred"
-            }))
-        }
-    }, [workflowState.parsedData])
-
-    const downloadCurrent = useCallback(async (filename: string, options?: ExportOptions) => {
+    const downloadProcessed = useCallback(async (filename: string, options?: ExportOptions) => {
         if (!workflowState.parsedData) {
             setWorkflowState(prev => ({ ...prev, error: "No parsed data to download" }))
             return
@@ -220,19 +194,13 @@ export function useZkWorkflow(): UseZkWorkflowReturn {
         })
     }, [])
 
-    const goToStep = useCallback((step: "load" | "parse" | "export") => {
-        setWorkflowState(prev => ({ ...prev, currentStep: "idle" }))
-    }, [])
-
     return {
         ...workflowState,
         processFile,
-        exportCurrent,
-        downloadCurrent,
+        downloadProcessed,
         loadFile,
         parseLoaded,
         exportParsed,
         reset,
-        goToStep
     }
 } 
