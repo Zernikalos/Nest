@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useElectronEvents } from './useElectronEvents'
-import { useFileApi } from './useFileApi'
+import { getFileUrl } from '@/lib/fileApi'
 import { zkConvert, type ZkConvertResult, type InputFileFormat } from '@zernikalos/zkbuilder'
 
 interface FileImportData {
@@ -29,7 +29,6 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
     const [zkResult, setZkResult] = useState<ZkConvertResult | null>(null)
     
     const { onImportFile, offImportFile, isElectron } = useElectronEvents()
-    const { getFileUrl, isLoading: isFileApiLoading, error: fileApiError } = useFileApi()
     
     // Handle file import from Electron
     const handleFileImport = useCallback(async (data: FileImportData) => {
@@ -81,13 +80,6 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
         }
     }, [isElectron, onImportFile, offImportFile, handleFileImport])
     
-    // Handle file API errors
-    useEffect(() => {
-        if (fileApiError) {
-            setImportError(fileApiError.message)
-        }
-    }, [fileApiError])
-    
     
     const cancelImport = useCallback(() => {
         setIsImporting(false)
@@ -97,8 +89,8 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
     }, [])
     
     return {
-        isImporting: isImporting || isFileApiLoading,
-        importError: importError || fileApiError?.message || null,
+        isImporting: isImporting,
+        importError: importError,
         currentFile,
         zkResult,
         cancelImport,
