@@ -16,6 +16,7 @@ interface TabListProps {
     onTabChange: (fileName: string) => void;
     onTabClose: (fileName: string) => void;
     className?: string;
+    showBorder?: boolean;
 }
 
 // Organize all styles in an object for better readability
@@ -25,7 +26,10 @@ const styles = {
     container: 'flex flex-col',
 
     // Scroll area
-    scrollArea: 'w-full border-b border-border',
+    scrollArea: (showBorder: boolean) => cn(
+        'w-full',
+        showBorder && 'border-b border-border'
+    ),
 
     // Tabs list
     tabsList: 'flex-shrink-0 bg-background p-0 h-8 min-h-8',
@@ -77,6 +81,7 @@ const TabList: React.FC<TabListProps> = ({
     onTabChange,
     onTabClose,
     className,
+    showBorder = true,
 }) => {
     return (
         <Tabs
@@ -84,7 +89,7 @@ const TabList: React.FC<TabListProps> = ({
             onValueChange={onTabChange}
             className={cn(styles.container, className)}
         >
-            <ScrollArea className={styles.scrollArea}>
+            <ScrollArea className={styles.scrollArea(showBorder)}>
                 <TabsList className={styles.tabsList}>
                     {openTabs.map(tab => (
                         <TabsTrigger

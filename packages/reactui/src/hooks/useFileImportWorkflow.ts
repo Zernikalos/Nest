@@ -55,7 +55,7 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
             
             // Step 2: Process file through ZK workflow
             console.log('🔄 Processing file through ZK workflow...')
-            const result = await zkConvert({filePath: fileUrl, format: data.format})
+            const result = await zkConvert({filePath: fileUrl, format: data.format}, {exportOptions: {format: "object"}})
             setZkResult(result)
             console.log('✅ File processed successfully')
             

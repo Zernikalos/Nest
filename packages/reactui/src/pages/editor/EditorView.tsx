@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 
 import TabList from '@/components/tablist/TabList';
 import { TreeView, type TreeNode } from '@/components/treeview';
+import ViewToggle from '@/components/ViewToggle';
 import {
     ResizableHandle,
     ResizablePanel,
@@ -22,16 +23,17 @@ function convertZObjectToTreeNode(zObject: zernikalos.objects.ZObject): TreeNode
 }
 
 const EditorView: React.FC = () => {
-    const { parsedData } = useFileImport();
+    const { zkResult } = useFileImport();
     const [treeUpdateTrigger, setTreeUpdateTrigger] = useState(0);
+    const [activeView, setActiveView] = useState<'form' | 'code'>('form');
     
     // Build tree from parsed data
     const tree = useMemo(() => {
-        if (parsedData?.root) {
-            return [convertZObjectToTreeNode(parsedData.root)];
+        if (zkResult?.zko?.root) {
+            return [convertZObjectToTreeNode(zkResult.zko.root)];
         }
         return [];
-    }, [parsedData, treeUpdateTrigger]);
+    }, [zkResult, treeUpdateTrigger]);
 
     // Use custom hook for editor state management
     const {
@@ -58,7 +60,7 @@ const EditorView: React.FC = () => {
     };
 
     // Get selected ZObject based on active node
-    const selectedZObject = activeNode ? findZObjectById(parsedData?.root, activeNode) : null;
+    const selectedZObject = activeNode ? findZObjectById(zkResult?.zko?.root, activeNode) : null;
 
     return (
         <ResizablePanelGroup direction="horizontal" className="h-full w-full">
@@ -76,22 +78,44 @@ const EditorView: React.FC = () => {
             <ResizablePanel defaultSize={75}>
                 {openedNodes.length > 0 ? (
                     <div className="flex flex-col h-full">
-                        <TabList
-                            className="w-full"
-                            openTabs={openedNodes}
-                            activeTab={activeNode}
-                            onTabChange={handleTabChange}
-                            onTabClose={handleTabClose}
-                        />
-                        {selectedZObject && (
-                            <div className="p-6 border-t">
-                                <FormZObject 
-                                    zObject={selectedZObject}
-                                    onNameChange={(newName) => {
-                                        selectedZObject.name = newName;
-                                        setTreeUpdateTrigger(prev => prev + 1);
-                                    }}
+                        <div className="flex items-center max-h-8 ">
+                            <TabList
+                                className="flex-1"
+                                showBorder={false}
+                                openTabs={openedNodes}
+                                activeTab={activeNode}
+                                onTabChange={handleTabChange}
+                                onTabClose={handleTabClose}
+                            />
+                            <div className="flex items-center px-4">
+                                <ViewToggle
+                                    activeView={activeView}
+                                    onViewChange={setActiveView}
                                 />
+                            </div>
+                        </div>
+                        {selectedZObject && (
+                            <div className="flex-1 overflow-auto">
+                                {activeView === 'form' ? (
+                                    <div className="p-6 border-t">
+                                        <FormZObject 
+                                            zObject={selectedZObject}
+                                            onNameChange={(newName) => {
+                                                selectedZObject.name = newName;
+                                                setTreeUpdateTrigger(prev => prev + 1);
+                                            }}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="p-6 border-t">
+                                        <div className="bg-muted rounded-lg p-4">
+                                            <h3 className="text-lg font-semibold mb-3">Code View</h3>
+                                            <pre className="bg-background p-4 rounded border overflow-auto text-sm">
+                                                <code>{JSON.stringify(zkResult?.exported, null, 2)}</code>
+                                            </pre>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>

@@ -1,13 +1,12 @@
 import React, { createContext, useContext } from 'react'
 import { useFileImportWorkflow } from '../hooks/useFileImportWorkflow'
+import type { ZkConvertResult } from '@zernikalos/zkbuilder'
 
 interface FileImportContextType {
     isImporting: boolean
     importError: string | null
-    currentFile: { path: string; fileName: string } | null
-    parsedData: any | null
-    exportedData: any | null
-    startFileImport: () => void
+    currentFile: { path: string; fileName: string; format: any } | null
+    zkResult: ZkConvertResult | null
     cancelImport: () => void
 }
 
