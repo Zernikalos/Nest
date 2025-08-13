@@ -1,6 +1,6 @@
 import { type ReactNode } from "react"
-import { ThemeProvider } from "./ThemeProvider"
-import { FontProvider } from "./FontProvider"
+import { ThemeProvider } from "./Theme"
+import { FontProvider } from "./Font"
 import { type Font } from "../types/font"
 import { type Theme } from "../lib/themes"
 

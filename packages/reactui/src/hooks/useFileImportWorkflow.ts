@@ -1,21 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useElectronEvents } from './useElectronEvents'
 import { useFileApi } from './useFileApi'
-import { zkConvert, ZkoParseableObject, type InputFileFormat, type ZkoParsed } from '@zernikalos/zkbuilder'
+import { zkConvert, type ZkConvertResult, type InputFileFormat } from '@zernikalos/zkbuilder'
 
 interface FileImportData {
     path: string
     fileName: string
     format: InputFileFormat
-}
-
-export interface WorkflowState {
-    currentStep: "idle" | "loading" | "parsing" | "completed" | "error"
-    loadedFile: string | null
-    loadedData: ZkoParseableObject | null
-    parsedData: ZkoParsed | null
-    exportedData: any | null
-    error: string | null
 }
 
 interface UseFileImportWorkflowReturn {
@@ -24,9 +15,8 @@ interface UseFileImportWorkflowReturn {
     importError: string | null
     currentFile: FileImportData | null
     
-    // Main data
-    parsedData: ZkoParsed | null
-    exportedData: any | null
+    // Main data - directly from zkConvert result
+    zkResult: ZkConvertResult | null
     
     // Actions
     cancelImport: () => void
@@ -36,14 +26,7 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
     const [isImporting, setIsImporting] = useState(false)
     const [importError, setImportError] = useState<string | null>(null)
     const [currentFile, setCurrentFile] = useState<FileImportData | null>(null)
-    const [workflowState, setWorkflowState] = useState<WorkflowState>({
-        currentStep: "idle",
-        loadedFile: null,
-        loadedData: null,
-        parsedData: null,
-        exportedData: null,
-        error: null
-    })
+    const [zkResult, setZkResult] = useState<ZkConvertResult | null>(null)
     
     const { onImportFile, offImportFile, isElectron } = useElectronEvents()
     const { getFileUrl, isLoading: isFileApiLoading, error: fileApiError } = useFileApi()
@@ -72,16 +55,8 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
             
             // Step 2: Process file through ZK workflow
             console.log('🔄 Processing file through ZK workflow...')
-            //const result = await workflow.processFile(fileUrl, data.format)
             const result = await zkConvert({filePath: fileUrl, format: data.format})
-            setWorkflowState({
-                currentStep: "completed",
-                loadedFile: fileUrl,
-                loadedData: result._loaded,
-                parsedData: result.zko,
-                exportedData: result.exported,
-                error: null
-            })
+            setZkResult(result)
             console.log('✅ File processed successfully')
             
         } catch (error) {
@@ -118,22 +93,14 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
         setIsImporting(false)
         setImportError(null)
         setCurrentFile(null)
-        setWorkflowState({
-            currentStep: "idle",
-            loadedFile: null,
-            loadedData: null,
-            parsedData: null,
-            exportedData: null,
-            error: null
-        })
+        setZkResult(null)
     }, [])
     
     return {
-        isImporting: isImporting || isFileApiLoading || workflowState.currentStep !== "idle",
-        importError: importError || workflowState.error,
+        isImporting: isImporting || isFileApiLoading,
+        importError: importError || fileApiError?.message || null,
         currentFile,
-        parsedData: workflowState.parsedData,
-        exportedData: workflowState.exportedData,
+        zkResult,
         cancelImport,
     }
 }

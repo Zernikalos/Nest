@@ -1,6 +1,6 @@
 import { createContext, useEffect } from "react"
-import { type Font } from "../types/font"
-import { usePersistentState } from "../hooks/usePersistentState"
+import { type Font } from "../../types/font"
+import { usePersistentState } from "../../hooks/usePersistentState"
 
 type FontProviderProps = {
   children: React.ReactNode
@@ -85,4 +85,6 @@ export function FontProvider({
 }
 
 // Export the context for use in the hook
-export { FontProviderContext } 
+export { FontProviderContext }
+
+

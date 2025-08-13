@@ -1,6 +1,5 @@
 import React, { createContext, useContext } from 'react'
 import { useFileImportWorkflow } from '../hooks/useFileImportWorkflow'
-import { useZkWorkflow } from '../hooks/useZkWorkflow'
 
 interface FileImportContextType {
     isImporting: boolean
@@ -10,7 +9,6 @@ interface FileImportContextType {
     exportedData: any | null
     startFileImport: () => void
     cancelImport: () => void
-    workflow: ReturnType<typeof useZkWorkflow>
 }
 
 const FileImportContext = createContext<FileImportContextType | null>(null)

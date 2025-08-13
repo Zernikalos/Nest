@@ -1,5 +1,3 @@
-export { useZkWorkflow } from "./useZkWorkflow"
-
 // File API hooks
 export { useFileApi } from "./useFileApi"
 
@@ -7,6 +5,6 @@ export { useFileApi } from "./useFileApi"
 export { useElectronEvents } from "./useElectronEvents"
 export { useUserSettings } from "./useUserSettings"
 export { usePersistentState } from "./usePersistentState"
-export { useAppFont } from "./useAppFont"
-export { useAppTheme } from "./useAppTheme"
+export { useAppFont } from "../providers/Font"
+export { useAppTheme } from "../providers/Theme"
 export { useKeyboardNavigation } from "./useKeyboardNavigation" 

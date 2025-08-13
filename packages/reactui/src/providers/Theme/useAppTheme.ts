@@ -1,6 +1,6 @@
 import { useContext } from "react"
-import { ThemeProviderContext } from "../providers/ThemeProvider"
-import { type Theme } from "../lib/themes"
+import { ThemeProviderContext } from "./ThemeProvider"
+import { type Theme } from "../../lib/themes"
 
 // Function overloads for better type safety
 export function useAppTheme(): {
@@ -29,4 +29,6 @@ export function useAppTheme(themeName?: Theme) {
     setTheme: context.setTheme,
     availableThemes: context.availableThemes
   }
-} 
+}
+
+

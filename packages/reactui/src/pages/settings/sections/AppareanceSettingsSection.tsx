@@ -1,5 +1,5 @@
-import { useAppTheme } from "@/hooks/useAppTheme"
-import { useAppFont } from "@/hooks/useAppFont"
+import { useAppTheme } from "@/providers/Theme"
+import { useAppFont } from "@/providers/Font"
 import { getThemeInfo, type Theme } from "@/lib/themes"
 import { Button } from "@/components/ui/button"
 import { MdPalette, MdFontDownload } from "react-icons/md"

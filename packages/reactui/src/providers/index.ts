@@ -1,3 +1,3 @@
-export { ThemeProvider } from './ThemeProvider'
-export { FontProvider } from './FontProvider'
+export { ThemeProvider } from './Theme'
+export { FontProvider } from './Font'
 export { AppearanceProvider } from './AppearanceProvider' 

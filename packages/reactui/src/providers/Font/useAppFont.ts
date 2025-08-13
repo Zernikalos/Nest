@@ -1,6 +1,6 @@
 import { useContext } from "react"
-import { FontProviderContext } from "../providers/FontProvider"
-import { type Font } from "../types/font"
+import { FontProviderContext } from "./FontProvider"
+import { type Font } from "../../types/font"
 
 export type { Font }
 
@@ -31,4 +31,6 @@ export function useAppFont(fontName?: Font) {
     setFont: context.setFont,
     availableFonts: context.availableFonts
   }
-} 
+}
+
+

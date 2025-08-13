@@ -1,6 +1,6 @@
 import { createContext, useEffect } from "react"
-import { themes, type Theme } from "../lib/themes"
-import { usePersistentState } from "../hooks/usePersistentState"
+import { themes, type Theme } from "../../lib/themes"
+import { usePersistentState } from "../../hooks/usePersistentState"
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -65,4 +65,6 @@ export function ThemeProvider({
 }
 
 // Export the context for use in the hook
-export { ThemeProviderContext } 
+export { ThemeProviderContext }
+
+
