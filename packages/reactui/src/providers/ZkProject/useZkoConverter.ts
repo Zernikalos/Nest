@@ -9,23 +9,9 @@ interface FileImportData {
     format: InputFileFormat
 }
 
-interface UseFileImportWorkflowReturn {
-    // State
-    isImporting: boolean
-    importError: string | null
-    currentFile: FileImportData | null
-    
-    // Main data - directly from zkConvert result
-    zkResult: ZkConvertResult | null
-    
-    // Actions
-    cancelImport: () => void
-}
-
-export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
+export function useZkoConverter() {
     const [isImporting, setIsImporting] = useState(false)
     const [importError, setImportError] = useState<string | null>(null)
-    const [currentFile, setCurrentFile] = useState<FileImportData | null>(null)
     const [zkResult, setZkResult] = useState<ZkConvertResult | null>(null)
     
     const { onImportFile, offImportFile, isElectron } = useElectronEvents()
@@ -39,7 +25,6 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
         
         setIsImporting(true)
         setImportError(null)
-        setCurrentFile(data)
         
         try {
             console.log('📁 Starting file import:', data)
@@ -65,7 +50,7 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
         } finally {
             setIsImporting(false)
         }
-    }, [isElectron, getFileUrl])
+    }, [isElectron])
     
     // Setup Electron event listener with cleanup
     useEffect(() => {
@@ -80,19 +65,18 @@ export function useFileImportWorkflow(): UseFileImportWorkflowReturn {
         }
     }, [isElectron, onImportFile, offImportFile, handleFileImport])
     
-    
-    const cancelImport = useCallback(() => {
+    // Clean project function - reset to initial state
+    const cleanProject = useCallback(() => {
         setIsImporting(false)
         setImportError(null)
-        setCurrentFile(null)
         setZkResult(null)
+        console.log('🧹 Project cleaned - reset to initial state')
     }, [])
     
     return {
-        isImporting: isImporting,
-        importError: importError,
-        currentFile,
+        isImporting,
+        importError,
         zkResult,
-        cancelImport,
+        cleanProject,
     }
 }

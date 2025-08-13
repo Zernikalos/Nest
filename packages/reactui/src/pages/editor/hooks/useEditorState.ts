@@ -33,7 +33,7 @@ export function useEditorState({ tree }: UseEditorStateProps): UseEditorStateRet
             }
         }
         return undefined;
-    }, []);
+    }, [tree]);
 
     // Event handlers
     const handleSelect = useCallback((ids: string[]) => {
@@ -41,26 +41,35 @@ export function useEditorState({ tree }: UseEditorStateProps): UseEditorStateRet
         const node = findNodeById(tree, ids[ids.length - 1]);
         if (node) {
             // Add to opened nodes if not already open
-            if (!openedNodes.find(n => n.id === node.id)) {
-                setOpenedNodes(prev => [...prev, node]);
-            }
+            setOpenedNodes(prev => {
+                if (!prev.find(n => n.id === node.id)) {
+                    return [...prev, node];
+                }
+                return prev;
+            });
             setActiveNode(node.id);
         }
-    }, [tree, openedNodes, findNodeById]);
+    }, [tree, findNodeById]);
 
     const handleTabChange = useCallback((nodeId: string) => {
         setActiveNode(nodeId);
     }, []);
 
     const handleTabClose = useCallback((nodeId: string) => {
-        setOpenedNodes(prev => prev.filter(n => n.id !== nodeId));
-        if (activeNode === nodeId) {
-            const newActiveNode = openedNodes.length > 1
-                ? openedNodes.filter(n => n.id !== nodeId)[0]?.id
-                : null;
-            setActiveNode(newActiveNode || null);
-        }
-    }, [activeNode, openedNodes]);
+        setOpenedNodes(prev => {
+            const newOpenedNodes = prev.filter(n => n.id !== nodeId);
+            
+            // Update active node if needed
+            if (activeNode === nodeId) {
+                const newActiveNode = newOpenedNodes.length > 0
+                    ? newOpenedNodes[0]?.id
+                    : null;
+                setActiveNode(newActiveNode || null);
+            }
+            
+            return newOpenedNodes;
+        });
+    }, [activeNode]);
 
 
 

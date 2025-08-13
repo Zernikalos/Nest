@@ -1,8 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
 
-import { AppearanceProvider, ElectronProvider } from './providers';
-import { FileImportProvider } from './providers/FileImportProvider';
+import { AppearanceProvider, ElectronProvider, ZkProjectProvider } from './providers';
 import { router } from './router';
 
 const queryClient = new QueryClient();
@@ -12,9 +11,9 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
             <AppearanceProvider defaultTheme="default" defaultFont="Rajdhani">
                 <ElectronProvider>
-                    <FileImportProvider>
+                    <ZkProjectProvider>
                         <RouterProvider router={router} />
-                    </FileImportProvider>
+                    </ZkProjectProvider>
                 </ElectronProvider>
             </AppearanceProvider>
         </QueryClientProvider>
