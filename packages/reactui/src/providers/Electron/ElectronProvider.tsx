@@ -1,14 +1,36 @@
-import { useCallback, useRef } from 'react'
-import type { ElectronSubscription } from '../types/electron'
+import { createContext, useCallback, useRef, type ReactNode, useEffect } from 'react'
+import type { ElectronSubscription } from '../../types/electron'
 
-const isElectron = typeof window !== 'undefined' && window.NativeZernikalos
+interface ElectronProviderState {
+    onLoadZko: (callback: (data: any) => void) => void
+    onImportFile: (callback: (data: any) => void) => void
+    onBundleScene: (callback: (data: any) => void) => void
+    offLoadZko: () => void
+    offImportFile: () => void
+    offBundleScene: () => void
+    isElectron: boolean
+}
 
-export const useElectronEvents = () => {
+const initialState: ElectronProviderState = {
+    onLoadZko: () => null,
+    onImportFile: () => null,
+    onBundleScene: () => null,
+    offLoadZko: () => null,
+    offImportFile: () => null,
+    offBundleScene: () => null,
+    isElectron: false
+}
+
+const ElectronProviderContext = createContext<ElectronProviderState>(initialState)
+
+const isElectron = typeof window !== 'undefined' && window.NativeZernikalos !== undefined
+
+export function ElectronProvider({ children, ...props }: { children: ReactNode }) {
     const subscriptions = useRef<Map<string, ElectronSubscription>>(new Map())
 
     const onLoadZko = useCallback((callback: (data: any) => void) => {
         if (isElectron && !subscriptions.current.has('loadZko')) {
-            console.log("🔄 useElectronEvents - Registering LoadZko callback")
+            console.log("🔄 ElectronProvider - Registering LoadZko callback")
             const subscription = window.NativeZernikalos?.handleLoadZko((ev: any, data: any) => {
                 console.log("📁 LoadZko callback triggered", { ev, data })
                 callback(data)
@@ -21,7 +43,7 @@ export const useElectronEvents = () => {
 
     const onImportFile = useCallback((callback: (data: any) => void) => {
         if (isElectron && !subscriptions.current.has('importFile')) {
-            console.log("🔄 useElectronEvents - Registering ImportFile callback")
+            console.log("🔄 ElectronProvider - Registering ImportFile callback")
             const subscription = window.NativeZernikalos?.handleShowImport((ev: any, data: any) => {
                 console.log("📁 ImportFile callback triggered", { ev, data })
                 callback(data)
@@ -34,7 +56,7 @@ export const useElectronEvents = () => {
 
     const onBundleScene = useCallback((callback: (data: any) => void) => {
         if (isElectron && !subscriptions.current.has('bundleScene')) {
-            console.log("🔄 useElectronEvents - Registering BundleScene callback")
+            console.log("🔄 ElectronProvider - Registering BundleScene callback")
             const subscription = window.NativeZernikalos?.handleBundleScene((ev: any, data: any) => {
                 console.log("📦 BundleScene callback triggered", { ev, data })
                 callback(data)
@@ -45,29 +67,37 @@ export const useElectronEvents = () => {
         }
     }, [])
 
-    // Funciones para hacer off
     const offLoadZko = useCallback(() => {
         const subscription = subscriptions.current.get('loadZko')
         subscription?.off()
         subscriptions.current.delete('loadZko')
-        console.log("🔄 useElectronEvents - Removed LoadZko callback")
+        console.log("🔄 ElectronProvider - Removed LoadZko callback")
     }, [])
 
     const offImportFile = useCallback(() => {
         const subscription = subscriptions.current.get('importFile')
         subscription?.off()
         subscriptions.current.delete('importFile')
-        console.log("🔄 useElectronEvents - Removed ImportFile callback")
+        console.log("🔄 ElectronProvider - Removed ImportFile callback")
     }, [])
 
     const offBundleScene = useCallback(() => {
         const subscription = subscriptions.current.get('bundleScene')
         subscription?.off()
         subscriptions.current.delete('bundleScene')
-        console.log("🔄 useElectronEvents - Removed BundleScene callback")
+        console.log("🔄 ElectronProvider - Removed BundleScene callback")
     }, [])
 
-    return {
+    // Cleanup cuando se desmonta el provider
+    useEffect(() => {
+        return () => {
+            offLoadZko()
+            offImportFile()
+            offBundleScene()
+        }
+    }, [offLoadZko, offImportFile, offBundleScene])
+
+    const value: ElectronProviderState = {
         onLoadZko,
         onImportFile,
         onBundleScene,
@@ -76,4 +106,13 @@ export const useElectronEvents = () => {
         offBundleScene,
         isElectron
     }
-} 
+
+    return (
+        <ElectronProviderContext.Provider {...props} value={value}>
+            {children}
+        </ElectronProviderContext.Provider>
+    )
+}
+
+// Export the context for use in the hook
+export { ElectronProviderContext }

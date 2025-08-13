@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useElectronEvents } from './useElectronEvents'
+import { useElectronEvents } from '@/providers/Electron'
 import { getFileUrl } from '@/lib/fileApi'
 import { zkConvert, type ZkConvertResult, type InputFileFormat } from '@zernikalos/zkbuilder'
 
