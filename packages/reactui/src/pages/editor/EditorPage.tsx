@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import EditorView from '@/pages/editor/EditorView';
+import {EditorView} from '@/pages/editor/EditorView';
 import NewProject from '@/pages/editor/NewProject';
 
 const EditorPage: React.FC = () => {
