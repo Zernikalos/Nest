@@ -1,5 +1,6 @@
 import React from 'react';
 import FormZObject from '../forms/FormZObject';
+import MonacoEditor from '../../../components/MonacoEditor';
 import { zernikalos } from '@zernikalos/zernikalos';
 
 interface EditorViewContentProps {
@@ -35,14 +36,13 @@ const EditorViewContent: React.FC<EditorViewContentProps> = ({
                     />
                 </div>
             ) : (
-                <div className="p-6 border-t">
-                    <div className="bg-muted rounded-lg p-4">
-                        <h3 className="text-lg font-semibold mb-3">Code View</h3>
-                        <pre className="bg-background p-4 rounded border overflow-auto text-sm">
-                            <code>{JSON.stringify(zkResult?.exported, null, 2)}</code>
-                        </pre>
-                    </div>
-                </div>
+                <MonacoEditor
+                    value={JSON.stringify(zkResult?.exported, null, 2)}
+                    language="json"
+                    height="100%"
+                    readOnly={true}
+                    theme="vs-dark"
+                />
             )}
         </div>
     );

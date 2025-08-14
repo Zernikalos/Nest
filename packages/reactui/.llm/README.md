@@ -21,6 +21,14 @@ This directory contains comprehensive documentation for Large Language Models to
 - **[UI Theming](./ui-theming.md)** - CSS variables, themes, and styling strategy
 - **[TreeView Component](./treeview-component.md)** - Tree structure component documentation
 
+### 🧭 Navigation & Pages
+- **[Navigation System](./navigation-system.md)** - Sidebar navigation and routing system
+- **[Pages Directory](./pages/)** - Application pages and functionality
+  - **[Editor Page](./pages/editor-page.md)** - Main 3D editor interface
+  - **[Settings Page](./pages/settings-page.md)** - Application configuration
+  - **[Devices Page](./pages/devices-page.md)** - Device management (future)
+  - **[Exporter Page](./pages/exporter-page.md)** - Export functionality (future)
+
 ## 🎯 Quick Reference
 
 ### Core Architecture
@@ -56,6 +64,12 @@ App.tsx → Providers → Stores → Components
 1. Connect to stores via hooks
 2. Use selective state subscription
 3. Follow established patterns
+
+### Adding New Pages
+1. Create page component in `/src/pages/`
+2. Add route to `src/router.tsx`
+3. Add navigation item to `Sidebar.tsx`
+4. Document in `.llm/pages/`
 
 ## 📖 For LLMs
 
