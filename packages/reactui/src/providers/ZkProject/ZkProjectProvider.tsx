@@ -1,30 +1,26 @@
-import React, { createContext } from 'react'
-import { useZkoConverter } from './useZkoConverter'
-import type { ZkConvertResult } from '@zernikalos/zkbuilder'
-
-interface ZkProjectContextType {
-    // State
-    isImporting: boolean
-    importError: string | null
-    
-    // Main data - directly from zkConvert result
-    zkResult: ZkConvertResult | null
-    
-    // Actions
-    cleanProject: () => void
-}
-
-const ZkProjectContext = createContext<ZkProjectContextType | null>(null)
+import React, { useEffect } from 'react'
+import { useElectronEvents } from '@/providers/Electron'
+import { useZkProjectStore } from '@/stores'
 
 export function ZkProjectProvider({ children }: { children: React.ReactNode }) {
-    const zkLogic = useZkoConverter()
+    const { onImportFile, offImportFile, isElectron } = useElectronEvents()
+    const { handleFileImport, setError } = useZkProjectStore()
     
-    return (
-        <ZkProjectContext.Provider value={zkLogic}>
-            {children}
-        </ZkProjectContext.Provider>
-    )
+    // Setup Electron event listener with cleanup
+    useEffect(() => {
+        if (isElectron) {
+            onImportFile(handleFileImport)
+            console.log('✅ File import callback registered successfully')
+            
+            // Cleanup when component unmounts
+            return () => {
+                offImportFile()
+            }
+        } else {
+            // Set error if not in Electron environment
+            setError("File import only available in Electron environment")
+        }
+    }, [isElectron, onImportFile, offImportFile, handleFileImport, setError])
+    
+    return <>{children}</>
 }
-
-// Export the context for use in the hook
-export { ZkProjectContext }

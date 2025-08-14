@@ -1,12 +1,17 @@
-import { useContext } from 'react'
-import { ZkProjectContext } from './ZkProjectProvider'
+import { useZkProjectStore } from '@/stores'
 
 export function useZkProject() {
-    const context = useContext(ZkProjectContext)
+    const { 
+        isImporting, 
+        importError, 
+        zkResult, 
+        cleanProject 
+    } = useZkProjectStore()
     
-    if (!context) {
-        throw new Error('useZkProject must be used within a ZkProjectProvider')
+    return {
+        isImporting,
+        importError,
+        zkResult,
+        cleanProject,
     }
-    
-    return context
 }

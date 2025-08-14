@@ -9,7 +9,7 @@ import {
     ResizablePanelGroup,
 } from '@/components/ui/resizable';
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { useZkProject } from '@/providers/ZkProject';
+import { useZkProjectStore } from '@/stores';
 import {zernikalos} from '@zernikalos/zernikalos';
 import FormZObject from './forms/FormZObject';
 import { useEditorState } from './hooks/useEditorState';
@@ -23,7 +23,7 @@ function convertZObjectToTreeNode(zObject: zernikalos.objects.ZObject): TreeNode
 }
 
 const EditorView: React.FC = () => {
-    const { zkResult } = useZkProject();
+    const zkResult = useZkProjectStore(state => state.zkResult);
     const [treeUpdateTrigger, setTreeUpdateTrigger] = useState(0);
     const [activeView, setActiveView] = useState<'form' | 'code'>('form');
     
