@@ -7,14 +7,12 @@ interface EditorViewContentProps {
     selectedZObject: zernikalos.objects.ZObject | null;
     activeView: 'form' | 'code';
     zkResult: any;
-    onNameChange: (newName: string) => void;
 }
 
 const EditorViewContent: React.FC<EditorViewContentProps> = ({
     selectedZObject,
     activeView,
     zkResult,
-    onNameChange,
 }) => {
     if (!selectedZObject) {
         return (
@@ -32,7 +30,6 @@ const EditorViewContent: React.FC<EditorViewContentProps> = ({
                 <div className="p-6 border-t">
                     <FormZObject 
                         zObject={selectedZObject}
-                        onNameChange={onNameChange}
                     />
                 </div>
             ) : (

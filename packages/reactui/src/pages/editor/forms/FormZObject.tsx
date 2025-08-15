@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { zernikalos } from '@zernikalos/zernikalos';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -6,14 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface FormZObjectProps {
     zObject: zernikalos.objects.ZObject;
-    onNameChange?: (newName: string) => void;
 }
 
-const FormZObject: React.FC<FormZObjectProps> = ({ zObject, onNameChange }) => {
-    const [localName, setLocalName] = React.useState(zObject.name);
+const FormZObject: React.FC<FormZObjectProps> = ({ zObject }) => {
+    const [localName, setLocalName] = useState(zObject.name);
 
     // Update local name when zObject changes
-    React.useEffect(() => {
+    useEffect(() => {
         setLocalName(zObject.name);
     }, [zObject.name]);
 
@@ -21,10 +20,14 @@ const FormZObject: React.FC<FormZObjectProps> = ({ zObject, onNameChange }) => {
         setLocalName(event.target.value);
     };
 
-    const handleNameBlur = () => {
-        if (localName !== zObject.name && onNameChange) {
-            onNameChange(localName);
+    const updateName = useCallback(() => {
+        if (localName !== zObject.name) {
+            zObject.name = localName;
         }
+    }, [localName, zObject]);
+
+    const handleNameBlur = () => {
+        updateName();
     };
 
     const handleNameKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

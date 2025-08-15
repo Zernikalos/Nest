@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
-import { TreeView, type TreeNode } from '@/components/treeview';
+import { TreeView } from '@/components/treeview';
 import {
     ResizableHandle,
     ResizablePanel,
@@ -8,65 +8,27 @@ import {
 } from '@/components/ui/resizable';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { useZkProjectStore } from '@/stores';
-import { zernikalos } from '@zernikalos/zernikalos';
-import { useEditorState } from '../hooks/useEditorState';
+import { useNestEditorState } from '../hooks/useNestEditorState';
 import EditorViewTopBar from './EditorViewTopBar';
 import EditorViewContent from './EditorViewContent';
 
-function convertZObjectToTreeNode(zObject: zernikalos.objects.ZObject): TreeNode {
-    return {
-        id: zObject.refId,
-        label: zObject.name,
-        children: zObject.children?.map((child: any) => convertZObjectToTreeNode(child)) || []
-    };
-}
-
 export const EditorView: React.FC = () => {
     const zkResult = useZkProjectStore(state => state.zkResult);
-    const [treeUpdateTrigger, setTreeUpdateTrigger] = useState(0);
     const [activeView, setActiveView] = useState<'form' | 'code'>('form');
     
-    // Build tree from parsed data
-    const tree = useMemo(() => {
-        if (zkResult?.zko?.root) {
-            return [convertZObjectToTreeNode(zkResult.zko.root)];
-        }
-        return [];
-    }, [zkResult, treeUpdateTrigger]);
-
     // Use custom hook for editor state management
     const {
+        tree,
         selectedIds,
         openedNodes,
         activeNode,
+        selectedZObject,
         handleSelect,
         handleTabChange,
         handleTabClose,
-    } = useEditorState({ tree });
-
-    // Find ZObject by refId
-    const findZObjectById = (zObject: zernikalos.objects.ZObject | undefined, refId?: string): zernikalos.objects.ZObject | null => {
-        if (!zObject || !refId) return null;
-        
-        if (zObject.refId === refId) return zObject;
-        
-        for (const child of zObject.children || []) {
-            const found = findZObjectById(child, refId);
-            if (found) return found;
-        }
-        
-        return null;
-    };
-
-    // Get selected ZObject based on active node
-    const selectedZObject = activeNode ? findZObjectById(zkResult?.zko?.root, activeNode) : null;
-
-    const handleNameChange = (newName: string) => {
-        if (selectedZObject) {
-            selectedZObject.name = newName;
-            setTreeUpdateTrigger(prev => prev + 1);
-        }
-    };
+    } = useNestEditorState({ 
+        root: zkResult?.zko?.root 
+    });
 
     return (
         <ResizablePanelGroup direction="horizontal" className="h-full w-full">
@@ -96,7 +58,6 @@ export const EditorView: React.FC = () => {
                             selectedZObject={selectedZObject}
                             activeView={activeView}
                             zkResult={zkResult}
-                            onNameChange={handleNameChange}
                         />
                     </div>
                 ) : (
