@@ -7,7 +7,12 @@ The Editor Page is the main interface of Zernikalos Studio, providing a comprehe
 ## Location
 - **Main Component**: `src/pages/editor/EditorPage.tsx`
 - **Core View**: `src/pages/editor/EditorView/EditorView.tsx`
+- **Layout**: `src/pages/editor/EditorView/EditorViewLayout.tsx`
+- **Top Bar**: `src/pages/editor/EditorView/EditorViewTopBar.tsx`
+- **Content**: `src/pages/editor/EditorView/EditorViewContent.tsx`
 - **New Project**: `src/pages/editor/NewProject.tsx`
+- **Forms**: `src/pages/editor/forms/FormZObject.tsx`
+- **Providers**: `src/pages/editor/providers/`
 
 ## Page Structure
 
@@ -16,9 +21,12 @@ The Editor Page is the main interface of Zernikalos Studio, providing a comprehe
 EditorPage
 ├── NewProject (when no project active)
 └── EditorView (when project active)
-    ├── TreeView (left panel - 25% width)
-    ├── EditorViewTopBar (top tabs)
-    └── EditorViewContent (main content - 75% width)
+    └── NestEditorProvider
+        └── EditorViewLayout
+            ├── TreeView (left panel - 25% width)
+            └── Right Panel (75% width)
+                ├── EditorViewTopBar (tabs and view toggle)
+                └── EditorViewContent (form or code view)
 ```
 
 ### Layout System
@@ -53,7 +61,8 @@ EditorPage
 
 ### Store Integration
 - **useZkProjectStore**: Main project data and state
-- **useEditorState**: Custom hook for editor-specific state
+- **useNestEditorContext**: Custom context hook for editor-specific state
+- **NestEditorProvider**: Context provider that wraps the editor interface
 
 ### State Updates
 - **Tree Updates**: Triggered when object names change
@@ -93,6 +102,18 @@ TreeView selection → activeNode → selectedZObject → EditorViewContent
 User input → handleNameChange → object update → tree refresh
 ```
 
+## Code Standards
+
+All components in the editor module follow the project's coding standards and best practices. For detailed information about export/import patterns, component architecture, and other standards, see:
+
+**📋 [Coding Standards & Best Practices](../coding-standards.md)**
+
+Key points for the editor module:
+- **Named Exports**: All components use named exports (no default exports)
+- **TypeScript**: Strict typing with proper interfaces
+- **Component Architecture**: Consistent structure and patterns
+- **Context Pattern**: Provider/Consumer pattern for state management
+
 ## Component Integration
 
 ### TreeView Component
@@ -112,15 +133,32 @@ User input → handleNameChange → object update → tree refresh
 
 ## Hooks and Utilities
 
-### useEditorState
-- **Purpose**: Centralized editor state management
-- **Features**: Selection, tabs, navigation
-- **Integration**: Connects TreeView with editor interface
+### NestEditorProvider Architecture
+- **Purpose**: Centralized editor state management using React Context
+- **Location**: `src/pages/editor/providers/NestEditorProvider.tsx`
+- **Context**: `src/pages/editor/providers/NestEditorContext.tsx`
+
+### Custom Hooks
+- **useNestInternalEditorState**: Core editor state logic
+- **useTreeState**: Tree data management and updates
+- **useSelectionState**: Node selection handling
+- **useTabsState**: Tab management (open/close/switch)
+- **useZObjectState**: ZObject data access
+
+### Hook Integration Pattern
+```typescript
+// Internal hooks combine to create unified state
+const editorState = useNestInternalEditorState({ root });
+const contextValue = { ...editorState, zkResult };
+// Exposed through single context hook
+const { selectedZObject, handleSelect } = useNestEditorContext();
+```
 
 ### Object Utilities
-- **findZObjectById**: Recursive object search
-- **convertZObjectToTreeNode**: Data format conversion
-- **handleNameChange**: Object property updates
+- **findZObjectById**: Recursive object search in ZObject tree
+- **findNodeById**: Recursive node search in TreeNode structure
+- **convertZObjectToTreeNode**: Converts ZObject to TreeView format
+- **handleNameChange**: Object property updates with tree refresh
 
 ## Future Enhancements
 
@@ -151,4 +189,6 @@ User input → handleNameChange → object update → tree refresh
 ### Code Organization
 - **Separation of Concerns**: Clear component responsibilities
 - **Custom Hooks**: Reusable logic extraction
-- **Type Safety**: Proper TypeScript usage
+- **Named Exports**: All components use named exports for better tree-shaking
+- **Context Pattern**: Provider/Consumer pattern for state management
+- **Type Safety**: Proper TypeScript usage with strict interfaces

@@ -6,7 +6,7 @@ interface NewProjectProps {
     onNewProject: () => void;
 }
 
-const NewProject: React.FC<NewProjectProps> = ({ onNewProject }) => {
+export const NewProject: React.FC<NewProjectProps> = ({ onNewProject }) => {
     return (
         <div className="flex h-full justify-center items-center">
             <Button variant="default" onClick={onNewProject}>
@@ -16,4 +16,4 @@ const NewProject: React.FC<NewProjectProps> = ({ onNewProject }) => {
     );
 };
 
-export default NewProject;
+

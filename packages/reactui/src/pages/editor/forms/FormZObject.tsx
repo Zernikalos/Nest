@@ -1,39 +1,23 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { zernikalos } from '@zernikalos/zernikalos';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useNestEditorContext } from '../providers/NestEditorContext';
 
 interface FormZObjectProps {
     zObject: zernikalos.objects.ZObject;
 }
 
-const FormZObject: React.FC<FormZObjectProps> = ({ zObject }) => {
+export const FormZObject: React.FC<FormZObjectProps> = ({ zObject }) => {
+    const { notifyChange } = useNestEditorContext();
     const [localName, setLocalName] = useState(zObject.name);
 
-    // Update local name when zObject changes
-    useEffect(() => {
-        setLocalName(zObject.name);
-    }, [zObject.name]);
-
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setLocalName(event.target.value);
-    };
-
-    const updateName = useCallback(() => {
-        if (localName !== zObject.name) {
-            zObject.name = localName;
-        }
-    }, [localName, zObject]);
-
-    const handleNameBlur = () => {
-        updateName();
-    };
-
-    const handleNameKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            event.currentTarget.blur();
-        }
+        const newName = event.target.value;
+        setLocalName(newName);
+        zObject.name = newName;
+        notifyChange(); // Notify change to regenerate the tree
     };
 
     return (
@@ -59,14 +43,10 @@ const FormZObject: React.FC<FormZObjectProps> = ({ zObject }) => {
                         id="name"
                         value={localName}
                         onChange={handleNameChange}
-                        onBlur={handleNameBlur}
-                        onKeyDown={handleNameKeyDown}
                         placeholder="Enter object name"
                     />
                 </div>
             </CardContent>
         </Card>
     );
-};
-
-export default FormZObject; 
+}; 

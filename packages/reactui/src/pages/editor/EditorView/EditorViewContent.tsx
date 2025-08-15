@@ -1,19 +1,15 @@
 import React from 'react';
-import FormZObject from '../forms/FormZObject';
+import { FormZObject } from '../forms/FormZObject';
 import MonacoEditor from '../../../components/MonacoEditor';
-import { zernikalos } from '@zernikalos/zernikalos';
+import { useNestEditorContext } from '../providers/NestEditorContext';
 
 interface EditorViewContentProps {
-    selectedZObject: zernikalos.objects.ZObject | null;
     activeView: 'form' | 'code';
-    zkResult: any;
 }
 
-const EditorViewContent: React.FC<EditorViewContentProps> = ({
-    selectedZObject,
-    activeView,
-    zkResult,
-}) => {
+export const EditorViewContent: React.FC<EditorViewContentProps> = ({ activeView }) => {
+    const { selectedZObject, zkResult } = useNestEditorContext();
+
     if (!selectedZObject) {
         return (
             <div className="flex h-full items-center justify-center p-6">
@@ -45,4 +41,4 @@ const EditorViewContent: React.FC<EditorViewContentProps> = ({
     );
 };
 
-export default EditorViewContent;
+
