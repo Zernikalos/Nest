@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { zernikalos } from '@zernikalos/zernikalos';
+import { zernikalos } from '@/lib/zernikalos';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

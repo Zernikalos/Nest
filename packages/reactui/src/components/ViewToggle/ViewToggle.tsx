@@ -1,11 +1,11 @@
 import React from 'react';
-import { HiOutlineDocumentText, HiOutlineCode } from 'react-icons/hi';
+import { HiOutlineDocumentText, HiOutlineCode, HiOutlineEye } from 'react-icons/hi';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from '@/lib/utils';
 
 interface ViewToggleProps {
-    activeView: 'form' | 'code';
-    onViewChange: (view: 'form' | 'code') => void;
+    activeView: 'form' | 'code' | 'viewer';
+    onViewChange: (view: 'form' | 'code' | 'viewer') => void;
     className?: string;
 }
 
@@ -18,7 +18,7 @@ const ViewToggle: React.FC<ViewToggleProps> = ({
         <ToggleGroup 
             type="single" 
             value={activeView} 
-            onValueChange={(value) => value && onViewChange(value as 'form' | 'code')}
+            onValueChange={(value) => value && onViewChange(value as 'form' | 'code' | 'viewer')}
             className={cn('flex items-center', className)}
         >
             <ToggleGroupItem value="form" className="flex items-center gap-1 px-2 rounded-none rounded-0">
@@ -27,6 +27,10 @@ const ViewToggle: React.FC<ViewToggleProps> = ({
             
             <ToggleGroupItem value="code" className="flex items-center gap-1 px-2">
                 <HiOutlineCode className="h-2 w-2" />
+            </ToggleGroupItem>
+
+            <ToggleGroupItem value="viewer" className="flex items-center gap-1 px-2">
+                <HiOutlineEye className="h-2 w-2" />
             </ToggleGroupItem>
         </ToggleGroup>
     );

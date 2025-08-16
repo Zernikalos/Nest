@@ -1,5 +1,5 @@
 import type { TreeNode } from '@/components/treeview';
-import { zernikalos } from '@zernikalos/zernikalos';
+import { zernikalos } from '@/lib/zernikalos';
 
 // Convert ZObject to TreeNode
 export function convertZObjectToTreeNode(zObject: zernikalos.objects.ZObject): TreeNode {

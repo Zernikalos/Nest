@@ -1,10 +1,11 @@
 import React from 'react';
 import { FormZObject } from '../forms/FormZObject';
 import MonacoEditor from '../../../components/MonacoEditor';
+import { ZernikalosViewer } from '../../../components/ZernikalosViewer';
 import { useNestEditorContext } from '../providers/NestEditorContext';
 
 interface EditorViewContentProps {
-    activeView: 'form' | 'code';
+    activeView: 'form' | 'code' | 'viewer';
 }
 
 export const EditorViewContent: React.FC<EditorViewContentProps> = ({ activeView }) => {
@@ -28,7 +29,7 @@ export const EditorViewContent: React.FC<EditorViewContentProps> = ({ activeView
                         zObject={selectedZObject}
                     />
                 </div>
-            ) : (
+            ) : activeView === 'code' ? (
                 <MonacoEditor
                     value={JSON.stringify(zkResult?.exported, null, 2)}
                     language="json"
@@ -36,6 +37,16 @@ export const EditorViewContent: React.FC<EditorViewContentProps> = ({ activeView
                     readOnly={true}
                     theme="vs-dark"
                 />
+            ) : (
+                <div className="w-full h-full">
+                    <ZernikalosViewer
+                        sceneData={zkResult?.proto || null}
+                        width="100%"
+                        height="100%"
+                        onReady={() => console.log('Zernikalos viewer ready!')}
+                        onError={(error) => console.error('Zernikalos viewer error:', error)}
+                    />
+                </div>
             )}
         </div>
     );

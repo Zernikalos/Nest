@@ -9,18 +9,23 @@ interface FileImportData {
     format: InputFileFormat
 }
 
+export interface ZkResultExtended extends ZkConvertResult {
+    proto: Uint8Array
+}
+
 interface ZkProjectState {
     // State
     isImporting: boolean
     importError: string | null
-    zkResult: ZkConvertResult | null
+    zkResult: ZkResultExtended | null
     
     // Actions
     setImporting: (importing: boolean) => void
     setError: (error: string | null) => void
-    setZkResult: (result: ZkConvertResult | null) => void
+    setZkResult: (result: ZkResultExtended | null) => void
     cleanProject: () => void
     handleFileImport: (data: FileImportData) => Promise<void>
+    bundleScene: () => Promise<Uint8Array | undefined>
     handleBundleScene: () => Promise<void>
 }
 
@@ -33,7 +38,7 @@ export const useZkProjectStore = create<ZkProjectState>((set, get) => ({
     // Actions
     setImporting: (importing) => set({ isImporting: importing }),
     setError: (error) => set({ importError: error }),
-    setZkResult: (result) => set({ zkResult: result }),
+    setZkResult: (result: ZkResultExtended | null) => set({ zkResult: result }),
     
     cleanProject: () => {
         set({
@@ -64,7 +69,8 @@ export const useZkProjectStore = create<ZkProjectState>((set, get) => ({
             // Step 2: Process file through ZK workflow
             console.log('🔄 Processing file through ZK workflow...')
             const result = await zkConvert({filePath: fileUrl, format: data.format}, {exportOptions: {format: "object"}})
-            setZkResult(result)
+            const proto = await zkExport(result.zko, {format: "proto"}) as Uint8Array
+            setZkResult({...result, proto})
             console.log('✅ File processed successfully')
             
         } catch (error) {
@@ -76,13 +82,20 @@ export const useZkProjectStore = create<ZkProjectState>((set, get) => ({
         }
     },
 
-    handleBundleScene: async () => {
+    bundleScene: async () => {
         const { zkResult } = get()
         if (_.isNil(zkResult)) {
             return
         }
         const parsedData = zkResult.zko
-        const bundledAsProto = await zkExport(parsedData, {format: "proto"}) as Uint8Array
+        return await zkExport(parsedData, {format: "proto"}) as Uint8Array
+    },
+
+    handleBundleScene: async () => {
+        const bundledAsProto = await get().bundleScene()
+        if (_.isNil(bundledAsProto)) {
+            return
+        }
         window.NativeZernikalos?.actionSaveFile(bundledAsProto)
     }
 }))

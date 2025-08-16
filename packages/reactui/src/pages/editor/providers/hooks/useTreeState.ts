@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
 import { convertZObjectToTreeNode } from './utils';
-import { zernikalos } from '@zernikalos/zernikalos';
+import { zernikalos } from '@/lib/zernikalos';
 
 interface UseTreeStateProps {
     root: zernikalos.objects.ZObject | undefined;

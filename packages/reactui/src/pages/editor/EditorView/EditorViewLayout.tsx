@@ -12,7 +12,7 @@ import { EditorViewContent } from './EditorViewContent';
 import { useNestEditorContext } from '../providers/NestEditorContext';
 
 export const EditorViewLayout: React.FC = () => {
-    const [activeView, setActiveView] = useState<'form' | 'code'>('form');
+    const [activeView, setActiveView] = useState<'form' | 'code' | 'viewer'>('form');
     
     const {
         tree,

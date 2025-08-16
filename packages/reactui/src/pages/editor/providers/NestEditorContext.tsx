@@ -1,10 +1,10 @@
 import { createContext, useContext } from 'react';
 import { type NestInternalEditorState } from './hooks/useNestInternalEditorState';
-import type { ZkConvertResult } from '@zernikalos/zkbuilder';
+import type { ZkResultExtended } from '@/stores/useZkProjectStore';
 
 // Extend the internal editor state to include zkResult
 interface NestEditorContextType extends NestInternalEditorState {
-    zkResult: ZkConvertResult | null;
+    zkResult: ZkResultExtended | null;
 }
 
 const NestEditorContext = createContext<NestEditorContextType | undefined>(undefined);

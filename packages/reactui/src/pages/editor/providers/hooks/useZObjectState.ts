@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { zernikalos } from '@zernikalos/zernikalos';
+import { zernikalos } from '@/lib/zernikalos';
 import { findZObjectById } from './utils';
 
 interface UseZObjectStateProps {

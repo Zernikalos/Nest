@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import type { TreeNode } from '@/components/treeview';
-import { zernikalos } from '@zernikalos/zernikalos';
+import { zernikalos } from '@/lib/zernikalos';
 import { useTreeState } from './useTreeState';
 import { useSelectionState } from './useSelectionState';
 import { useTabsState } from './useTabsState';

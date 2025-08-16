@@ -4,8 +4,8 @@ import ViewToggle from '@/components/ViewToggle';
 import { useNestEditorContext } from '../providers/NestEditorContext';
 
 interface EditorViewTopBarProps {
-    activeView: 'form' | 'code';
-    onViewChange: (view: 'form' | 'code') => void;
+    activeView: 'form' | 'code' | 'viewer';
+    onViewChange: (view: 'form' | 'code' | 'viewer') => void;
 }
 
 export const EditorViewTopBar: React.FC<EditorViewTopBarProps> = ({
