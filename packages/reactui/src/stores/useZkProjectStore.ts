@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { getFileUrl } from '@/lib/fileApi'
-import { zkConvert, type ZkConvertResult, type InputFileFormat } from '@zernikalos/zkbuilder'
+import { zkConvert, type ZkConvertResult, type InputFileFormat, zkExport } from '@zernikalos/zkbuilder'
+import _ from 'lodash'
 
 interface FileImportData {
     path: string
@@ -20,6 +21,7 @@ interface ZkProjectState {
     setZkResult: (result: ZkConvertResult | null) => void
     cleanProject: () => void
     handleFileImport: (data: FileImportData) => Promise<void>
+    handleBundleScene: () => Promise<void>
 }
 
 export const useZkProjectStore = create<ZkProjectState>((set, get) => ({
@@ -72,5 +74,15 @@ export const useZkProjectStore = create<ZkProjectState>((set, get) => ({
         } finally {
             setImporting(false)
         }
+    },
+
+    handleBundleScene: async () => {
+        const { zkResult } = get()
+        if (_.isNil(zkResult)) {
+            return
+        }
+        const parsedData = zkResult.zko
+        const bundledAsProto = await zkExport(parsedData, {format: "proto"}) as Uint8Array
+        window.NativeZernikalos?.actionSaveFile(bundledAsProto)
     }
 }))

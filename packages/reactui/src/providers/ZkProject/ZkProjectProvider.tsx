@@ -3,8 +3,8 @@ import { useElectronEvents } from '@/providers/Electron'
 import { useZkProjectStore } from '@/stores'
 
 export function ZkProjectProvider({ children }: { children: React.ReactNode }) {
-    const { onImportFile, offImportFile, isElectron } = useElectronEvents()
-    const { handleFileImport, setError } = useZkProjectStore()
+    const { onImportFile, offImportFile, isElectron, onBundleScene } = useElectronEvents()
+    const { handleFileImport, setError, handleBundleScene } = useZkProjectStore()
     
     // Setup Electron event listener with cleanup
     useEffect(() => {
@@ -21,6 +21,12 @@ export function ZkProjectProvider({ children }: { children: React.ReactNode }) {
             setError("File import only available in Electron environment")
         }
     }, [isElectron, onImportFile, offImportFile, handleFileImport, setError])
+
+    useEffect(() => {
+        if (isElectron) {
+            onBundleScene(handleBundleScene)
+        }
+    }, [isElectron, onBundleScene, handleBundleScene])
     
     return <>{children}</>
 }

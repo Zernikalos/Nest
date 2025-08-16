@@ -35,7 +35,7 @@ contextBridge.exposeInMainWorld('NativeZernikalos', {
         }
     },
 
-    actionSaveFile: (fileData: Uint8Array) => ipcRenderer.send(NestEvents.SAVE_FILE, fileData),
+    actionSaveFile: (fileData: Uint8Array) => ipcRenderer.invoke(NestEvents.SAVE_FILE, fileData),
 })
 
 contextBridge.exposeInMainWorld('userSettings', {
