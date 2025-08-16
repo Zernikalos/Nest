@@ -88,9 +88,12 @@ export function TreeNodeItem({
     // Simple focus handler
     const handleFocus = () => setCurrentFocusedNode(node.id);
 
+    const paddingLeft = depth * 16;
+
     // Create default label with proper styling using cn
     const defaultLabel = (
         <div
+            style={{ paddingLeft: paddingLeft }}
             className={cn(
                 styles.treeNode,
                 isSelected && styles.selected,
@@ -124,7 +127,6 @@ export function TreeNodeItem({
 
     return (
         <div
-            style={{ paddingLeft: depth * 16 }}
             className={styles.nodeItem}
             data-node-id={node.id}
         >
