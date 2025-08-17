@@ -1,2 +1,2 @@
-export { ZernikalosViewer, default } from './ZernikalosViewer';
-export type { ZernikalosSceneData, ZernikalosViewerProps } from './ZernikalosViewer';
+export { ZernikalosViewer } from './ZernikalosViewer';
+export type { ZernikalosViewerProps, ZernikalosViewerRef } from './ZernikalosViewer';

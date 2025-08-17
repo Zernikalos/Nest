@@ -29,7 +29,7 @@ export const EditorViewTopBar: React.FC<EditorViewTopBarProps> = ({
                 onTabChange={handleTabChange}
                 onTabClose={handleTabClose}
             />
-            <div className="flex items-center px-4">
+            <div className="flex items-center pl-4">
                 <ViewToggle
                     activeView={activeView}
                     onViewChange={onViewChange}

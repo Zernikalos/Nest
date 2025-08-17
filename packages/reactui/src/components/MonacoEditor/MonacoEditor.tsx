@@ -11,7 +11,7 @@ interface MonacoEditorProps {
     options?: any;
 }
 
-const MonacoEditor: React.FC<MonacoEditorProps> = ({
+export const MonacoEditor: React.FC<MonacoEditorProps> = ({
     value,
     language = 'json',
     theme = 'vs-dark',
@@ -33,6 +33,7 @@ const MonacoEditor: React.FC<MonacoEditorProps> = ({
 
     return (
         <Editor
+            data-component="MonacoEditor"
             height={height}
             language={language}
             theme={theme}
@@ -42,5 +43,3 @@ const MonacoEditor: React.FC<MonacoEditorProps> = ({
         />
     );
 };
-
-export default MonacoEditor;
