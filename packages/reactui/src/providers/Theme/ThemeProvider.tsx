@@ -1,5 +1,5 @@
 import { createContext, useEffect } from "react"
-import { themes, type Theme } from "../../lib/themes"
+import { themes, type Theme, isDarkTheme } from "../../lib/themes"
 import { usePersistentState } from "../../hooks/usePersistentState"
 
 type ThemeProviderProps = {
@@ -42,10 +42,13 @@ export function ThemeProvider({
     root.classList.remove("dark")
     
     // Apply the selected theme
-    if (theme === "dark") {
-      root.classList.add("dark")
-    } else if (theme !== "default") {
+    if (theme !== "default") {
       root.setAttribute("data-theme", theme)
+      
+      // Check if it's a dark theme using the theme definition
+      if (isDarkTheme(theme)) {
+        root.classList.add("dark")
+      }
     }
   }, [theme])
 
