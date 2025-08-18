@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useLayoutEffect, useRef, useState, useCallback } from 'react';
 import { zernikalos } from '@/lib/zernikalos';
 
 interface UseZernikalosInitializationProps {
@@ -89,10 +89,25 @@ export const useZernikalosInitialization = ({
     const getCurrentZko = useCallback(() => zkoRef.current, []);
     const getCurrentZernikalos = useCallback(() => zernikalosRef.current, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (initializationAttemptedRef.current) {
             console.log('⚠️ Initialization already attempted, skipping...');
             return;
+        }
+
+        // Check if refs are available (similar to Vue onMounted)
+        const canvas = canvasRef.current;
+        const container = containerRef.current;
+
+        if (!canvas || !container) {
+            console.log('⏳ Canvas or container not ready yet, waiting...');
+            return; // Wait for refs to be available
+        }
+
+        // Additional check: ensure canvas has valid dimensions
+        if (container.clientWidth === 0 || container.clientHeight === 0) {
+            console.log('⏳ Container has no dimensions yet, waiting...');
+            return; // Wait for container to have dimensions
         }
 
         console.log('🚀 Starting Zernikalos initialization and scene setup');
@@ -100,12 +115,9 @@ export const useZernikalosInitialization = ({
 
         const initializeAndSetupScene = async () => {
             try {
-                const canvas = canvasRef.current;
-                const container = containerRef.current;
-
-                if (!canvas || !container) {
-                    throw new Error('Canvas or container not found');
-                }
+                // Canvas and container are already verified above
+                const canvas = canvasRef.current!;
+                const container = containerRef.current!;
 
                 // Set canvas size
                 canvas.width = container.clientWidth;
@@ -142,6 +154,7 @@ export const useZernikalosInitialization = ({
 
                                     console.log('✅ Scene setup completed successfully');
                                     setIsInitialized(true);
+                                    console.log('🎯 isInitialized set to true');
                                     done();
                                 } catch (err) {
                                     const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
@@ -169,6 +182,7 @@ export const useZernikalosInitialization = ({
                 } else {
                     console.log('⏳ No scene data provided, initialization complete');
                     setIsInitialized(true);
+                    console.log('🎯 isInitialized set to true (no scene data)');
                 }
 
             } catch (err) {
@@ -203,7 +217,7 @@ export const useZernikalosInitialization = ({
             sceneRef.current = null;
             zkoRef.current = null;
         };
-    }, []); // EMPTY DEPENDENCY ARRAY - only run once on mount
+    }, [sceneData, logLevel]); // Run when props change, refs are checked inside
 
     return {
         isInitialized,

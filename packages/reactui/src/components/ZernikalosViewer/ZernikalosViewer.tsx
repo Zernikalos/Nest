@@ -78,8 +78,10 @@ export const ZernikalosViewer = forwardRef<ZernikalosViewerRef, ZernikalosViewer
 
     // Configure default camera settings when initialized
     useEffect(() => {
+        console.log('🎥 Camera config useEffect triggered, isInitialized:', isInitialized);
         if (isInitialized) {
             const camera = getCurrentCamera();
+            console.log('🎥 Camera found:', !!camera);
             if (camera) {
                 // Apply default camera configuration (180° rotations as before)
                 camera.transform?.rotate(180, 1, 0, 0);  // Rotate 180° around X axis
@@ -91,7 +93,7 @@ export const ZernikalosViewer = forwardRef<ZernikalosViewerRef, ZernikalosViewer
                 console.log('✅ Default camera configuration applied');
             }
         }
-    }, [isInitialized, getCurrentCamera]);
+    }, [isInitialized]); // Only depend on isInitialized
 
     // Expose methods and references to parent component
     useImperativeHandle(ref, () => ({
