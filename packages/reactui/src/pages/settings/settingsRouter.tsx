@@ -1,7 +1,6 @@
 import { Navigate } from 'react-router-dom'
 import { SettingsPage } from './SettingsPage'
-import { GeneralSettingsSection } from './sections/GeneralSettingsSection'
-import { AppearanceSettingsSection } from './sections/AppareanceSettingsSection'
+import { GeneralSettingsSection, AppearanceSettingsSection } from './sections'
 
 export const settingsRoutes = {
     path: 'settings',
