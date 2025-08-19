@@ -52,33 +52,43 @@ For immediate implementation, start with:
   - Memory management techniques
   - Testing approaches and anti-patterns
 
+- **[DEBUGGING.md](./DEBUGGING.md)**
+  - Comprehensive debugging and logging guide
+  - Debug categories and output examples
+  - Performance monitoring and troubleshooting
+  - Development workflow optimization
+
 ## Documentation Usage by Role
 
 ### 🧑‍💻 For Developers New to KeepAliveRouter
 1. Start with **README.md** for concepts
 2. Follow **EXAMPLES.md** for hands-on learning
 3. Reference **API_REFERENCE.md** during implementation
-4. Apply **BEST_PRACTICES.md** for production code
+4. Use **DEBUGGING.md** for development workflow
+5. Apply **BEST_PRACTICES.md** for production code
 
 ### 🔧 For Developers Migrating from React Router
 1. Read **MIGRATION_GUIDE.md** first
 2. Use **API_REFERENCE.md** for feature mapping
 3. Check **EXAMPLES.md** for equivalent patterns
-4. Follow **BEST_PRACTICES.md** for optimization
+4. Use **DEBUGGING.md** for troubleshooting migration issues
+5. Follow **BEST_PRACTICES.md** for optimization
 
 ### 🏗️ For System Architects
 1. Review **ARCHITECTURE.md** for design understanding
 2. Analyze **README.md** for feature limitations
 3. Consider **BEST_PRACTICES.md** for scalability
-4. Use **MIGRATION_GUIDE.md** for integration planning
+4. Review **DEBUGGING.md** for monitoring capabilities
+5. Use **MIGRATION_GUIDE.md** for integration planning
 
 ### 🤖 For LLM/AI Systems
 1. **README.md** provides complete context and concepts
 2. **API_REFERENCE.md** contains all available APIs and types
 3. **EXAMPLES.md** shows practical implementation patterns
 4. **ARCHITECTURE.md** explains internal workings
-5. **MIGRATION_GUIDE.md** helps with React Router comparisons
-6. **BEST_PRACTICES.md** provides optimization guidance
+5. **DEBUGGING.md** covers logging and troubleshooting
+6. **MIGRATION_GUIDE.md** helps with React Router comparisons
+7. **BEST_PRACTICES.md** provides optimization guidance
 
 ## Key Concepts Summary
 

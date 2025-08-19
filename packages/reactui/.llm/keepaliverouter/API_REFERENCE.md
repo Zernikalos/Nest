@@ -411,6 +411,42 @@ const dashboardRoute = route()
    - Occurs when route has neither component nor redirect
    - Solution: Set either `component` or `redirectTo` property
 
+## Debug Utilities
+
+### enableRouterDebugging
+
+Programmatically enable all router debugging.
+
+**Example:**
+```tsx
+import { enableRouterDebugging } from './keepaliverouter';
+
+// Enable all router debugging
+enableRouterDebugging();
+```
+
+**Behavior:**
+- Sets `localStorage.debug` to `keepalive:*` in browser
+- Sets `process.env.DEBUG` to `keepalive:*` in Node.js
+- Enables all debug categories (router, outlet, hooks, navigation, performance, errors)
+
+### disableRouterDebugging
+
+Programmatically disable all router debugging.
+
+**Example:**
+```tsx
+import { disableRouterDebugging } from './keepaliverouter';
+
+// Disable all router debugging
+disableRouterDebugging();
+```
+
+**Behavior:**
+- Removes `localStorage.debug` in browser
+- Deletes `process.env.DEBUG` in Node.js
+- Requires page refresh to take effect
+
 ## Browser Integration
 
 The router integrates with the browser's history API:
@@ -419,3 +455,15 @@ The router integrates with the browser's history API:
 - **URL updates**: Routes update the browser URL
 - **Direct URL access**: Initial route can be set from URL
 - **History state**: Uses `pushState` for navigation, `replaceState` for redirects
+
+## Debug Integration
+
+The router includes comprehensive debugging support:
+
+- **Auto-enable in development**: Debug automatically enabled in dev mode
+- **Category-based logging**: Separate debug categories for different router aspects
+- **Performance monitoring**: Automatic timing of critical operations
+- **Smart logging**: Only logs state changes, avoids duplicate logs
+- **Production safe**: Debug code stripped in production builds
+
+See **[DEBUGGING.md](./DEBUGGING.md)** for complete debugging guide.

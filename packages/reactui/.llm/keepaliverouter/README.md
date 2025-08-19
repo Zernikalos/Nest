@@ -56,6 +56,7 @@ KeepAliveRouterProvider (Context Provider)
 - **Active route detection** - CSS classes and hooks
 - **Route metadata** - Titles and custom data
 - **Fluent API** - RouteBuilder for complex configurations
+- **Comprehensive debugging** - Built-in logging and performance monitoring
 
 ### ❌ Not Supported
 - **Path parameters** - `/users/:id` patterns
