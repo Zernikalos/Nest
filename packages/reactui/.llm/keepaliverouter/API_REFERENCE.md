@@ -24,7 +24,7 @@ interface KeepAliveRouterProviderProps {
 
 ### KeepAliveOutlet
 
-Renders all mounted route components, displaying only the active one while keeping others hidden.
+Renders all mounted route components, displaying only the active one while keeping others hidden. Supports nested outlets with automatic level detection.
 
 **Props:**
 ```tsx
@@ -38,10 +38,37 @@ interface KeepAliveOutletProps {
 - Keeps mounted components in DOM but hidden
 - Shows only the active route component
 - Handles redirect routes automatically
+- **NEW**: Automatically detects nesting level and renders only appropriate routes
+- **NEW**: Supports multiple nested outlets like React Router
 
-**Example:**
+**Examples:**
+
+Basic usage:
 ```tsx
 <KeepAliveOutlet className="main-content" />
+```
+
+Nested outlets:
+```tsx
+const AppLayout = () => (
+  <div>
+    <nav>Navigation</nav>
+    <main>
+      {/* Level 0 outlet - renders top-level routes */}
+      <KeepAliveOutlet />
+    </main>
+  </div>
+);
+
+const DashboardLayout = () => (
+  <div>
+    <h2>Dashboard</h2>
+    <div>
+      {/* Level 1 outlet - renders dashboard child routes */}
+      <KeepAliveOutlet />
+    </div>
+  </div>
+);
 ```
 
 ### Link
@@ -284,6 +311,31 @@ const navItems = routes.map(route => ({
 }));
 ```
 
+### useOutletLevel
+
+**NEW**: Hook to get the current outlet nesting level. Useful for debugging and conditional rendering based on nesting depth.
+
+**Returns:**
+```tsx
+interface OutletLevelContextType {
+  level: number; // Current outlet level (0, 1, 2, etc.)
+}
+```
+
+**Example:**
+```tsx
+const MyComponent = () => {
+  const { level } = useOutletLevel();
+  
+  return (
+    <div>
+      <h2>Component at level {level}</h2>
+      {level > 0 && <p>This is a nested component</p>}
+    </div>
+  );
+};
+```
+
 ## Types
 
 ### Route
@@ -298,8 +350,14 @@ interface Route {
   children?: Route[];
   index?: boolean;
   redirectTo?: string;
+  level?: number;        // NEW: Nesting level (auto-calculated)
+  originalPath?: string; // NEW: Original path before flattening
 }
 ```
+
+**New Properties:**
+- `level`: Automatically calculated nesting level (0, 1, 2, etc.)
+- `originalPath`: The original path segment before route flattening
 
 ### RouteConfig
 

@@ -10,6 +10,8 @@ export interface Route {
     children?: Route[];
     index?: boolean;
     redirectTo?: string;
+    level?: number; // Level of nesting for this route
+    originalPath?: string; // Original path before flattening (for level calculation)
 }
 
 interface KeepAliveRouterContextType {
@@ -20,12 +22,15 @@ interface KeepAliveRouterContextType {
     setRoutes: (routes: Route[]) => void;
     isRouteActive: (path: string) => boolean;
     mountedRoutes: Set<string>;
+    getRoutesForLevel: (level: number) => Route[];
+    getRouteLevel: (path: string) => number;
+    getCurrentRouteSegments: () => string[];
 }
 
 // Helper function to flatten nested routes
-const flattenRoutes = (routes: Route[], parentPath = ''): Route[] => {
+const flattenRoutes = (routes: Route[], parentPath = '', level = 0): Route[] => {
     const startTime = performance.now();
-    routerLogger('Flattening routes:', { routeCount: routes.length, parentPath });
+    routerLogger('Flattening routes:', { routeCount: routes.length, parentPath, level });
     
     const flattened: Route[] = [];
     
@@ -54,17 +59,19 @@ const flattenRoutes = (routes: Route[], parentPath = ''): Route[] => {
         flattened.push({
             ...route,
             path: fullPath,
+            originalPath: route.path,
+            level: level,
             children: undefined, // Remove children from flattened route
         });
         
         // Recursively add children
         if (route.children) {
-            flattened.push(...flattenRoutes(route.children, fullPath));
+            flattened.push(...flattenRoutes(route.children, fullPath, level + 1));
         }
     }
     
     logPerformance('Route flattening', startTime);
-    routerLogger('Flattened routes result:', { flattenedCount: flattened.length });
+    routerLogger('Flattened routes result:', { flattenedCount: flattened.length, level });
     
     return flattened;
 };
@@ -135,6 +142,22 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
         return currentRoute === path;
     };
 
+    // Get routes for a specific nesting level
+    const getRoutesForLevel = (level: number): Route[] => {
+        return flatRoutes.filter(route => route.level === level);
+    };
+
+    // Get the nesting level of a specific route path
+    const getRouteLevel = (path: string): number => {
+        const route = flatRoutes.find(r => r.path === path);
+        return route?.level ?? 0;
+    };
+
+    // Get current route segments for level calculation
+    const getCurrentRouteSegments = (): string[] => {
+        return currentRoute.split('/').filter(segment => segment !== '');
+    };
+
     // Handle browser back/forward buttons
     useEffect(() => {
         const handlePopState = () => {
@@ -174,6 +197,9 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
         setRoutes,
         isRouteActive,
         mountedRoutes,
+        getRoutesForLevel,
+        getRouteLevel,
+        getCurrentRouteSegments,
     };
 
     return (

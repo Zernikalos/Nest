@@ -1,6 +1,6 @@
 // Core router exports
 export { KeepAliveRouterProvider, useKeepAliveRouter, useNavigate, useCurrentRoute } from './KeepAliveRouter';
-export { KeepAliveOutlet } from './KeepAliveOutlet';
+export { KeepAliveOutlet, useOutletLevel } from './KeepAliveOutlet';
 export type { Route } from './KeepAliveRouter';
 
 // Router components
