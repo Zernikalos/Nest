@@ -1,32 +1,34 @@
 import type { ReactNode } from 'react';
+import { forwardRef } from 'react';
 import { useKeepAliveRouter } from './KeepAliveRouter';
 
-interface LinkProps {
+interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
     to: string;
     children: ReactNode;
     className?: string;
     activeClassName?: string;
-    onClick?: () => void;
+    onClick?: (e?: React.MouseEvent) => void;
 }
 
 /**
  * Link component for KeepAlive Router
  * Similar to react-router-dom's Link but works with our keep-alive system
  */
-export const Link = ({ 
+export const Link = forwardRef<HTMLAnchorElement, LinkProps>(({ 
     to, 
     children, 
     className = '', 
     activeClassName = '',
-    onClick 
-}: LinkProps) => {
+    onClick,
+    ...rest
+}, ref) => {
     const { navigate, isRouteActive } = useKeepAliveRouter();
     const isActive = isRouteActive(to);
 
     const handleClick = (e: React.MouseEvent) => {
         e.preventDefault();
         navigate(to);
-        onClick?.();
+        onClick?.(e);
     };
 
     // Combine base className with active className if active
@@ -36,43 +38,48 @@ export const Link = ({
 
     return (
         <a
+            ref={ref}
             href={to}
             onClick={handleClick}
             className={finalClassName}
             data-active={isActive}
             data-to={to}
+            {...rest}
         >
             {children}
         </a>
     );
-};
+});
 
-interface NavLinkProps {
+Link.displayName = 'Link';
+
+interface NavLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'children'> {
     to: string;
     children: ReactNode | ((props: { isActive: boolean }) => ReactNode);
     className?: string;
     activeClassName?: string;
-    onClick?: () => void;
+    onClick?: (e?: React.MouseEvent) => void;
 }
 
 /**
  * NavLink component for KeepAlive Router
  * Similar to react-router-dom's NavLink with render prop support
  */
-export const NavLink = ({ 
+export const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(({ 
     to, 
     children, 
     className = '', 
     activeClassName = '',
-    onClick 
-}: NavLinkProps) => {
+    onClick,
+    ...rest
+}, ref) => {
     const { navigate, isRouteActive } = useKeepAliveRouter();
     const isActive = isRouteActive(to);
 
     const handleClick = (e: React.MouseEvent) => {
         e.preventDefault();
         navigate(to);
-        onClick?.();
+        onClick?.(e);
     };
 
     // Combine base className with active className if active
@@ -87,13 +94,17 @@ export const NavLink = ({
 
     return (
         <a
+            ref={ref}
             href={to}
             onClick={handleClick}
             className={finalClassName}
             data-active={isActive}
             data-to={to}
+            {...rest}
         >
             {content}
         </a>
     );
-};
+});
+
+NavLink.displayName = 'NavLink';
