@@ -3,7 +3,7 @@ export { KeepAliveRouterProvider, useKeepAliveRouter, useNavigate, useCurrentRou
 export { KeepAliveOutlet } from './KeepAliveOutlet';
 export type { Route } from './KeepAliveRouter';
 
-// Enhanced router components (react-router-dom style)
+// Router components
 export { Link, NavLink } from './Link';
 export { Navigate } from './Navigate';
 
@@ -11,8 +11,5 @@ export { Navigate } from './Navigate';
 export { createRoutes, createRoute, RouteBuilder, route } from './createRoutes';
 export type { RouteConfig } from './createRoutes';
 
-// Enhanced hooks (react-router-dom style)
+// Router hooks
 export { useLocation, useParams, useRouteInfo, useIsActive, useRoutes } from './routerHooks';
-
-// Legacy hooks (for backward compatibility)
-export { useCustomNavigate, useCurrentRouteInfo } from './hooks';

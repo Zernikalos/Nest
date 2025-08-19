@@ -101,14 +101,12 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
     const [routes, setRoutes] = useState<Route[]>(initialRoutes);
     const [mountedRoutes, setMountedRoutes] = useState<Set<string>>(new Set([initialRoute]));
     
-    // Temporary: Use routes directly without flattening to fix the issue
+    // Flatten routes to handle nested routes properly
     const flatRoutes = useMemo(() => {
-        console.log('Using routes directly:', routes);
-        return routes;
+        return flattenRoutes(routes);
     }, [routes]);
 
     const navigate = (path: string) => {
-        console.log('Navigating to:', path);
         // Add the route to mounted routes if it's not already there
         setMountedRoutes(prev => new Set([...prev, path]));
         setCurrentRoute(path);

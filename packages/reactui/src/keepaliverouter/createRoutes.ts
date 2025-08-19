@@ -8,8 +8,6 @@ export interface RouteConfig {
     path: string;
     component?: React.ComponentType;
     title?: string;
-    icon?: React.ComponentType;
-    description?: string;
     children?: RouteConfig[];
     index?: boolean;
     redirectTo?: string;
@@ -66,16 +64,6 @@ export class RouteBuilder {
 
     title(title: string) {
         this.config.title = title;
-        return this;
-    }
-
-    icon(icon: React.ComponentType) {
-        this.config.icon = icon;
-        return this;
-    }
-
-    description(description: string) {
-        this.config.description = description;
         return this;
     }
 

@@ -18,24 +18,40 @@ export const useLocation = () => {
 
 /**
  * Hook similar to react-router-dom's useParams
- * For now returns empty object, can be extended for path parameters
+ * Returns empty object (path parameters not implemented)
  */
 export const useParams = () => {
-    // TODO: Implement path parameter extraction if needed
     return {};
 };
 
 /**
  * Hook to get route metadata
+ * Enhanced version with additional utilities
  */
 export const useRouteInfo = () => {
-    const { currentRoute, routes } = useKeepAliveRouter();
+    const { currentRoute, routes, navigate } = useKeepAliveRouter();
     const route = routes.find(r => r.path === currentRoute);
+    
+    // Additional navigation utilities
+    const goBack = () => window.history.back();
+    const goForward = () => window.history.forward();
+    const canGoBack = () => window.history.length > 1;
+    const routeExists = (path: string) => routes.some(r => r.path === path);
+    const getRouteInfo = (path: string) => {
+        return routes.find(r => r.path === path);
+    };
     
     return {
         path: currentRoute,
         title: route?.title,
         component: route?.component,
+        // Navigation utilities
+        navigate,
+        goBack,
+        goForward,
+        canGoBack,
+        routeExists,
+        getRouteInfo,
     };
 };
 
