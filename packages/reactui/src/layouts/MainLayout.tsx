@@ -1,4 +1,4 @@
-import { RouteManager } from '@/keepaliverouter';
+import { KeepAliveOutlet } from '@/keepaliverouter';
 import { Sidebar } from '@/components/sidebar/Sidebar';
 
 export function MainLayout() {
@@ -8,7 +8,7 @@ export function MainLayout() {
                 <div className="grid grid-rows-1 grid-cols-[56px_minmax(0,1fr)] max-h-screen">
                     <Sidebar />
                     <main id="router-view" className="overflow-y-auto">
-                        <RouteManager className="h-full" />
+                        <KeepAliveOutlet className="h-full" />
                     </main>
                 </div>
             </div>

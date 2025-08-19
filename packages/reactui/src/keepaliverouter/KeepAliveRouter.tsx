@@ -4,9 +4,11 @@ import type { ReactNode } from 'react';
 // Types for our custom router
 export interface Route {
     path: string;
-    component: React.ComponentType;
+    component?: React.ComponentType;
     title?: string;
     children?: Route[];
+    index?: boolean;
+    redirectTo?: string;
 }
 
 interface KeepAliveRouterContextType {

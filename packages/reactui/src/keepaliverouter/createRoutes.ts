@@ -6,11 +6,13 @@ import type { Route } from './KeepAliveRouter';
  */
 export interface RouteConfig {
     path: string;
-    component: React.ComponentType;
+    component?: React.ComponentType;
     title?: string;
     icon?: React.ComponentType;
     description?: string;
     children?: RouteConfig[];
+    index?: boolean;
+    redirectTo?: string;
 }
 
 /**
@@ -23,6 +25,8 @@ export const createRoutes = (configs: RouteConfig[]): Route[] => {
         component: config.component,
         title: config.title,
         children: config.children ? createRoutes(config.children) : undefined,
+        index: config.index,
+        redirectTo: config.redirectTo,
     }));
 };
 
@@ -35,6 +39,8 @@ export const createRoute = (config: RouteConfig): Route => {
         component: config.component,
         title: config.title,
         children: config.children ? createRoutes(config.children) : undefined,
+        index: config.index,
+        redirectTo: config.redirectTo,
     };
 };
 
@@ -78,9 +84,23 @@ export class RouteBuilder {
         return this;
     }
 
+    index(isIndex: boolean = true) {
+        this.config.index = isIndex;
+        return this;
+    }
+
+    redirectTo(path: string) {
+        this.config.redirectTo = path;
+        return this;
+    }
+
     build(): Route {
-        if (!this.config.path || !this.config.component) {
-            throw new Error('Route must have at least a path and component');
+        if (!this.config.path) {
+            throw new Error('Route must have at least a path');
+        }
+        
+        if (!this.config.component && !this.config.redirectTo) {
+            throw new Error('Route must have either a component or redirectTo');
         }
         
         return {
@@ -88,6 +108,8 @@ export class RouteBuilder {
             component: this.config.component,
             title: this.config.title,
             children: this.config.children ? createRoutes(this.config.children) : undefined,
+            index: this.config.index,
+            redirectTo: this.config.redirectTo,
         };
     }
 }

@@ -15,7 +15,6 @@ export default function App() {
                     <ZkProjectProvider>
                         <KeepAliveRouterProvider 
                             routes={appRoutes} 
-                            initialRoute="/editor"
                         >
                             <MainLayout />
                         </KeepAliveRouterProvider>

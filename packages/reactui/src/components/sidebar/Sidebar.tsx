@@ -16,15 +16,15 @@ import { useCallback } from 'react';
 
 export function Sidebar() {
     const currentRoute = useCurrentRoute();
-    const { isRouteActive: checkRouteActive } = useKeepAliveRouter();
+    const { isRouteActive } = useKeepAliveRouter();
 
-    // Helper function to check if a route is active
-    const isRouteActive = useCallback((path: string) => {
+    // Helper function to check if a route is active with custom logic
+    const checkActiveRoute = useCallback((path: string) => {
         if (path === '/editor') {
-            return checkRouteActive('/editor') || currentRoute === '/';
+            return isRouteActive('/editor') || currentRoute === '/';
         }
-        return checkRouteActive(path);
-    }, [currentRoute, checkRouteActive]);
+        return isRouteActive(path);
+    }, [currentRoute, isRouteActive]);
 
     return (
         <TooltipProvider disableHoverableContent>
@@ -41,19 +41,19 @@ export function Sidebar() {
                         <SidebarItem
                             path="/editor"
                             name="Editor"
-                            selected={isRouteActive('/editor')}
+                            selected={checkActiveRoute('/editor')}
                             icon={JournalCodeIcon}
                         />
                         <SidebarItem
                             path="/devices"
                             name="Devices"
-                            selected={isRouteActive('/devices')}
+                            selected={checkActiveRoute('/devices')}
                             icon={PhoneIcon}
                         />
                         <SidebarItem
                             path="/exporter"
                             name="Export"
-                            selected={isRouteActive('/exporter')}
+                            selected={checkActiveRoute('/exporter')}
                             icon={BoxesIcon}
                         />
                     </div>
@@ -61,7 +61,7 @@ export function Sidebar() {
                         <SidebarItem
                             path="/settings"
                             name="Settings"
-                            selected={isRouteActive('/settings')}
+                            selected={checkActiveRoute('/settings')}
                             icon={GearIcon}
                         />
                     </div>

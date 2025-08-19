@@ -45,14 +45,14 @@ function App() {
 ### 2. Renderizar las rutas
 
 ```tsx
-import { RouteManager } from '@/router';
+import { KeepAliveOutlet } from '@/router';
 
 function MainLayout() {
     return (
         <div className="layout">
             <Sidebar />
             <main>
-                <RouteManager className="content" />
+                <KeepAliveOutlet className="content" />
             </main>
         </div>
     );

@@ -1,11 +1,12 @@
 // Core router exports
 export { KeepAliveRouterProvider, useKeepAliveRouter, useNavigate, useCurrentRoute } from './KeepAliveRouter';
-export { RouteManager } from './RouteManager';
+export { KeepAliveOutlet } from './KeepAliveOutlet';
 export type { Route } from './KeepAliveRouter';
 
 // Enhanced router components (react-router-dom style)
 export { Link, NavLink } from './Link';
 export { Outlet } from './Outlet';
+export { Navigate } from './Navigate';
 
 // Route configuration helpers
 export { createRoutes, createRoute, RouteBuilder, route } from './createRoutes';

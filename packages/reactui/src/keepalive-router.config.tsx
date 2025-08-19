@@ -1,24 +1,12 @@
-import { useEffect } from 'react';
-import { createRoutes } from './keepaliverouter';
+import { createRoutes, Navigate } from './keepaliverouter';
 import { EditorPage } from './pages/editor';
-import { useNavigate } from './keepaliverouter';
-
-// Custom Navigate component for redirects
-const Navigate = ({ to }: { to: string; replace?: boolean }) => {
-    const navigate = useNavigate();
-    
-    useEffect(() => {
-        navigate(to);
-    }, [navigate, to]);
-
-    return null; // This component renders nothing
-};
 
 // Route configuration for the keep-alive router
 export const appRoutes = createRoutes([
     {
         path: '/',
-        component: () => <Navigate to="/editor" replace />,
+        redirectTo: '/editor',
+        index: true,
         title: 'Home'
     },
     {
