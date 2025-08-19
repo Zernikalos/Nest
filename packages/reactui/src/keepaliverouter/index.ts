@@ -5,7 +5,6 @@ export type { Route } from './KeepAliveRouter';
 
 // Enhanced router components (react-router-dom style)
 export { Link, NavLink } from './Link';
-export { Outlet } from './Outlet';
 export { Navigate } from './Navigate';
 
 // Route configuration helpers

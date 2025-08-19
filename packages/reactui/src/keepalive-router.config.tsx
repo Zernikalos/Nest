@@ -1,5 +1,6 @@
 import { createRoutes, Navigate } from './keepaliverouter';
 import { EditorPage } from './pages/editor';
+import { keepAliveSettingsRoutes } from './keepalive-settings-router';
 
 // Route configuration for the keep-alive router
 export const appRoutes = createRoutes([
@@ -33,5 +34,6 @@ export const appRoutes = createRoutes([
             </div>
         ),
         title: 'Exporter'
-    }
+    },
+    ...keepAliveSettingsRoutes
 ]);

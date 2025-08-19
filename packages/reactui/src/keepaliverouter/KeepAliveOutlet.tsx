@@ -5,6 +5,19 @@ interface KeepAliveOutletProps {
     className?: string;
 }
 
+// Helper function to resolve redirect paths
+const resolveRedirectPath = (currentPath: string, redirectTo: string): string => {
+    if (redirectTo.startsWith('/')) {
+        // Absolute path
+        return redirectTo;
+    } else {
+        // Relative path - combine with current path's parent
+        const pathParts = currentPath.split('/');
+        pathParts.pop(); // Remove the last part
+        return `${pathParts.join('/')}/${redirectTo}`;
+    }
+};
+
 export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = '' }) => {
     const { flatRoutes, isRouteActive, mountedRoutes, navigate, currentRoute } = useKeepAliveRouter();
 
@@ -12,7 +25,8 @@ export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = ''
     useEffect(() => {
         const currentRouteObj = flatRoutes.find(route => route.path === currentRoute);
         if (currentRouteObj?.redirectTo) {
-            navigate(currentRouteObj.redirectTo);
+            const resolvedPath = resolveRedirectPath(currentRoute, currentRouteObj.redirectTo);
+            navigate(resolvedPath);
         }
     }, [currentRoute, flatRoutes, navigate]);
 

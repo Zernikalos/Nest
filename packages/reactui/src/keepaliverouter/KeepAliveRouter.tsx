@@ -26,12 +26,25 @@ const flattenRoutes = (routes: Route[], parentPath = ''): Route[] => {
     const flattened: Route[] = [];
     
     for (const route of routes) {
-        // Handle path concatenation properly
-        const fullPath = parentPath 
-            ? (route.path.startsWith('/') 
-                ? `${parentPath}${route.path}` 
-                : `${parentPath}/${route.path}`)
-            : route.path;
+        // Handle path concatenation for nested routes
+        let fullPath: string;
+        
+        if (!parentPath) {
+            // Top-level route
+            fullPath = route.path;
+        } else {
+            // Nested route
+            if (route.path === '') {
+                // Empty path means index route - use parent path
+                fullPath = parentPath;
+            } else if (route.path.startsWith('/')) {
+                // Absolute path - use as is (shouldn't happen in nested routes)
+                fullPath = route.path;
+            } else {
+                // Relative path - combine with parent
+                fullPath = `${parentPath}/${route.path}`;
+            }
+        }
         
         // Add the current route (without children to avoid circular references)
         flattened.push({
