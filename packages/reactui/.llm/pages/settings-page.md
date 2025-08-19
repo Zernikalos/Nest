@@ -1,168 +1,220 @@
 # Settings Page Documentation
 
+> **Note**: This page has been significantly updated and expanded. For detailed documentation, see the [Settings System Documentation](./settings/) folder.
+
 ## Overview
 
-The Settings Page provides a comprehensive configuration interface for Zernikalos Studio. It uses a nested routing structure with a sidebar for navigation between different settings sections.
+The Settings Page provides a comprehensive configuration interface for Zernikalos Studio. It has evolved from a simple settings page into a sophisticated modular system featuring nested routing, reusable components, and seamless theme integration.
 
-## Location
+## Quick Reference
+
+### 📁 Detailed Documentation
+- **[Complete System Overview](./settings/overview.md)** - Comprehensive system architecture
+- **[Components Architecture](./settings/components-architecture.md)** - Detailed component hierarchy and usage
+- **[Fields System](./settings/fields-system.md)** - Reusable field components and patterns
+- **[Sections Guide](./settings/sections-guide.md)** - Existing sections and how to create new ones
+
+### 🎯 Quick Links
 - **Main Component**: `src/pages/settings/SettingsPage.tsx`
 - **Router Configuration**: `src/pages/settings/settingsRouter.tsx`
-- **Sidebar**: `src/pages/settings/SettingsSidebar.tsx`
-- **Layout**: `src/layouts/SidebarLayout.tsx`
+- **Current Sections**: General, Appearance
+- **Route Pattern**: `/settings/[section-name]`
 
-## Page Structure
+## Current System Structure
 
-### Main Components
 ```
-SettingsPage
-├── SettingsSidebar (left panel)
-│   ├── SettingsSelectorSection (General)
-│   └── SettingsSelectorSection (Appearance)
-└── Content Area (right panel)
-    ├── GeneralSettingsSection
-    └── AppearanceSettingsSection
+src/pages/settings/
+├── SettingsPage.tsx              # Main container
+├── settingsRouter.tsx            # Route configuration
+├── components/                   # Reusable components
+│   ├── fields/                   # Settings field types
+│   │   ├── SettingsFieldBase.tsx     # Base field component
+│   │   ├── SettingsFieldSwitch.tsx   # Toggle switches
+│   │   ├── SettingsFieldInput.tsx    # Text/number inputs
+│   │   ├── SettingsFieldSelect.tsx   # Dropdown selectors
+│   │   └── SettingsFieldGeneric.tsx  # Custom content fields
+│   ├── layout/                   # Layout components
+│   │   ├── SettingsMainContainer.tsx # Section container
+│   │   ├── SettingsSectionItem.tsx   # Setting cards
+│   │   └── SettingsSidebar.tsx       # Sidebar wrapper
+│   └── navigation/               # Navigation components
+│       └── SettingsSelectorSection.tsx # Sidebar items
+├── sections/                     # Settings sections
+│   ├── general/                  # General application settings
+│   │   └── GeneralSettingsSection.tsx
+│   └── appearance/               # Theme and UI settings
+│       └── AppearanceSettingsSection.tsx
+├── hooks/                        # Custom hooks (future)
+└── types/                        # TypeScript definitions (future)
 ```
 
-### Layout System
-- **Sidebar Layout**: Uses `SidebarLayout` component
-- **Left Panel**: Settings navigation (320px width)
-- **Right Panel**: Settings content with padding
-- **Responsive**: Adapts to different screen sizes
+## Key Features
 
-## Routing Structure
+### Modular Architecture
+- **Reusable Components**: Consistent field types across all sections
+- **Extensible Design**: Easy to add new sections and field types
+- **Type Safety**: Full TypeScript support throughout
 
-### Route Configuration
-```typescript
+### Nested Routing System
+```
 /settings
 ├── /settings (redirects to /settings/general)
-├── /settings/general - General application settings
-└── /settings/appearance - Appearance and theming settings
+├── /settings/general     → GeneralSettingsSection
+└── /settings/appearance  → AppearanceSettingsSection
 ```
 
-### Router Implementation
-- **Nested Routes**: Uses React Router nested routing
-- **Default Redirect**: `/settings` redirects to `/settings/general`
-- **Outlet Rendering**: Content rendered through `Outlet` component
+### Current Sections
 
-## Settings Sections
+#### General Settings (`/settings/general`)
+- Exit confirmation dialog
+- Project reopening on startup  
+- Auto-save configuration (5-300 seconds)
+- Save behavior when closing projects
 
-### General Settings
-- **Route**: `/settings/general`
-- **Component**: `GeneralSettingsSection`
-- **Purpose**: Core application configuration
-- **Icon**: Settings icon (`MdSettings`)
+#### Appearance Settings (`/settings/appearance`)
+- Font family selection with live preview
+- Theme selection with immediate application
+- Theme preview cards
+- Integration with global theme and font providers
 
-### Appearance Settings
-- **Route**: `/settings/appearance`
-- **Component**: `AppearanceSettingsSection`
-- **Purpose**: UI theming and visual customization
-- **Icon**: Palette icon (`MdPalette`)
+### Field Component System
 
-## Component Architecture
+#### Available Field Types
+- **SettingsFieldSwitch**: Boolean toggle controls
+- **SettingsFieldInput**: Text and numeric inputs with validation
+- **SettingsFieldSelect**: Dropdown selection with flexible options
+- **SettingsFieldGeneric**: Custom content container
 
-### SettingsPage
-- **Purpose**: Main container for settings interface
-- **Layout**: Integrates sidebar and content areas
-- **State**: Manages active settings section
+#### Consistent Patterns
+All fields extend from `SettingsFieldBase` providing:
+- Horizontal/vertical layout support
+- Consistent typography and spacing
+- Accessibility features (ARIA labels, keyboard navigation)
+- Data attributes for testing
 
-### SettingsSidebar
-- **Purpose**: Navigation between settings sections
-- **Features**: Section icons, names, and descriptions
-- **Navigation**: Uses React Router for section switching
+## Usage Examples
 
-### SettingsSelectorSection
-- **Purpose**: Individual settings section navigation item
-- **Features**: Icon, name, description, and navigation
-- **State**: Active state highlighting through React Router
+### Basic Field Usage
+```tsx
+<SettingsSectionItem
+    title="Section Title"
+    description="What this section configures"
+    icon={<MdSettings className="h-5 w-5" />}
+>
+    <SettingsFieldSwitch
+        title="Enable Feature"
+        description="Toggle this feature on or off"
+        checked={settings.featureEnabled}
+        onCheckedChange={(checked) => handleChange("featureEnabled", checked)}
+    />
+</SettingsSectionItem>
+```
 
-## Navigation Features
+### Provider Integration
+```tsx
+// Direct integration with global providers
+const { theme, setTheme, availableThemes } = useAppTheme()
 
-### Section Selection
-- **Visual Feedback**: Active section highlighting
-- **Icon Support**: Each section has descriptive icon
-- **Descriptions**: Clear section purpose descriptions
-- **Navigation**: Seamless section switching
+<SettingsFieldSelect
+    title="Theme"
+    description="Choose your preferred color scheme"
+    value={theme}
+    onValueChange={(value) => setTheme(value as Theme)}
+    options={availableThemes.map(themeKey => ({
+        value: themeKey,
+        label: getThemeInfo(themeKey).name
+    }))}
+/>
+```
 
-### Layout Integration
-- **Consistent Design**: Follows application design patterns
-- **Responsive Behavior**: Adapts to different screen sizes
-- **Accessibility**: Proper navigation structure
+## Adding New Sections
 
-## State Management
+### Quick Steps
+1. **Create Component**: `src/pages/settings/sections/[name]/[Name]SettingsSection.tsx`
+2. **Add Route**: Update `settingsRouter.tsx`
+3. **Add Navigation**: Update `SettingsPage.tsx` with new `SettingsSelectorSection`
+4. **Export**: Update index files
 
-### Local State
-- **Active Section**: Managed by React Router
-- **Navigation State**: Handled through routing system
-- **UI State**: Component-specific state management
+### Template Structure
+```tsx
+export function NewSettingsSection() {
+    const [settings, setSettings] = useState({
+        // Your settings here
+    })
 
-### Store Integration
-- **Settings Store**: Future integration with settings persistence
-- **Theme Store**: Integration with appearance settings
-- **User Store**: Future user preferences integration
+    const handleSettingChange = (key: string, value: any) => {
+        setSettings(prev => ({ ...prev, [key]: value }))
+    }
 
-## UI Components
+    return (
+        <SettingsMainContainer
+            title="Section Title"
+            description="What this section configures"
+        >
+            <SettingsSectionItem title="..." description="..." icon={...}>
+                {/* Your fields here */}
+            </SettingsSectionItem>
+        </SettingsMainContainer>
+    )
+}
+```
 
-### Button Variants
-- **Active State**: `secondary` variant for active section
-- **Inactive State**: `ghost` variant for inactive sections
-- **Hover Effects**: Consistent hover state management
+## Design Principles
 
-### Icon System
-- **Material Design**: Uses Material Design icons
-- **Consistent Sizing**: Standardized icon dimensions
-- **Visual Hierarchy**: Icons support section identification
+### Consistency
+- Uniform layout patterns across all sections
+- Consistent spacing and typography
+- Standardized icon usage (Material Design)
 
-## Future Enhancements
+### Accessibility
+- Full keyboard navigation support
+- Screen reader compatibility
+- Proper ARIA labels and descriptions
+- High contrast theme support
 
-### Planned Features
-- **Additional Sections**: More configuration categories
-- **Search Functionality**: Quick settings search
-- **Import/Export**: Settings backup and restore
-- **Validation**: Settings validation and error handling
-
-### Extension Points
-- **Custom Sections**: Plugin-based settings sections
-- **Advanced Controls**: Complex configuration interfaces
-- **Real-time Updates**: Live settings preview
-- **User Profiles**: Multiple user configurations
-
-## Best Practices
-
-### Navigation Design
-- **Clear Hierarchy**: Logical settings organization
-- **Consistent Patterns**: Uniform navigation behavior
-- **Visual Feedback**: Clear active state indication
-
-### Content Organization
-- **Logical Grouping**: Related settings together
-- **Progressive Disclosure**: Complex settings in expandable sections
-- **Default Values**: Sensible default configurations
+### Extensibility
+- Easy to add new field types
+- Pluggable section architecture
+- Future-proof component design
 
 ### User Experience
-- **Quick Access**: Frequently used settings easily accessible
-- **Search Capability**: Find settings quickly
-- **Reset Options**: Easy restoration of defaults
+- Immediate feedback for changes
+- Clear visual hierarchy
+- Responsive design for all screen sizes
+- Intuitive navigation patterns
 
 ## Integration Points
 
 ### Theme System
-- **CSS Variables**: Integration with CSS custom properties
-- **Theme Switching**: Dynamic theme application
-- **Color Schemes**: Custom color palette support
+- Direct integration with `useAppTheme` hook
+- Immediate theme switching
+- Theme preview functionality
 
-### Application State
-- **Settings Persistence**: Local storage or database integration
-- **Cross-Component Updates**: Settings changes propagate to components
-- **Validation**: Settings validation and error handling
+### State Management
+- Component-level state for settings
+- Future integration points for persistence
+- Validation and error handling support
 
-## Accessibility Features
+### Layout System
+- Uses `SidebarLayout` for consistent responsive behavior
+- Configurable sidebar width
+- Proper content area management
 
-### Navigation Support
-- **Keyboard Navigation**: Full keyboard support
-- **Screen Reader**: Proper ARIA labels and descriptions
-- **Focus Management**: Clear focus indicators
+## Future Enhancements
 
-### Visual Design
-- **High Contrast**: Support for high contrast themes
-- **Font Scaling**: Responsive text sizing
-- **Color Blindness**: Color-safe design choices
+### Planned Features
+- Settings persistence layer
+- Import/export functionality
+- Search within settings
+- Settings validation framework
+- Plugin-based custom sections
+
+### Extension Points
+- Custom field types
+- Advanced validation
+- Real-time settings sync
+- User profile management
+
+---
+
+For detailed implementation guides, component specifications, and advanced patterns, please refer to the comprehensive documentation in the [Settings System Documentation](./settings/) folder.
