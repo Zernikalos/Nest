@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useKeepAliveRouter } from './KeepAliveRouter';
+import { outletLogger, logRouteMounting, logRouteChange } from './logger';
 
 interface KeepAliveOutletProps {
     className?: string;
@@ -26,6 +27,11 @@ export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = ''
         const currentRouteObj = flatRoutes.find(route => route.path === currentRoute);
         if (currentRouteObj?.redirectTo) {
             const resolvedPath = resolveRedirectPath(currentRoute, currentRouteObj.redirectTo);
+            outletLogger('Handling redirect:', { 
+                from: currentRoute, 
+                to: resolvedPath, 
+                redirectTo: currentRouteObj.redirectTo 
+            });
             navigate(resolvedPath);
         }
     }, [currentRoute, flatRoutes, navigate]);
@@ -50,6 +56,13 @@ export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = ''
                 // Only render if the route has been visited at least once
                 if (!isMounted) {
                     return null;
+                }
+                
+                // Log route rendering state (only for state changes, not every render)
+                if (isActive) {
+                    logRouteMounting(path, 'render');
+                } else {
+                    logRouteMounting(path, 'hide');
                 }
 
                 return (

@@ -16,6 +16,10 @@ export const reactUiConfig = defineConfig({
             '@': path.resolve(__dirname, 'src'),
         },
     },
+    define: {
+        // Pass DEBUG environment variable to the browser
+        'process.env.DEBUG': JSON.stringify(process.env.DEBUG || ''),
+    },
 });
 
 export default reactUiConfig;

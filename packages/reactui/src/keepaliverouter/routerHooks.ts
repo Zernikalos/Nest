@@ -1,4 +1,5 @@
 import { useKeepAliveRouter } from './KeepAliveRouter';
+import { hooksLogger, logHookUsage } from './logger';
 
 /**
  * Hook similar to react-router-dom's useLocation
@@ -7,13 +8,16 @@ import { useKeepAliveRouter } from './KeepAliveRouter';
 export const useLocation = () => {
     const { currentRoute } = useKeepAliveRouter();
     
-    return {
+    const location = {
         pathname: currentRoute,
         search: '',
         hash: '',
         state: null,
         key: currentRoute,
     };
+    
+    logHookUsage('useLocation', location);
+    return location;
 };
 
 /**
@@ -21,6 +25,7 @@ export const useLocation = () => {
  * Returns empty object (path parameters not implemented)
  */
 export const useParams = () => {
+    logHookUsage('useParams', 'No params implemented');
     return {};
 };
 
@@ -33,15 +38,21 @@ export const useRouteInfo = () => {
     const route = routes.find(r => r.path === currentRoute);
     
     // Additional navigation utilities
-    const goBack = () => window.history.back();
-    const goForward = () => window.history.forward();
+    const goBack = () => {
+        hooksLogger('goBack called');
+        window.history.back();
+    };
+    const goForward = () => {
+        hooksLogger('goForward called');
+        window.history.forward();
+    };
     const canGoBack = () => window.history.length > 1;
     const routeExists = (path: string) => routes.some(r => r.path === path);
     const getRouteInfo = (path: string) => {
         return routes.find(r => r.path === path);
     };
     
-    return {
+    const routeInfo = {
         path: currentRoute,
         title: route?.title,
         component: route?.component,
@@ -53,6 +64,9 @@ export const useRouteInfo = () => {
         routeExists,
         getRouteInfo,
     };
+    
+    logHookUsage('useRouteInfo', { currentRoute, hasRoute: !!route });
+    return routeInfo;
 };
 
 /**
@@ -60,7 +74,9 @@ export const useRouteInfo = () => {
  */
 export const useIsActive = (path: string) => {
     const { isRouteActive } = useKeepAliveRouter();
-    return isRouteActive(path);
+    const isActive = isRouteActive(path);
+    logHookUsage('useIsActive', { path, isActive });
+    return isActive;
 };
 
 /**
@@ -68,5 +84,6 @@ export const useIsActive = (path: string) => {
  */
 export const useRoutes = () => {
     const { routes } = useKeepAliveRouter();
+    logHookUsage('useRoutes', { routeCount: routes.length });
     return routes;
 };

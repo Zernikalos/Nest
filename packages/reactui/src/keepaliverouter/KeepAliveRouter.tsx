@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import type { ReactNode } from 'react';
+import { routerLogger, logRouteChange, logRouterState, logPerformance } from './logger';
 
 // Types for our custom router
 export interface Route {
@@ -23,6 +24,9 @@ interface KeepAliveRouterContextType {
 
 // Helper function to flatten nested routes
 const flattenRoutes = (routes: Route[], parentPath = ''): Route[] => {
+    const startTime = performance.now();
+    routerLogger('Flattening routes:', { routeCount: routes.length, parentPath });
+    
     const flattened: Route[] = [];
     
     for (const route of routes) {
@@ -58,6 +62,9 @@ const flattenRoutes = (routes: Route[], parentPath = ''): Route[] => {
             flattened.push(...flattenRoutes(route.children, fullPath));
         }
     }
+    
+    logPerformance('Route flattening', startTime);
+    routerLogger('Flattened routes result:', { flattenedCount: flattened.length });
     
     return flattened;
 };
@@ -107,9 +114,21 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
     }, [routes]);
 
     const navigate = (path: string) => {
+        const previousRoute = currentRoute;
+        logRouteChange(previousRoute, path, 'navigate');
+        
         // Add the route to mounted routes if it's not already there
-        setMountedRoutes(prev => new Set([...prev, path]));
+        setMountedRoutes(prev => {
+            const newSet = new Set([...prev, path]);
+            // Only log if a new route was actually mounted
+            if (!prev.has(path)) {
+                logRouterState({ newlyMounted: path, totalMounted: newSet.size }, 'route mounted');
+            }
+            return newSet;
+        });
+        
         setCurrentRoute(path);
+        routerLogger('Navigation completed:', { from: previousRoute, to: path });
     };
 
     const isRouteActive = (path: string) => {
@@ -120,18 +139,22 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
     useEffect(() => {
         const handlePopState = () => {
             const currentPath = window.location.pathname;
+            logRouteChange(currentRoute, currentPath, 'browser navigation');
             navigate(currentPath);
         };
 
         window.addEventListener('popstate', handlePopState);
+        routerLogger('PopState listener attached');
         
         // Set initial URL
         if (window.location.pathname !== currentRoute) {
             window.history.replaceState(null, '', currentRoute);
+            routerLogger('Initial URL set:', { url: currentRoute });
         }
 
         return () => {
             window.removeEventListener('popstate', handlePopState);
+            routerLogger('PopState listener removed');
         };
     }, []);
 
@@ -139,6 +162,7 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
     useEffect(() => {
         if (window.location.pathname !== currentRoute) {
             window.history.pushState(null, '', currentRoute);
+            routerLogger('URL updated via pushState:', { url: currentRoute });
         }
     }, [currentRoute]);
 
