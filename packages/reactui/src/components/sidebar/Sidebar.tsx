@@ -4,7 +4,7 @@ import {
     BsBoxSeam as BoxesIcon,
     BsGear as GearIcon,
 } from 'react-icons/bs';
-import { useLocation } from 'react-router-dom';
+import { useCurrentRoute, useKeepAliveRouter } from '@/keepaliverouter';
 
 import { Logo } from '../logo/Logo';
 import { TooltipProvider } from '../ui/tooltip';
@@ -15,16 +15,16 @@ import { cn } from '@/lib/utils';
 import { useCallback } from 'react';
 
 export function Sidebar() {
-    const location = useLocation();
-    const pathname = location.pathname;
+    const currentRoute = useCurrentRoute();
+    const { isRouteActive: checkRouteActive } = useKeepAliveRouter();
 
     // Helper function to check if a route is active
     const isRouteActive = useCallback((path: string) => {
         if (path === '/editor') {
-            return pathname === '/editor' || pathname === '/';
+            return checkRouteActive('/editor') || currentRoute === '/';
         }
-        return pathname === path;
-    }, [pathname]);
+        return checkRouteActive(path);
+    }, [currentRoute, checkRouteActive]);
 
     return (
         <TooltipProvider disableHoverableContent>
