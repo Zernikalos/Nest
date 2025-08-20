@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import { routerLogger, logRouteChange, logRouterState, logPerformance } from './logger';
 
@@ -10,8 +10,8 @@ export interface Route {
     children?: Route[];
     index?: boolean;
     redirectTo?: string;
-    level?: number; // Level of nesting for this route
-    originalPath?: string; // Original path before flattening (for level calculation)
+    level?: number; // level of the route in the hierarchy
+    originalPath?: string; // original path of the route
 }
 
 interface KeepAliveRouterContextType {
@@ -27,7 +27,7 @@ interface KeepAliveRouterContextType {
     getCurrentRouteSegments: () => string[];
 }
 
-// Helper function to flatten nested routes
+// Simplified route flattening function
 const flattenRoutes = (routes: Route[], parentPath = '', level = 0): Route[] => {
     const startTime = performance.now();
     routerLogger('Flattening routes:', { routeCount: routes.length, parentPath, level });
@@ -35,36 +35,24 @@ const flattenRoutes = (routes: Route[], parentPath = '', level = 0): Route[] => 
     const flattened: Route[] = [];
     
     for (const route of routes) {
-        // Handle path concatenation for nested routes
-        let fullPath: string;
+        // Simplified path construction
+        const fullPath = !parentPath ? route.path : 
+                        route.path === '' ? parentPath : 
+                        `${parentPath}/${route.path}`;
         
-        if (!parentPath) {
-            // Top-level route
-            fullPath = route.path;
-        } else {
-            // Nested route
-            if (route.path === '') {
-                // Empty path means index route - use parent path
-                fullPath = parentPath;
-            } else if (route.path.startsWith('/')) {
-                // Absolute path - use as is (shouldn't happen in nested routes)
-                fullPath = route.path;
-            } else {
-                // Relative path - combine with parent
-                fullPath = `${parentPath}/${route.path}`;
-            }
-        }
-        
-        // Add the current route (without children to avoid circular references)
-        flattened.push({
-            ...route,
+        // More efficient object creation - only copy necessary properties
+        const flattenedRoute: Route = {
             path: fullPath,
+            component: route.component,
+            title: route.title,
+            index: route.index,
+            redirectTo: route.redirectTo,
+            level,
             originalPath: route.path,
-            level: level,
-            children: undefined, // Remove children from flattened route
-        });
+        };
         
-        // Recursively add children
+        flattened.push(flattenedRoute);
+        
         if (route.children) {
             flattened.push(...flattenRoutes(route.children, fullPath, level + 1));
         }
@@ -88,13 +76,13 @@ export const useKeepAliveRouter = () => {
     return context;
 };
 
-// Hook for navigation (similar to useNavigate from react-router)
+// Simplified navigation hook
 export const useNavigate = () => {
     const { navigate } = useKeepAliveRouter();
     return navigate;
 };
 
-// Hook to get current route
+// Simplified current route hook
 export const useCurrentRoute = () => {
     const { currentRoute } = useKeepAliveRouter();
     return currentRoute;
@@ -120,43 +108,47 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
         return flattenRoutes(routes);
     }, [routes]);
 
-    const navigate = (path: string) => {
+    // Memoized navigation function to prevent unnecessary re-renders
+    const navigate = useCallback((path: string) => {
+        // Early return if navigating to the same route
+        if (path === currentRoute) {
+            return;
+        }
+        
         const previousRoute = currentRoute;
         logRouteChange(previousRoute, path, 'navigate');
         
-        // Add the route to mounted routes if it's not already there
+        // More efficient route mounting logic
         setMountedRoutes(prev => {
-            const newSet = new Set([...prev, path]);
-            // Only log if a new route was actually mounted
-            if (!prev.has(path)) {
-                logRouterState({ newlyMounted: path, totalMounted: newSet.size }, 'route mounted');
+            if (prev.has(path)) {
+                return prev; // No need to create new Set if route already mounted
             }
-            return newSet;
+            logRouterState({ newlyMounted: path, totalMounted: prev.size + 1 }, 'route mounted');
+            return new Set([...prev, path]);
         });
         
         setCurrentRoute(path);
         routerLogger('Navigation completed:', { from: previousRoute, to: path });
-    };
+    }, [currentRoute]);
 
-    const isRouteActive = (path: string) => {
-        return currentRoute === path;
-    };
+    // Memoized route checking function
+    const isRouteActive = useCallback((path: string) => currentRoute === path, [currentRoute]);
 
-    // Get routes for a specific nesting level
-    const getRoutesForLevel = (level: number): Route[] => {
+    // Memoized functions to get routes for specific levels
+    const getRoutesForLevel = useCallback((level: number): Route[] => {
         return flatRoutes.filter(route => route.level === level);
-    };
+    }, [flatRoutes]);
 
-    // Get the nesting level of a specific route path
-    const getRouteLevel = (path: string): number => {
+    // Memoized function to get route level
+    const getRouteLevel = useCallback((path: string): number => {
         const route = flatRoutes.find(r => r.path === path);
         return route?.level ?? 0;
-    };
+    }, [flatRoutes]);
 
-    // Get current route segments for level calculation
-    const getCurrentRouteSegments = (): string[] => {
+    // Memoized function to get current route segments
+    const getCurrentRouteSegments = useCallback((): string[] => {
         return currentRoute.split('/').filter(segment => segment !== '');
-    };
+    }, [currentRoute]);
 
     // Handle browser back/forward buttons
     useEffect(() => {

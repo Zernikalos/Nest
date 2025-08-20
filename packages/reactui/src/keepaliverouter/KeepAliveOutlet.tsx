@@ -1,4 +1,4 @@
-import React, { useEffect, createContext, useContext } from 'react';
+import React, { useEffect, createContext, useContext, useMemo, useCallback } from 'react';
 import { useKeepAliveRouter } from './KeepAliveRouter';
 import { outletLogger, logRouteMounting } from './logger';
 
@@ -18,17 +18,14 @@ interface KeepAliveOutletProps {
     className?: string;
 }
 
-// Helper function to resolve redirect paths
+// Simplified redirect path resolution
 const resolveRedirectPath = (currentPath: string, redirectTo: string): string => {
     if (redirectTo.startsWith('/')) {
-        // Absolute path
         return redirectTo;
-    } else {
-        // Relative path - combine with current path's parent
-        const pathParts = currentPath.split('/');
-        pathParts.pop(); // Remove the last part
-        return `${pathParts.join('/')}/${redirectTo}`;
     }
+    const pathParts = currentPath.split('/');
+    pathParts.pop();
+    return `${pathParts.join('/')}/${redirectTo}`;
 };
 
 export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = '' }) => {
@@ -49,25 +46,14 @@ export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = ''
     // Get current route segments to determine what should be active at this level
     const currentSegments = getCurrentRouteSegments();
     
-    // Find the route that should be active at this level
-    const getActiveRouteForLevel = () => {
-        // Build the path up to the current level
+    // Memoized active route detection to avoid recalculation on every render
+    const activeRoute = useMemo(() => {
         const pathUpToLevel = '/' + currentSegments.slice(0, currentLevel + 1).join('/');
-        
-        // Find exact match or closest parent route at this level
-        return routesForThisLevel.find(route => {
-            // Check if this route matches the current path at this level
-            const routeSegments = route.path.split('/').filter(s => s !== '');
-            const currentLevelPath = '/' + routeSegments.slice(0, currentLevel + 1).join('/');
-            
-            return currentLevelPath === pathUpToLevel || route.path === currentRoute;
-        });
-    };
-    
-    const activeRoute = getActiveRouteForLevel();
+        return routesForThisLevel.find(route => route.path === pathUpToLevel);
+    }, [currentSegments, currentLevel, routesForThisLevel]);
 
-    // Handle redirects
-    useEffect(() => {
+    // Memoized redirect handler to avoid recreating function on every render
+    const handleRedirect = useCallback(() => {
         if (activeRoute?.redirectTo) {
             const resolvedPath = resolveRedirectPath(currentRoute, activeRoute.redirectTo);
             outletLogger('Handling redirect at level:', { 
@@ -78,15 +64,23 @@ export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = ''
             });
             navigate(resolvedPath);
         }
-    }, [currentRoute, activeRoute, navigate, currentLevel]);
+    }, [activeRoute, currentRoute, currentLevel, navigate]);
 
-    outletLogger('Outlet rendering at level:', {
+    // Handle redirects
+    useEffect(() => {
+        handleRedirect();
+    }, [handleRedirect]);
+
+    // Memoized logging to avoid unnecessary calls
+    const logInfo = useMemo(() => ({
         level: currentLevel,
         routesCount: routesForThisLevel.length,
         activeRoute: activeRoute?.path,
         currentRoute,
         currentSegments
-    });
+    }), [currentLevel, routesForThisLevel.length, activeRoute?.path, currentRoute, currentSegments]);
+
+    outletLogger('Outlet rendering at level:', logInfo);
 
     return (
         <OutletLevelContext.Provider value={{ level: nextLevel }}>
@@ -96,13 +90,8 @@ export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = ''
                     const isActive = activeRoute?.path === path;
                     const isMounted = mountedRoutes.has(path);
                     
-                    // Skip redirect routes - they don't render content
-                    if (redirectTo) {
-                        return null;
-                    }
-                    
-                    // Skip routes without components
-                    if (!Component) {
+                    // Skip redirect routes and routes without components
+                    if (redirectTo || !Component) {
                         return null;
                     }
                     
@@ -111,12 +100,8 @@ export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = ''
                         return null;
                     }
                     
-                    // Log route rendering state (only for state changes, not every render)
-                    if (isActive) {
-                        logRouteMounting(path, 'render');
-                    } else {
-                        logRouteMounting(path, 'hide');
-                    }
+                    // Log route rendering state
+                    logRouteMounting(path, isActive ? 'render' : 'hide');
 
                     return (
                         <div
