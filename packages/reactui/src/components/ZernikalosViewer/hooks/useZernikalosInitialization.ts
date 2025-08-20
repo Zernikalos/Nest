@@ -146,7 +146,7 @@ export const useZernikalosInitialization = ({
                                     const zko = await loadZkoScene(sceneData);
                                     
                                     // Setup scene with loaded ZKO
-                                    const { scene, camera, mainObj } = setupScene(zko, player);
+                                    const { scene, camera } = setupScene(zko, player);
                                     
                                     // Set active camera and scene (no automatic configuration)
                                     ctx.activeCamera = camera;

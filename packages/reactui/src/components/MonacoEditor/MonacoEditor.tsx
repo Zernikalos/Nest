@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Editor from '@monaco-editor/react';
 import { type Theme } from '../../lib/themes';
 import oceanicNextTheme from './themes/oceanic-next.json';

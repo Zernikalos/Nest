@@ -1,4 +1,4 @@
-import React, { useRef, useImperativeHandle, forwardRef, useCallback, useEffect } from 'react';
+import { useRef, useImperativeHandle, forwardRef, useCallback, useEffect } from 'react';
 import { useZernikalosInitialization, useZernikalosResize } from './hooks';
 import { ErrorState, NoDataState, LoadingState } from './components';
 
