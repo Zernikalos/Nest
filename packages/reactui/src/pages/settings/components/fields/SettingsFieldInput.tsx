@@ -1,5 +1,7 @@
 import { Input } from "@/components/ui/input"
 import { SettingsFieldBase } from "./SettingsFieldBase"
+import { Controller, useFormContext } from "react-hook-form"
+import type { FieldPath, FieldValues } from "react-hook-form"
 
 type SettingsFieldInputProps = {
     title: string
@@ -70,3 +72,40 @@ export function SettingsFieldInput({
 }
 
 SettingsFieldInput.displayName = "SettingsFieldInput"
+
+type ControlledSettingsFieldInputProps<
+    TFieldValues extends FieldValues = FieldValues,
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+> = Omit<SettingsFieldInputProps, 'value' | 'onChange'> & {
+    name: TName
+}
+
+/**
+ * Controlled wrapper for SettingsFieldInput that integrates with react-hook-form.
+ * Uses Controller to manage form state while maintaining the same visual interface.
+ */
+export function ControlledSettingsFieldInput<
+    TFieldValues extends FieldValues = FieldValues,
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+>({
+    name,
+    ...props
+}: ControlledSettingsFieldInputProps<TFieldValues, TName>) {
+    const { control } = useFormContext<TFieldValues>()
+    
+    return (
+        <Controller
+            name={name}
+            control={control}
+            render={({ field }) => (
+                <SettingsFieldInput
+                    {...props}
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                />
+            )}
+        />
+    )
+}
+
+ControlledSettingsFieldInput.displayName = "ControlledSettingsFieldInput"

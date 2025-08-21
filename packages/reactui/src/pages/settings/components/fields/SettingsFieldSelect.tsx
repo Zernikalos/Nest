@@ -6,6 +6,8 @@ import {
     SelectValue 
 } from "@/components/ui/select"
 import { SettingsFieldBase } from "./SettingsFieldBase"
+import { Controller, useFormContext } from "react-hook-form"
+import type { FieldPath, FieldValues } from "react-hook-form"
 
 type SelectOption = {
     value: string
@@ -72,3 +74,40 @@ export function SettingsFieldSelect({
 }
 
 SettingsFieldSelect.displayName = "SettingsFieldSelect"
+
+type ControlledSettingsFieldSelectProps<
+    TFieldValues extends FieldValues = FieldValues,
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+> = Omit<SettingsFieldSelectProps, 'value' | 'onValueChange'> & {
+    name: TName
+}
+
+/**
+ * Controlled wrapper for SettingsFieldSelect that integrates with react-hook-form.
+ * Uses Controller to manage form state while maintaining the same visual interface.
+ */
+export function ControlledSettingsFieldSelect<
+    TFieldValues extends FieldValues = FieldValues,
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+>({
+    name,
+    ...props
+}: ControlledSettingsFieldSelectProps<TFieldValues, TName>) {
+    const { control } = useFormContext<TFieldValues>()
+    
+    return (
+        <Controller
+            name={name}
+            control={control}
+            render={({ field }) => (
+                <SettingsFieldSelect
+                    {...props}
+                    value={field.value || ""}
+                    onValueChange={field.onChange}
+                />
+            )}
+        />
+    )
+}
+
+ControlledSettingsFieldSelect.displayName = "ControlledSettingsFieldSelect"
