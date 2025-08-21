@@ -15,6 +15,7 @@ type SettingsMainContainerProps<T extends FieldValues> = {
  * Provides consistent layout with title, description, and content area.
  * Now includes form functionality with FormProvider and submit button.
  * Designed to contain multiple SettingsSectionItem components.
+ * The save button is positioned at the bottom and remains visible during scrolling.
  */
 export function SettingsMainContainer<T extends FieldValues>({ 
     title, 
@@ -33,9 +34,9 @@ export function SettingsMainContainer<T extends FieldValues>({
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="h-full flex flex-col">
                 <div 
-                    className="space-y-6"
+                    className="flex-1 overflow-y-auto space-y-6"
                     data-component="settings-main-container"
                 >
                     <div data-component="settings-header">
@@ -51,9 +52,11 @@ export function SettingsMainContainer<T extends FieldValues>({
                     >
                         {children}
                     </div>
+                </div>
 
-                    {/* Submit Button */}
-                    <div className="flex justify-end pt-6 border-t">
+                {/* Sticky Submit Button at bottom */}
+                <div className="sticky bottom-0 bg-background border-t p-4 mt-6">
+                    <div className="flex justify-end">
                         <Button 
                             type="submit"
                             className="px-6"
