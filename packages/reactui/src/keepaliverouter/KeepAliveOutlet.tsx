@@ -108,10 +108,8 @@ export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = ''
                             key={path}
                             style={{
                                 display: isActive ? 'block' : 'none',
-                                height: isActive ? 'auto' : '0',
-                                overflow: isActive ? 'visible' : 'hidden',
+                                position: isActive ? 'relative' : 'absolute',
                             }}
-                            className="h-full"
                         >
                             <Component />
                         </div>
