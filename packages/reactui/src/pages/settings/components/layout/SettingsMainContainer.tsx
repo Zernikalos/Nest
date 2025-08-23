@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import { useForm, FormProvider, type UseFormReturn, type FieldValues, type SubmitHandler, type DefaultValues } from "react-hook-form"
+import { useForm, FormProvider, type FieldValues, type SubmitHandler, type DefaultValues } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 
 type SettingsMainContainerProps<T extends FieldValues> = {
@@ -34,7 +34,7 @@ export function SettingsMainContainer<T extends FieldValues>({
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="h-full flex flex-col">
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="h-full flex flex-col flex-1">
                 <div 
                     className="flex-1 overflow-y-auto space-y-6"
                     data-component="settings-main-container"
@@ -55,8 +55,8 @@ export function SettingsMainContainer<T extends FieldValues>({
                 </div>
 
                 {/* Sticky Submit Button at bottom */}
-                <div className="sticky bottom-0 bg-background border-t p-4 mt-6">
-                    <div className="flex justify-end">
+                <div className="sticky bottom-0 bg-background border-t mt-6">
+                    <div className="flex justify-end p-4">
                         <Button 
                             type="submit"
                             className="px-6"

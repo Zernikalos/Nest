@@ -26,8 +26,7 @@ export const SettingsPage = () => {
                 </SettingsSidebar>
             }
             content={
-                <div className="p-6">
-                    {/* KeepAliveOutlet will render the child routes (GeneralSettingsSection or AppearanceSettingsSection) */}
+                <div className="px-6 pt-6 pb-0">
                     <KeepAliveOutlet />
                 </div>
             }
