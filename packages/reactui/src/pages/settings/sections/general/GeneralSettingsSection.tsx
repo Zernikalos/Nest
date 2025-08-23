@@ -1,28 +1,28 @@
-import { useState } from "react"
 import { MdSettings } from "react-icons/md"
 import { SettingsMainContainer, SettingsSectionItem } from "../../components/layout"
 import { 
-    SettingsFieldSwitch, 
-    SettingsFieldInput, 
-    SettingsFieldSelect 
+    ControlledSettingsFieldSwitch, 
+    ControlledSettingsFieldInput, 
+    ControlledSettingsFieldSelect 
 } from "../../components/fields"
+import type { GeneralFormData } from "../../SettingsFormData"
+import { useSettings } from "../../useSettings"
 
 export function GeneralSettingsSection() {
-    const [settings, setSettings] = useState({
-        confirmBeforeExit: true,
-        reopenProjectsOnStartup: false,
-        autoSaveInactivitySeconds: 30,
-        saveOnClose: "ask" // "always" | "never" | "ask"
-    })
+    const { getGeneralSettings, updateGeneralSettings } = useSettings()
+    const generalSettings = getGeneralSettings()
 
-    const handleSettingChange = (key: string, value: boolean | number | string) => {
-        setSettings(prev => ({ ...prev, [key]: value }))
+    const handleSubmit = (data: GeneralFormData) => {
+        updateGeneralSettings(data)
+        console.log("General settings saved:", data)
     }
 
     return (
         <SettingsMainContainer
             title="General"
             description="Configure general application behavior and preferences"
+            defaultValues={generalSettings}
+            onSubmit={handleSubmit}
         >
             {/* Confirm before exit */}
             <SettingsSectionItem
@@ -30,11 +30,10 @@ export function GeneralSettingsSection() {
                 description="Ask for confirmation before closing the application"
                 icon={<MdSettings className="h-5 w-5" />}
             >
-                <SettingsFieldSwitch
+                <ControlledSettingsFieldSwitch
+                    name="confirmBeforeExit"
                     title="Confirm before exit"
                     description="Show a confirmation dialog when trying to close the application"
-                    checked={settings.confirmBeforeExit}
-                    onCheckedChange={(checked) => handleSettingChange("confirmBeforeExit", checked)}
                 />
             </SettingsSectionItem>
 
@@ -43,11 +42,10 @@ export function GeneralSettingsSection() {
                 title="Project Management"
                 description="Configure how projects are handled on application startup"
             >
-                <SettingsFieldSwitch
+                <ControlledSettingsFieldSwitch
+                    name="reopenProjectsOnStartup"
                     title="Reopen projects on startup"
                     description="Automatically reopen the last opened projects when starting the application"
-                    checked={settings.reopenProjectsOnStartup}
-                    onCheckedChange={(checked) => handleSettingChange("reopenProjectsOnStartup", checked)}
                 />
             </SettingsSectionItem>
 
@@ -56,11 +54,10 @@ export function GeneralSettingsSection() {
                 title="Auto-save Settings"
                 description="Configure automatic saving behavior when the editor is inactive"
             >
-                <SettingsFieldInput
+                <ControlledSettingsFieldInput
+                    name="autoSaveInactivitySeconds"
                     title="Auto-save on inactivity"
                     description="Automatically save the project if the editor is inactive for a specified time"
-                    value={settings.autoSaveInactivitySeconds}
-                    onChange={(value) => handleSettingChange("autoSaveInactivitySeconds", parseInt(value) || 30)}
                     type="number"
                     min={5}
                     max={300}
@@ -74,11 +71,10 @@ export function GeneralSettingsSection() {
                 title="Save on Close"
                 description="Configure what happens when closing a project"
             >
-                <SettingsFieldSelect
+                <ControlledSettingsFieldSelect
+                    name="saveOnClose"
                     title="Save behavior when closing"
                     description="Choose what happens when you close a project"
-                    value={settings.saveOnClose}
-                    onValueChange={(value) => handleSettingChange("saveOnClose", value)}
                     options={[
                         { value: "always", label: "Always save" },
                         { value: "never", label: "Never save" },

@@ -12,3 +12,5 @@ export * from "./sections"
 
 // Hook exports
 export * from "./hooks"
+export { useSettings } from "./useSettings"
+export type { SettingsFormData, AppearanceFormData, GeneralFormData } from "./SettingsFormData"

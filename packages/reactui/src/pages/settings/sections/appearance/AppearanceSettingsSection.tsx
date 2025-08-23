@@ -7,11 +7,8 @@ import { SettingsMainContainer, SettingsSectionItem } from "@/pages/settings/com
 import { ControlledSettingsFieldSelect, SettingsFieldGeneric } from "@/pages/settings/components/fields"
 import { useEffect } from "react"
 import { useFormContext } from "react-hook-form"
-
-type AppearanceFormData = {
-    font: string
-    theme: string
-}
+import type { AppearanceFormData } from "../../SettingsFormData"
+import { useSettings } from "../../useSettings"
 
 // Component to handle real-time updates
 function AppearanceFormContent() {
@@ -109,34 +106,25 @@ function AppearanceFormContent() {
 
 // Appearance Settings Section
 export function AppearanceSettingsSection() {
-    const { theme, setTheme } = useAppTheme()
-    const { font, setFont } = useAppFont()
+    const { setTheme } = useAppTheme()
+    const { setFont } = useAppFont()
+    const { getAppearanceSettings, updateAppearanceSettings } = useSettings()
     
     // Handle form submission
     const onSubmit = (data: AppearanceFormData) => {
         setFont(data.font as any)
         setTheme(data.theme as Theme)
-
-        // Here you could also save to localStorage, API, etc.
-        console.log("Settings saved:", data)
         
-        // Return JSON data for external handling
-        const jsonData = JSON.stringify(data, null, 2)
-        console.log("Form data as JSON:", jsonData)
-        
-        // Here you can handle the JSON data as needed
-        // For example, you could pass it to a parent component or store
-        return jsonData
+        // Save to persistent storage
+        updateAppearanceSettings(data)
+        console.log("Appearance settings saved:", data)
     }
   
     return (
         <SettingsMainContainer
             title="Appearance"
             description="Customize the look and feel of your application"
-            defaultValues={{
-                font: font,
-                theme: theme
-            }}
+            defaultValues={getAppearanceSettings()}
             onSubmit={onSubmit}
         >
             <AppearanceFormContent />
