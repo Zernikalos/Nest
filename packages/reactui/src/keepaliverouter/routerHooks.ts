@@ -1,5 +1,5 @@
 import { useKeepAliveRouter } from './KeepAliveRouter';
-import { hooksLogger, logHookUsage } from './logger';
+import { routerLogger } from './logger';
 
 /**
  * Hook similar to react-router-dom's useLocation
@@ -16,7 +16,6 @@ export const useLocation = () => {
         key: currentRoute,
     };
     
-    logHookUsage('useLocation', location);
     return location;
 };
 
@@ -25,7 +24,6 @@ export const useLocation = () => {
  * Returns empty object (path parameters not implemented)
  */
 export const useParams = () => {
-    logHookUsage('useParams', 'No params implemented');
     return {};
 };
 
@@ -39,11 +37,11 @@ export const useRouteInfo = () => {
     
     // Additional navigation utilities
     const goBack = () => {
-        hooksLogger('goBack called');
+        routerLogger.info('goBack called');
         window.history.back();
     };
     const goForward = () => {
-        hooksLogger('goForward called');
+        routerLogger.info('goForward called');
         window.history.forward();
     };
     const canGoBack = () => window.history.length > 1;
@@ -65,7 +63,6 @@ export const useRouteInfo = () => {
         getRouteInfo,
     };
     
-    logHookUsage('useRouteInfo', { currentRoute, hasRoute: !!route });
     return routeInfo;
 };
 
@@ -75,7 +72,6 @@ export const useRouteInfo = () => {
 export const useIsActive = (path: string) => {
     const { isRouteActive } = useKeepAliveRouter();
     const isActive = isRouteActive(path);
-    logHookUsage('useIsActive', { path, isActive });
     return isActive;
 };
 
@@ -84,6 +80,5 @@ export const useIsActive = (path: string) => {
  */
 export const useRoutes = () => {
     const { routes } = useKeepAliveRouter();
-    logHookUsage('useRoutes', { routeCount: routes.length });
     return routes;
 };

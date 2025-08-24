@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import type { ReactNode } from 'react';
-import { routerLogger, logRouteChange, logRouterState, logPerformance } from './logger';
+import { routerLogger, logRouteChange, logRouterState } from './logger';
 
 // Types for our custom router
 export interface Route {
@@ -27,42 +27,36 @@ interface KeepAliveRouterContextType {
     getCurrentRouteSegments: () => string[];
 }
 
-// Simplified route flattening function
-const flattenRoutes = (routes: Route[], parentPath = '', level = 0): Route[] => {
-    const startTime = performance.now();
-    routerLogger('Flattening routes:', { routeCount: routes.length, parentPath, level });
-    
-    const flattened: Route[] = [];
-    
-    for (const route of routes) {
-        // Simplified path construction
-        const fullPath = !parentPath ? route.path : 
-                        route.path === '' ? parentPath : 
-                        `${parentPath}/${route.path}`;
+    // Simplified route flattening function
+    const flattenRoutes = (routes: Route[], parentPath = '', level = 0): Route[] => {
+        const flattened: Route[] = [];
         
-        // More efficient object creation - only copy necessary properties
-        const flattenedRoute: Route = {
-            path: fullPath,
-            component: route.component,
-            title: route.title,
-            index: route.index,
-            redirectTo: route.redirectTo,
-            level,
-            originalPath: route.path,
-        };
-        
-        flattened.push(flattenedRoute);
-        
-        if (route.children) {
-            flattened.push(...flattenRoutes(route.children, fullPath, level + 1));
+        for (const route of routes) {
+            // Simplified path construction
+            const fullPath = !parentPath ? route.path : 
+                            route.path === '' ? parentPath : 
+                            `${parentPath}/${route.path}`;
+            
+            // More efficient object creation - only copy necessary properties
+            const flattenedRoute: Route = {
+                path: fullPath,
+                component: route.component,
+                title: route.title,
+                index: route.index,
+                redirectTo: route.redirectTo,
+                level,
+                originalPath: route.path,
+            };
+            
+            flattened.push(flattenedRoute);
+            
+            if (route.children) {
+                flattened.push(...flattenRoutes(route.children, fullPath, level + 1));
+            }
         }
-    }
-    
-    logPerformance('Route flattening', startTime);
-    routerLogger('Flattened routes result:', { flattenedCount: flattened.length, level });
-    
-    return flattened;
-};
+        
+        return flattened;
+    };
 
 // Create context
 const KeepAliveRouterContext = createContext<KeepAliveRouterContextType | null>(null);
@@ -123,12 +117,14 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
             if (prev.has(path)) {
                 return prev; // No need to create new Set if route already mounted
             }
+            // Log route mounting
             logRouterState({ newlyMounted: path, totalMounted: prev.size + 1 }, 'route mounted');
             return new Set([...prev, path]);
         });
         
         setCurrentRoute(path);
-        routerLogger('Navigation completed:', { from: previousRoute, to: path });
+        // Log navigation
+        routerLogger.info('Navigation completed', { from: previousRoute, to: path });
     }, [currentRoute]);
 
     // Memoized route checking function
@@ -159,17 +155,14 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
         };
 
         window.addEventListener('popstate', handlePopState);
-        routerLogger('PopState listener attached');
         
         // Set initial URL
         if (window.location.pathname !== currentRoute) {
             window.history.replaceState(null, '', currentRoute);
-            routerLogger('Initial URL set:', { url: currentRoute });
         }
 
         return () => {
             window.removeEventListener('popstate', handlePopState);
-            routerLogger('PopState listener removed');
         };
     }, []);
 
@@ -177,7 +170,6 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
     useEffect(() => {
         if (window.location.pathname !== currentRoute) {
             window.history.pushState(null, '', currentRoute);
-            routerLogger('URL updated via pushState:', { url: currentRoute });
         }
     }, [currentRoute]);
 

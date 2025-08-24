@@ -1,6 +1,6 @@
 import React, { useEffect, createContext, useContext, useMemo, useCallback } from 'react';
 import { useKeepAliveRouter } from './KeepAliveRouter';
-import { outletLogger, logRouteMounting } from './logger';
+import { routerLogger, logRouteMounting } from './logger';
 
 // Context for outlet nesting level
 interface OutletLevelContextType {
@@ -56,7 +56,7 @@ export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = ''
     const handleRedirect = useCallback(() => {
         if (activeRoute?.redirectTo) {
             const resolvedPath = resolveRedirectPath(currentRoute, activeRoute.redirectTo);
-            outletLogger('Handling redirect at level:', { 
+            routerLogger.info('Handling redirect at level', { 
                 level: currentLevel,
                 from: currentRoute, 
                 to: resolvedPath, 
@@ -71,16 +71,14 @@ export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = ''
         handleRedirect();
     }, [handleRedirect]);
 
-    // Memoized logging to avoid unnecessary calls
-    const logInfo = useMemo(() => ({
+    // Log outlet rendering
+    routerLogger.debug('Outlet rendering at level', {
         level: currentLevel,
         routesCount: routesForThisLevel.length,
         activeRoute: activeRoute?.path,
         currentRoute,
         currentSegments
-    }), [currentLevel, routesForThisLevel.length, activeRoute?.path, currentRoute, currentSegments]);
-
-    outletLogger('Outlet rendering at level:', logInfo);
+    });
 
     return (
         <OutletLevelContext.Provider value={{ level: nextLevel }}>

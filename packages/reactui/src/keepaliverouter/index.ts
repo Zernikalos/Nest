@@ -14,8 +14,5 @@ export type { RouteConfig } from './createRoutes';
 // Router hooks
 export { useLocation, useParams, useRouteInfo, useIsActive, useRoutes } from './routerHooks';
 
-// Debug utilities (only the user-facing ones)
-export { 
-    enableRouterDebugging,
-    disableRouterDebugging
-} from './logger';
+// Logger utilities
+export { routerLogger, setRouterLogLevel } from './logger';
