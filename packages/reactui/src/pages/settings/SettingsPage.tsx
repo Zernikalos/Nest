@@ -1,5 +1,5 @@
 import { KeepAliveOutlet } from "@/keepaliverouter"
-import { MdPalette, MdSettings } from "react-icons/md"
+import { MdPalette, MdSettings, MdInfo } from "react-icons/md"
 import { SettingsLayout } from "@/layouts/SidebarLayout"
 import { SettingsSidebar } from "./components/layout"
 import { SettingsSelectorSection } from "./components/navigation"
@@ -22,6 +22,13 @@ export const SettingsPage = () => {
                         icon={<MdPalette className="h-4 w-4" />}
                         description="Customize the look and feel of the application"
                         to="/settings/appearance"
+                    />
+                    <SettingsSelectorSection
+                        id="environment"
+                        name="Environment"
+                        icon={<MdInfo className="h-4 w-4" />}
+                        description="System and application environment information"
+                        to="/settings/environment"
                     />
                 </SettingsSidebar>
             }

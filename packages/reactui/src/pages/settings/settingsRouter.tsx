@@ -2,6 +2,7 @@ import { createRoutes } from '@/keepaliverouter';
 import { SettingsPage } from './SettingsPage';
 import { GeneralSettingsSection } from './sections/general';
 import { AppearanceSettingsSection } from './sections/appearance';
+import { EnvironmentSettingsSection } from './sections/environment';
 
 /**
  * Settings routes configuration for keep-alive router
@@ -27,6 +28,11 @@ export const settingsRoutes = createRoutes([
                 path: 'appearance',
                 component: AppearanceSettingsSection,
                 title: 'Appearance Settings'
+            },
+            {
+                path: 'environment',
+                component: EnvironmentSettingsSection,
+                title: 'Environment Information'
             }
         ]
     }

@@ -1,4 +1,5 @@
 import path from 'path';
+import { readFileSync } from 'fs';
 
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
@@ -20,6 +21,8 @@ export const reactUiConfig = defineConfig({
     define: {
         // Pass DEBUG environment variable to the browser
         'process.env.DEBUG': JSON.stringify(process.env.DEBUG || ''),
+        // Pass package.json version to the browser
+        '__APP_VERSION__': JSON.stringify(JSON.parse(readFileSync(path.join(__dirname, 'package.json'), 'utf-8')).version),
     },
     build: {
         outDir: path.join(__dirname, 'dist'),
