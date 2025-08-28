@@ -95,7 +95,7 @@
   },
   "workspaces": {
     "packages": [
-      "packages/nestui"
+      "packages/*"
     ],
     "nohoist": [
       "**@electron/**",

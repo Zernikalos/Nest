@@ -15,6 +15,7 @@ export const reactUiConfig = defineConfig({
         alias: {
             '@': path.resolve(__dirname, 'src'),
         },
+        preserveSymlinks: true,
     },
     define: {
         // Pass DEBUG environment variable to the browser
