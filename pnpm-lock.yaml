@@ -320,11 +320,11 @@ importers:
         specifier: ^5.83.0
         version: 5.85.5(react@19.1.1)
       '@zernikalos/zernikalos':
-        specifier: 0.4.0
-        version: 0.4.0
+        specifier: 0.4.1
+        version: 0.4.1
       '@zernikalos/zkbuilder':
         specifier: 0.3.0
-        version: 0.3.0(@zernikalos/zernikalos@0.4.0)
+        version: 0.3.0(@zernikalos/zernikalos@0.4.1)
       axios:
         specifier: 1.10.0
         version: 1.10.0(debug@4.4.1)
@@ -3221,8 +3221,8 @@ packages:
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
 
-  '@zernikalos/zernikalos@0.4.0':
-    resolution: {integrity: sha512-dKf0c7rzgLhkWVPK1AOewyn/6QrrzTZcGnoWboxzlDDgoXZ1Kocl1vXHmR7FIq3LV+ozEQbWzDzrRGY+Lbgurw==, tarball: https://npm.pkg.github.com/download/@zernikalos/zernikalos/0.4.0/1264c986e3e598849f8c9bf814de216a75b8df8b}
+  '@zernikalos/zernikalos@0.4.1':
+    resolution: {integrity: sha512-IqB78xDtAVRW99xzZeIG9IPYo8SJhtFWx/0nj98XYSiLHUD3mK6w15UjhxJaxgl81Kqj/jx6uazlJD33P2OWoA==, tarball: https://npm.pkg.github.com/download/@zernikalos/zernikalos/0.4.1/00d220b769a8585b60d1154bf7f5f0d81c156593}
 
   '@zernikalos/zkbuilder@0.3.0':
     resolution: {integrity: sha512-KLyPsyApYRb+azvU4qyFwV4vVPvBx2eSJgVAXBoMisT/s/ABSjPz615UY7FlcvBq/s2deRY2UQ3GR5FFcRYWog==, tarball: https://npm.pkg.github.com/download/@zernikalos/zkbuilder/0.3.0/06356c3d47dba73692e21c33a5c140d86b8e4c06}
@@ -11454,14 +11454,14 @@ snapshots:
 
   '@xtuc/long@4.2.2': {}
 
-  '@zernikalos/zernikalos@0.4.0':
+  '@zernikalos/zernikalos@0.4.1':
     dependencies:
       ua-parser-js: 1.0.37
 
-  '@zernikalos/zkbuilder@0.3.0(@zernikalos/zernikalos@0.4.0)':
+  '@zernikalos/zkbuilder@0.3.0(@zernikalos/zernikalos@0.4.1)':
     dependencies:
       '@xmldom/xmldom': 0.9.8
-      '@zernikalos/zernikalos': 0.4.0
+      '@zernikalos/zernikalos': 0.4.1
       get-own-enumerable-property-symbols: 3.0.2
       is-obj: 3.0.0
       is-regexp: 3.1.0
