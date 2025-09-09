@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormZObject } from '../forms/FormZObject';
+import { FormZObject } from '../EditorForm/FormZObject';
 import { TextEditor } from '../TextEditor/TextEditor';
 import { ZernikalosViewer } from '@/components/ZernikalosViewer';
 import { useNestEditorContext } from '../providers/NestEditorContext';
