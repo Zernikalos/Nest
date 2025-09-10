@@ -15,7 +15,7 @@ export const EditorFormSection: React.FC<EditorFormSectionProps> = ({
     orientation = 'rows',
 }) => {
     const contentClassName = orientation === 'columns' 
-        ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4'
+        ? 'grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-4 items-start'
         : 'space-y-4';
 
     return (

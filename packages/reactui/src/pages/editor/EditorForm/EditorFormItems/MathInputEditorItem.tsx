@@ -74,8 +74,8 @@ export const MathInputEditorItem: React.FC<MathInputEditorItemProps> = ({
         ? `bg-muted ${className || ''}`.trim()
         : className;
 
-    const containerClassName = orientation === 'columns' ? 'flex gap-2' : 'flex flex-col gap-2';
-    const itemWrapperClassName = orientation === 'columns' ? 'flex-1' : 'w-full';
+    const containerClassName = orientation === 'columns' ? 'flex gap-1' : 'flex flex-col gap-2';
+    const itemWrapperClassName = orientation === 'columns' ? 'flex-1 min-w-0 max-w-20' : 'w-full';
 
     return (
         <div className="space-y-2">
@@ -84,7 +84,7 @@ export const MathInputEditorItem: React.FC<MathInputEditorItemProps> = ({
                 {componentKeys.map((key, index) => (
                     <div key={key} className={itemWrapperClassName}>
                         <div className="flex items-stretch w-full">
-                            <span className="px-2 py-1.5 bg-muted border border-input rounded-l-md text-xs font-medium text-muted-foreground select-none flex items-center justify-center min-w-8">
+                            <span className="px-1 py-1.5 bg-muted border border-input rounded-l-md text-xs font-medium text-muted-foreground select-none flex items-center justify-center min-w-5">
                                 {componentLabels[index]}
                             </span>
                             <Input
@@ -95,7 +95,7 @@ export const MathInputEditorItem: React.FC<MathInputEditorItemProps> = ({
                                 { ...register(`${namePrefix}.${key}`, { valueAsNumber: true }) }
                                 readOnly={readOnly}
                                 disabled={disabled}
-                                className={`${inputClassName ? inputClassName + ' ' : ''}text-center rounded-l-none appearance-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+                                className={`${inputClassName ? inputClassName + ' ' : ''}text-center rounded-l-none px-2 py-1.5 text-sm appearance-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                             />
                         </div>
                     </div>

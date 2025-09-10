@@ -3,9 +3,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { merge } from 'lodash';
 import { zernikalos } from '@/lib/zernikalos';
 import { useNestEditorContext } from '../providers/NestEditorContext';
-import { EditorFormSection } from './EditorFormSection';
-import { InputEditorItem } from './InputEditorItem';
-import { MathInputEditorItem } from './MathInputEditorItem';
+import { CommonFieldsForm } from './CommonFieldsForm';
+import { TransformFieldsForm } from './TransformFieldsForm';
 
 interface FormZObjectProps {
     zObject: zernikalos.objects.ZObject;
@@ -71,48 +70,8 @@ export const FormZObject: React.FC<FormZObjectProps> = ({ zObject }) => {
     return (
         <FormProvider {...methods}>
             <div className="space-y-4">
-                <EditorFormSection title="ZObject Properties">
-                    <InputEditorItem
-                        id="refId"
-                        label="Reference ID"
-                        value={zObject.refId}
-                        readOnly
-                        disabled
-                    />
-                    
-                    <InputEditorItem
-                        id="name"
-                        label="Name"
-                        register={register('name')}
-                        placeholder="Enter object name"
-                    />
-                </EditorFormSection>
-
-                <EditorFormSection title="Transform" orientation="columns">
-                    <MathInputEditorItem
-                        id="position"
-                        label="Position"
-                        type="vec3"
-                        namePrefix="transform.position"
-                        orientation="rows"
-                    />
-                    
-                    <MathInputEditorItem
-                        id="rotation"
-                        label="Rotation"
-                        type="quat"
-                        namePrefix="transform.rotation"
-                        orientation="rows"
-                    />
-                    
-                    <MathInputEditorItem
-                        id="scale"
-                        label="Scale"
-                        type="vec3"
-                        namePrefix="transform.scale"
-                        orientation="rows"
-                    />
-                </EditorFormSection>
+                <CommonFieldsForm zObject={zObject} register={register} />
+                <TransformFieldsForm />
             </div>
         </FormProvider>
     );
