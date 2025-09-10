@@ -3,6 +3,7 @@ import type { UseFormRegister } from 'react-hook-form';
 import { zernikalos } from '@/lib/zernikalos';
 import { EditorFormSection } from './EditorFormSection';
 import { InputEditorItem } from './EditorFormItems';
+import { Box } from 'lucide-react';
 
 interface FormData {
     name: string;
@@ -20,7 +21,11 @@ interface CommonFieldsFormProps {
 
 export const CommonFieldsForm: React.FC<CommonFieldsFormProps> = ({ zObject, register }) => {
     return (
-        <EditorFormSection title="ZObject Properties">
+        <EditorFormSection 
+            title="ZObject Properties" 
+            icon={<Box className="w-4 h-4" />}
+            badge="3D Object"
+        >
             <InputEditorItem
                 id="refId"
                 label="Reference ID"

@@ -35,6 +35,7 @@ const getComponentLabels = (type: MathType): string[] => {
     }
 };
 
+
 const getComponentKeys = (type: MathType): string[] => {
     switch (type) {
         case 'vec2':
@@ -74,32 +75,39 @@ export const MathInputEditorItem: React.FC<MathInputEditorItemProps> = ({
         ? `bg-muted ${className || ''}`.trim()
         : className;
 
-    const containerClassName = orientation === 'columns' ? 'flex gap-1' : 'flex flex-col gap-2';
-    const itemWrapperClassName = orientation === 'columns' ? 'flex-1 min-w-0 max-w-20' : 'w-full';
+    const containerClassName = orientation === 'columns' ? 'flex gap-3' : 'flex flex-col gap-2';
+    const itemWrapperClassName = orientation === 'columns' ? 'flex-1 min-w-0' : 'w-full';
 
     return (
-        <div className="space-y-2">
-            <Label htmlFor={id}>{label}</Label>
+        <div className={orientation === 'rows' ? 'space-y-1' : 'space-y-3'}>
+            {label && (
+                <Label htmlFor={id} className="text-sm font-medium text-foreground/90 flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-primary/60"></div>
+                    {label}
+                </Label>
+            )}
             <div className={containerClassName}>
-                {componentKeys.map((key, index) => (
-                    <div key={key} className={itemWrapperClassName}>
-                        <div className="flex items-stretch w-full">
-                            <span className="px-1 py-1.5 bg-muted border border-input rounded-l-md text-xs font-medium text-muted-foreground select-none flex items-center justify-center min-w-5">
-                                {componentLabels[index]}
-                            </span>
-                            <Input
-                                id={`${id}-${key}`}
-                                type="number"
-                                step="any"
-                                inputMode="decimal"
-                                { ...register(`${namePrefix}.${key}`, { valueAsNumber: true }) }
-                                readOnly={readOnly}
-                                disabled={disabled}
-                                className={`${inputClassName ? inputClassName + ' ' : ''}text-center rounded-l-none px-2 py-1.5 text-sm appearance-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
-                            />
+                {componentKeys.map((key, index) => {
+                    return (
+                        <div key={key} className={itemWrapperClassName}>
+                            <div className="flex items-stretch w-full group">
+                                <span className="px-2 py-2 bg-muted text-muted-foreground border border-border rounded-l-md text-xs font-semibold select-none flex items-center justify-center w-8 transition-all duration-200 group-hover:shadow-sm">
+                                    {componentLabels[index]}
+                                </span>
+                                <Input
+                                    id={`${id}-${key}`}
+                                    type="number"
+                                    step="any"
+                                    inputMode="decimal"
+                                    { ...register(`${namePrefix}.${key}`, { valueAsNumber: true }) }
+                                    readOnly={readOnly}
+                                    disabled={disabled}
+                                    className={`${inputClassName ? inputClassName + ' ' : ''}text-center rounded-l-none px-3 py-2 text-sm font-mono transition-all duration-200 focus:ring-2 focus:ring-primary/20 focus:border-primary/50 hover:border-border/80 appearance-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+                                />
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );

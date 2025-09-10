@@ -32,18 +32,28 @@ export const InputEditorItem: React.FC<InputEditorItemProps> = ({
         : className;
 
     return (
-        <div className="space-y-2">
-            <Label htmlFor={id}>{label}</Label>
-            <Input
-                id={id}
-                {...(register || {})}
-                value={register ? undefined : value}
-                onChange={register ? undefined : onChange}
-                placeholder={placeholder}
-                readOnly={readOnly}
-                disabled={disabled}
-                className={inputClassName}
-            />
+        <div className="space-y-3">
+            <Label htmlFor={id} className="text-sm font-medium text-foreground/90 flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-primary/60"></div>
+                {label}
+            </Label>
+            <div className="relative">
+                <Input
+                    id={id}
+                    {...(register || {})}
+                    value={register ? undefined : value}
+                    onChange={register ? undefined : onChange}
+                    placeholder={placeholder}
+                    readOnly={readOnly}
+                    disabled={disabled}
+                    className={`${inputClassName || ''} transition-all duration-200 focus:ring-2 focus:ring-primary/20 focus:border-primary/50 hover:border-border/80 font-mono text-sm`}
+                />
+                {readOnly && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40"></div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
