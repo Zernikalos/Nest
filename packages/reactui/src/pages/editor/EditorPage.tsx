@@ -4,7 +4,7 @@ import {EditorView} from '@/pages/editor/EditorView';
 import { NewProject } from '@/pages/editor/NewProject';
 
 export const EditorPage: React.FC = () => {
-    const [projectActive, setProjectActive] = useState(true);
+    const [projectActive, setProjectActive] = useState(false);
 
     const handleNewProject = () => {
         setProjectActive(true);
