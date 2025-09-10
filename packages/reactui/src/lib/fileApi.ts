@@ -30,3 +30,4 @@ export async function getFile(filePath: FilePath): Promise<ArrayBuffer> {
     
     return fileResponse.data
 }
+

@@ -1,5 +1,6 @@
 import { createRoutes } from './keepaliverouter';
 import { EditorPage } from './pages/editor';
+import { DevicesPage } from './pages/devices';
 import { ExporterPage } from './pages/ExporterPage';
 import { settingsRoutes } from './pages/settings/settingsRouter';
 
@@ -18,12 +19,7 @@ export const appRoutes = createRoutes([
     },
     {
         path: '/devices',
-        component: () => (
-            <div className="p-6">
-                <h1 className="text-2xl font-bold">Devices Page</h1>
-                <p className="text-gray-600">This is a placeholder for the devices page.</p>
-            </div>
-        ),
+        component: DevicesPage,
         title: 'Devices'
     },
     {
