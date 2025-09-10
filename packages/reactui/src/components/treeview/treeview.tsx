@@ -106,7 +106,10 @@ export const TreeView: React.FC<TreeViewProps> = ({
             selectedIds={selectedIds}
             onSelect={onSelect}
         >
-            <TreeViewContent data={data} className={className} />
+            <TreeViewContent 
+                data={data} 
+                className={className}
+            />
         </TreeViewProvider>
     );
 };

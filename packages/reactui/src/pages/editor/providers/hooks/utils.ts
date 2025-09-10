@@ -1,11 +1,14 @@
 import type { TreeNode } from '@/components/treeview';
 import { zernikalos } from '@/lib/zernikalos';
+import { ObjectTypeIcon } from '../../components/ObjectTypeIcon';
+import React from 'react';
 
 // Convert ZObject to TreeNode
 export function convertZObjectToTreeNode(zObject: zernikalos.objects.ZObject): TreeNode {
     return {
         id: zObject.refId,
         label: zObject.name,
+        icon: React.createElement(ObjectTypeIcon, { type: zObject.type as any, size: 16 }),
         children: zObject.children?.map((child: any) => convertZObjectToTreeNode(child)) || []
     };
 }

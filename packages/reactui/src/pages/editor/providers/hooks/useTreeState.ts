@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { convertZObjectToTreeNode } from './utils';
 import { zernikalos } from '@/lib/zernikalos';
+import type { TreeNode } from '@/components/treeview';
 
 interface UseTreeStateProps {
     root: zernikalos.objects.ZObject | undefined;
@@ -9,7 +10,7 @@ interface UseTreeStateProps {
 export function useTreeState({ root }: UseTreeStateProps) {
     const [treeUpdateTrigger, setTreeUpdateTrigger] = useState(0);
     
-    const tree = useMemo(() => {
+    const tree = useMemo((): TreeNode[] => {
         if (root) {
             return [convertZObjectToTreeNode(root)];
         }

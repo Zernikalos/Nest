@@ -47,6 +47,8 @@ export interface TreeNode {
     id: string;
     /** Display text for the node */
     label: string;
+    /** Optional icon component to display */
+    icon?: React.ReactNode;
     /** Optional child nodes */
     children?: TreeNode[];
 }
@@ -120,6 +122,11 @@ export function TreeNodeItem({
                 </button>
             ) : (
                 <span className={styles.spacer} />
+            )}
+            {node.icon && (
+                <span className="mr-2 flex-shrink-0">
+                    {node.icon}
+                </span>
             )}
             <span className={styles.labelText}>{node.label}</span>
         </div>
