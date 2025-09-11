@@ -19,15 +19,15 @@ const styles = {
         // Positioning and layout
         'flex items-center gap-1 px-1 py-0.5 w-full h-8',
         // Interactive states
-        'cursor-pointer hover:bg-accent focus:outline-none'
+        'cursor-pointer hover:bg-base-200 focus:outline-none'
     ),
 
     // State variants
-    selected: 'bg-accent text-accent-foreground',
-    focused: 'bg-secondary text-secondary-foreground',
+    selected: 'bg-base-100 text-base-foreground',
+    focused: 'bg-base-200 text-base-foreground',
 
     // Toggle button
-    toggleButton: 'mr-1 p-0.5 rounded hover:bg-secondary',
+    toggleButton: 'mr-1 p-0.5 rounded hover:bg-base-200',
 
     // Spacer for items without children
     spacer: 'w-5',

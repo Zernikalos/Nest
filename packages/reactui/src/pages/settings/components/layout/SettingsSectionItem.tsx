@@ -20,7 +20,7 @@ export function SettingsSectionItem({
     children 
 }: SettingsSectionItemProps) {
     return (
-        <Card data-component="settings-section-item">
+        <Card data-component="settings-section-item" className="bg-base-200">
             <CardHeader data-component="settings-section-header">
                 <CardTitle 
                     className="flex items-center gap-2"

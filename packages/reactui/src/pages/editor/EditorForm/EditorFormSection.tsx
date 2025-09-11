@@ -24,7 +24,7 @@ export const EditorFormSection: React.FC<EditorFormSectionProps> = ({
         : 'space-y-4';
 
     return (
-        <Card className={`${className} border-border/50 bg-background/50 backdrop-blur-sm transition-all duration-200 hover:shadow-lg hover:border-border`}>
+        <Card className={`${className} border-base-300/50 bg-base-200 backdrop-blur-sm transition-all duration-200 hover:shadow-lg hover:border-base-300 hover:bg-base-200`}>
             <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">

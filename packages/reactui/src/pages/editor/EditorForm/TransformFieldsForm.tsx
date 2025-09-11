@@ -14,7 +14,7 @@ export const TransformFieldsForm: React.FC = () => {
         >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-sm font-medium text-foreground/80 mb-3">
+                    <div className="flex items-center gap-2 text-sm font-medium text-base-foreground/80 mb-3">
                         <Move3D className="w-4 h-4 text-muted-foreground" />
                         Position
                     </div>
@@ -28,7 +28,7 @@ export const TransformFieldsForm: React.FC = () => {
                 </div>
                 
                 <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-sm font-medium text-foreground/80 mb-3">
+                    <div className="flex items-center gap-2 text-sm font-medium text-base-foreground/80 mb-3">
                         <RotateCcw className="w-4 h-4 text-muted-foreground" />
                         Rotation
                     </div>
@@ -42,7 +42,7 @@ export const TransformFieldsForm: React.FC = () => {
                 </div>
                 
                 <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-sm font-medium text-foreground/80 mb-3">
+                    <div className="flex items-center gap-2 text-sm font-medium text-base-foreground/80 mb-3">
                         <MdOutlineExpand className="w-4 h-4 text-muted-foreground" />
                         Scale
                     </div>

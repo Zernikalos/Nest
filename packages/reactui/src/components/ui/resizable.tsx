@@ -13,7 +13,7 @@ const styles = {
     handle: {
         // Base styles for the handle element
         base: [
-            'bg-border focus-visible:ring-ring relative flex w-px items-center justify-center',
+            'bg-base-300 focus-visible:ring-ring relative flex w-px items-center justify-center',
             'focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:outline-hidden',
             'data-[panel-group-direction=vertical]:h-px data-[panel-group-direction=vertical]:w-full',
         ],
@@ -51,7 +51,7 @@ const styles = {
     },
     // Container for the visible handle icon
     handleIcon:
-        'bg-border z-10 flex h-4 w-3 items-center justify-center rounded-xs border',
+        'bg-base-300 z-10 flex h-4 w-3 items-center justify-center rounded-xs border',
     // Size for the drag indicator icon
     handleIconSvg: 'size-2.5',
 } as const;

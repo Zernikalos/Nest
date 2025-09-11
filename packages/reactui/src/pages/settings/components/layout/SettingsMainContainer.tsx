@@ -55,7 +55,7 @@ export function SettingsMainContainer<T extends FieldValues>({
                 </div>
 
                 {/* Sticky Submit Button at bottom */}
-                <div className="sticky bottom-0 bg-background border-t mt-6">
+                <div className="sticky bottom-0 bg-base-100 border-t mt-6">
                     <div className="flex justify-end p-4">
                         <Button 
                             type="submit"

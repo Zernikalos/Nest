@@ -5,11 +5,11 @@ import { Card, CardContent } from '@/components/ui/card';
 export const RecentProjects: React.FC = () => {
     return (
         <div>
-            <h3 className="text-xl font-semibold mb-6 text-foreground">
+            <h3 className="text-xl font-semibold mb-6 text-base-foreground">
                 Recent Projects
             </h3>
             
-            <Card className="bg-background border-border">
+            <Card className="bg-base-100 border-base-300">
                 <CardContent className="py-12 text-center">
                     <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-muted">
                         <IoFolderOpen className="w-8 h-8 text-muted-foreground" />

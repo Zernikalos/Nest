@@ -30,7 +30,7 @@ export function Sidebar() {
         <TooltipProvider disableHoverableContent>
             <aside
                 className={cn(
-                    'shadow-md pl-0 bg-secondary max-w-[56px] max-h-screen h-screen'
+                    'shadow-md pl-0 bg-base-200 max-w-[56px] max-h-screen h-screen'
                 )}
             >
                 <div className="flex flex-col h-full">

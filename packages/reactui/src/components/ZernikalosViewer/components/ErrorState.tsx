@@ -14,7 +14,7 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
     className = ''
 }) => (
     <div
-        className={`flex items-center justify-center bg-red-50 text-red-600 border border-red-200 rounded ${className}`}
+        className={`flex items-center justify-center bg-error/10 text-error border border-error/20 rounded ${className}`}
         style={{ width, height }}
     >
         <div className="text-center">

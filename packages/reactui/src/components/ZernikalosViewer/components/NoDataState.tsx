@@ -12,7 +12,7 @@ export const NoDataState: React.FC<NoDataStateProps> = ({
     className = ''
 }) => (
     <div
-        className={`flex items-center justify-center bg-secondary text-muted-foreground border border-border rounded ${className}`}
+        className={`flex items-center justify-center bg-base-200 text-base-foreground border border-base-300 rounded ${className}`}
         style={{ width, height }}
     >
         <div className="text-center">

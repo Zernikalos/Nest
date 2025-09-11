@@ -33,7 +33,7 @@ export const InputEditorItem: React.FC<InputEditorItemProps> = ({
 
     return (
         <div className="space-y-3">
-            <Label htmlFor={id} className="text-sm font-medium text-foreground/90 flex items-center gap-2">
+            <Label htmlFor={id} className="text-sm font-medium text-base-foreground/90 flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-primary/60"></div>
                 {label}
             </Label>
@@ -46,7 +46,7 @@ export const InputEditorItem: React.FC<InputEditorItemProps> = ({
                     placeholder={placeholder}
                     readOnly={readOnly}
                     disabled={disabled}
-                    className={`${inputClassName || ''} transition-all duration-200 focus:ring-2 focus:ring-primary/20 focus:border-primary/50 hover:border-border/80 font-mono text-sm`}
+                    className={`${inputClassName || ''} transition-all duration-200 focus:ring-2 focus:ring-primary/20 focus:border-primary/50 hover:border-base-300/80 font-mono text-sm`}
                 />
                 {readOnly && (
                     <div className="absolute right-3 top-1/2 -translate-y-1/2">

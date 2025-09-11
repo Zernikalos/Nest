@@ -17,10 +17,10 @@ interface InfoDisplayItemProps {
 function InfoDisplayItem({ label, value, className = "" }: InfoDisplayItemProps) {
     return (
         <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <span className="text-sm font-medium text-base-foreground">
                 {label}
             </span>
-            <span className={`text-sm text-secondary-foreground font-mono bg-secondary px-2 py-1 rounded ${className}`}>
+            <span className={`text-sm text-base-foreground font-mono bg-base-200 px-2 py-1 rounded border border-base-300 ${className}`}>
                 {value}
             </span>
         </div>
@@ -73,7 +73,7 @@ export function EnvironmentSettingsSection() {
                     <InfoDisplayItem 
                         label="Build Time" 
                         value={import.meta.env.BUILD_TIME || 'Unknown'} 
-                        className="bg-transparent font-normal"
+                        className="bg-base-100 font-normal text-base-foreground"
                     />
                 </div>
             </SettingsSectionItem>
@@ -88,12 +88,12 @@ export function EnvironmentSettingsSection() {
                     <InfoDisplayItem 
                         label="Platform" 
                         value={navigator.platform} 
-                        className="bg-transparent font-normal"
+                        className="bg-base-100 font-normal text-base-foreground"
                     />
                     <InfoDisplayItem 
                         label="User Agent" 
                         value={navigator.userAgent} 
-                        className="text-xs max-w-xs truncate"
+                        className="bg-base-100 text-xs max-w-xs truncate text-base-foreground"
                     />
                 </div>
             </SettingsSectionItem>

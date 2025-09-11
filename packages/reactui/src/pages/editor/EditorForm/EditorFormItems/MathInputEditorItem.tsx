@@ -70,9 +70,9 @@ export const MathInputEditorItem: React.FC<MathInputEditorItemProps> = ({
     const componentLabels = getComponentLabels(type);
     const componentKeys = getComponentKeys(type);
 
-    // Automatically apply bg-muted when disabled or readOnly
+    // Automatically apply bg-base-200 when disabled or readOnly
     const inputClassName = disabled || readOnly
-        ? `bg-muted ${className || ''}`.trim()
+        ? `bg-base-200 ${className || ''}`.trim()
         : className;
 
     const containerClassName = orientation === 'columns' ? 'flex gap-3' : 'flex flex-col gap-2';
@@ -81,7 +81,7 @@ export const MathInputEditorItem: React.FC<MathInputEditorItemProps> = ({
     return (
         <div className={orientation === 'rows' ? 'space-y-1' : 'space-y-3'}>
             {label && (
-                <Label htmlFor={id} className="text-sm font-medium text-foreground/90 flex items-center gap-2">
+                <Label htmlFor={id} className="text-sm font-medium text-base-foreground/90 flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-primary/60"></div>
                     {label}
                 </Label>
@@ -91,7 +91,7 @@ export const MathInputEditorItem: React.FC<MathInputEditorItemProps> = ({
                     return (
                         <div key={key} className={itemWrapperClassName}>
                             <div className="flex items-stretch w-full group">
-                                <span className="px-2 py-2 bg-muted text-muted-foreground border border-border rounded-l-md text-xs font-semibold select-none flex items-center justify-center w-8 transition-all duration-200 group-hover:shadow-sm">
+                                <span className="px-2 py-2 bg-base-300 text-base-foreground border border-base-300 rounded-l-md text-xs font-semibold select-none flex items-center justify-center w-8 transition-all duration-200 group-hover:shadow-sm">
                                     {componentLabels[index]}
                                 </span>
                                 <Input
@@ -102,7 +102,7 @@ export const MathInputEditorItem: React.FC<MathInputEditorItemProps> = ({
                                     { ...register(`${namePrefix}.${key}`, { valueAsNumber: true }) }
                                     readOnly={readOnly}
                                     disabled={disabled}
-                                    className={`${inputClassName ? inputClassName + ' ' : ''}text-center rounded-l-none px-3 py-2 text-sm font-mono transition-all duration-200 focus:ring-2 focus:ring-primary/20 focus:border-primary/50 hover:border-border/80 appearance-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+                                    className={`${inputClassName ? inputClassName + ' ' : ''}text-center rounded-l-none px-3 py-2 text-sm font-mono transition-all duration-200 focus:ring-2 focus:ring-primary/20 focus:border-primary/50 hover:border-base-300/80 appearance-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                                 />
                             </div>
                         </div>

@@ -9,7 +9,7 @@ interface NewProjectProps {
 
 export const NewProject: React.FC<NewProjectProps> = ({ onNewProject }) => {
     return (
-        <div className="h-full overflow-auto bg-background">
+        <div className="h-full overflow-auto bg-base-100">
             <div className="max-w-6xl mx-auto px-8 py-12">
                 <NewProjectHeader onNewProject={onNewProject} />
                 

@@ -12,9 +12,9 @@ export function SettingsLayout({
   sidebarWidth = "w-50" 
 }: SettingsLayoutProps) {
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-screen bg-base-100">
       {/* Left Sidebar */}
-      <div className={`${sidebarWidth} border-r bg-background flex-shrink-0`}>
+      <div className={`${sidebarWidth} border-r bg-base-100 flex-shrink-0`}>
         {sidebar}
       </div>
 

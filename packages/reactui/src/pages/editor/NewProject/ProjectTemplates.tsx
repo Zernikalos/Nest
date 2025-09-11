@@ -9,7 +9,7 @@ interface ProjectTemplatesProps {
 export const ProjectTemplates: React.FC<ProjectTemplatesProps> = ({ onNewProject }) => {
     return (
         <div>
-            <h2 className="text-xl font-semibold mb-6 text-foreground">
+            <h2 className="text-xl font-semibold mb-6 text-base-foreground">
                 Project Templates
             </h2>
             

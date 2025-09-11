@@ -9,7 +9,7 @@ interface NewProjectHeaderProps {
 export const NewProjectHeader: React.FC<NewProjectHeaderProps> = ({ onNewProject }) => {
     return (
         <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4 text-foreground">
+            <h1 className="text-4xl font-bold mb-4 text-base-foreground">
                 Zernikalos Nest
             </h1>
             <p className="text-lg mb-8 max-w-2xl mx-auto text-muted-foreground">

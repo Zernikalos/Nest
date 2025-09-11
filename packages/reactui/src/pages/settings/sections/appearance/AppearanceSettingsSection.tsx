@@ -79,9 +79,9 @@ function AppearanceFormContent() {
                     layout="vertical"
                 >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="p-4 bg-background border rounded-lg">
-                            <h4 className="font-medium mb-2 text-foreground">Card Example</h4>
-                            <p className="text-muted-foreground mb-3">
+                        <div className="p-4 bg-base-100 border border-base-300 rounded-lg shadow-sm">
+                            <h4 className="font-medium mb-2 text-base-foreground">Primary Card</h4>
+                            <p className="text-base-foreground/70 mb-3">
                                 This card shows how the theme affects different elements.
                             </p>
                             <div className="flex gap-2">
@@ -91,9 +91,9 @@ function AppearanceFormContent() {
                             </div>
                         </div>
                         
-                        <div className="p-4 bg-secondary border rounded-lg">
-                            <h4 className="font-medium mb-2 text-secondary-foreground">Secondary Card</h4>
-                            <p className="text-muted-foreground">
+                        <div className="p-4 bg-base-200 border border-base-300 rounded-lg shadow-sm">
+                            <h4 className="font-medium mb-2 text-base-foreground">Secondary Card</h4>
+                            <p className="text-base-foreground/70">
                                 This shows the secondary background hierarchy.
                             </p>
                         </div>

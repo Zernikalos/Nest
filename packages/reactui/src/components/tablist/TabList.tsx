@@ -28,25 +28,26 @@ const styles = {
     // Scroll area
     scrollArea: (showBorder: boolean) => cn(
         'w-full',
-        showBorder && 'border-b border-border'
+        showBorder && 'border-b border-base-300'
     ),
 
     // Tabs list
-    tabsList: 'flex-shrink-0 bg-background p-0 h-8 min-h-8',
+    tabsList: 'flex-shrink-0 bg-base-200 p-0 h-8 min-h-8',
 
     // Individual tab trigger
     tabTrigger: cn(
         // Layout and positioning
         'group flex items-center gap-2 h-full pr-1 pl-2',
         // Background and states
-        'bg-transparent hover:bg-secondary',
-        'data-[state=active]:bg-muted',
+        'bg-transparent hover:bg-base-300',
+        'data-[state=active]:bg-base-100 data-[state=active]:text-base-foreground data-[state=active]:shadow-sm',
+        'data-[state=active]:border-b-2 data-[state=active]:border-primary',
         // Borders
-        '',
+        'border-b-2 border-transparent',
         // Typography
-        'text-sm font-normal',
+        'text-sm font-normal text-muted-foreground',
         // Transitions
-        'transition-colors duration-150'
+        'transition-all duration-200'
     ),
 
     // Tab label
@@ -69,7 +70,7 @@ const styles = {
     closeIcon: 'h-3 w-3',
 
     // Content container
-    content: 'flex-grow bg-background',
+    content: 'flex-grow bg-base-100',
 
     // Tab content
     tabContent: 'p-4 m-0',
