@@ -49,6 +49,12 @@ export const themes: Record<string, ThemeInfo> = {
     value: "rose",
     description: "Pink/rose theme",
     isDarkTheme: true
+  },
+  gray: {
+    name: "Gray",
+    value: "gray",
+    description: "Dark gray theme",
+    isDarkTheme: true
   }
 } as const
 
