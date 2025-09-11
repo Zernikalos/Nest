@@ -13,6 +13,14 @@ export interface ZkResultExtended extends ZkConvertResult {
     proto: Uint8Array
 }
 
+export async function rebuildZkResult(zkResult: ZkResultExtended): Promise<ZkResultExtended> {
+    const proto = await zkExport(zkResult.zko, {format: "proto"}) as Uint8Array
+    return {
+        ...zkResult,
+        proto
+    }
+}
+
 interface ZkProjectState {
     // State
     isImporting: boolean
@@ -27,6 +35,7 @@ interface ZkProjectState {
     handleFileImport: (data: FileImportData) => Promise<void>
     bundleScene: () => Promise<Uint8Array | undefined>
     handleBundleScene: () => Promise<void>
+    rebuildZkResult: () => Promise<void>
 }
 
 export const useZkProjectStore = create<ZkProjectState>((set, get) => ({
@@ -97,5 +106,22 @@ export const useZkProjectStore = create<ZkProjectState>((set, get) => ({
             return
         }
         window.NativeZernikalos?.actionSaveFile(bundledAsProto)
+    },
+
+    rebuildZkResult: async () => {
+        const { zkResult, setZkResult, setError } = get()
+        if (_.isNil(zkResult)) {
+            return
+        }
+        
+        try {
+            const rebuiltResult = await rebuildZkResult(zkResult)
+            setZkResult(rebuiltResult)
+            console.log('✅ ZkResult rebuilt successfully')
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "Failed to rebuild ZkResult"
+            console.error('❌ Rebuild failed:', errorMessage)
+            setError(errorMessage)
+        }
     }
 }))

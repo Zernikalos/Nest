@@ -11,12 +11,14 @@ export const NestEditorProvider: React.FC<NestEditorProviderProps> = ({
     children
 }) => {
     const zkResult = useZkProjectStore(state => state.zkResult);
+    const rebuildZkResult = useZkProjectStore(state => state.rebuildZkResult);
     const root = zkResult?.zko?.root;
     const editorState = useNestInternalEditorState({ root });
 
     const contextValue = {
         ...editorState,
         zkResult,
+        rebuildZkResult,
     };
 
     return (

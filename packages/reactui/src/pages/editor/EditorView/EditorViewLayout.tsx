@@ -6,7 +6,6 @@ import {
     ResizablePanel,
     ResizablePanelGroup,
 } from '@/components/ui/resizable';
-import { SidebarProvider } from '@/components/ui/sidebar';
 import { EditorViewTopBar } from './EditorViewTopBar';
 import { EditorViewContent } from './EditorViewContent';
 import { useNestEditorContext } from '../providers/NestEditorContext';

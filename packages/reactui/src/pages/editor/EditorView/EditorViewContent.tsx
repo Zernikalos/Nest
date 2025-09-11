@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormZObject } from '../EditorForm/FormZObject';
 import { TextEditor } from '../TextEditor/TextEditor';
 import { ZernikalosViewer } from '@/components/ZernikalosViewer';
@@ -9,7 +9,15 @@ interface EditorViewContentProps {
 }
 
 export const EditorViewContent: React.FC<EditorViewContentProps> = ({ activeView }) => {
-    const { selectedZObject, zkResult } = useNestEditorContext();
+    const { selectedZObject, zkResult, rebuildZkResult } = useNestEditorContext();
+
+    // Regenerate proto when entering viewer
+    useEffect(() => {
+        if (activeView === 'viewer' && zkResult) {
+            console.log('🔄 Regenerating proto for viewer...')
+            rebuildZkResult()
+        }
+    }, [activeView]) // Solo depende de activeView, no de zkResult
 
     // Check if views can be displayed
     const canShowForm = selectedZObject;

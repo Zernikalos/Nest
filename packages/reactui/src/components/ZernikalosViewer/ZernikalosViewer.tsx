@@ -1,5 +1,5 @@
-import { useRef, useImperativeHandle, forwardRef, useCallback, useEffect } from 'react';
-import { useZernikalosInitialization, useZernikalosResize } from './hooks';
+import { useRef, useImperativeHandle, forwardRef, useEffect } from 'react';
+import { useZernikalosInitialization } from './hooks';
 import { ErrorState, NoDataState, LoadingState } from './components';
 
 export interface ZernikalosViewerProps {
@@ -67,14 +67,6 @@ export const ZernikalosViewer = forwardRef<ZernikalosViewerRef, ZernikalosViewer
         onError
     });
 
-    // Create a stable reference for the resize hook
-    const getZernikalosForResize = useCallback(() => getCurrentZernikalos(), [getCurrentZernikalos]);
-
-    useZernikalosResize({
-        containerRef,
-        getZernikalos: getZernikalosForResize,
-        isInitialized
-    });
 
     // Configure default camera settings when initialized
     useEffect(() => {
