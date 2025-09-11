@@ -44,7 +44,7 @@ const styles = {
         },
         // Hover effects for better visual feedback (subtle gray scale)
         hover: [
-            'hover:bg-gray-300 hover:after:bg-gray-400 transition-colors duration-200',
+            'hover:bg-muted hover:after:bg-foreground transition-colors duration-200',
         ],
         // Rotation for vertical handle icon
         vertical: ['[&[data-panel-group-direction=vertical]>div]:rotate-90'],

@@ -24,10 +24,10 @@ const styles = {
 
     // State variants
     selected: 'bg-accent text-accent-foreground',
-    focused: 'bg-muted text-muted-foreground',
+    focused: 'bg-secondary text-secondary-foreground',
 
     // Toggle button
-    toggleButton: 'mr-1 p-0.5 rounded hover:bg-muted',
+    toggleButton: 'mr-1 p-0.5 rounded hover:bg-secondary',
 
     // Spacer for items without children
     spacer: 'w-5',

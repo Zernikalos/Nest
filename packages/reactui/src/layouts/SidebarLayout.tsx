@@ -14,7 +14,7 @@ export function SettingsLayout({
   return (
     <div className="flex h-screen bg-background">
       {/* Left Sidebar */}
-      <div className={`${sidebarWidth} border-r bg-card flex-shrink-0`}>
+      <div className={`${sidebarWidth} border-r bg-background flex-shrink-0`}>
         {sidebar}
       </div>
 

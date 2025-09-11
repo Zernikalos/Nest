@@ -11,10 +11,6 @@
     --radius-3xl: calc(var(--radius) + 12px);
     --color-background: var(--background);
     --color-foreground: var(--foreground);
-    --color-card: var(--card);
-    --color-card-foreground: var(--card-foreground);
-    --color-popover: var(--popover);
-    --color-popover-foreground: var(--popover-foreground);
     --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
     --color-secondary: var(--secondary);
@@ -27,19 +23,6 @@
     --color-border: var(--border);
     --color-input: var(--input);
     --color-ring: var(--ring);
-    --color-chart-1: var(--chart-1);
-    --color-chart-2: var(--chart-2);
-    --color-chart-3: var(--chart-3);
-    --color-chart-4: var(--chart-4);
-    --color-chart-5: var(--chart-5);
-    --color-sidebar: var(--sidebar);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-ring: var(--sidebar-ring);
 }
 
 /* ===== THEME TYPE DETECTION ===== */
@@ -62,15 +45,11 @@
 :root {
     --background: #ffffff;
     --foreground: #171717;
-    --card: #ffffff;
-    --card-foreground: #171717;
-    --popover: #ffffff;
-    --popover-foreground: #171717;
     --primary: #171717;
     --primary-foreground: #fafafa;
-    --secondary: #f5f5f5;
+    --secondary: #f8f9fa;
     --secondary-foreground: #171717;
-    --muted: #f5f5f5;
+    --muted: #e9ecef;
     --muted-foreground: #737373;
     --accent: #f5f5f5;
     --accent-foreground: #171717;
@@ -78,34 +57,17 @@
     --border: #e5e5e5;
     --input: #e5e5e5;
     --ring: #171717;
-    --chart-1: #0f172a;
-    --chart-2: #334155;
-    --chart-3: #475569;
-    --chart-4: #64748b;
-    --chart-5: #94a3b8;
-    --sidebar: #fafafa;
-    --sidebar-foreground: #171717;
-    --sidebar-primary: #171717;
-    --sidebar-primary-foreground: #fafafa;
-    --sidebar-accent: #f5f5f5;
-    --sidebar-accent-foreground: #171717;
-    --sidebar-border: #e5e5e5;
-    --sidebar-ring: #171717;
 }
 
 /* Light theme (same as root for consistency) */
 [data-theme="light"] {
     --background: #ffffff;
     --foreground: #171717;
-    --card: #ffffff;
-    --card-foreground: #171717;
-    --popover: #ffffff;
-    --popover-foreground: #171717;
     --primary: #171717;
     --primary-foreground: #fafafa;
-    --secondary: #f5f5f5;
+    --secondary: #f8f9fa;
     --secondary-foreground: #171717;
-    --muted: #f5f5f5;
+    --muted: #e9ecef;
     --muted-foreground: #737373;
     --accent: #f5f5f5;
     --accent-foreground: #171717;
@@ -113,31 +75,14 @@
     --border: #e5e5e5;
     --input: #e5e5e5;
     --ring: #171717;
-    --chart-1: #0f172a;
-    --chart-2: #334155;
-    --chart-3: #475569;
-    --chart-4: #64748b;
-    --chart-5: #94a3b8;
-    --sidebar: #fafafa;
-    --sidebar-foreground: #171717;
-    --sidebar-primary: #171717;
-    --sidebar-primary-foreground: #fafafa;
-    --sidebar-accent: #f5f5f5;
-    --sidebar-accent-foreground: #171717;
-    --sidebar-border: #e5e5e5;
-    --sidebar-ring: #171717;
 }
 
 [data-theme="dark"] {
     --background: #0a0a0a;
     --foreground: #ededed;
-    --card: #171717;
-    --card-foreground: #ededed;
-    --popover: #171717;
-    --popover-foreground: #ededed;
     --primary: #ededed;
     --primary-foreground: #171717;
-    --secondary: #262626;
+    --secondary: #171717;
     --secondary-foreground: #ededed;
     --muted: #262626;
     --muted-foreground: #a3a3a3;
@@ -147,19 +92,6 @@
     --border: #262626;
     --input: #262626;
     --ring: #a3a3a3;
-    --chart-1: #0f172a;
-    --chart-2: #334155;
-    --chart-3: #475569;
-    --chart-4: #64748b;
-    --chart-5: #94a3b8;
-    --sidebar: #171717;
-    --sidebar-foreground: #ededed;
-    --sidebar-primary: #0f172a;
-    --sidebar-primary-foreground: #ededed;
-    --sidebar-accent: #262626;
-    --sidebar-accent-foreground: #ededed;
-    --sidebar-border: #262626;
-    --sidebar-ring: #a3a3a3;
 }
 
 /* ===== NEW THEMES (Additional color palettes) ===== */
@@ -168,10 +100,6 @@
 [data-theme="ocean"] {
     --background: #0f172a;
     --foreground: #e2e8f0;
-    --card: #1e293b;
-    --card-foreground: #e2e8f0;
-    --popover: #1e293b;
-    --popover-foreground: #e2e8f0;
     --primary: #0ea5e9;
     --primary-foreground: #ffffff;
     --secondary: #1e293b;
@@ -184,29 +112,12 @@
     --border: #475569;
     --input: #334155;
     --ring: #0ea5e9;
-    --chart-1: #0ea5e9;
-    --chart-2: #0284c7;
-    --chart-3: #0369a1;
-    --chart-4: #075985;
-    --chart-5: #0c4a6e;
-    --sidebar: #1e293b;
-    --sidebar-foreground: #e2e8f0;
-    --sidebar-primary: #0ea5e9;
-    --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #334155;
-    --sidebar-accent-foreground: #cbd5e1;
-    --sidebar-border: #475569;
-    --sidebar-ring: #0ea5e9;
 }
 
 /* Theme: Forest - Natural green theme */
 [data-theme="forest"] {
     --background: #064e3b;
     --foreground: #d1fae5;
-    --card: #065f46;
-    --card-foreground: #d1fae5;
-    --popover: #065f46;
-    --popover-foreground: #d1fae5;
     --primary: #10b981;
     --primary-foreground: #ffffff;
     --secondary: #065f46;
@@ -219,29 +130,12 @@
     --border: #047857;
     --input: #047857;
     --ring: #10b981;
-    --chart-1: #10b981;
-    --chart-2: #059669;
-    --chart-3: #047857;
-    --chart-4: #065f46;
-    --chart-5: #064e3b;
-    --sidebar: #065f46;
-    --sidebar-foreground: #d1fae5;
-    --sidebar-primary: #10b981;
-    --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #047857;
-    --sidebar-accent-foreground: #a7f3d0;
-    --sidebar-border: #047857;
-    --sidebar-ring: #10b981;
 }
 
 /* Theme: Sunset - Warm orange theme */
 [data-theme="sunset"] {
     --background: #451a03;
     --foreground: #fed7aa;
-    --card: #7c2d12;
-    --card-foreground: #fed7aa;
-    --popover: #7c2d12;
-    --popover-foreground: #fed7aa;
     --primary: #f97316;
     --primary-foreground: #ffffff;
     --secondary: #7c2d12;
@@ -254,29 +148,12 @@
     --border: #9a3412;
     --input: #9a3412;
     --ring: #f97316;
-    --chart-1: #f97316;
-    --chart-2: #ea580c;
-    --chart-3: #c2410c;
-    --chart-4: #9a3412;
-    --chart-5: #7c2d12;
-    --sidebar: #7c2d12;
-    --sidebar-foreground: #fed7aa;
-    --sidebar-primary: #f97316;
-    --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #9a3412;
-    --sidebar-accent-foreground: #fed7aa;
-    --sidebar-border: #9a3412;
-    --sidebar-ring: #f97316;
 }
 
 /* Theme: Purple - Royal purple theme */
 [data-theme="purple"] {
     --background: #1e1b4b;
     --foreground: #e0e7ff;
-    --card: #312e81;
-    --card-foreground: #e0e7ff;
-    --popover: #312e81;
-    --popover-foreground: #e0e7ff;
     --primary: #8b5cf6;
     --primary-foreground: #ffffff;
     --secondary: #312e81;
@@ -289,29 +166,12 @@
     --border: #4c1d95;
     --input: #4c1d95;
     --ring: #8b5cf6;
-    --chart-1: #8b5cf6;
-    --chart-2: #7c3aed;
-    --chart-3: #6d28d9;
-    --chart-4: #5b21b6;
-    --chart-5: #4c1d95;
-    --sidebar: #312e81;
-    --sidebar-foreground: #e0e7ff;
-    --sidebar-primary: #8b5cf6;
-    --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #4c1d95;
-    --sidebar-accent-foreground: #c7d2fe;
-    --sidebar-border: #4c1d95;
-    --sidebar-ring: #8b5cf6;
 }
 
 /* Theme: Rose - Pink/rose theme */
 [data-theme="rose"] {
     --background: #4c0519;
     --foreground: #fdf2f8;
-    --card: #881337;
-    --card-foreground: #fdf2f8;
-    --popover: #881337;
-    --popover-foreground: #fdf2f8;
     --primary: #ec4899;
     --primary-foreground: #ffffff;
     --secondary: #881337;
@@ -324,29 +184,12 @@
     --border: #9d174d;
     --input: #9d174d;
     --ring: #ec4899;
-    --chart-1: #ec4899;
-    --chart-2: #db2777;
-    --chart-3: #be185d;
-    --chart-4: #9d174d;
-    --chart-5: #831843;
-    --sidebar: #881337;
-    --sidebar-foreground: #fdf2f8;
-    --sidebar-primary: #ec4899;
-    --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #9d174d;
-    --sidebar-accent-foreground: #fce7f3;
-    --sidebar-border: #9d174d;
-    --sidebar-ring: #ec4899;
 }
 
 /* Theme: Gray - Dark gray theme */
 [data-theme="gray"] {
     --background: #1a1a1a;
     --foreground: #f5f5f5;
-    --card: #262626;
-    --card-foreground: #f5f5f5;
-    --popover: #262626;
-    --popover-foreground: #f5f5f5;
     --primary: #9ca3af;
     --primary-foreground: #ffffff;
     --secondary: #262626;
@@ -359,19 +202,6 @@
     --border: #525252;
     --input: #404040;
     --ring: #9ca3af;
-    --chart-1: #9ca3af;
-    --chart-2: #6b7280;
-    --chart-3: #525252;
-    --chart-4: #404040;
-    --chart-5: #262626;
-    --sidebar: #262626;
-    --sidebar-foreground: #f5f5f5;
-    --sidebar-primary: #9ca3af;
-    --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #404040;
-    --sidebar-accent-foreground: #d1d5db;
-    --sidebar-border: #525252;
-    --sidebar-ring: #9ca3af;
 }
 
 @layer base {

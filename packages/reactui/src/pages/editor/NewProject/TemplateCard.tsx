@@ -18,7 +18,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
 }) => {
     return (
         <Card 
-            className="cursor-pointer hover:shadow-md transition-all duration-200 hover:scale-[1.02] bg-card border-border"
+            className="cursor-pointer hover:shadow-md transition-all duration-200 hover:scale-[1.02] bg-background border-border"
             onClick={onClick}
         >
             <CardHeader className="pb-3">
@@ -27,7 +27,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
                         <IconComponent className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                        <CardTitle className="text-base text-card-foreground">
+                        <CardTitle className="text-base text-foreground">
                             {name}
                         </CardTitle>
                         <CardDescription className="text-sm text-muted-foreground">

@@ -39,7 +39,7 @@ const styles = {
         // Layout and positioning
         'group flex items-center gap-2 h-full pr-1 pl-2',
         // Background and states
-        'bg-transparent hover:bg-muted/50',
+        'bg-transparent hover:bg-secondary',
         'data-[state=active]:bg-muted',
         // Borders
         '',

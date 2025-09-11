@@ -9,7 +9,7 @@ export const RecentProjects: React.FC = () => {
                 Recent Projects
             </h3>
             
-            <Card className="bg-card border-border">
+            <Card className="bg-background border-border">
                 <CardContent className="py-12 text-center">
                     <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-muted">
                         <IoFolderOpen className="w-8 h-8 text-muted-foreground" />

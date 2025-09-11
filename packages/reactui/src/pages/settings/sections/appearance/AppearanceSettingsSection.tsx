@@ -79,8 +79,8 @@ function AppearanceFormContent() {
                     layout="vertical"
                 >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="p-4 bg-card border rounded-lg">
-                            <h4 className="font-medium mb-2">Card Example</h4>
+                        <div className="p-4 bg-background border rounded-lg">
+                            <h4 className="font-medium mb-2 text-foreground">Card Example</h4>
                             <p className="text-muted-foreground mb-3">
                                 This card shows how the theme affects different elements.
                             </p>
@@ -91,10 +91,10 @@ function AppearanceFormContent() {
                             </div>
                         </div>
                         
-                        <div className="p-4 bg-muted border rounded-lg">
-                            <h4 className="font-medium mb-2">Muted Card</h4>
+                        <div className="p-4 bg-secondary border rounded-lg">
+                            <h4 className="font-medium mb-2 text-secondary-foreground">Secondary Card</h4>
                             <p className="text-muted-foreground">
-                                This shows the muted background and text colors.
+                                This shows the secondary background hierarchy.
                             </p>
                         </div>
                     </div>

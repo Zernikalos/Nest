@@ -20,7 +20,7 @@ function InfoDisplayItem({ label, value, className = "" }: InfoDisplayItemProps)
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 {label}
             </span>
-            <span className={`text-sm text-gray-900 dark:text-gray-100 font-mono bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded ${className}`}>
+            <span className={`text-sm text-secondary-foreground font-mono bg-secondary px-2 py-1 rounded ${className}`}>
                 {value}
             </span>
         </div>
