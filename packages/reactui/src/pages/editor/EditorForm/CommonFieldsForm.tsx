@@ -3,6 +3,7 @@ import type { UseFormRegister } from 'react-hook-form';
 import { zernikalos } from '@/lib/zernikalos';
 import { EditorFormSection } from './EditorFormSection';
 import { InputEditorItem } from './EditorFormItems';
+import { ObjectTypeIcon } from '../components/ObjectTypeIcon';
 import { Box } from 'lucide-react';
 
 interface FormData {
@@ -32,6 +33,15 @@ export const CommonFieldsForm: React.FC<CommonFieldsFormProps> = ({ zObject, reg
                 value={zObject.refId}
                 readOnly
                 disabled
+            />
+            
+            <InputEditorItem
+                id="type"
+                label="Type"
+                value={zObject.type.name.charAt(0).toUpperCase() + zObject.type.name.slice(1).toLowerCase()}
+                readOnly
+                disabled
+                icon={<ObjectTypeIcon type={zObject.type as any} size={16} />}
             />
             
             <InputEditorItem

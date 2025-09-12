@@ -13,6 +13,7 @@ interface InputEditorItemProps {
     readOnly?: boolean;
     disabled?: boolean;
     className?: string;
+    icon?: React.ReactNode;
 }
 
 export const InputEditorItem: React.FC<InputEditorItemProps> = ({
@@ -24,7 +25,8 @@ export const InputEditorItem: React.FC<InputEditorItemProps> = ({
     placeholder,
     readOnly = false,
     disabled = false,
-    className
+    className,
+    icon
 }) => {
     // Automatically apply bg-muted when disabled or readOnly
     const inputClassName = disabled || readOnly 
@@ -34,7 +36,13 @@ export const InputEditorItem: React.FC<InputEditorItemProps> = ({
     return (
         <div className="space-y-3">
             <Label htmlFor={id} className="text-sm font-medium text-base-foreground/90 flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-primary/60"></div>
+                {icon ? (
+                    <div className="flex items-center justify-center w-4 h-4">
+                        {icon}
+                    </div>
+                ) : (
+                    <div className="w-2 h-2 rounded-full bg-primary/60"></div>
+                )}
                 {label}
             </Label>
             <div className="relative">
