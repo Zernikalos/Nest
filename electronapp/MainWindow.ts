@@ -77,23 +77,19 @@ export class MainWindow {
         })
 
         ipcMain.on(MenuEvents.BUNDLE_SCENE, async () => {
+            this.sendToRenderer(RendererMenuEvents.BUNDLE_SCENE)
+        })
+
+        ipcMain.handle(NestEvents.SAVE_FILE, async (ev, fileData: Uint8Array) => {
             const pathInfo = await bundleSceneDialog(this.mainWindow)
             if (_.isNil(pathInfo)) {
                 return;
             }
-
-            this.sendToRenderer(RendererMenuEvents.BUNDLE_SCENE, {
-                path: pathInfo.parsedPath.dir,
-                fileName: pathInfo.parsedPath.base,
-            })
-
-            ipcMain.once(NestEvents.SAVE_FILE, async (ev, fileData: Uint8Array) => {
-                try {
-                    await fs.writeFile(pathInfo.filePath, fileData)
-                } catch (e) {
-                    console.log(`Unable to write file to ${path}. Error: ${e}`)
-                }
-            })
+            try {
+                await fs.writeFile(pathInfo.filePath, fileData)
+            } catch (e) {
+                console.log(`Unable to write file to ${path}. Error: ${e}`)
+            }
         })
 
         ipcMain.handle("userSettings:get", async (event, key: any) => {
