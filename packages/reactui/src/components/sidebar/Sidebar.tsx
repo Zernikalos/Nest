@@ -1,8 +1,8 @@
 import {
-    BsJournals as JournalCodeIcon,
-    BsPhone as PhoneIcon,
-    BsBoxSeam as BoxesIcon,
-    BsGear as GearIcon,
+    BsCodeSlash as EditorIcon,
+    BsPhone as DeviceIcon,
+    BsRocket as ExportIcon,
+    BsGearFill as SettingsIcon,
 } from 'react-icons/bs';
 import { useCurrentRoute, useKeepAliveRouter } from '@/keepaliverouter';
 
@@ -42,19 +42,19 @@ export function Sidebar() {
                             path="/editor"
                             name="Editor"
                             selected={checkActiveRoute('/editor')}
-                            icon={JournalCodeIcon}
+                            icon={EditorIcon}
                         />
                         <SidebarItem
                             path="/devices"
                             name="Devices"
                             selected={checkActiveRoute('/devices')}
-                            icon={PhoneIcon}
+                            icon={DeviceIcon}
                         />
                         <SidebarItem
                             path="/exporter"
                             name="Export"
                             selected={checkActiveRoute('/exporter')}
-                            icon={BoxesIcon}
+                            icon={ExportIcon}
                         />
                     </div>
                     <div>
@@ -62,7 +62,7 @@ export function Sidebar() {
                             path="/settings"
                             name="Settings"
                             selected={checkActiveRoute('/settings')}
-                            icon={GearIcon}
+                            icon={SettingsIcon}
                         />
                     </div>
                 </div>

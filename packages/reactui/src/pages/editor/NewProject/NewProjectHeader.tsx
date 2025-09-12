@@ -1,6 +1,7 @@
 import React from 'react';
 import { IoAdd, IoFolderOpen } from 'react-icons/io5';
 import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/logo/Logo';
 
 interface NewProjectHeaderProps {
     onNewProject: () => void;
@@ -9,9 +10,12 @@ interface NewProjectHeaderProps {
 export const NewProjectHeader: React.FC<NewProjectHeaderProps> = ({ onNewProject }) => {
     return (
         <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4 text-base-foreground">
-                Zernikalos Nest
-            </h1>
+            <div className="flex items-center justify-center gap-3 mb-6">
+                <Logo />
+                <h1 className="text-5xl font-bold text-primary">
+                    Zernikalos Nest
+                </h1>
+            </div>
             <p className="text-lg mb-8 max-w-2xl mx-auto text-muted-foreground">
                 Create stunning 3D experiences with our powerful visual editor. 
                 Build, animate, and deploy interactive content effortlessly.
