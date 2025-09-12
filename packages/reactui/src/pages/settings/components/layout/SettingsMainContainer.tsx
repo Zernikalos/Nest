@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import { useState } from "react"
 import { useForm, FormProvider, type FieldValues, type SubmitHandler, type DefaultValues } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 
@@ -24,12 +25,15 @@ export function SettingsMainContainer<T extends FieldValues>({
     defaultValues,
     onSubmit
 }: SettingsMainContainerProps<T>) {
+    const [isSaved, setIsSaved] = useState(false)
     const form = useForm<T>({
         defaultValues
     })
 
     const handleSubmit = (data: T) => {
         onSubmit(data)
+        setIsSaved(true)
+        setTimeout(() => setIsSaved(false), 1500)
     }
 
     return (
@@ -59,9 +63,10 @@ export function SettingsMainContainer<T extends FieldValues>({
                     <div className="flex justify-end p-4">
                         <Button 
                             type="submit"
-                            className="px-6"
+                            className="px-6 w-[100px]"
+                            variant={isSaved ? "success" : "default"}
                         >
-                            Save
+                            {isSaved ? "Saved ✓" : "Save"}
                         </Button>
                     </div>
                 </div>

@@ -10,23 +10,23 @@ const buttonVariants = cva(
         variants: {
             variant: {
                 default:
-                    'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
+                    'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 active:bg-primary/80 active:scale-95',
                 destructive:
-                    'bg-error text-error-foreground shadow-xs hover:bg-error/90 focus-visible:ring-error/20 dark:focus-visible:ring-error/40 dark:bg-error/60',
+                    'bg-error text-error-foreground shadow-xs hover:bg-error/90 active:bg-error/80 active:scale-95 focus-visible:ring-error/20 dark:focus-visible:ring-error/40 dark:bg-error/60',
                 outline:
-                    'border border-base-300 bg-base-100 text-base-foreground shadow-xs hover:bg-base-200 hover:text-base-foreground hover:border-base-400 dark:bg-base-200 dark:border-base-300 dark:hover:bg-base-300',
+                    'border border-base-300 bg-base-100 text-base-foreground shadow-xs hover:bg-base-200 hover:text-base-foreground hover:border-base-400 active:bg-base-300 active:scale-95 dark:bg-base-200 dark:border-base-300 dark:hover:bg-base-300 dark:active:bg-base-400',
                 secondary:
-                    'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
-                ghost: 'text-base-foreground hover:bg-base-200 hover:text-base-foreground dark:hover:bg-base-300',
-                link: 'text-primary underline-offset-4 hover:underline',
+                    'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80 active:bg-secondary/70 active:scale-95',
+                ghost: 'text-base-foreground hover:bg-base-200 hover:text-base-foreground active:bg-base-300 active:scale-95 dark:hover:bg-base-300 dark:active:bg-base-400',
+                link: 'text-primary underline-offset-4 hover:underline active:text-primary/80',
                 success:
-                    'bg-success text-success-foreground shadow-xs hover:bg-success/90',
+                    'bg-success text-success-foreground shadow-xs hover:bg-success/90 active:bg-success/80 active:scale-95',
                 warning:
-                    'bg-warning text-warning-foreground shadow-xs hover:bg-warning/90',
+                    'bg-warning text-warning-foreground shadow-xs hover:bg-warning/90 active:bg-warning/80 active:scale-95',
                 info:
-                    'bg-info text-info-foreground shadow-xs hover:bg-info/90',
+                    'bg-info text-info-foreground shadow-xs hover:bg-info/90 active:bg-info/80 active:scale-95',
                 neutral:
-                    'bg-neutral text-neutral-foreground shadow-xs hover:bg-neutral/90',
+                    'bg-neutral text-neutral-foreground shadow-xs hover:bg-neutral/90 active:bg-neutral/80 active:scale-95',
             },
             size: {
                 default: 'h-9 px-4 py-2 has-[>svg]:px-3',
