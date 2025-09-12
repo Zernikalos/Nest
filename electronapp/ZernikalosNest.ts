@@ -17,6 +17,9 @@ export class ZernikalosNest {
     private nestServer!: nestserver.ZNestServer
 
     public async initialize() {
+
+        app.commandLine.appendSwitch('enable-unsafe-webgpu');
+
         app.dock?.setIcon(Constants.trayIconPath)
 
         // This method will be called when Electron has finished
