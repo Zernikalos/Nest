@@ -25,7 +25,7 @@ export const SidebarItem = memo(({
     return (
         <div
             className={cn(
-                'border-l-2 border-l-transparent',
+                'border-l-4 border-l-transparent',
                 selected && 'border-l-primary'
             )}
         >
@@ -35,8 +35,8 @@ export const SidebarItem = memo(({
                         to={path}
                         className={cn(
                             'flex items-center text-4xl py-4 px-2 h-12 overflow-hidden text-ellipsis whitespace-nowrap text-sidebar-foreground',
-                            'hover:rounded-r hover:bg-base-200 hover:text-base-foreground transition duration-300 ease-in-out',
-                            selected && 'bg-base-100 text-base-foreground'
+                            'hover:bg-base-300 hover:text-base-foreground transition duration-300 ease-in-out',
+                            selected && 'bg-primary/10'
                         )}
                     >
                         <Icon />
