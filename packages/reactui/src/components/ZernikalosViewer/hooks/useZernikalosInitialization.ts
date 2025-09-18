@@ -1,5 +1,9 @@
 import { useLayoutEffect, useRef, useState, useCallback } from 'react';
 import { zernikalos } from '@/lib/zernikalos';
+import { loadZkoScene } from '../utils/zkoLoader';
+import { setupScene } from '../utils/sceneManager';
+import { setupAnimation, updateAnimation } from '../utils/animationController';
+import { createZernikalosInstance, createSceneStateHandler, disposeZernikalosInstance } from '../utils/zernikalosCore';
 
 interface UseZernikalosInitializationProps {
     sceneData: Uint8Array | null;
@@ -12,6 +16,14 @@ interface UseZernikalosInitializationProps {
     onError?: (error: Error) => void;
 }
 
+interface ZernikalosRefs {
+    zernikalos: zernikalos.Zernikalos | null;
+    zko: any | null;
+    scene: zernikalos.objects.ZScene | null;
+    camera: zernikalos.objects.ZCamera | null;
+    player: zernikalos.action.ZActionPlayer | null;
+}
+
 export const useZernikalosInitialization = ({
     sceneData,
     canvasRef,
@@ -22,214 +34,146 @@ export const useZernikalosInitialization = ({
     logLevel,
     onError
 }: UseZernikalosInitializationProps) => {
-    const zernikalosRef = useRef<zernikalos.Zernikalos>(null);
-    const playerRef = useRef<zernikalos.action.ZActionPlayer>(null);
-    const cameraRef = useRef<zernikalos.objects.ZCamera | null>(null);
-    const sceneRef = useRef<zernikalos.objects.ZScene | null>(null);
-    const zkoRef = useRef<any>(null); // Reference to the loaded ZKO object
     const [isInitialized, setIsInitialized] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const initializationAttemptedRef = useRef(false);
+    const [error, setError] = useState<Error | null>(null);
+    
+    // Consolidated refs object
+    const refs = useRef<ZernikalosRefs>({
+        zernikalos: null,
+        zko: null,
+        scene: null,
+        camera: null,
+        player: null
+    });
 
-    const handleError = useCallback((error: Error) => {
-        onError?.(error);
-        setError(error.message);
+    // Handle errors
+    const handleError = useCallback((err: Error) => {
+        console.error('Zernikalos error:', err);
+        setError(err);
+        onError?.(err);
     }, [onError]);
 
-    // Function to load ZKO scene data
-    const loadZkoScene = useCallback(async (sceneData: Uint8Array) => {
-        try {
-            // Convert Uint8Array to Int8Array properly
-            const int8SceneData = new Int8Array(sceneData.buffer, sceneData.byteOffset, sceneData.byteLength);
-            const zko = await zernikalos.loader.loadFromProto(int8SceneData);
-            zkoRef.current = zko;
-            return zko;
-        } catch (err) {
-            throw new Error(`Failed to load ZKO scene: ${err instanceof Error ? err.message : 'Unknown error'}`);
-        }
+    // Cleanup function
+    const cleanup = useCallback(() => {
+        console.log('🧹 Cleaning up Zernikalos resources');
+        disposeZernikalosInstance(refs.current.zernikalos);
+        refs.current = {
+            zernikalos: null,
+            zko: null,
+            scene: null,
+            camera: null,
+            player: null
+        };
+        setIsInitialized(false);
+        setError(null);
     }, []);
 
-    // Function to setup scene with loaded ZKO
-    const setupScene = useCallback((zko: any, player: zernikalos.action.ZActionPlayer) => {
-        // Create scene and camera
-        const scene = new zernikalos.objects.ZScene();
-        const camera = new zernikalos.objects.ZCamera();
-
-        // Store references
-        sceneRef.current = scene;
-        cameraRef.current = camera;
-
-        // Add objects to scene
-        scene.addChild(zko.root);
-        scene.addChild(camera);
-
-        // Find main object and configure it
-        const mainObj = zernikalos.search.findFirstModel(scene);
-        if (mainObj) {
-            mainObj.transform.scaleByFactor(scaleModel);
-        }
-
-        // Set up animation if available
-        if (playAnimation && zko.actions && zko.actions.length > 0 && mainObj) {
-            const actionIndex = Math.min(animationIndex, zko.actions.length - 1);
-            const action = zko.actions[actionIndex];
-            if (action) {
-                player.setAction(mainObj, action);
-                player.play(true);
-            }
-        }
-
-        return { scene, camera, mainObj };
-    }, [scaleModel, playAnimation, animationIndex]);
-
-    // Getter functions for external access
-    const getCurrentCamera = useCallback(() => cameraRef.current, []);
-    const getCurrentScene = useCallback(() => sceneRef.current, []);
-    const getCurrentPlayer = useCallback(() => playerRef.current, []);
-    const getCurrentZko = useCallback(() => zkoRef.current, []);
-    const getCurrentZernikalos = useCallback(() => zernikalosRef.current, []);
-
     useLayoutEffect(() => {
-        if (initializationAttemptedRef.current) {
-            console.log('⚠️ Initialization already attempted, skipping...');
-            return;
-        }
-
-        // Check if refs are available (similar to Vue onMounted)
         const canvas = canvasRef.current;
         const container = containerRef.current;
 
+        // Wait for refs to be available
         if (!canvas || !container) {
-            console.log('⏳ Canvas or container not ready yet, waiting...');
-            return; // Wait for refs to be available
+            return;
         }
 
-        // Additional check: ensure canvas has valid dimensions
+        // Wait for container to have dimensions
         if (container.clientWidth === 0 || container.clientHeight === 0) {
-            console.log('⏳ Container has no dimensions yet, waiting...');
-            return; // Wait for container to have dimensions
+            return;
         }
 
-        console.log('🚀 Starting Zernikalos initialization and scene setup');
-        initializationAttemptedRef.current = true;
+        console.log('🚀 Initializing Zernikalos');
 
-        const initializeAndSetupScene = async () => {
+        const initialize = async () => {
             try {
-                // Canvas and container are already verified above
-                const canvas = canvasRef.current!;
-                const container = containerRef.current!;
+                // Clean up any existing instance
+                cleanup();
 
                 // Set canvas size
                 canvas.width = container.clientWidth;
                 canvas.height = container.clientHeight;
 
                 // Create Zernikalos instance
-                const zk = new zernikalos.Zernikalos();
-                zk.settings.logLevel = zernikalos.logger.ZLogLevel[logLevel];
-                zernikalosRef.current = zk;
+                const zk = createZernikalosInstance(logLevel);
+                refs.current.zernikalos = zk;
 
                 // Create action player
                 const player = new zernikalos.action.ZActionPlayer();
-                playerRef.current = player;
+                refs.current.player = player;
 
-                console.log('✅ Zernikalos initialized');
+                console.log('✅ Zernikalos instance created');
 
-                // Only setup scene if we have sceneData
+                // Setup scene if we have data
                 if (sceneData) {
-                    console.log('🎬 Setting up scene with data');
+                    console.log('🎬 Loading scene data');
 
-                    zk.initializeWithCanvas(canvas, {
-                        onReady(ctx: any, done: () => void) {
-                            const loadScene = async () => {
-                                try {
-                                    // Load ZKO scene data
-                                    const zko = await loadZkoScene(sceneData);
-                                    
-                                    // Setup scene with loaded ZKO
-                                    const { scene, camera } = setupScene(zko, player);
-                                    
-                                    // Set active camera and scene (no automatic configuration)
-                                    ctx.activeCamera = camera;
-                                    ctx.scene = scene;
-
-                                    console.log('✅ Scene setup completed successfully');
-                                    setIsInitialized(true);
-                                    console.log('🎯 isInitialized set to true');
-                                    done();
-                                } catch (err) {
-                                    const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
-                                    console.error('❌ Scene setup error:', errorMessage);
-                                    handleError(new Error(errorMessage));
-                                }
-                            };
-                            loadScene();
-                        },
-                        onRender(_ctx: any, done: () => void) {
+                    const sceneStateHandler = createSceneStateHandler(
+                        async (ctx: any, done: () => void) => {
                             try {
-                                if (playAnimation && player) {
-                                    player.update();
-                                }
+                                // Load ZKO scene
+                                const zko = await loadZkoScene(sceneData);
+                                refs.current.zko = zko;
+
+                                // Setup scene
+                                const { scene, camera, mainObj } = setupScene(zko, scaleModel);
+                                refs.current.scene = scene;
+                                refs.current.camera = camera;
+
+                                // Setup animation
+                                setupAnimation(zko, mainObj, player, playAnimation, animationIndex);
+
+                                // Set context
+                                ctx.activeCamera = camera;
+                                ctx.scene = scene;
+
+                                console.log('✅ Scene setup completed');
+                                setIsInitialized(true);
                                 done();
                             } catch (err) {
-                                console.error('Render error:', err);
+                                const error = err instanceof Error ? err : new Error('Scene setup failed');
+                                handleError(error);
                                 done();
                             }
                         },
-                        onResize(_ctx: any, _width: number, _height: number, done: () => void) {
-                            done();
+                        (_ctx: any, done: () => void) => {
+                            try {
+                                updateAnimation(player, playAnimation);
+                                done();
+                            } catch (err) {
+                                console.warn('Animation update error:', err);
+                                done();
+                            }
                         }
-                    } as zernikalos.scenestatehandler.ZSceneStateHandler);
+                    );
+
+                    zk.initializeWithCanvas(canvas, sceneStateHandler);
                 } else {
-                    console.log('⏳ No scene data provided, initialization complete');
+                    console.log('⏳ No scene data, initialization complete');
                     setIsInitialized(true);
-                    console.log('🎯 isInitialized set to true (no scene data)');
                 }
 
             } catch (err) {
-                const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
-                console.error('❌ Initialization error:', errorMessage);
-                handleError(new Error(errorMessage));
-                initializationAttemptedRef.current = false;
+                const error = err instanceof Error ? err : new Error('Initialization failed');
+                handleError(error);
             }
         };
 
-        initializeAndSetupScene();
+        initialize();
 
-        // Cleanup function
-        return () => {
-            console.log('🧹 Cleaning up Zernikalos component');
-            if (zernikalosRef.current) {
-                try {
-                    zernikalosRef.current = null;
-                } catch (err) {
-                    console.warn('Error during Zernikalos cleanup:', err);
-                }
-            }
-            if (playerRef.current) {
-                try {
-                    playerRef.current = null;
-                } catch (err) {
-                    console.warn('Error during player cleanup:', err);
-                }
-            }
-            // Clear other references
-            cameraRef.current = null;
-            sceneRef.current = null;
-            zkoRef.current = null;
-        };
-    }, [sceneData, logLevel]); // Run when props change, refs are checked inside
+        // Cleanup on unmount or dependency change
+        return cleanup;
+    }, [sceneData, logLevel, scaleModel, playAnimation, animationIndex, cleanup, handleError]);
 
     return {
         isInitialized,
         error,
-        // Getter functions for external access
-        getCurrentCamera,
-        getCurrentScene,
-        getCurrentPlayer,
-        getCurrentZko,
-        getCurrentZernikalos,
+        // Direct access to refs
+        getCurrentCamera: () => refs.current.camera,
+        getCurrentScene: () => refs.current.scene,
+        getCurrentPlayer: () => refs.current.player,
+        getCurrentZko: () => refs.current.zko,
+        getCurrentZernikalos: () => refs.current.zernikalos,
         // Utility functions
-        loadZkoScene,
-        setupScene
+        loadZkoScene
     };
 };
