@@ -3,47 +3,22 @@ import { SettingsSectionItem } from "../../components/layout"
 import { zernikalos } from "@/lib/zernikalos"
 import { ZKBUILDER_VERSION } from "@zernikalos/zkbuilder"
 import { ZKO_VERSION } from "@zernikalos/zkbuilder"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { InfoDisplayItem } from "./InfoDisplayItem"
+import _ from "lodash"
 
 // Declare global variables injected by Vite
 declare global {
     const __APP_VERSION__: string
 }
 
-// Reusable component for displaying information items
-interface InfoDisplayItemProps {
-    label: string
-    value: string | number
-    className?: string
-}
-
-function InfoDisplayItem({ label, value, className = "" }: InfoDisplayItemProps) {
-    return (
-        <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-base-foreground">
-                {label}
-            </span>
-            <span className={`text-sm text-base-foreground font-mono bg-base-200 px-2 py-1 rounded border border-base-300 ${className}`}>
-                {value}
-            </span>
-        </div>
-    )
-}
-
 export function EnvironmentSettingsSection() {
-    const engineVersion: string = zernikalos.version?.VERSION || "Unknown"
-    const engineZkoVersion: string = zernikalos.version?.ZKO_VERSION || "Unknown"
-    const builderVersion: string = ZKBUILDER_VERSION || "Unknown"
-    const builderZkoVersion: string = ZKO_VERSION || "Unknown"
+    const zkVersionInfo = getVersionValues()
+    const engineError = zkVersionInfo.engineMissing ? "Engine version is missing." : undefined
+    const builderError = zkVersionInfo.builderMissing ? "Builder version is missing." : undefined
+    const zkoError = zkVersionInfo.zkoVersionMismatch
+        ? "Engine and builder target different ZKO versions; align them to avoid incompatibilities."
+        : undefined
 
-    const hasZkoMismatch =
-        engineZkoVersion !== "Unknown" &&
-        builderZkoVersion !== "Unknown" &&
-        engineZkoVersion !== builderZkoVersion
-
-    const zkoVersionValue = hasZkoMismatch
-        ? `(engine) ${engineZkoVersion} / (builder) ${builderZkoVersion}`
-        : engineZkoVersion
 
     return (
         <div className="h-full flex flex-col flex-1">
@@ -63,23 +38,22 @@ export function EnvironmentSettingsSection() {
                 <div className="space-y-2">
                     <InfoDisplayItem 
                         label="Engine Version" 
-                        value={engineVersion} 
+                        value={zkVersionInfo.engineVersion ?? "Unavailable"} 
+                        hasError={zkVersionInfo.engineMissing}
+                        errorMessages={engineError}
                     />
                     <InfoDisplayItem 
                         label="Builder Version" 
-                        value={builderVersion} 
+                        value={zkVersionInfo.builderVersion ?? "Unavailable"} 
+                        hasError={zkVersionInfo.builderMissing}
+                        errorMessages={builderError}
                     />
                     <InfoDisplayItem 
                         label="ZKO Version" 
-                        value={zkoVersionValue} 
+                        value={zkVersionInfo.zkoVersion} 
+                        hasError={zkVersionInfo.zkoVersionMismatch}
+                        errorMessages={zkoError}
                     />
-                    {hasZkoMismatch && (
-                        <Alert variant="error" className="mt-2">
-                            <AlertDescription>
-                                Engine and builder target different ZKO versions; align them to avoid incompatibilities.
-                            </AlertDescription>
-                        </Alert>
-                    )}
                 </div>
             </SettingsSectionItem>
 
@@ -128,4 +102,40 @@ export function EnvironmentSettingsSection() {
         </div>
         </div>
     )
+}
+
+interface ZkVersionInfo {
+    engineVersion?: string
+    builderVersion?: string
+    zkoVersion: string
+    engineMissing: boolean
+    builderMissing: boolean
+    zkoVersionMismatch: boolean
+}
+
+function getVersionValues(): ZkVersionInfo {
+    const engineVersion = zernikalos.version?.VERSION
+    const builderVersion = ZKBUILDER_VERSION
+    const engineZkoVersion = zernikalos.version?.ZKO_VERSION
+    const builderZkoVersion = ZKO_VERSION
+
+    const engineZkoMissing = _.isNil(engineZkoVersion)
+    const builderZkoMissing = _.isNil(builderZkoVersion)
+    const mismatch =
+        !engineZkoMissing &&
+        !builderZkoMissing &&
+        !_.isEqual(engineZkoVersion, builderZkoVersion)
+
+    const zkoVersion = mismatch ? "Unavailable" : engineZkoVersion
+
+    const zkVersionInfo: ZkVersionInfo = {
+        engineVersion: engineVersion,
+        builderVersion: builderVersion,
+        zkoVersion,
+        engineMissing: engineZkoMissing,
+        builderMissing: builderZkoMissing,
+        zkoVersionMismatch: mismatch,
+    }
+
+    return zkVersionInfo
 }
