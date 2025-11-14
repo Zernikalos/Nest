@@ -1,6 +1,9 @@
 import { MdInfo, MdComputer, MdBuild } from "react-icons/md"
 import { SettingsSectionItem } from "../../components/layout"
 import { zernikalos } from "@/lib/zernikalos"
+import { ZKBUILDER_VERSION } from "@zernikalos/zkbuilder"
+import { ZKO_VERSION } from "@zernikalos/zkbuilder"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 // Declare global variables injected by Vite
 declare global {
@@ -28,6 +31,20 @@ function InfoDisplayItem({ label, value, className = "" }: InfoDisplayItemProps)
 }
 
 export function EnvironmentSettingsSection() {
+    const engineVersion: string = zernikalos.version?.VERSION || "Unknown"
+    const engineZkoVersion: string = zernikalos.version?.ZKO_VERSION || "Unknown"
+    const builderVersion: string = ZKBUILDER_VERSION || "Unknown"
+    const builderZkoVersion: string = ZKO_VERSION || "Unknown"
+
+    const hasZkoMismatch =
+        engineZkoVersion !== "Unknown" &&
+        builderZkoVersion !== "Unknown" &&
+        engineZkoVersion !== builderZkoVersion
+
+    const zkoVersionValue = hasZkoMismatch
+        ? `(engine) ${engineZkoVersion} / (builder) ${builderZkoVersion}`
+        : engineZkoVersion
+
     return (
         <div className="h-full flex flex-col flex-1">
             <div className="flex-1 overflow-y-auto space-y-6 p-6">
@@ -46,12 +63,23 @@ export function EnvironmentSettingsSection() {
                 <div className="space-y-2">
                     <InfoDisplayItem 
                         label="Engine Version" 
-                        value={zernikalos.version?.VERSION || 'Unknown'} 
+                        value={engineVersion} 
                     />
                     <InfoDisplayItem 
-                        label="ZKO Version Support" 
-                        value={zernikalos.version?.ZKO_VERSION || 'Unknown'} 
+                        label="Builder Version" 
+                        value={builderVersion} 
                     />
+                    <InfoDisplayItem 
+                        label="ZKO Version" 
+                        value={zkoVersionValue} 
+                    />
+                    {hasZkoMismatch && (
+                        <Alert variant="error" className="mt-2">
+                            <AlertDescription>
+                                Engine and builder target different ZKO versions; align them to avoid incompatibilities.
+                            </AlertDescription>
+                        </Alert>
+                    )}
                 </div>
             </SettingsSectionItem>
 
