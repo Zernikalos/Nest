@@ -16,7 +16,6 @@
         "allowJs": true,
         "baseUrl": ".",
         "paths": {
-            "@nestserver/*": ["dist/server/*"],
             "@nestserver": ["dist/server/main"]
         }
     },
