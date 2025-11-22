@@ -8,6 +8,7 @@ import { defineConfig } from 'vite';
 // https://vitejs.dev/config/
 export const reactUiConfig = defineConfig({
     root: __dirname,
+    base: './',
     plugins: [
         react(),
         tailwindcss()
@@ -23,6 +24,16 @@ export const reactUiConfig = defineConfig({
         'process.env.DEBUG': JSON.stringify(process.env.DEBUG || ''),
         // Pass package.json version to the browser
         '__APP_VERSION__': JSON.stringify(JSON.parse(readFileSync(path.join(__dirname, 'package.json'), 'utf-8')).version),
+    },
+    server: {
+        port: 5173,
+        host: true,
+        fs: {
+            strict: false
+        },
+        watch: {
+            ignored: ['!node_modules/@zernikalos/**']
+        }
     },
     build: {
         outDir: path.join(__dirname, 'dist'),
@@ -58,8 +69,9 @@ export const reactUiConfig = defineConfig({
             }
         },
         optimizeDeps: {
+            force: true,
             include: ['react', 'react-dom'],
-            exclude: ['@monaco-editor/react', '@zernikalos/zernikalos']
+            exclude: ['@monaco-editor/react', '@zernikalos/zernikalos', '@zernikalos/zkbuilder']
         }
     },
 });

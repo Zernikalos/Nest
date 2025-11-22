@@ -6,13 +6,8 @@ import path from "path";
 export default defineConfig((env) => {
     return mergeConfig(reactUiConfig, {
         //root: path.join(__dirname, 'packages', 'reactui'),
-        base: './',
         build: {
             outDir: path.join(__dirname, 'dist', 'renderer'),
-        },
-        server: {
-            port: 5173,
-            host: true
         }
     })
 })
