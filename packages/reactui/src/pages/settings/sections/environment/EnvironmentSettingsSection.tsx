@@ -16,7 +16,7 @@ export function EnvironmentSettingsSection() {
     const engineError = zkVersionInfo.engineMissing ? "Engine version is missing." : undefined
     const builderError = zkVersionInfo.builderMissing ? "Builder version is missing." : undefined
     const zkoError = zkVersionInfo.zkoVersionMismatch
-        ? "Engine and builder target different ZKO versions; align them to avoid incompatibilities."
+        ? `Engine and builder target different ZKO versions; align them to avoid incompatibilities. The ZKO version in zkbuilder is ${zkVersionInfo.builderZkoVersion ?? "unknown"} and in zernikalos is ${zkVersionInfo.engineZkoVersion ?? "unknown"}.`
         : undefined
 
 
@@ -108,6 +108,8 @@ interface ZkVersionInfo {
     engineVersion?: string
     builderVersion?: string
     zkoVersion: string
+    engineZkoVersion?: string
+    builderZkoVersion?: string
     engineMissing: boolean
     builderMissing: boolean
     zkoVersionMismatch: boolean
@@ -132,6 +134,8 @@ function getVersionValues(): ZkVersionInfo {
         engineVersion: engineVersion,
         builderVersion: builderVersion,
         zkoVersion,
+        engineZkoVersion: engineZkoVersion,
+        builderZkoVersion: builderZkoVersion,
         engineMissing: engineZkoMissing,
         builderMissing: builderZkoMissing,
         zkoVersionMismatch: mismatch,
