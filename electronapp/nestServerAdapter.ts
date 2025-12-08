@@ -1,6 +1,6 @@
 /**
- * Adapter que centraliza todas las referencias a @nestserver
+ * Adapter que centraliza todas las referencias a @server
  * Este archivo actúa como punto único de entrada para interactuar con el servidor Nest
  */
-export type { ZNestServer, ServerOptions } from "@nestserver";
-export { SettingsService, nestServerBootstrap } from "@nestserver";
+export type { ZNestServer, ServerOptions } from "@zernikalos/server";
+export { SettingsService, serverBootstrap as nestServerBootstrap } from "@zernikalos/server";

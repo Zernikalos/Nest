@@ -28,6 +28,7 @@
     "clean": "pnpm clean:packages && rimraf node_modules dist out"
   },
   "dependencies": {
+    "@zernikalos/server": "workspace:*",
     "@nestjs/common": "11.1.8",
     "@nestjs/core": "11.1.8",
     "@nestjs/platform-express": "11.1.8",
