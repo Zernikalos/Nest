@@ -3,7 +3,7 @@ import {
     BrowserWindow,
     Menu,
 } from 'electron'
-import * as nestserver from "@nestserver"
+import { nestServerBootstrap, ZNestServer } from "./nestServerAdapter"
 
 import {createMenu} from "./menu"
 import {MainWindow} from "./MainWindow"
@@ -14,7 +14,7 @@ export class ZernikalosNest {
 
     private mainWindow!: MainWindow
     public menu?: Menu
-    private nestServer!: nestserver.ZNestServer
+    private nestServer!: ZNestServer
 
     public async initialize() {
 
@@ -56,7 +56,7 @@ export class ZernikalosNest {
     private async initializeServer() {
         const dbPath = Constants.nestDbPath
         const settingsPath = Constants.userDataPath
-        this.nestServer = await nestserver.nestServerBootstrap({
+        this.nestServer = await nestServerBootstrap({
             dbPath,
             settingsPath
         })
