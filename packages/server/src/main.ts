@@ -16,6 +16,10 @@ export { SettingsService };
 
 export interface ZNestServer {
     settings: SettingsService;
+    gateways: {
+        nest: NestGateway;
+        zdebugger: ZDebuggerGateway;
+    };
 }
 
 export interface ServerOptions {
@@ -58,7 +62,11 @@ export async function serverBootstrap(options: ServerOptions): Promise<ZNestServ
     });
 
     return {
-        settings: settingsService
+        settings: settingsService,
+        gateways: {
+            nest: nestGateway,
+            zdebugger: zdebuggerGateway
+        }
     };
 }
 
