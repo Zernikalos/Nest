@@ -1,11 +1,10 @@
-import * as CRC32 from "crc-32";
 import { createReadStream } from "fs";
 import * as path from "path";
 import { Readable } from "stream";
+import { crc32 } from "../utils/crc32";
 
 function pathToCrc32(filePath: string): number {
-    const crc32Value = CRC32.str(filePath);
-    return crc32Value < 0 ? crc32Value >>> 0 : crc32Value;
+    return crc32(filePath);
 }
 
 export class FilesService {

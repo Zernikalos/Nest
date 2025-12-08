@@ -1,6 +1,6 @@
 import express, { Express } from 'express';
 import * as http from 'http';
-import * as cors from 'cors';
+import cors from 'cors';
 import * as path from 'path';
 import configuration from './configuration/configuration';
 import { BridgeService } from './services/bridge.service';

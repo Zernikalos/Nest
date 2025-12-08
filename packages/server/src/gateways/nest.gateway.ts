@@ -1,11 +1,12 @@
 import * as http from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
+import { Subscription } from 'rxjs';
 import { BridgeService } from '../services/bridge.service';
 
 export class NestGateway {
     private server: WebSocketServer;
     private bridgeService: BridgeService;
-    private subscription: any;
+    private subscription: Subscription | null = null;
 
     constructor(httpServer: http.Server, bridgeService: BridgeService) {
         this.bridgeService = bridgeService;

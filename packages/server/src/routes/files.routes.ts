@@ -42,8 +42,8 @@ export function createFilesRoutes(filesService: FilesService): Router {
             });
 
             fileStream.pipe(res);
-        } catch (error: any) {
-            if (error.message === 'Path not being exposed') {
+        } catch (error: unknown) {
+            if (error instanceof Error && error.message === 'Path not being exposed') {
                 return res.status(404).json({ error: error.message });
             }
             res.status(500).json({ error: 'Failed to get file' });

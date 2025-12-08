@@ -1,16 +1,17 @@
 import * as http from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
+import { Subscription } from 'rxjs';
 import { BridgeService } from '../services/bridge.service';
 
 interface LogsMessage {
     event: string;
-    data: any;
+    data: unknown;
 }
 
 export class ZDebuggerGateway {
     private server: WebSocketServer;
     private bridgeService: BridgeService;
-    private subscription: any;
+    private subscription: Subscription | null = null;
 
     constructor(httpServer: http.Server, bridgeService: BridgeService) {
         this.bridgeService = bridgeService;
@@ -47,7 +48,7 @@ export class ZDebuggerGateway {
         });
     }
 
-    private handleMessage(ws: WebSocket, data: any) {
+    private handleMessage(ws: WebSocket, data: { event?: string; data?: unknown }) {
         if (data.event === 'logs' || data.event === 'stats') {
             const message: LogsMessage = {
                 event: data.event,
