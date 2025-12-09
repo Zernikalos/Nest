@@ -1,5 +1,6 @@
 import { SettingsRepository, AppSettings } from '../repositories/settings.repository';
 import * as _ from "lodash";
+import logger from '../utils/logger';
 
 export class SettingsService {
     constructor(private readonly settingsRepository: SettingsRepository) {}
@@ -26,8 +27,8 @@ export class SettingsService {
     }
 
     async setTheme(theme: string): Promise<void> {
+        logger.info(`Updating theme to: ${theme}`);
         await this.settingsRepository.updateSettings({ theme });
-        console.log(`Theme updated to ${theme}`);
     }
 
     async updateSettings(partialSettings: Partial<AppSettings>): Promise<AppSettings> {
