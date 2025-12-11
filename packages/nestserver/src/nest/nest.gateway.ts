@@ -4,13 +4,21 @@ import {
     WebSocketGateway,
     WebSocketServer
 } from "@nestjs/websockets"
+import { Inject, Injectable, OnModuleInit } from "@nestjs/common"
 import * as ws from "ws"
 import {BridgeService} from "../bridge/bridge.service"
 
+@Injectable()
 @WebSocketGateway({ path: 'nest', transports: ['websocket'] })
-export class NestGateway implements OnGatewayConnection, OnGatewayInit {
+export class NestGateway implements OnGatewayConnection, OnGatewayInit, OnModuleInit {
 
-    constructor(private bridgeService: BridgeService) {
+    constructor(@Inject(BridgeService) private bridgeService: BridgeService) {
+    }
+
+    onModuleInit() {
+        if (!this.bridgeService) {
+            throw new Error('BridgeService is not injected')
+        }
         this.bridgeService.nestObservable.subscribe(message => {
             this.sendToAllClients(message)
         })
@@ -22,7 +30,7 @@ export class NestGateway implements OnGatewayConnection, OnGatewayInit {
     afterInit(server: ws.WebSocket): any {
         this.server = server as any as ws.WebSocketServer
         server.on("connection", (ws) => {
-            ws.on("message", (message) => {
+            ws.on("message", (message: any) => {
                 if (typeof message === "string") {
 
                 }

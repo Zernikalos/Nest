@@ -8,7 +8,7 @@ import * as fs from "node:fs/promises"
 import {Constants} from "./constants"
 import {loadZkoDialog} from "./dialogs/loadZkoDialog"
 import _ from "lodash";
-import {SettingsService} from "@nestserver"
+import {SettingsService} from "./nestServerAdapter"
 
 export class MainWindow {
     private mainWindow!: BrowserWindow

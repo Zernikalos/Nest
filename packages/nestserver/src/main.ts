@@ -5,6 +5,7 @@ import configuration from './config/configuration';
 import { WsAdapter } from '@nestjs/platform-ws';
 import * as path from 'path';
 import {SettingsService} from "./settings/settings.service";
+import { ConfigService } from '@nestjs/config';
 
 export { SettingsService }
 
@@ -22,7 +23,9 @@ export async function nestServerBootstrap(options: ServerOptions): Promise<ZNest
         logger: ['error', 'warn', 'log', 'debug', 'verbose'],
     })
 
-    const port = configuration().port
+    const configService = app.get(ConfigService)
+
+    const port = configService.get<number>('port')
 
     app.enableCors()
     app.useGlobalPipes(new ValidationPipe({
@@ -37,8 +40,9 @@ export async function nestServerBootstrap(options: ServerOptions): Promise<ZNest
     await app.listen(port)
 
     // const appModule = app.get(AppModule)
+    const settingsService = app.get(SettingsService)
     return {
-        settings: app.get(SettingsService)
+        settings: settingsService
     }
 }
 

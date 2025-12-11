@@ -1,13 +1,21 @@
 import {MessageBody, OnGatewayInit, SubscribeMessage, WebSocketGateway} from "@nestjs/websockets";
+import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import {Server} from "ws";
 import {BridgeService} from "../bridge/bridge.service";
 
+@Injectable()
 @WebSocketGateway({ path: 'zdebugger', transports: ['websocket'] })
-export class ZDebuggerGateway implements OnGatewayInit {
+export class ZDebuggerGateway implements OnGatewayInit, OnModuleInit {
 
     private server!: Server
 
-    constructor(private readonly bridgeService: BridgeService) {
+    constructor(@Inject(BridgeService) private readonly bridgeService: BridgeService) {
+    }
+
+    onModuleInit() {
+        if (!this.bridgeService) {
+            throw new Error('BridgeService is not injected')
+        }
         this.bridgeService.debuggerObservable.subscribe(message => {
             this.sendToAllClients(message)
         })

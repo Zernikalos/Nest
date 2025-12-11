@@ -31,6 +31,10 @@ export class Constants {
         return app.getPath('userData')
     }
 
+    public static get userSettingsPath(): string {
+        return path.join(Constants.userDataPath, 'settings.json')
+    }
+
     public static get nestDbPath(): string {
         return path.join(Constants.userDataPath, 'nest.sqlite')
     }

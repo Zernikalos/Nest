@@ -3,7 +3,7 @@ import * as CRC32 from "crc-32"
 import {createReadStream} from "fs"
 import * as path from "path"
 
-function pathToCrc32(path) {
+function pathToCrc32(path: any) {
     const crc32Value = CRC32.str(path)
     return crc32Value < 0 ? crc32Value >>> 0 : crc32Value
 }

@@ -5,7 +5,7 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     entry: {
-        index: './electronapp/main.ts',
+        index: './src/main.ts',
     },
     target: 'electron-main',
     output: {
@@ -23,9 +23,9 @@ module.exports = {
         alias: {
         },
         mainFields: ['main', 'module', 'jsnext:main', 'jsnext'],
-        modules: [
-            path.resolve(__dirname, 'node_modules'),
-        ],
+        // modules: [
+        //     path.resolve(__dirname, 'node_modules'),
+        // ],
     },
     module: {
         rules: [
@@ -34,7 +34,7 @@ module.exports = {
                 use: {
                     loader: 'ts-loader',
                     options: {
-                        configFile: path.resolve(__dirname, 'tsconfig.electron.json'),
+                        configFile: path.resolve(__dirname, 'tsconfig.json'),
                     }
                 },
                 exclude: [
