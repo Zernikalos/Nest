@@ -1,10 +1,7 @@
 {
   "extends": "../tsconfig.electron.json",
   "compilerOptions": {
-    "paths": {
-      "@nestserver/*": ["../nestserver/*", "dist/server/*"],
-      "@nestserver": ["../nestserver/main", "dist/server/main"]
-    }
+    "paths": {}
   },
   "include": ["**/*"],
   "exclude": ["node_modules", "dist"]

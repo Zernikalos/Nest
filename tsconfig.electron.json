@@ -15,9 +15,7 @@
         "outDir": "dist/main",
         "allowJs": true,
         "baseUrl": ".",
-        "paths": {
-            "@nestserver": ["dist/server/main"]
-        }
+        "paths": {}
     },
     "include": ["electronapp/**/*"],
     "exclude": ["node_modules", "test", "dist"]

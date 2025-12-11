@@ -5,7 +5,7 @@ Desktop application for asset management and debugging of Zernikalos Engine.
 
 ## Core Technologies
 - Vue.js 3.5.13
-- NestJS 11.0.9
+- Express.js (server)
 - TypeScript 5.7.3
 - Pinia 3.0.0
 - Webpack 5.97.1
@@ -48,8 +48,8 @@ The project is organized into four main components:
 ### 📱 electronapp
 The main Electron application that serves as the desktop application container.
 
-### 🖥️ nestserver
-A NestJS server implementation that handles internal functionalities of Zernikalos Nest. This component manages the core business logic and operations.
+### 🖥️ server
+An Express.js server implementation that handles internal functionalities of Zernikalos Nest. This component manages the core business logic and operations, including WebSocket gateways for Nest and ZDebugger communication.
 
 ### 🎨 nestui
 A Vue.js web application that provides the user interface for the application. Built with Vue 3 and modern web technologies.
@@ -58,7 +58,7 @@ A Vue.js web application that provides the user interface for the application. B
 Pinia store implementation that manages the state and communication between:
 - UI components
 - Electron main process
-- NestJS server
+- Express server
 
 ## Features
 

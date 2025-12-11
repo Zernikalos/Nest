@@ -16,14 +16,10 @@ module.exports = {
         }
     },
     devtool: 'inline-source-map',
-    externals: {
-        '@nestserver': `commonjs ../server/main`,
-    },
+    externals: {},
     resolve: {
         extensions: ['.ts', '.js', '.json'],
-        alias: {
-            '@nestserver': '../server/main',
-        },
+        alias: {},
         mainFields: ['main', 'module', 'jsnext:main', 'jsnext'],
         modules: [
             path.resolve(__dirname, 'node_modules'),
