@@ -51,7 +51,7 @@ const options = {
         "!**/packages/reactui/src/**/*"
     ],
 
-    asar: false,
+    asar: true,
 
     // macOS configuration
     mac: {

@@ -60,6 +60,6 @@ jobs:
 
       # Package the application to validate the process
       - name: Package application
-        run: pnpm make
+        run: pnpm dist
 
 
