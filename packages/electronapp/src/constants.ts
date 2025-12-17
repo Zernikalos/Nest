@@ -3,7 +3,7 @@ import {app, nativeImage} from "electron";
 import path from "path";
 
 const DEV_FRONTEND_URL = "http://localhost:5173"
-const MAIN_WINDOW_ENTRY = path.join(__dirname, '..', `renderer/index.html`)
+const MAIN_WINDOW_ENTRY = path.join(app.getAppPath(), 'packages', 'reactui', 'dist', 'index.html');
 const PRELOAD_SCRIPT_PATH = path.resolve(__dirname, '..', 'preload/preload.js')
 
 export class Constants {

@@ -110,7 +110,7 @@ export const ZernikalosViewer = forwardRef<ZernikalosViewerRef, ZernikalosViewer
 
     // Early returns for error states
     if (error) {
-        return <ErrorState error={error} width={width} height={height} className={className} />;
+        return <ErrorState error={error.message} width={width} height={height} className={className} />;
     }
 
     if (!sceneData) {
