@@ -1,7 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger, Optional } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import {merge} from 'lodash';
+import {merge, isEmpty} from 'lodash';
 
 export interface AppSettings {
     windowSize?: {
@@ -14,17 +15,19 @@ export interface AppSettings {
 @Injectable()
 export class SettingsRepository {
     private readonly logger = new Logger(SettingsRepository.name);
-    private readonly settingsFilePath: string;
     private settings: AppSettings = {};
 
-    constructor(settingsPath: string) {
-        this.settingsFilePath = path.join(settingsPath, 'app-settings.json');
-        this.logger.log(`Settings file path: ${this.settingsFilePath}`);
+    constructor(
+        private readonly configService: ConfigService
+    ) {
+
     }
 
     async loadSettings(): Promise<AppSettings> {
+        const settingsPath = this.configService.get<string>('settingsPath');
+        this.logger.log(`Settings file path: ${settingsPath}`);
         try {
-            const data = await fs.readFile(this.settingsFilePath, 'utf-8');
+            const data = await fs.readFile(settingsPath, 'utf-8');
             this.settings = JSON.parse(data);
             this.logger.log('Settings loaded successfully');
         } catch (error) {
@@ -35,13 +38,14 @@ export class SettingsRepository {
     }
 
     async saveSettings(settings: AppSettings): Promise<void> {
+        const settingsPath = this.configService.get<string>('settingsPath');
         try {
             // Ensure directory exists
-            const dir = path.dirname(this.settingsFilePath);
-            await fs.mkdir(dir, { recursive: true });
+            // const dir = path.dirname(settingsPath);
+            // await fs.mkdir(dir, { recursive: true });
             
             // Save settings
-            await fs.writeFile(this.settingsFilePath, JSON.stringify(settings, null, 2));
+            await fs.writeFile(settingsPath, JSON.stringify(settings, null, 2));
             this.settings = settings;
         } catch (error) {
             this.logger.error('Failed to save settings', error);
@@ -50,7 +54,7 @@ export class SettingsRepository {
     }
 
     async getSettings(): Promise<AppSettings> {
-        if (Object.keys(this.settings).length === 0) {
+        if (isEmpty(this.settings)) {
             await this.loadSettings();
         }
         return this.settings;

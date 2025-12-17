@@ -6,7 +6,7 @@ export default defineConfig({
     build: {
         outDir: 'dist/preload',
         lib: {
-            entry: resolve(__dirname, 'electronapp/preload.ts'),
+            entry: resolve(__dirname, 'src/preload.ts'),
             formats: ['cjs'],
             fileName: () => 'preload.js'
         },

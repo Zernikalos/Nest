@@ -174,6 +174,7 @@ export const useZernikalosInitialization = ({
         getCurrentZko: () => refs.current.zko,
         getCurrentZernikalos: () => refs.current.zernikalos,
         // Utility functions
-        loadZkoScene
+        loadZkoScene,
+        setupScene
     };
 };

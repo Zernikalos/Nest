@@ -1,0 +1,10 @@
+{
+  "version": "0.1.0",
+  "npmClient": "pnpm",
+  "command": {
+    "exec": {
+      "stream": true
+    }
+  }
+}
+

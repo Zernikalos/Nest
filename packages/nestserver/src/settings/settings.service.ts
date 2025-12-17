@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { SettingsRepository, AppSettings } from './settings.repository';
 import * as _ from "lodash";
 

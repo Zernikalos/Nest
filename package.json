@@ -2,70 +2,55 @@
   "name": "zernikalos-nest",
   "version": "0.1.0",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
-  "main": "dist/main/index.js",
+  "description": "Desktop editor for asset management and debugging of Zernikalos Engine",
+  "main": "packages/electronapp/dist/main/index.js",
   "license": "MPL-2.0",
   "scripts": {
     "commit": "git-cz",
-    "start": "electron-forge start --enable-logging",
-
-    "premake": "rimraf out",
-    "make": "DEBUG=electron-packager electron-forge make --verbose",
 
     "dev": "npm run dev:ui & npm run dev:main",
-    "dev:main": "DEBUG=true electron dist/main/index.js",
-    "dev:ui": "vite -c vite.renderer.config.mjs --force",
+    "dev:main": "lerna run dev --scope=electronapp",
+    "dev:ui": "lerna run dev --scope=reactui",
 
-    "build": "npm run build:server && npm run build:main && npm run build:preload && npm run build:ui",
-    "build:ui": "vite build -c vite.renderer.config.mjs",
-    "build:preload": "vite build -c vite.preload.config.js",
-    "build:server": "nest build",
-    "build:main": "webpack -c webpack.main.config.js",
+    "build": "lerna run build",
+    "build:ui": "lerna run build --scope=reactui",
+    "build:server": "lerna run build --scope=nestserver",
+    "build:electron": "lerna run build --scope=electronapp",
 
-    "checkbuild:server": "START_SERVER=true node dist/server/main.js",
+    "predist": "rimraf out",
+    "dist": "node scripts/build-electron.js",
+    "dist:mac": "node scripts/build-electron.js mac",
+    "dist:win": "node scripts/build-electron.js win",
+    "dist:linux": "node scripts/build-electron.js linux",
+    "dist:all": "node scripts/build-electron.js all",
+    "pack": "node scripts/build-electron.js --dir",
 
     "lint": "eslint ./engine/**/src/**/*.ts",
-    "clean:packages": "pnpm -r exec rimraf node_modules dist",
+    "lint:packages": "lerna run lint",
+    "test:packages": "lerna run test",
+    "clean:packages": "lerna exec -- rimraf node_modules dist",
     "clean": "pnpm clean:packages && rimraf node_modules dist out"
   },
   "dependencies": {
-    "@nestjs/common": "11.1.8",
-    "@nestjs/core": "11.1.8",
-    "@nestjs/platform-express": "11.1.8",
-    "@nestjs/websockets": "11.1.8",
-    "@nestjs/platform-ws": "11.1.8",
-    "@nestjs/typeorm": "11.0.0",
-    "@nestjs/config": "4.0.2",
-    "@nestjs/mapped-types": "2.1.0",
-    "path-to-regexp": "8.3.0",
-    "ws": "8.18.3",
+    "nestserver": "workspace:*",
     "rxjs": "7.8.2",
     "crc-32": "1.2.2",
-    "class-validator": "0.14.2",
-    "class-transformer": "0.5.1",
     "strip-ansi": "7.1.2",
     "lodash": "4.17.21",
     "events": "3.3.0",
     "reflect-metadata": "0.2.2",
-    "typeorm": "0.3.26",
     "sqlite3": "5.1.7"
   },
   "devDependencies": {
+    "lerna": "9.0.3",
+
     "@eslint/js": "9.39.1",
     "@types/express": "5.0.5",
     "@types/jest": "30.0.0",
     "@types/lodash": "4.17.20",
     "@types/node": "24.10.1",
 
-    "@nestjs/cli": "11.0.10",
-    "@nestjs/schematics": "11.0.9",
-    "@nestjs/testing": "11.1.8",
-
-    "electron": "39.1.2",
-    "@electron-forge/cli": "7.10.2",
-    "@electron-forge/maker-dmg": "7.10.2",
-    "@electron-forge/plugin-webpack": "7.10.2",
-    "@electron-forge/plugin-vite": "7.10.2",
-    "@electron-forge/maker-zip": "7.10.2",
+    "electron-builder": "26.0.12",
 
     "babel-loader": "10.0.0",
     "eslint": "9.39.1",
@@ -98,8 +83,7 @@
       "packages/*"
     ],
     "nohoist": [
-      "**@electron/**",
-      "**@electron-forge/**"
+      "**@electron/**"
     ]
   },
   "engines": {

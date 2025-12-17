@@ -1,5 +1,7 @@
 packages:
   - 'packages/reactui'
+  - 'packages/nestserver'
+  - 'packages/electronapp'
 
 neverBuiltDependencies: []
 

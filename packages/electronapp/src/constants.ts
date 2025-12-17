@@ -3,7 +3,7 @@ import {app, nativeImage} from "electron";
 import path from "path";
 
 const DEV_FRONTEND_URL = "http://localhost:5173"
-const MAIN_WINDOW_ENTRY = path.join(__dirname, '..', `renderer/index.html`)
+const MAIN_WINDOW_ENTRY = path.join(app.getAppPath(), 'packages', 'reactui', 'dist', 'index.html');
 const PRELOAD_SCRIPT_PATH = path.resolve(__dirname, '..', 'preload/preload.js')
 
 export class Constants {
@@ -29,6 +29,10 @@ export class Constants {
 
     public static get userDataPath(): string {
         return app.getPath('userData')
+    }
+
+    public static get userSettingsPath(): string {
+        return path.join(Constants.userDataPath, 'nest', 'settings.json')
     }
 
     public static get nestDbPath(): string {
