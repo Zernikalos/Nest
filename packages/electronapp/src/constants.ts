@@ -32,7 +32,7 @@ export class Constants {
     }
 
     public static get userSettingsPath(): string {
-        return path.join(Constants.userDataPath, 'settings.json')
+        return path.join(Constants.userDataPath, 'nest', 'settings.json')
     }
 
     public static get nestDbPath(): string {

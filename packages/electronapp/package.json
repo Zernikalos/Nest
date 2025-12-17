@@ -5,12 +5,8 @@
   "main": "dist/index.js",
   "license": "MPL-2.0",
   "scripts": {
-    "start": "electron-forge start --enable-logging",
-    "premake": "rimraf out",
-    "make": "DEBUG=electron-packager electron-forge make --verbose",
     "dev": "DEBUG=true electron dist/main/index.js",
     "build": "pnpm build:main && pnpm build:preload",
-    "postbuild": "cpy './dist/**/*' '../../dist/'",
     "build:main": "webpack -c webpack.config.js",
     "build:preload": "vite build -c vite.preload.config.js",
     "clean": "rimraf node_modules dist out"
@@ -30,11 +26,6 @@
     "@types/node": "24.10.1",
 
     "electron": "39.1.2",
-    "@electron-forge/cli": "7.10.2",
-    "@electron-forge/maker-dmg": "7.10.2",
-    "@electron-forge/plugin-webpack": "7.10.2",
-    "@electron-forge/plugin-vite": "7.10.2",
-    "@electron-forge/maker-zip": "7.10.2",
 
     "babel-loader": "10.0.0",
     "rimraf": "6.0.1",
@@ -45,7 +36,6 @@
     "webpack-cli": "6.0.1",
     "webpack-dev-server": "5.2.2",
 
-    "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
     "chokidar": "4.0.3",
 

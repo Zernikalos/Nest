@@ -9,7 +9,7 @@ Desktop application for asset management and debugging of Zernikalos Engine.
 - TypeScript 5.7.3
 - Pinia 3.0.0
 - Webpack 5.97.1
-- Electron (with electron-forge 7.6.1)
+- Electron (with electron-builder)
 
 ## Prerequisites
 - Node.js

@@ -38,8 +38,6 @@
     "sqlite3": "5.1.7"
   },
   "devDependencies": {
-    "@swc/cli": "0.7.9",
-    "@swc/core": "1.15.3",
     "@nestjs/cli": "11.0.10",
     "@nestjs/schematics": "11.0.9",
     "@nestjs/testing": "11.1.8",

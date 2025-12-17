@@ -7,16 +7,10 @@
   "license": "MPL-2.0",
   "scripts": {
     "commit": "git-cz",
-    "start": "electron-forge start --enable-logging",
-
-    "premake": "rimraf out",
-    "make": "DEBUG=electron-packager electron-forge make --verbose",
-
-    "test:out": "electron dist/main/index.js",
 
     "dev": "npm run dev:ui & npm run dev:main",
-    "dev:main": "DEBUG=true electron dist/main/index.js",
-    "dev:ui": "vite -c vite.renderer.config.mjs --force",
+    "dev:main": "lerna run dev --scope=electronapp",
+    "dev:ui": "lerna run dev --scope=reactui",
 
     "build": "lerna run build",
     "build:ui": "lerna run build --scope=reactui",
@@ -30,8 +24,6 @@
     "dist:linux": "node scripts/build-electron.js linux",
     "dist:all": "node scripts/build-electron.js all",
     "pack": "node scripts/build-electron.js --dir",
-
-    "checkbuild:server": "START_SERVER=true node dist/server/main.js",
 
     "lint": "eslint ./engine/**/src/**/*.ts",
     "lint:packages": "lerna run lint",
@@ -58,17 +50,7 @@
     "@types/lodash": "4.17.20",
     "@types/node": "24.10.1",
 
-    "@nestjs/cli": "11.0.10",
-    "@nestjs/schematics": "11.0.9",
-    "@nestjs/testing": "11.1.8",
-
     "electron-builder": "26.0.12",
-
-    "@electron-forge/cli": "7.10.2",
-    "@electron-forge/maker-dmg": "7.10.2",
-    "@electron-forge/plugin-webpack": "7.10.2",
-    "@electron-forge/plugin-vite": "7.10.2",
-    "@electron-forge/maker-zip": "7.10.2",
 
     "babel-loader": "10.0.0",
     "eslint": "9.39.1",
@@ -101,8 +83,7 @@
       "packages/*"
     ],
     "nohoist": [
-      "**@electron/**",
-      "**@electron-forge/**"
+      "**@electron/**"
     ]
   },
   "engines": {

@@ -3,7 +3,7 @@
 const builder = require("electron-builder");
 const Platform = builder.Platform;
 
-// Detectar si es modo debug desde variables de entorno
+// Detect if debug mode from environment variables
 const isDebug = process.env.DEBUG === "true" || process.env.NODE_ENV === "development";
 
 /**
@@ -15,7 +15,7 @@ const options = {
     productName: "Zernikalos Nest",
     copyright: "Copyright © 2025 Aarón Negrín",
     
-    // Configuración de compresión
+    // Compression configuration
     compression: isDebug ? "store" : "normal",
     removePackageScripts: true,
 
@@ -39,7 +39,6 @@ const options = {
         "!**/docs",
         "!**/samples",
         "!**/.gitignore",
-        "!**/forge.config.js",
         "!**/nest-cli.json",
         "!**/pnpm-lock.yaml",
         "!**/pnpm-workspace.yaml",
@@ -54,7 +53,7 @@ const options = {
 
     asar: false,
 
-    // Configuración para macOS (basada en forge.config.js)
+    // macOS configuration
     mac: {
         category: "public.app-category.developer-tools",
         icon: "packages/electronapp/assets/icons/zklogo.icns",
@@ -70,7 +69,7 @@ const options = {
         title: "Zernikalos Nest"
     },
 
-    // Configuración para Linux (basada en forge.config.js)
+    // Linux configuration
     linux: {
         target: [
             {
@@ -82,7 +81,7 @@ const options = {
         category: "Development"
     },
 
-    // Configuración para Windows
+    // Windows configuration
     win: {
         target: [
             {
@@ -98,7 +97,7 @@ const options = {
         perMachine: true
     },
 
-    // Asociación de archivos .zko (basada en forge.config.js)
+    // .zko file associations
     fileAssociations: [
         {
             ext: "zko",
@@ -109,7 +108,7 @@ const options = {
     ]
 };
 
-// Función para construir
+// Build function
 async function build() {
     const platformArg = process.argv.find(arg => 
         arg === "mac" || arg === "darwin" || 
@@ -123,7 +122,7 @@ async function build() {
     let config = { ...options };
 
     if (isDirOnly) {
-        // Solo empaquetar sin crear instaladores
+        // Package only without creating installers
         config.directories.output = "out";
     }
 
@@ -149,7 +148,7 @@ async function build() {
                 break;
         }
     } else {
-        // Por defecto, construir para la plataforma actual
+        // By default, build for current platform
         targets = Platform.current().createTarget();
     }
 
@@ -174,7 +173,7 @@ async function build() {
     }
 }
 
-// Ejecutar si se llama directamente
+// Execute if called directly
 if (require.main === module) {
     build();
 }
