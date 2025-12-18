@@ -39,6 +39,7 @@ export function useAssetToZko() {
             console.log('✅ Asset converted to ZKO successfully')
             
             // Step 3: Save asset to project if project is open
+            // Note: addAssetToProject now uses React Query mutation internally
             if (isProjectOpen) {
                 try {
                     await addAssetToProject({
@@ -46,6 +47,7 @@ export function useAssetToZko() {
                         fileName: data.fileName,
                         format: data.format,
                     })
+                    console.log('✅ Asset saved to project')
                 } catch (assetError) {
                     console.warn('Failed to save asset to project:', assetError)
                     // Don't fail the conversion if saving asset fails

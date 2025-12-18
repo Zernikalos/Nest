@@ -10,6 +10,7 @@ import {loadZkoDialog} from "./dialogs/loadZkoDialog"
 import _ from "lodash";
 import {SettingsService} from "./nestServerAdapter"
 import {createProjectDialog} from "./dialogs/createProjectDialog"
+import {openProjectDialog} from "./dialogs/openProjectDialog"
 
 export class MainWindow {
     private mainWindow!: BrowserWindow
@@ -85,6 +86,17 @@ export class MainWindow {
             this.sendToRenderer(RendererMenuEvents.CREATE_PROJECT)
         })
 
+        ipcMain.on(MenuEvents.OPEN_PROJECT, async () => {
+            const pathInfo = await openProjectDialog(this.mainWindow);
+            
+            if (_.isNil(pathInfo)) {
+                return;
+            }
+            this.sendToRenderer(RendererMenuEvents.OPEN_PROJECT, {
+                filePath: pathInfo.filePath
+            });
+        })
+
         ipcMain.handle(NestEvents.SAVE_FILE, async (ev, fileData: Uint8Array) => {
             const pathInfo = await bundleSceneDialog(this.mainWindow)
             if (_.isNil(pathInfo)) {
@@ -100,6 +112,11 @@ export class MainWindow {
         ipcMain.handle(NestEvents.SHOW_SAVE_PROJECT_DIALOG, async (ev, projectName: string) => {
             const pathInfo = await createProjectDialog(this.mainWindow, projectName)
             return pathInfo?.filePath || null
+        })
+
+        ipcMain.handle(NestEvents.SHOW_OPEN_PROJECT_DIALOG, async () => {
+            const pathInfo = await openProjectDialog(this.mainWindow);
+            return pathInfo?.filePath || null;
         })
 
         ipcMain.handle("userSettings:get", async (event, key: any) => {

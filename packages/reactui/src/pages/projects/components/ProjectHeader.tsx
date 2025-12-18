@@ -3,10 +3,12 @@ import { IoAdd, IoFolderOpen } from 'react-icons/io5';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo/Logo';
 import { useCreateProject } from '@/hooks/useCreateProject';
+import { useOpenProject } from '@/hooks/useOpenProject';
 import { CreateProjectDialog } from './CreateProjectDialog';
 
 export const ProjectHeader: React.FC = () => {
     const { isDialogOpen, setIsDialogOpen, isCreating, error, handleCreate } = useCreateProject();
+    const { handleOpen } = useOpenProject();
     return (
         <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-6">
@@ -33,6 +35,7 @@ export const ProjectHeader: React.FC = () => {
                     size="lg" 
                     variant="outline"
                     className="px-6 py-2 text-base font-medium"
+                    onClick={handleOpen}
                 >
                     <IoFolderOpen className="w-4 h-4 mr-2" />
                     Open Project

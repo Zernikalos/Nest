@@ -21,7 +21,7 @@ export function useCreateProject() {
                 return
             }
             
-            // Create project
+            // Create project (now uses React Query mutation internally)
             await createProject(projectName, filePath)
             
             // Close dialog and navigate

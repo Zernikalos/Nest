@@ -4,13 +4,10 @@ import { AppearanceProvider, ElectronProvider } from './providers';
 import { KeepAliveRouterProvider } from './keepaliverouter';
 import { appRoutes } from './router';
 import { MainLayout } from './layouts/MainLayout';
-import { useElectronProjectIntegration } from './hooks/useElectronProjectIntegration';
 
 const queryClient = new QueryClient();
 
 function AppContent() {
-    useElectronProjectIntegration()
-    
     return (
         <KeepAliveRouterProvider 
             routes={appRoutes} 

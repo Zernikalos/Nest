@@ -2,17 +2,21 @@ import { useEffect } from 'react'
 import { useElectronEvents } from '@/providers/Electron'
 import { useAssetToZko } from './useAssetToZko'
 import { useBundleScene } from './useBundleScene'
+import { useProject } from './useProject'
 import { useProjectUIStore } from '@/stores/useProjectUIStore'
 import { useZkoStore } from '@/stores/useZkoStore'
+import { useNavigate } from '@/keepaliverouter'
 
 /**
  * Hook that integrates Electron events with project management hooks.
- * Should be called once at the app root level.
+ * Should be called once at the app root level, but after KeepAliveRouterProvider.
  */
 export function useElectronProjectIntegration() {
-    const { onImportFile, offImportFile, isElectron, onBundleScene, onCreateProject, offCreateProject } = useElectronEvents()
+    const { onImportFile, offImportFile, isElectron, onBundleScene, onCreateProject, offCreateProject, onOpenProject, offOpenProject } = useElectronEvents()
     const { convertAssetToZko } = useAssetToZko()
     const { saveBundle } = useBundleScene()
+    const { openProject } = useProject()
+    const navigate = useNavigate()
     const { setIsCreateDialogOpen } = useProjectUIStore()
     const { setError } = useZkoStore()
     
@@ -51,5 +55,27 @@ export function useElectronProjectIntegration() {
             }
         }
     }, [isElectron, onCreateProject, offCreateProject, setIsCreateDialogOpen])
+
+    // Open project listener
+    useEffect(() => {
+        if (isElectron) {
+            const handler = (data: { filePath: string }) => {
+                try {
+                    // Open project (now just sets the path, React Query will fetch)
+                    openProject(data.filePath)
+                    
+                    // Navigate to projects page (which will show ProjectEditView if project is open)
+                    navigate("/projects")
+                } catch (error) {
+                    console.error('Failed to open project:', error)
+                    // TODO: Show error notification
+                }
+            }
+            onOpenProject(handler)
+            return () => {
+                offOpenProject()
+            }
+        }
+    }, [isElectron, onOpenProject, offOpenProject, openProject, navigate])
 }
 

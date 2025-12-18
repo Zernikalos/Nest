@@ -5,8 +5,10 @@ declare global {
             handleShowImport: (callback: (ev: any, data: any) => void) => ElectronSubscription
             handleBundleScene: (callback: (ev: any, data: any) => void) => ElectronSubscription
             handleCreateProject: (callback: (ev: any) => void) => ElectronSubscription
+            handleOpenProject: (callback: (ev: any, data: any) => void) => ElectronSubscription
             actionSaveFile: (fileData: Uint8Array) => void
             showSaveProjectDialog: (projectName: string) => Promise<string | null>
+            showOpenProjectDialog: () => Promise<string | null>
         }
         userSettings?: {
             get: (key: string) => Promise<any>

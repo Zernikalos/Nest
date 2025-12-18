@@ -1,7 +1,11 @@
 import { KeepAliveOutlet } from '@/keepaliverouter';
 import { Sidebar } from '@/components/sidebar/Sidebar';
+import { useElectronProjectIntegration } from '@/hooks/useElectronProjectIntegration';
 
 export function MainLayout() {
+    // Initialize Electron integration here, after KeepAliveRouterProvider is available
+    useElectronProjectIntegration()
+    
     return (
         <div className="h-screen">
             <div className="grid h-screen">

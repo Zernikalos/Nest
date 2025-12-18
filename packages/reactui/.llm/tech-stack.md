@@ -34,11 +34,18 @@ This document outlines the technical stack of the React UI project. It is specif
 
 ## Data Fetching & State Management
 
-- **Library**: TanStack Query (React Query) v5
-- **Configuration**:
-    - A `QueryClient` is instantiated in `src/main.tsx`.
-    - The application is wrapped with `<QueryClientProvider>` in `src/main.tsx`.
-    - This library is used for server state management, caching, and background data fetching.
+- **Server State**: TanStack Query (React Query) v5
+    - **Configuration**:
+        - A `QueryClient` is instantiated in `src/main.tsx`.
+        - The application is wrapped with `<QueryClientProvider>` in `src/main.tsx`.
+        - Used for server state management (ProjectMetadata, AppSettings), caching, and background data fetching.
+        - Queries and mutations are organized in `src/queries/` directory.
+- **Local State**: Zustand
+    - Used for local/client state only (project file paths, UI state, ZKO conversion state).
+    - Stores are organized in `src/stores/` directory.
+    - Stores contain only state and simple setters, no business logic.
+
+**Hybrid Approach**: The application uses both Zustand (local) and React Query (server) for optimal state management.
 
 ## Icons
 

@@ -1,6 +1,6 @@
 import { createContext, useEffect } from "react"
 import { type Font } from "../../types/font"
-import { useSettingsQuery, useUpdateSettingsMutation } from "../../hooks/useSettingsApi"
+import { useSettingsQuery, useUpdateSettingsMutation } from "@/queries"
 
 type FontProviderProps = {
   children: React.ReactNode

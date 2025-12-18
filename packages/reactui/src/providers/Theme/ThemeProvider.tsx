@@ -1,6 +1,6 @@
 import { createContext, useEffect } from "react"
 import { themes, type Theme, isDarkTheme } from "../../lib/themes"
-import { useSettingsQuery, useUpdateSettingsMutation } from "../../hooks/useSettingsApi"
+import { useSettingsQuery, useUpdateSettingsMutation } from "@/queries"
 
 type ThemeProviderProps = {
   children: React.ReactNode

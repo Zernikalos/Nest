@@ -6,7 +6,7 @@ import { useProject } from '@/hooks/useProject';
 import { ProjectAssetsList } from './ProjectAssetsList';
 
 export const ProjectEditView: React.FC = () => {
-    const { projectMetadata, projectFilePath } = useProject();
+    const { projectMetadata, projectFilePath, isLoading, error } = useProject();
     const [projectName, setProjectName] = useState(projectMetadata?.name || '');
 
     useEffect(() => {
@@ -19,6 +19,26 @@ export const ProjectEditView: React.FC = () => {
         setProjectName(e.target.value);
         // TODO: Implementar guardado del nombre del proyecto
     };
+
+    if (isLoading) {
+        return (
+            <div className="h-full overflow-auto bg-base-100 flex items-center justify-center">
+                <div className="text-center">
+                    <p className="text-muted-foreground">Loading project...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="h-full overflow-auto bg-base-100 flex items-center justify-center">
+                <div className="text-center">
+                    <p className="text-error">Error loading project: {error instanceof Error ? error.message : 'Unknown error'}</p>
+                </div>
+            </div>
+        );
+    }
 
     if (!projectMetadata) {
         return null;

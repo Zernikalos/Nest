@@ -4,21 +4,24 @@ This directory contains documentation for Zustand stores used in Zernikalos Stud
 
 ## Architecture Principle
 
-**Stores contain ONLY state (data), no business logic.**
+**Stores contain ONLY local/client state (data), no business logic.**
 
 All business logic has been moved to custom hooks. Stores provide:
-- State definition
+- Local state definition (client-side state only)
 - Simple setters
 - No complex operations
 - No side effects
+
+**Note**: Server state (like `ProjectMetadata`) is managed by React Query, not Zustand stores. See `/queries/` for server state management.
 
 ## Current Stores
 
 ### Core Stores
 
-1. **[useProjectStore](./useProjectStore.md)** - Project state management
-   - `projectId`, `projectFilePath`, `projectMetadata`
-   - Simple setters: `setProject`, `clearProject`
+1. **[useProjectStore](./useProjectStore.md)** - Project file path (local state only)
+   - `projectFilePath` (local state only)
+   - Simple setters: `setProjectPath`, `clearProjectPath`
+   - **Note**: Project metadata is managed by React Query (see `/queries/projects.ts`)
 
 2. **[useZkoStore](./useZkoStore.md)** - Current ZKO state
    - `isConverting`, `conversionError`, `zkResult`
@@ -36,11 +39,12 @@ All business logic has been moved to custom hooks. Stores provide:
 ## Usage Pattern
 
 ```typescript
-// In hooks (business logic)
-const { zkResult, setZkResult } = useZkoStore()
+// In hooks (business logic) - combine local + server state
+const { projectFilePath, setProjectPath } = useProjectStore()  // Local state
+const { data: projectMetadata } = useProjectQuery(projectFilePath)  // Server state (React Query)
 
 // In components (via hooks)
-const { zkResult, convertAssetToZko } = useAssetToZko()
+const { projectMetadata, projectFilePath } = useProject()
 ```
 
 ## Best Practices

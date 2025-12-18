@@ -1,72 +1,70 @@
 # useProjectStore
 
 ## Overview
-The `useProjectStore` is a Zustand store that manages the state of the currently open project. It stores project identification, file path, and metadata.
+The `useProjectStore` is a Zustand store that manages **local state only** - specifically the file path of the currently open project. Project metadata (from the server) is managed by React Query, not this store.
 
 ## Purpose
-- **Project State**: Maintains the current project information
-- **Project Identification**: Stores project ID and file path
-- **Metadata Storage**: Stores project metadata from `.zkproj` file
+- **Local State Only**: Stores only the project file path
+- **Project File Path**: Tracks which project file is currently open
+- **No Server State**: Project metadata is managed by React Query (see `/queries/`)
 
 ## Architecture
 ```
-Zustand Store → State Only → Hooks → Components
+Zustand Store (Local State) → Hooks → React Query (Server State) → Components
 ```
 
 ## State Structure
 ```typescript
 interface ProjectState {
-    projectId: string | null
-    projectFilePath: string | null
-    projectMetadata: ProjectMetadata | null
+    projectFilePath: string | null  // Only local state
 }
 
 interface ProjectActions {
-    setProject: (id: string, filePath: string, metadata: ProjectMetadata) => void
-    clearProject: () => void
+    setProjectPath: (filePath: string) => void
+    clearProjectPath: () => void
 }
 ```
 
 ## Key Actions
 
-### `setProject(id, filePath, metadata)`
-- Sets the current project information
-- Updates all project-related state at once
+### `setProjectPath(filePath: string)`
+- Sets the current project file path
 - Used when opening or creating a project
+- React Query automatically fetches metadata when path changes
 
-### `clearProject()`
-- Resets all project state to null
-- Clears project identification and metadata
+### `clearProjectPath()`
+- Resets project file path to null
 - Used when closing a project
+- React Query cache remains but query is disabled
 
 ## Usage
 
 ### In Hooks (Business Logic)
 ```typescript
 import { useProjectStore } from '@/stores/useProjectStore'
+import { useProjectQuery } from '@/queries'
 
-// In useProject hook
-const { projectId, projectFilePath, projectMetadata, setProject, clearProject } = useProjectStore()
+// In useProject hook - combines local + server state
+const { projectFilePath, setProjectPath } = useProjectStore()  // Local state
+const { data: projectMetadata } = useProjectQuery(projectFilePath)  // Server state
 ```
 
 ### In Components (via Hooks)
 ```typescript
 // Components should use hooks, not stores directly
-const { projectId, isProjectOpen, projectMetadata } = useProject()
+const { projectFilePath, projectMetadata, isProjectOpen } = useProject()
 ```
 
-## Related Hooks
+## Related Files
 
-- `useProject` - Project management logic (uses this store)
-- `useCreateProject` - Project creation (uses `useProject`)
-
-## Related Types
-
-- `ProjectMetadata` - Project metadata from `.zkproj` file
+- `useProject` hook - Combines Zustand (local) + React Query (server)
+- `queries/projects.ts` - React Query queries/mutations for project metadata
 
 ## Important Notes
 
-- **State Only**: This store contains only state, no business logic
+- **Local State Only**: This store contains only local state (file path), not server state
+- **Server State**: Project metadata is managed by React Query (see `/queries/projects.ts`)
 - **No React Hooks**: Store functions are pure and don't use React hooks
-- **State Persistence**: State persists across component unmounts
+- **State Persistence**: Local state persists across component unmounts
+- **Automatic Fetching**: When `projectFilePath` changes, React Query automatically fetches metadata
 
