@@ -22,3 +22,4 @@ export const RecentProjects: React.FC = () => {
         </div>
     );
 };
+

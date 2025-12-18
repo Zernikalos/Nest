@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
-
-import {EditorView} from '@/pages/editor/EditorView';
-import { NewProject } from '@/pages/editor/NewProject';
+import React, { useEffect } from 'react';
+import { useNavigate } from '@/keepaliverouter';
+import { useZkProject } from '@/providers/ZkProject/useZkProject';
+import { EditorView } from '@/pages/editor/EditorView';
 
 export const EditorPage: React.FC = () => {
-    const [projectActive, setProjectActive] = useState(false);
+    const navigate = useNavigate();
+    const { zkResult } = useZkProject();
 
-    const handleNewProject = () => {
-        setProjectActive(true);
-    };
+    useEffect(() => {
+        if (!zkResult) {
+            navigate('/projects');
+        }
+    }, [zkResult, navigate]);
 
-    return (
-        <>
-            {projectActive ? (
-                <EditorView />
-            ) : (
-                <NewProject onNewProject={handleNewProject} />
-            )}
-        </>
-    );
+    if (!zkResult) {
+        return null;
+    }
+
+    return <EditorView />;
 };

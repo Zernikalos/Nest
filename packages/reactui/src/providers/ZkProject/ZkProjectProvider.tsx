@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import { useElectronEvents } from '@/providers/Electron'
-import { useZkProjectStore } from '@/stores'
+import { useZkProjectStore, useProjectCreationStore } from '@/stores'
 
 export function ZkProjectProvider({ children }: { children: React.ReactNode }) {
-    const { onImportFile, offImportFile, isElectron, onBundleScene } = useElectronEvents()
+    const { onImportFile, offImportFile, isElectron, onBundleScene, onCreateProject, offCreateProject } = useElectronEvents()
     const { handleFileImport, setError, handleBundleScene } = useZkProjectStore()
+    const { setIsDialogOpen } = useProjectCreationStore()
     
     // Setup Electron event listener with cleanup
     useEffect(() => {
@@ -27,6 +28,17 @@ export function ZkProjectProvider({ children }: { children: React.ReactNode }) {
             onBundleScene(handleBundleScene)
         }
     }, [isElectron, onBundleScene, handleBundleScene])
+
+    useEffect(() => {
+        if (isElectron) {
+            onCreateProject(() => {
+                setIsDialogOpen(true)
+            })
+            return () => {
+                offCreateProject()
+            }
+        }
+    }, [isElectron, onCreateProject, offCreateProject, setIsDialogOpen])
     
     return <>{children}</>
 }

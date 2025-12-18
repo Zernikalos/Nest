@@ -7,6 +7,13 @@ export const fileMenu = new MenuItem({
     label: 'File',
     submenu: [
         {
+            label: "New Project...",
+            click: () => {
+                ipcMain.emit(MenuEvents.CREATE_PROJECT)
+            }
+        },
+        {type: "separator"},
+        {
             label: "Load Zko file",
             click: () => {
                 ipcMain.emit(MenuEvents.LOAD_ZKO)

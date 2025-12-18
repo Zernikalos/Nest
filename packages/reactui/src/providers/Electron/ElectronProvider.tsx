@@ -5,9 +5,11 @@ interface ElectronProviderState {
     onLoadZko: (callback: (data: any) => void) => void
     onImportFile: (callback: (data: any) => void) => void
     onBundleScene: (callback: (data: any) => void) => void
+    onCreateProject: (callback: () => void) => void
     offLoadZko: () => void
     offImportFile: () => void
     offBundleScene: () => void
+    offCreateProject: () => void
     isElectron: boolean
 }
 
@@ -15,9 +17,11 @@ const initialState: ElectronProviderState = {
     onLoadZko: () => null,
     onImportFile: () => null,
     onBundleScene: () => null,
+    onCreateProject: () => null,
     offLoadZko: () => null,
     offImportFile: () => null,
     offBundleScene: () => null,
+    offCreateProject: () => null,
     isElectron: false
 }
 
@@ -88,22 +92,45 @@ export function ElectronProvider({ children, ...props }: { children: ReactNode }
         console.log("🔄 ElectronProvider - Removed BundleScene callback")
     }, [])
 
+    const onCreateProject = useCallback((callback: () => void) => {
+        if (isElectron && !subscriptions.current.has('createProject')) {
+            console.log("🔄 ElectronProvider - Registering CreateProject callback")
+            const subscription = window.NativeZernikalos?.handleCreateProject?.((ev: any) => {
+                console.log("📁 CreateProject callback triggered", { ev })
+                callback()
+            })
+            if (subscription) {
+                subscriptions.current.set('createProject', subscription)
+            }
+        }
+    }, [])
+
+    const offCreateProject = useCallback(() => {
+        const subscription = subscriptions.current.get('createProject')
+        subscription?.off()
+        subscriptions.current.delete('createProject')
+        console.log("🔄 ElectronProvider - Removed CreateProject callback")
+    }, [])
+
     // Cleanup cuando se desmonta el provider
     useEffect(() => {
         return () => {
             offLoadZko()
             offImportFile()
             offBundleScene()
+            offCreateProject()
         }
-    }, [offLoadZko, offImportFile, offBundleScene])
+    }, [offLoadZko, offImportFile, offBundleScene, offCreateProject])
 
     const value: ElectronProviderState = {
         onLoadZko,
         onImportFile,
         onBundleScene,
+        onCreateProject,
         offLoadZko,
         offImportFile,
         offBundleScene,
+        offCreateProject,
         isElectron
     }
 

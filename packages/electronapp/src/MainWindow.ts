@@ -9,6 +9,7 @@ import {Constants} from "./constants"
 import {loadZkoDialog} from "./dialogs/loadZkoDialog"
 import _ from "lodash";
 import {SettingsService} from "./nestServerAdapter"
+import {createProjectDialog} from "./dialogs/createProjectDialog"
 
 export class MainWindow {
     private mainWindow!: BrowserWindow
@@ -80,6 +81,10 @@ export class MainWindow {
             this.sendToRenderer(RendererMenuEvents.BUNDLE_SCENE)
         })
 
+        ipcMain.on(MenuEvents.CREATE_PROJECT, async () => {
+            this.sendToRenderer(RendererMenuEvents.CREATE_PROJECT)
+        })
+
         ipcMain.handle(NestEvents.SAVE_FILE, async (ev, fileData: Uint8Array) => {
             const pathInfo = await bundleSceneDialog(this.mainWindow)
             if (_.isNil(pathInfo)) {
@@ -90,6 +95,11 @@ export class MainWindow {
             } catch (e) {
                 console.log(`Unable to write file to ${path}. Error: ${e}`)
             }
+        })
+
+        ipcMain.handle(NestEvents.SHOW_SAVE_PROJECT_DIALOG, async (ev, projectName: string) => {
+            const pathInfo = await createProjectDialog(this.mainWindow, projectName)
+            return pathInfo?.filePath || null
         })
 
         ipcMain.handle("userSettings:get", async (event, key: any) => {

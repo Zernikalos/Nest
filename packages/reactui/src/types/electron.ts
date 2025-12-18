@@ -4,7 +4,9 @@ declare global {
             handleLoadZko: (callback: (ev: any, data: any) => void) => ElectronSubscription
             handleShowImport: (callback: (ev: any, data: any) => void) => ElectronSubscription
             handleBundleScene: (callback: (ev: any, data: any) => void) => ElectronSubscription
+            handleCreateProject: (callback: (ev: any) => void) => ElectronSubscription
             actionSaveFile: (fileData: Uint8Array) => void
+            showSaveProjectDialog: (projectName: string) => Promise<string | null>
         }
         userSettings?: {
             get: (key: string) => Promise<any>
