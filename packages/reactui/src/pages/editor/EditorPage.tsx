@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from '@/keepaliverouter';
-import { useZkProject } from '@/providers/ZkProject/useZkProject';
+import { useAssetToZko } from '@/hooks/useAssetToZko';
 import { EditorView } from '@/pages/editor/EditorView';
 
 export const EditorPage: React.FC = () => {
     const navigate = useNavigate();
-    const { zkResult } = useZkProject();
+    const { zkResult } = useAssetToZko();
 
     useEffect(() => {
         if (!zkResult) {

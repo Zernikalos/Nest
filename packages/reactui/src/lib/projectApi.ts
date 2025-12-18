@@ -21,3 +21,21 @@ export async function createProject(name: string, filePath: string): Promise<Pro
     return response.data;
 }
 
+export async function getProjectByPath(filePath: string): Promise<ProjectMetadata> {
+    // TODO: Implement backend endpoint for loading project by path
+    throw new Error("getProjectByPath is not yet implemented")
+}
+
+export interface InputAsset {
+    id: string
+    path: string
+    fileName: string
+    format: "obj" | "gltf" | "fbx" | "collada"
+    importedAt: string
+}
+
+export async function addInputAsset(projectId: string, asset: Omit<InputAsset, 'id' | 'importedAt'>): Promise<ProjectMetadata> {
+    // TODO: Implement backend endpoint for adding input asset to project
+    throw new Error("addInputAsset is not yet implemented")
+}
+

@@ -1,6 +1,7 @@
 import React, { type ReactNode } from 'react';
 import { NestEditorContext } from './NestEditorContext';
-import { useZkProjectStore } from '@/stores';
+import { useZkoStore } from '@/stores/useZkoStore';
+import { useAssetToZko } from '@/hooks/useAssetToZko';
 import { useNestInternalEditorState } from './hooks';
 
 interface NestEditorProviderProps {
@@ -10,15 +11,15 @@ interface NestEditorProviderProps {
 export const NestEditorProvider: React.FC<NestEditorProviderProps> = ({ 
     children
 }) => {
-    const zkResult = useZkProjectStore(state => state.zkResult);
-    const rebuildZkResult = useZkProjectStore(state => state.rebuildZkResult);
+    const zkResult = useZkoStore(state => state.zkResult);
+    const { regenerateZko } = useAssetToZko();
     const root = zkResult?.zko?.root;
     const editorState = useNestInternalEditorState({ root });
 
     const contextValue = {
         ...editorState,
         zkResult,
-        rebuildZkResult,
+        rebuildZkResult: regenerateZko,
     };
 
     return (
