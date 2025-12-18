@@ -23,9 +23,9 @@ This document describes the complete flow of project creation in Zernikalos Stud
 │              │                       │
 │              ▼                       │
 │  ┌───────────────────────────────┐  │
-│  │ ZkProjectProvider             │  │
+│  │ useElectronProjectIntegration │  │
 │  │ onCreateProject() →            │  │
-│  │   setIsDialogOpen(true)       │  │
+│  │   setIsCreateDialogOpen(true) │  │
 │  └───────────┬───────────────────┘  │
 │              │                       │
 │              ▼                       │
@@ -43,8 +43,14 @@ This document describes the complete flow of project creation in Zernikalos Stud
 │              │                       │
 │              ▼                       │
 │  ┌───────────────────────────────┐  │
-│  │ useProjectCreationStore       │  │
-│  │ createProject() action        │  │
+│  │ useProject hook                │  │
+│  │ createProject()                │  │
+│  └───────────┬───────────────────┘  │
+│              │                       │
+│              ▼                       │
+│  ┌───────────────────────────────┐  │
+│  │ useProjectStore                │  │
+│  │ setProject()                   │  │
 │  └───────────┬───────────────────┘  │
 └──────────────┼───────────────────────┘
                │
@@ -80,9 +86,9 @@ This document describes the complete flow of project creation in Zernikalos Stud
 ┌─────────────────────────────────────┐
 │  React UI Layer (continued)          │
 │  ┌───────────────────────────────┐  │
-│  │ useProjectCreationStore       │  │
-│  │ - Receives filePath           │  │
-│  │ - Calls projectApi.create()   │  │
+│  │ useProject hook                │  │
+│  │ - Receives filePath            │  │
+│  │ - Calls projectApi.create()    │  │
 │  └───────────┬───────────────────┘  │
 └──────────────┼───────────────────────┘
                │
@@ -148,8 +154,8 @@ This document describes the complete flow of project creation in Zernikalos Stud
 - User selects "File → New Project..." from Electron menu
 - `MenuEvents.CREATE_PROJECT` is emitted in main process
 - Event is sent to renderer via `RendererMenuEvents.CREATE_PROJECT`
-- `ZkProjectProvider` listens via `onCreateProject()` callback
-- `setIsDialogOpen(true)` is called
+- `useElectronProjectIntegration` listens via `onCreateProject()` callback
+- `setIsCreateDialogOpen(true)` is called
 - `CreateProjectDialog` opens
 
 ### Step 2: User Enters Project Name
@@ -162,15 +168,16 @@ This document describes the complete flow of project creation in Zernikalos Stud
 
 - `CreateProjectDialog` calls `onCreate(projectName)`
 - This triggers `handleCreate()` from `useCreateProject` hook
-- Hook calls `createProjectAction()` from `useProjectCreationStore`
+- Hook calls `useProject.createProject()` which orchestrates the flow
 
-### Step 4: Store Action Execution
+### Step 4: Project Creation Execution
 
-The `createProject` action in the store:
+The `useProject.createProject()` method:
 
-1. **Validates** project name (not empty)
-2. **Sets loading state** (`isCreating: true`)
-3. **Shows Electron dialog** via `window.NativeZernikalos.showSaveProjectDialog(projectName)`
+1. **Shows Electron dialog** via `window.NativeZernikalos.showSaveProjectDialog(projectName)`
+2. **Calls API** via `projectApi.createProject(name, filePath)`
+3. **Updates store** via `useProjectStore.setProject()`
+4. **Handles errors** via `useProjectUIStore.setCreationError()`
 
 ### Step 5: Electron Native Dialog
 
@@ -186,7 +193,7 @@ The `createProject` action in the store:
 
 If user didn't cancel:
 
-- Store receives `filePath` from Electron
+- `useProject` receives `filePath` from Electron
 - Calls `createProject(name, filePath)` from `projectApi`
 - Makes `POST /projects/create` request to NestJS backend
 - Request body: `{ name: string, filePath: string }`
@@ -214,30 +221,40 @@ If user didn't cancel:
 ### Step 8: Success Handling
 
 - API call succeeds
-- Store closes dialog (`setIsDialogOpen(false)`)
-- Store calls `onSuccess()` callback (if provided)
-- `useCreateProject` hook's `onSuccess` navigates to `/editor`
-- Loading state is cleared (`isCreating: false`)
+- `useProject` updates `useProjectStore` with project data
+- `useCreateProject` closes dialog (`setIsCreateDialogOpen(false)`)
+- `useCreateProject` navigates to `/editor`
+- Loading state is cleared (`setCreating(false)`)
 
 ### Step 9: Error Handling
 
 If any step fails:
 
-- Error is caught in store's try/catch
-- Error message is set in store state
+- Error is caught in hook's try/catch
+- Error message is set in `useProjectUIStore` via `setCreationError()`
 - Dialog remains open showing error
-- Loading state is cleared
+- Loading state is cleared (`setCreating(false)`)
 - User can retry or cancel
 
 ## 🔑 Key State Management
 
-### Zustand Store State
+### Store State
 
+**useProjectUIStore:**
 ```typescript
 {
-    isDialogOpen: boolean    // Controls dialog visibility
-    isCreating: boolean      // Loading state during creation
-    error: string | null     // Error message if creation fails
+    isCreateDialogOpen: boolean    // Controls dialog visibility
+    isCreating: boolean            // Loading state during creation
+    creationError: string | null   // Error message if creation fails
+}
+```
+
+**useProjectStore:**
+```typescript
+{
+    projectId: string | null
+    projectFilePath: string | null
+    projectMetadata: ProjectMetadata | null
 }
 ```
 
@@ -271,12 +288,12 @@ Initial → Dialog Open → Creating → Success → Navigate
    - Error caught in store
    - Error message shown in dialog
 
-## 🔄 Shared State Pattern
+## 🔄 State Management Pattern
 
-The `ZkProjectProvider` context ensures that:
+The hook-based architecture ensures that:
 
-- Dialog state is shared across all components
-- Menu events can trigger dialog from anywhere
-- Single source of truth for dialog visibility
+- State is managed in stores (single source of truth)
+- Business logic is in hooks (reusable and testable)
+- Components access state via hooks (clean separation)
 - Consistent UX regardless of entry point
 

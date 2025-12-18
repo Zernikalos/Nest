@@ -10,12 +10,14 @@ This directory contains comprehensive documentation for Large Language Models to
 
 ### 🗄️ State Management
 - **[Stores Directory](./stores/)** - Zustand store implementations and patterns
-  - **[ZkProject Store](./stores/zkproject-store.md)** - Project state management and file operations
+  - **[useProjectStore](./stores/useProjectStore.md)** - Project state management
+  - **[useZkoStore](./stores/useZkoStore.md)** - Current ZKO state management
+  - **[useProjectUIStore](./stores/useProjectUIStore.md)** - UI state management
 
 ### 🔌 Providers & Integration
 - **[Providers Directory](./providers/)** - React context providers and system integration
-  - **[ZkProject Provider](./providers/zkproject-provider.md)** - Project and Electron integration
   - **[Electron Provider](./providers/electron-provider.md)** - Electron API management
+  - **useElectronProjectIntegration** - Hook for Electron project integration (replaces ZkProjectProvider)
 
 ### 🎨 UI & Components
 - **[UI Theming](./ui-theming.md)** - CSS variables, themes, and styling strategy
@@ -25,7 +27,8 @@ This directory contains comprehensive documentation for Large Language Models to
 - **[Navigation System](./navigation-system.md)** - Sidebar navigation and routing system
 - **[Pages Directory](./pages/)** - Application pages and functionality
   - **[Editor Page](./pages/editor-page.md)** - Main 3D editor interface
-  - **[Settings Page](./pages/settings-page.md)** - Application configuration
+  - **[Projects Page](./pages/projects-page/)** - Project management, creation, and ZKO conversion
+  - **[Settings Page](./pages/settings-page/)** - Application configuration
   - **[Devices Page](./pages/devices-page.md)** - Device management (future)
   - **[Exporter Page](./pages/exporter-page.md)** - Export functionality (future)
 
@@ -44,9 +47,9 @@ App.tsx → Providers → Stores → Components
 - **shadcn/ui** for components
 
 ### State Management Pattern
-- **Zustand stores** for business logic
-- **React providers** for integration
-- **Custom hooks** for component access
+- **Zustand stores** for state only (no business logic)
+- **Custom hooks** for business logic and orchestration
+- **React providers** for external system integration (when context needed)
 
 ## 🚀 Development Guidelines
 

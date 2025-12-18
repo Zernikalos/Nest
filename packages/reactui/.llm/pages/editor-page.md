@@ -43,7 +43,7 @@ EditorPage
 - **State Management**: Uses local state for project activation
 
 ### Tree View Integration
-- **Data Source**: Connected to `useZkProjectStore` for project data
+- **Data Source**: Connected to `useZkoStore` for ZKO data
 - **Tree Conversion**: Converts Zernikalos objects to TreeView format
 - **Selection Management**: Handles node selection and tree updates
 
@@ -60,7 +60,8 @@ EditorPage
 - **activeView**: Current view mode ('form' | 'code')
 
 ### Store Integration
-- **useZkProjectStore**: Main project data and state
+- **useZkoStore**: Current ZKO data and conversion state
+- **useProjectStore**: Project metadata and identification
 - **useNestEditorContext**: Custom context hook for editor-specific state
 - **NestEditorProvider**: Context provider that wraps the editor interface
 
@@ -89,7 +90,7 @@ EditorPage
 
 ### Project Loading
 ```
-useZkProjectStore → zkResult → TreeView data → EditorView
+useZkoStore → zkResult → TreeView data → EditorView
 ```
 
 ### Object Selection

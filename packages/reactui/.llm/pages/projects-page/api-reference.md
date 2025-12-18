@@ -169,68 +169,79 @@ subscription?.off()
 **Events:**
 - Triggered when user selects "File → New Project..." from menu
 
-## 🗄️ Zustand Store API
+## 🗄️ Zustand Stores API
 
-### `useProjectCreationStore`
+### `useProjectUIStore`
 
-**Location:** `src/stores/useProjectCreationStore.ts`
+**Location:** `src/stores/useProjectUIStore.ts`
 
 **State:**
 ```typescript
 {
-    isDialogOpen: boolean      // Dialog visibility state
-    isCreating: boolean        // Loading state during creation
-    error: string | null       // Error message if creation fails
+    isCreateDialogOpen: boolean    // Dialog visibility state
+    isCreating: boolean            // Loading state during creation
+    creationError: string | null   // Error message if creation fails
 }
 ```
 
 **Actions:**
 ```typescript
 {
-    setIsDialogOpen: (open: boolean) => void
-    createProject: (projectName: string, onSuccess?: () => void) => Promise<void>
-    resetError: () => void
+    setIsCreateDialogOpen: (open: boolean) => void
+    setCreating: (creating: boolean) => void
+    setCreationError: (error: string | null) => void
 }
 ```
 
-**Usage:**
+**Note:** This store contains only state. Business logic is in hooks.
+
+### `useProjectStore`
+
+**Location:** `src/stores/useProjectStore.ts`
+
+**State:**
 ```typescript
-import { useProjectCreationStore } from '@/stores'
-
-function MyComponent() {
-    const { 
-        isDialogOpen, 
-        setIsDialogOpen, 
-        isCreating, 
-        error, 
-        createProject 
-    } = useProjectCreationStore()
-    
-    const handleCreate = async () => {
-        await createProject("MyProject", () => {
-            console.log("Project created!")
-        })
-    }
+{
+    projectId: string | null
+    projectFilePath: string | null
+    projectMetadata: ProjectMetadata | null
 }
 ```
 
-**Action Details:**
+**Actions:**
+```typescript
+{
+    setProject: (id: string, filePath: string, metadata: ProjectMetadata) => void
+    clearProject: () => void
+}
+```
 
-#### `setIsDialogOpen(open: boolean)`
-- Sets dialog visibility
-- No side effects
+**Note:** This store contains only state. Business logic is in `useProject` hook.
 
-#### `createProject(projectName, onSuccess?)`
-- Validates project name
-- Shows Electron save dialog
-- Calls API if path selected
-- Handles errors
-- Calls `onSuccess` callback on success
-- Updates loading and error states
+### `useZkoStore`
 
-#### `resetError()`
-- Clears error state
-- Sets `error: null`
+**Location:** `src/stores/useZkoStore.ts`
+
+**State:**
+```typescript
+{
+    isConverting: boolean
+    conversionError: string | null
+    zkResult: ZkResultExtended | null
+}
+```
+
+**Actions:**
+```typescript
+{
+    setConverting: (converting: boolean) => void
+    setError: (error: string | null) => void
+    setZkResult: (result: ZkResultExtended | null) => void
+    clearZko: () => void
+}
+```
+
+**Note:** This store contains only state. Business logic is in `useAssetToZko` hook.
 
 ## 🎣 React Hooks API
 
@@ -320,37 +331,42 @@ interface CreateProjectDialogProps {
 - Shows error message if provided
 - Auto-focuses input on open
 
-## 🔌 Provider APIs
+## 🔌 Integration APIs
 
-### `ZkProjectProvider`
+### `useElectronProjectIntegration` Hook
 
-**Location:** `src/providers/ZkProject/ZkProjectProvider.tsx`
+**Location:** `src/hooks/useElectronProjectIntegration.ts`
 
-**Props:**
-```typescript
-{
-    children: React.ReactNode
-}
-```
+**Purpose:**
+- Connects Electron events to business logic hooks
+- Replaces deprecated `ZkProjectProvider`
+- Integrates Electron events with project management
 
 **Usage:**
 ```typescript
-<ZkProjectProvider>
-    <App />
-</ZkProjectProvider>
+// In App.tsx
+function AppContent() {
+    useElectronProjectIntegration() // Hook, not provider
+    return <YourApp />
+}
 ```
 
-**Responsibilities:**
-- Listens for Electron menu events
-- Updates dialog state when menu triggered
-- Handles file import events
-- Handles scene bundling events
+**Event Handlers:**
+- `onCreateProject()` → `useProjectUIStore.setIsCreateDialogOpen(true)`
+- `onImportFile()` → `useAssetToZko.convertAssetToZko()`
+- `onBundleScene()` → `useBundleScene.saveBundle()`
 
-**Internal Integration:**
-- Uses `useElectronEvents()` for IPC
-- Uses `useProjectCreationStore()` for state
-- Sets up event listeners on mount
-- Cleans up on unmount
+**Integration:**
+- Called once at app root level
+- No context needed (hook-based)
+- Handles Electron-specific logic
+
+**Dependencies:**
+- `useElectronEvents` - Electron event handlers
+- `useAssetToZko` - Asset conversion hook
+- `useBundleScene` - Scene bundling hook
+- `useProjectUIStore` - UI state store
+- `useZkoStore` - ZKO state store
 
 ## 📝 TypeScript Interfaces
 
@@ -373,16 +389,30 @@ interface ProjectMetadata {
 }
 ```
 
-### `ProjectCreationState`
+### `AssetConversionData`
 ```typescript
-interface ProjectCreationState {
-    isDialogOpen: boolean
-    isCreating: boolean
-    error: string | null
-    
-    setIsDialogOpen: (open: boolean) => void
-    createProject: (projectName: string, onSuccess?: () => void) => Promise<void>
-    resetError: () => void
+interface AssetConversionData {
+    path: string
+    fileName: string
+    format: InputFileFormat
+}
+```
+
+### `ZkResultExtended`
+```typescript
+interface ZkResultExtended extends ZkConvertResult {
+    proto: Uint8Array
+}
+```
+
+### `InputAsset`
+```typescript
+interface InputAsset {
+    id: string
+    path: string
+    fileName: string
+    format: InputFileFormat
+    importedAt: string
 }
 ```
 
@@ -399,9 +429,9 @@ ipcMain.emit()
     ↓
 RendererMenuEvents.CREATE_PROJECT (renderer)
     ↓
-ZkProjectProvider.onCreateProject()
+useElectronProjectIntegration.onCreateProject()
     ↓
-setIsDialogOpen(true)
+useProjectUIStore.setIsCreateDialogOpen(true)
     ↓
 CreateProjectDialog opens
 ```

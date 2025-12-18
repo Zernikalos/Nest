@@ -29,10 +29,14 @@ App.tsx → ElectronProvider → Electron APIs + IPC
 ```tsx
 // In App.tsx
 <ElectronProvider>
-  <ZkProjectProvider>
-    <RouterProvider router={router} />
-  </ZkProjectProvider>
+  <AppContent />
 </ElectronProvider>
+
+// In AppContent component
+function AppContent() {
+    useElectronProjectIntegration() // Hook for Electron integration
+    return <YourApp />
+}
 ```
 
 ## Available APIs
@@ -49,5 +53,5 @@ App.tsx → ElectronProvider → Electron APIs + IPC
 
 ## Related Components
 - `useElectronEvents` - Hook for Electron event handling
-- `ZkProjectProvider` - Uses Electron functionality
+- `useElectronProjectIntegration` - Hook for Electron project integration (replaces ZkProjectProvider)
 - All components that need Electron APIs

@@ -6,7 +6,8 @@ This directory contains documentation for all application pages and their functi
 
 ### Core Pages
 - **[Editor Page](./editor-page.md)** - Main 3D editor interface
-- **[Settings Page](./settings-page.md)** - Application configuration
+- **[Projects Page](./projects-page/)** - Project management, creation, and ZKO conversion
+- **[Settings Page](./settings-page/)** - Application configuration
 
 ### Placeholder Pages
 - **[Devices Page](./devices-page.md)** - Device management (future implementation)

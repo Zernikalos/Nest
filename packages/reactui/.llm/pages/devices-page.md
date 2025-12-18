@@ -106,7 +106,7 @@ DevicesPage
 ## Integration with Existing System
 
 ### Store Integration
-- **useZkProjectStore**: Project-device relationships
+- **useProjectStore**: Project-device relationships
 - **useSettingsStore**: Device preferences
 - **useUserStore**: User device permissions
 
