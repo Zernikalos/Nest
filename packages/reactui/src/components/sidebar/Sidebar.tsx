@@ -1,4 +1,5 @@
 import {
+    BsFolder as ProjectsIcon,
     BsCodeSlash as EditorIcon,
     BsPhone as DeviceIcon,
     BsRocket as ExportIcon,
@@ -38,6 +39,12 @@ export function Sidebar() {
                         <div className="align-middle p-2 h-12">
                             <Logo />
                         </div>
+                        <SidebarItem
+                            path="/projects"
+                            name="Projects"
+                            selected={checkActiveRoute('/projects')}
+                            icon={ProjectsIcon}
+                        />
                         <SidebarItem
                             path="/editor"
                             name="Editor"
