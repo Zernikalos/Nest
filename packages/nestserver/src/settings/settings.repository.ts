@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger, Optional } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs/promises';
 import * as path from 'path';
@@ -10,6 +10,7 @@ export interface AppSettings {
         height: number;
     };
     theme?: string;
+    font?: string;
 }
 
 @Injectable()
@@ -41,8 +42,8 @@ export class SettingsRepository {
         const settingsPath = this.configService.get<string>('settingsPath');
         try {
             // Ensure directory exists
-            // const dir = path.dirname(settingsPath);
-            // await fs.mkdir(dir, { recursive: true });
+            const dir = path.dirname(settingsPath);
+            await fs.mkdir(dir, { recursive: true });
             
             // Save settings
             await fs.writeFile(settingsPath, JSON.stringify(settings, null, 2));
