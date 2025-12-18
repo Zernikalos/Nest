@@ -11,7 +11,4 @@ export { useProject } from "./useProject"
 export { useAssetToZko } from "./useAssetToZko"
 export { useCreateProject } from "./useCreateProject"
 export { useBundleScene } from "./useBundleScene"
-export { useElectronProjectIntegration } from "./useElectronProjectIntegration"
-
-// Legacy alias for backwards compatibility (will be removed in future)
-export { useAssetToZko as useFileImport } from "./useAssetToZko" 
+export { useElectronProjectIntegration } from "./useElectronProjectIntegration" 

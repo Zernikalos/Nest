@@ -19,7 +19,7 @@ export const NestEditorProvider: React.FC<NestEditorProviderProps> = ({
     const contextValue = {
         ...editorState,
         zkResult,
-        rebuildZkResult: regenerateZko,
+        regenerateZko,
     };
 
     return (

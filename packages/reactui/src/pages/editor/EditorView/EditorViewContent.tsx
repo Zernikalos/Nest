@@ -9,15 +9,15 @@ interface EditorViewContentProps {
 }
 
 export const EditorViewContent: React.FC<EditorViewContentProps> = ({ activeView }) => {
-    const { zkResult, rebuildZkResult } = useNestEditorContext();
+    const { zkResult, regenerateZko } = useNestEditorContext();
 
-    // Regenerate proto when entering viewer
+    // Regenerate proto when entering viewer or when zkResult changes (by filePath)
     useEffect(() => {
         if (activeView === 'viewer' && zkResult) {
-            console.log('🔄 Regenerating proto for viewer...')
-            rebuildZkResult()
+            console.log('🔄 Regenerating proto for viewer...', zkResult.filePath)
+            regenerateZko()
         }
-    }, [activeView]) // Solo depende de activeView, no de zkResult
+    }, [activeView, zkResult?.filePath, regenerateZko]) // Use filePath to detect ZKO changes without causing loops
 
     // Check if views can be displayed
     const canShowCode = zkResult?.exported;

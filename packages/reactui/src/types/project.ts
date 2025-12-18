@@ -8,9 +8,6 @@ export interface AssetConversionData {
     format: InputFileFormat
 }
 
-// Legacy type alias for backwards compatibility
-export type FileImportData = AssetConversionData
-
 export interface ZkResultExtended extends ZkConvertResult {
     proto: Uint8Array
 }
@@ -30,7 +27,4 @@ export async function regenerateZko(zkResult: ZkResultExtended): Promise<ZkResul
         proto
     }
 }
-
-// Legacy function alias for backwards compatibility (used in NestEditorContext)
-export const rebuildZkResult = regenerateZko
 

@@ -5,7 +5,7 @@ import type { ZkResultExtended } from '@/types/project';
 // Extend the internal editor state to include zkResult
 interface NestEditorContextType extends NestInternalEditorState {
     zkResult: ZkResultExtended | null;
-    rebuildZkResult: () => Promise<void>;
+    regenerateZko: () => Promise<void>;
 }
 
 const NestEditorContext = createContext<NestEditorContextType | undefined>(undefined);

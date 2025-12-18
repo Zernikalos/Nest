@@ -64,12 +64,16 @@ export function useAssetToZko() {
     }, [setConverting, setError, setZkResult, isProjectOpen, addAssetToProject])
     
     const regenerateZko = useCallback(async () => {
-        if (_.isNil(zkResult)) {
+        // Get zkResult from store when function executes, not from closure
+        // This makes the function stable and prevents infinite loops
+        const currentZkResult = useZkoStore.getState().zkResult;
+        
+        if (_.isNil(currentZkResult)) {
             return
         }
         
         try {
-            const regeneratedResult = await regenerateZkoUtil(zkResult)
+            const regeneratedResult = await regenerateZkoUtil(currentZkResult)
             setZkResult(regeneratedResult)
             console.log('✅ ZKO regenerated successfully')
         } catch (error) {
@@ -77,7 +81,7 @@ export function useAssetToZko() {
             console.error('❌ Regeneration failed:', errorMessage)
             setError(errorMessage)
         }
-    }, [zkResult, setZkResult, setError])
+    }, [setZkResult, setError])
     
     return {
         // State
