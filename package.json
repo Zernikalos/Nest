@@ -8,7 +8,7 @@
   "scripts": {
     "commit": "git-cz",
 
-    "dev": "npm run dev:ui & npm run dev:main",
+    "dev": "lerna run dev --parallel",
     "dev:main": "lerna run dev --scope=electronapp",
     "dev:ui": "lerna run dev --scope=reactui",
 
