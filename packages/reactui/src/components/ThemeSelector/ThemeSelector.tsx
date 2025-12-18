@@ -18,8 +18,6 @@ import { Palette } from "lucide-react"
 
 // Simple theme selector with dropdown
 export function ThemeSelector() {
-  
-  // Ensure we get the state object, not a function
   const { theme, setTheme, availableThemes } = useAppTheme()
 
   return (
@@ -45,12 +43,7 @@ export function ThemeSelector() {
 
 // Alternative: Grid of theme buttons
 export function ThemeGrid() {
-  const themeState = useAppTheme()
-  
-  // Ensure we get the state object, not a function
-  const { theme, setTheme, availableThemes } = typeof themeState === 'function' 
-    ? useAppTheme() as { theme: string; setTheme: (theme: string) => void; availableThemes: string[] }
-    : themeState as { theme: string; setTheme: (theme: string) => void; availableThemes: string[] }
+  const { theme, setTheme, availableThemes } = useAppTheme()
 
   return (
     <div className="grid grid-cols-3 gap-2">
@@ -59,15 +52,15 @@ export function ThemeGrid() {
         const isActive = theme === themeKey
         
         return (
-                      <Button
-              key={themeKey}
-              variant={isActive ? "default" : "outline"}
-              size="sm"
-              onClick={() => setTheme(themeKey)}
-              className="flex flex-col items-center gap-1 h-auto p-3"
-            >
-              <span className="text-xs">{themeInfo.name}</span>
-            </Button>
+          <Button
+            key={themeKey}
+            variant={isActive ? "default" : "outline"}
+            size="sm"
+            onClick={() => setTheme(themeKey)}
+            className="flex flex-col items-center gap-1 h-auto p-3"
+          >
+            <span className="text-xs">{themeInfo.name}</span>
+          </Button>
         )
       })}
     </div>
@@ -76,7 +69,6 @@ export function ThemeGrid() {
 
 // Alternative: Dropdown menu style
 export function ThemeDropdown() {  
-  // Ensure we get the state object, not a function
   const { setTheme, availableThemes } = useAppTheme()
 
   return (

@@ -1,11 +1,10 @@
 import { createContext, useEffect } from "react"
 import { themes, type Theme, isDarkTheme } from "../../lib/themes"
-import { usePersistentState } from "../../hooks/usePersistentState"
+import { useSettingsQuery, useUpdateSettingsMutation } from "../../hooks/useSettingsApi"
 
 type ThemeProviderProps = {
   children: React.ReactNode
   defaultTheme?: Theme
-  storageKey?: string
 }
 
 type ThemeProviderState = {
@@ -25,38 +24,36 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 export function ThemeProvider({
   children,
   defaultTheme = "default",
-  storageKey = "app-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = usePersistentState<Theme>(
-    storageKey,
-    defaultTheme,
-    (value): value is Theme => value in themes
-  )
+  const { data: settings } = useSettingsQuery()
+  const updateSettingsMutation = useUpdateSettingsMutation()
+  const theme = (settings?.theme && settings.theme in themes)
+    ? (settings.theme as Theme)
+    : defaultTheme
 
+  // Apply theme to DOM
   useEffect(() => {
     const root = window.document.documentElement
     
-    // Remove all existing theme attributes
     root.removeAttribute("data-theme")
     root.classList.remove("dark")
     
-    // Apply the selected theme
     if (theme !== "default") {
       root.setAttribute("data-theme", theme)
-      
-      // Check if it's a dark theme using the theme definition
       if (isDarkTheme(theme)) {
         root.classList.add("dark")
       }
     }
   }, [theme])
 
+  const setTheme = (newTheme: Theme) => {
+    updateSettingsMutation.mutate({ theme: newTheme })
+  }
+
   const value = {
     theme,
-    setTheme: (newTheme: Theme) => {
-      setTheme(newTheme)
-    },
+    setTheme,
     availableThemes: Object.keys(themes) as Theme[]
   }
 
@@ -69,5 +66,3 @@ export function ThemeProvider({
 
 // Export the context for use in the hook
 export { ThemeProviderContext }
-
-

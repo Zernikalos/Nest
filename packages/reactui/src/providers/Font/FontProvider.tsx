@@ -1,11 +1,10 @@
 import { createContext, useEffect } from "react"
 import { type Font } from "../../types/font"
-import { usePersistentState } from "../../hooks/usePersistentState"
+import { useSettingsQuery, useUpdateSettingsMutation } from "../../hooks/useSettingsApi"
 
 type FontProviderProps = {
   children: React.ReactNode
   defaultFont?: Font
-  storageKey?: string
 }
 
 type FontProviderState = {
@@ -55,25 +54,26 @@ const FontProviderContext = createContext<FontProviderState>(initialState)
 export function FontProvider({
   children,
   defaultFont = "Rajdhani",
-  storageKey = "app-font",
   ...props
 }: FontProviderProps) {
-  const [font, setFont] = usePersistentState<Font>(
-    storageKey,
-    defaultFont,
-    (value): value is Font => availableFonts.includes(value)
-  )
+  const { data: settings } = useSettingsQuery()
+  const updateSettingsMutation = useUpdateSettingsMutation()
+  const font = (settings?.font && availableFonts.includes(settings.font as Font))
+    ? (settings.font as Font)
+    : defaultFont
 
+  // Apply font to DOM
   useEffect(() => {
-    // Apply the selected font to the document body
     document.body.style.fontFamily = getFontFamilyString(font)
   }, [font])
 
+  const setFont = (newFont: Font) => {
+    updateSettingsMutation.mutate({ font: newFont })
+  }
+
   const value = {
     font,
-    setFont: (newFont: Font) => {
-      setFont(newFont)
-    },
+    setFont,
     availableFonts
   }
 
@@ -86,5 +86,3 @@ export function FontProvider({
 
 // Export the context for use in the hook
 export { FontProviderContext }
-
-

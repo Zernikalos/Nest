@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useAppTheme } from "@/providers/Theme"
 import { useAppFont } from "@/providers/Font"
 import { getThemeInfo, type Theme } from "@/lib/themes"
@@ -5,33 +6,30 @@ import { Button } from "@/components/ui/button"
 import { MdPalette, MdFontDownload } from "react-icons/md"
 import { SettingsMainContainer, SettingsSectionItem } from "@/pages/settings/components/layout"
 import { ControlledSettingsFieldSelect, SettingsFieldGeneric } from "@/pages/settings/components/fields"
-import { useEffect } from "react"
-import { useFormContext } from "react-hook-form"
 import type { AppearanceFormData } from "../../SettingsFormData"
-import { useSettingsQuery, useUpdateSettingsMutation } from "../../hooks/useSettingsApi"
+import { useSettingsQuery } from "@/hooks/useSettingsApi"
+import { useWatch, useFormContext } from "react-hook-form"
 
 // Component to handle real-time updates
 function AppearanceFormContent() {
-    const { theme, setTheme, availableThemes } = useAppTheme()
-    const { font, setFont, availableFonts } = useAppFont()
+    const { availableThemes, setTheme, theme: currentTheme } = useAppTheme()
+    const { availableFonts, setFont, font: currentFont } = useAppFont()
     const form = useFormContext<AppearanceFormData>()
+    const watchedTheme = useWatch({ control: form.control, name: "theme" })
+    const watchedFont = useWatch({ control: form.control, name: "font" })
     
-    const watchedFont = form.watch("font")
-    const watchedTheme = form.watch("theme")
-
-    // Apply font changes immediately
+    // Apply changes immediately when form values change
     useEffect(() => {
-        if (watchedFont && watchedFont !== font) {
-            setFont(watchedFont as any)
-        }
-    }, [watchedFont, setFont])
-
-    // Apply theme changes immediately
-    useEffect(() => {
-        if (watchedTheme && watchedTheme !== theme) {
+        if (watchedTheme && watchedTheme !== currentTheme) {
             setTheme(watchedTheme as Theme)
         }
-    }, [watchedTheme, setTheme])
+    }, [watchedTheme, currentTheme, setTheme])
+    
+    useEffect(() => {
+        if (watchedFont && watchedFont !== currentFont) {
+            setFont(watchedFont as any)
+        }
+    }, [watchedFont, currentFont, setFont])
 
     return (
         <>
@@ -44,7 +42,7 @@ function AppearanceFormContent() {
                 <ControlledSettingsFieldSelect
                     name="font"
                     title="Font Family"
-                    description="The font will be applied immediately and saved for your next visit"
+                    description="The font will be applied immediately and saved automatically"
                     options={availableFonts.map((fontKey) => ({
                         value: fontKey,
                         label: fontKey
@@ -62,7 +60,7 @@ function AppearanceFormContent() {
                 <ControlledSettingsFieldSelect
                     name="theme"
                     title="Theme"
-                    description="The theme will be applied immediately and saved for your next visit"
+                    description="The theme will be applied immediately and saved automatically"
                     options={availableThemes.map((themeKey) => {
                         const themeInfo = getThemeInfo(themeKey as Theme)
                         return {
@@ -106,33 +104,24 @@ function AppearanceFormContent() {
 
 // Appearance Settings Section
 export function AppearanceSettingsSection() {
-    const { setTheme, theme: currentTheme } = useAppTheme()
-    const { setFont, font: currentFont } = useAppFont()
     const { data: settings, isLoading } = useSettingsQuery()
-    const updateSettingsMutation = useUpdateSettingsMutation()
+    const { setTheme } = useAppTheme()
+    const { setFont } = useAppFont()
     
     // Handle form submission
+    // Note: Theme and font are already applied in real-time via AppearanceFormContent,
+    // but this onSubmit is kept for consistency and to allow future extensions with additional fields
     const onSubmit = async (data: AppearanceFormData) => {
-        // Apply changes immediately for fast UX
-        setFont(data.font as any)
+        // Apply changes using setTheme and setFont (optimistic update will update providers automatically)
         setTheme(data.theme as Theme)
-        
-        // Save to API
-        try {
-            await updateSettingsMutation.mutateAsync({
-                theme: data.theme,
-                font: data.font
-            })
-            console.log("Appearance settings saved:", data)
-        } catch (error) {
-            console.error("Failed to save appearance settings:", error)
-        }
+        setFont(data.font as any)
+        // Future: Add additional fields here that need to be saved on submit
     }
   
-    // Get default values from API or use current theme/font as fallback
+    // Get default values from server only
     const defaultValues: AppearanceFormData = {
-        theme: settings?.theme || currentTheme || "dark",
-        font: settings?.font || currentFont || "Inter"
+        theme: (settings?.theme as Theme) || "default",
+        font: (settings?.font as any) || "Rajdhani"
     }
   
     if (isLoading) {
@@ -140,7 +129,7 @@ export function AppearanceSettingsSection() {
             <SettingsMainContainer
                 title="Appearance"
                 description="Customize the look and feel of your application"
-                defaultValues={{ theme: "dark", font: "Inter" }}
+                defaultValues={{ theme: "default", font: "Rajdhani" }}
                 onSubmit={onSubmit}
             >
                 <AppearanceFormContent />
