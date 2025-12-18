@@ -13,7 +13,7 @@ export interface AppSettings {
 const SETTINGS_QUERY_KEY = ['settings'];
 
 export function useSettingsQuery() {
-    return useQuery({
+    return useQuery<AppSettings>({
         queryKey: SETTINGS_QUERY_KEY,
         queryFn: async (): Promise<AppSettings> => {
             const response = await api.get<AppSettings>('/settings');

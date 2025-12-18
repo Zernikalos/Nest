@@ -2,12 +2,13 @@ import React from 'react';
 import { IoAdd, IoFolderOpen } from 'react-icons/io5';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo/Logo';
+import { useCreateProject } from '@/hooks/useCreateProject';
+import { useOpenProject } from '@/hooks/useOpenProject';
+import { CreateProjectDialog } from './CreateProjectDialog';
 
-interface NewProjectHeaderProps {
-    onNewProject: () => void;
-}
-
-export const NewProjectHeader: React.FC<NewProjectHeaderProps> = ({ onNewProject }) => {
+export const ProjectHeader: React.FC = () => {
+    const { isDialogOpen, setIsDialogOpen, isCreating, error, handleCreate } = useCreateProject();
+    const { handleOpen } = useOpenProject();
     return (
         <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-6">
@@ -24,7 +25,7 @@ export const NewProjectHeader: React.FC<NewProjectHeaderProps> = ({ onNewProject
             <div className="flex gap-4 justify-center">
                 <Button 
                     size="lg" 
-                    onClick={onNewProject}
+                    onClick={() => setIsDialogOpen(true)}
                     className="px-6 py-2 text-base font-medium"
                 >
                     <IoAdd className="w-4 h-4 mr-2" />
@@ -34,11 +35,21 @@ export const NewProjectHeader: React.FC<NewProjectHeaderProps> = ({ onNewProject
                     size="lg" 
                     variant="outline"
                     className="px-6 py-2 text-base font-medium"
+                    onClick={handleOpen}
                 >
                     <IoFolderOpen className="w-4 h-4 mr-2" />
                     Open Project
                 </Button>
             </div>
+            
+            <CreateProjectDialog
+                open={isDialogOpen}
+                onOpenChange={setIsDialogOpen}
+                onCreate={handleCreate}
+                isCreating={isCreating}
+                error={error}
+            />
         </div>
     );
 };
+

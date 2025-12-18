@@ -1,24 +1,28 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { AppearanceProvider, ElectronProvider, ZkProjectProvider } from './providers';
+import { AppearanceProvider, ElectronProvider } from './providers';
 import { KeepAliveRouterProvider } from './keepaliverouter';
 import { appRoutes } from './router';
 import { MainLayout } from './layouts/MainLayout';
 
 const queryClient = new QueryClient();
 
+function AppContent() {
+    return (
+        <KeepAliveRouterProvider 
+            routes={appRoutes} 
+        >
+            <MainLayout />
+        </KeepAliveRouterProvider>
+    )
+}
+
 export default function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <AppearanceProvider defaultTheme="default" defaultFont="Rajdhani">
                 <ElectronProvider>
-                    <ZkProjectProvider>
-                        <KeepAliveRouterProvider 
-                            routes={appRoutes} 
-                        >
-                            <MainLayout />
-                        </KeepAliveRouterProvider>
-                    </ZkProjectProvider>
+                    <AppContent />
                 </ElectronProvider>
             </AppearanceProvider>
         </QueryClientProvider>

@@ -34,8 +34,22 @@ contextBridge.exposeInMainWorld('NativeZernikalos', {
             off: () => ipcRenderer.removeListener(RendererMenuEvents.BUNDLE_SCENE, callback)
         }
     },
+    handleCreateProject: (callback: any) => {
+        ipcRenderer.on(RendererMenuEvents.CREATE_PROJECT, callback)
+        return {
+            off: () => ipcRenderer.removeListener(RendererMenuEvents.CREATE_PROJECT, callback)
+        }
+    },
+    handleOpenProject: (callback: any) => {
+        ipcRenderer.on(RendererMenuEvents.OPEN_PROJECT, callback)
+        return {
+            off: () => ipcRenderer.removeListener(RendererMenuEvents.OPEN_PROJECT, callback)
+        }
+    },
 
     actionSaveFile: (fileData: Uint8Array) => ipcRenderer.invoke(NestEvents.SAVE_FILE, fileData),
+    showSaveProjectDialog: (projectName: string) => ipcRenderer.invoke(NestEvents.SHOW_SAVE_PROJECT_DIALOG, projectName),
+    showOpenProjectDialog: () => ipcRenderer.invoke(NestEvents.SHOW_OPEN_PROJECT_DIALOG),
 })
 
 contextBridge.exposeInMainWorld('userSettings', {

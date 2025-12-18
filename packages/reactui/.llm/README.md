@@ -9,13 +9,17 @@ This directory contains comprehensive documentation for Large Language Models to
 - **[Tech Stack](./tech-stack.md)** - Technologies, frameworks, and build tools used
 
 ### 🗄️ State Management
-- **[Stores Directory](./stores/)** - Zustand store implementations and patterns
-  - **[ZkProject Store](./stores/zkproject-store.md)** - Project state management and file operations
+- **[Stores Directory](./stores/)** - Zustand store implementations (local state only)
+  - **[useProjectStore](./stores/useProjectStore.md)** - Project file path (local state)
+  - **[useZkoStore](./stores/useZkoStore.md)** - Current ZKO state management
+  - **[useProjectUIStore](./stores/useProjectUIStore.md)** - UI state management
+- **[Queries Directory](./queries/)** - React Query queries and mutations (server state)
+  - **[Queries Overview](./queries/README.md)** - React Query architecture and patterns
 
 ### 🔌 Providers & Integration
 - **[Providers Directory](./providers/)** - React context providers and system integration
-  - **[ZkProject Provider](./providers/zkproject-provider.md)** - Project and Electron integration
   - **[Electron Provider](./providers/electron-provider.md)** - Electron API management
+  - **useElectronProjectIntegration** - Hook for Electron project integration (replaces ZkProjectProvider)
 
 ### 🎨 UI & Components
 - **[UI Theming](./ui-theming.md)** - CSS variables, themes, and styling strategy
@@ -25,7 +29,8 @@ This directory contains comprehensive documentation for Large Language Models to
 - **[Navigation System](./navigation-system.md)** - Sidebar navigation and routing system
 - **[Pages Directory](./pages/)** - Application pages and functionality
   - **[Editor Page](./pages/editor-page.md)** - Main 3D editor interface
-  - **[Settings Page](./pages/settings-page.md)** - Application configuration
+  - **[Projects Page](./pages/projects-page/)** - Project management, creation, and ZKO conversion
+  - **[Settings Page](./pages/settings-page/)** - Application configuration
   - **[Devices Page](./pages/devices-page.md)** - Device management (future)
   - **[Exporter Page](./pages/exporter-page.md)** - Export functionality (future)
 
@@ -38,22 +43,30 @@ App.tsx → Providers → Stores → Components
 
 ### Key Technologies
 - **React 18+** with TypeScript
-- **Zustand** for state management
+- **Zustand** for local state management
+- **React Query (TanStack Query)** for server state management
 - **Electron** for desktop functionality
 - **Tailwind CSS** for styling
 - **shadcn/ui** for components
 
 ### State Management Pattern
-- **Zustand stores** for business logic
-- **React providers** for integration
-- **Custom hooks** for component access
+- **Zustand stores** for local/client state only (no business logic)
+- **React Query** for server state (automatic caching, background refetching)
+- **Custom hooks** for business logic and orchestration (combine Zustand + React Query)
+- **React providers** for external system integration (when context needed)
 
 ## 🚀 Development Guidelines
 
-### Adding New Stores
-1. Create store in `/src/stores/`
+### Adding New Stores (Local State)
+1. Create store in `/src/stores/` (for local/client state only)
 2. Document in `.llm/stores/`
 3. Export from `stores/index.ts`
+
+### Adding New Queries (Server State)
+1. Create queries/mutations in `/src/queries/`
+2. Use query key factories for cache management
+3. Export from `queries/index.ts`
+4. Document in `.llm/queries/`
 
 ### Adding New Providers
 1. Create provider in `/src/providers/`

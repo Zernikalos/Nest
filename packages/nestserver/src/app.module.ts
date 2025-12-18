@@ -6,6 +6,7 @@ import { ConfigModule } from "@nestjs/config"
 import { ZdebuggerModule } from './zdebugger/zdebugger.module'
 import { BridgeModule } from './bridge/bridge.module'
 import { SettingsModule } from './settings/settings.module'
+import { ProjectsModule } from './projects/projects.module'
 
 interface AppOptions {
     dbPath: string;
@@ -39,7 +40,8 @@ export class AppModule {
                 FilesModule,
                 NestModule,
                 ZdebuggerModule,
-                BridgeModule
+                BridgeModule,
+                ProjectsModule
             ],
         }
     }

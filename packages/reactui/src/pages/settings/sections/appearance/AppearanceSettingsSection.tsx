@@ -7,7 +7,7 @@ import { MdPalette, MdFontDownload } from "react-icons/md"
 import { SettingsMainContainer, SettingsSectionItem } from "@/pages/settings/components/layout"
 import { ControlledSettingsFieldSelect, SettingsFieldGeneric } from "@/pages/settings/components/fields"
 import type { AppearanceFormData } from "../../SettingsFormData"
-import { useSettingsQuery } from "@/hooks/useSettingsApi"
+import { useSettingsQuery } from "@/queries"
 import { useWatch, useFormContext } from "react-hook-form"
 
 // Component to handle real-time updates

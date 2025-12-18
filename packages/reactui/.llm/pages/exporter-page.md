@@ -134,7 +134,8 @@ ExporterPage
 ## Integration with Existing System
 
 ### Project Integration
-- **useZkProjectStore**: Access to project data
+- **useZkoStore**: Access to current ZKO data
+- **useProjectStore**: Access to project metadata
 - **TreeView Selection**: Export selected objects
 - **Editor State**: Current editing context
 - **Project Metadata**: Project information for exports
