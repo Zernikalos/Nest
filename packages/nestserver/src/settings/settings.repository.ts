@@ -1,7 +1,6 @@
-import { Inject, Injectable, Logger, Optional } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs/promises';
-import * as path from 'path';
 import {merge, isEmpty} from 'lodash';
 
 export interface AppSettings {
@@ -10,6 +9,7 @@ export interface AppSettings {
         height: number;
     };
     theme?: string;
+    font?: string;
 }
 
 @Injectable()

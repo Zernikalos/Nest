@@ -8,7 +8,7 @@ import { ControlledSettingsFieldSelect, SettingsFieldGeneric } from "@/pages/set
 import { useEffect } from "react"
 import { useFormContext } from "react-hook-form"
 import type { AppearanceFormData } from "../../SettingsFormData"
-import { useSettings } from "../../useSettings"
+import { useSettingsQuery, useUpdateSettingsMutation } from "../../hooks/useSettingsApi"
 
 // Component to handle real-time updates
 function AppearanceFormContent() {
@@ -106,25 +106,53 @@ function AppearanceFormContent() {
 
 // Appearance Settings Section
 export function AppearanceSettingsSection() {
-    const { setTheme } = useAppTheme()
-    const { setFont } = useAppFont()
-    const { getAppearanceSettings, updateAppearanceSettings } = useSettings()
+    const { setTheme, theme: currentTheme } = useAppTheme()
+    const { setFont, font: currentFont } = useAppFont()
+    const { data: settings, isLoading } = useSettingsQuery()
+    const updateSettingsMutation = useUpdateSettingsMutation()
     
     // Handle form submission
-    const onSubmit = (data: AppearanceFormData) => {
+    const onSubmit = async (data: AppearanceFormData) => {
+        // Apply changes immediately for fast UX
         setFont(data.font as any)
         setTheme(data.theme as Theme)
         
-        // Save to persistent storage
-        updateAppearanceSettings(data)
-        console.log("Appearance settings saved:", data)
+        // Save to API
+        try {
+            await updateSettingsMutation.mutateAsync({
+                theme: data.theme,
+                font: data.font
+            })
+            console.log("Appearance settings saved:", data)
+        } catch (error) {
+            console.error("Failed to save appearance settings:", error)
+        }
+    }
+  
+    // Get default values from API or use current theme/font as fallback
+    const defaultValues: AppearanceFormData = {
+        theme: settings?.theme || currentTheme || "dark",
+        font: settings?.font || currentFont || "Inter"
+    }
+  
+    if (isLoading) {
+        return (
+            <SettingsMainContainer
+                title="Appearance"
+                description="Customize the look and feel of your application"
+                defaultValues={{ theme: "dark", font: "Inter" }}
+                onSubmit={onSubmit}
+            >
+                <AppearanceFormContent />
+            </SettingsMainContainer>
+        )
     }
   
     return (
         <SettingsMainContainer
             title="Appearance"
             description="Customize the look and feel of your application"
-            defaultValues={getAppearanceSettings()}
+            defaultValues={defaultValues}
             onSubmit={onSubmit}
         >
             <AppearanceFormContent />
