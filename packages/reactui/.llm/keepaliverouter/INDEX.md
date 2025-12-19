@@ -107,10 +107,14 @@ A React routing solution that **preserves component state** by keeping route com
 - `Navigate`: Programmatic redirect component
 
 ### Key Hooks
-- `useNavigate()`: Programmatic navigation
+- `useNavigate()`: Programmatic navigation (with optional `addToHistory` parameter)
 - `useCurrentRoute()`: Get current active route
 - `useIsActive(path)`: Check if route is active
-- `useRouteInfo()`: Enhanced route metadata and utilities
+- `useRouteInfo()`: Enhanced route metadata and utilities (includes history, goBack, goForward)
+- `useOutletLevel()`: Get current outlet nesting level
+- `useLocation()`: Get location object (pathname, search, hash, state, key)
+- `useParams()`: Get route parameters (currently returns empty object)
+- `useRoutes()`: Get all available routes
 
 ### Route Configuration
 ```tsx
@@ -136,12 +140,15 @@ const routes = createRoutes([
 
 ## Supported Features
 ✅ Keep-alive functionality  
-✅ Nested routes  
-✅ Programmatic navigation  
-✅ Browser history integration  
+✅ Nested routes with automatic level detection  
+✅ Programmatic navigation with history control  
+✅ Browser history integration (back/forward buttons)  
 ✅ Redirect routes  
 ✅ Index routes  
 ✅ Active route detection  
+✅ Navigation history management (goBack, goForward)  
+✅ Route utilities (path manipulation, query params, etc.)  
+✅ Custom logging system  
 
 ## Limitations
 ❌ Path parameters (`/users/:id`)  
@@ -161,17 +168,22 @@ The KeepAliveRouter module is located in:
 ```
 packages/reactui/src/keepaliverouter/
 ├── index.ts                 # Main exports
-├── KeepAliveRouter.tsx      # Core router logic
-├── KeepAliveOutlet.tsx      # Route rendering
-├── createRoutes.ts          # Route configuration helpers
-├── routerHooks.ts           # Additional hooks
-├── Link.tsx                 # Navigation components
-└── Navigate.tsx             # Programmatic redirects
-```
-
-Configuration example in the project:
-```
-packages/reactui/src/keepalive-router.config.tsx
+├── types.ts                 # Type definitions
+├── components/
+│   ├── KeepAliveRouter.tsx  # Router provider and context
+│   ├── KeepAliveOutlet.tsx  # Route rendering
+│   ├── Link.tsx             # Navigation components
+│   └── Navigate.tsx         # Programmatic redirects
+├── core/
+│   ├── navigator.ts         # Navigator class (core routing logic)
+│   ├── navigatorStore.ts    # Zustand store wrapper
+│   └── routeHistory.ts     # Route history management
+├── hooks/
+│   └── routerHooks.ts       # Router hooks
+└── utils/
+    ├── createRoutes.ts      # Route configuration helpers
+    ├── routeUtils.ts        # Path utility functions
+    └── logger.ts            # Logging utilities
 ```
 
 ## Integration Context

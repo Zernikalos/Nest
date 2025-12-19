@@ -21,7 +21,9 @@ Keep-alive routing is a pattern where route components remain mounted in the DOM
 - Only the active route is visible (`display: block`), others are hidden (`display: none`)
 
 ### 2. State Management
-- Uses React Context for global router state
+- Uses Zustand store for router state management
+- Navigator class handles core routing logic (independent from React)
+- React Context provides router state to components
 - Tracks current route, mounted routes, and navigation history
 - Integrates with browser history API for back/forward navigation
 
@@ -34,8 +36,12 @@ Keep-alive routing is a pattern where route components remain mounted in the DOM
 
 ```
 KeepAliveRouterProvider (Context Provider)
-├── Route State Management
-├── Navigation Logic
+├── Navigator Store (Zustand)
+│   ├── Navigator Class (Core Logic)
+│   │   ├── Route Management
+│   │   ├── Navigation Logic
+│   │   └── Route History (RouteHistory)
+│   └── State Synchronization
 ├── Browser History Integration
 └── KeepAliveOutlet (Route Renderer)
     ├── Mounted Route Components (hidden)
@@ -54,7 +60,7 @@ KeepAliveRouterProvider (Context Provider)
 - **Redirect routes** - Automatic redirects
 - **Index routes** - Default child routes
 - **Active route detection** - CSS classes and hooks
-- **Route metadata** - Titles and custom data
+- **Route titles** - Title property for routes
 - **Fluent API** - RouteBuilder for complex configurations
 - **Comprehensive debugging** - Built-in logging and performance monitoring
 
@@ -116,17 +122,24 @@ const routes = createRoutes([
 
 ### Navigation
 ```tsx
-import { useNavigate, Link, useIsActive } from './keepaliverouter';
+import { useNavigate, Link, useIsActive, useRouteInfo } from './keepaliverouter';
 
 function Navigation() {
   const navigate = useNavigate();
   const isHomeActive = useIsActive('/');
+  const { goBack, goForward, canGoBack, canGoForward } = useRouteInfo();
 
   return (
     <nav>
       <Link to="/" activeClassName="active">Home</Link>
       <button onClick={() => navigate('/about')}>
         Go to About
+      </button>
+      <button onClick={goBack} disabled={!canGoBack()}>
+        Back
+      </button>
+      <button onClick={goForward} disabled={!canGoForward()}>
+        Forward
       </button>
     </nav>
   );
@@ -138,17 +151,27 @@ function Navigation() {
 ```
 keepaliverouter/
 ├── index.ts                 # Main exports
-├── KeepAliveRouter.tsx      # Core router logic and context
-├── KeepAliveOutlet.tsx      # Route rendering component
-├── createRoutes.ts          # Route configuration helpers
-├── routerHooks.ts           # Additional hooks
-├── Link.tsx                 # Navigation components
-└── Navigate.tsx             # Programmatic redirect component
+├── types.ts                 # Type definitions
+├── components/
+│   ├── KeepAliveRouter.tsx  # Router provider and context
+│   ├── KeepAliveOutlet.tsx  # Route rendering component
+│   ├── Link.tsx             # Navigation components
+│   └── Navigate.tsx         # Programmatic redirect component
+├── core/
+│   ├── navigator.ts         # Navigator class (core routing logic)
+│   ├── navigatorStore.ts    # Zustand store wrapper
+│   └── routeHistory.ts     # Route history management
+├── hooks/
+│   └── routerHooks.ts       # Router hooks
+└── utils/
+    ├── createRoutes.ts      # Route configuration helpers
+    ├── routeUtils.ts        # Path utility functions
+    └── logger.ts            # Logging utilities
 ```
 
 ## Integration with Project
 
-The module is used in the Zernikalos Studio project for managing editor views, settings pages, and other application routes while preserving state across navigation. The configuration is defined in `keepalive-router.config.tsx`.
+The module is used in the Zernikalos Studio project for managing editor views, settings pages, and other application routes while preserving state across navigation.
 
 ## Performance Considerations
 

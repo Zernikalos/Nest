@@ -2,233 +2,170 @@
 
 ## Overview
 
-The KeepAliveRouter includes a comprehensive debugging system using the `debug` library that provides detailed logging for router operations, navigation events, and performance metrics.
+The KeepAliveRouter includes a logging system using a custom logger that provides detailed logging for router operations, navigation events, and state changes.
 
 ## Quick Start
 
-### Auto-Enable in Development
-```bash
-# Debug is automatically enabled in development mode
-pnpm run dev
+### Setting Log Level
 
-# Disable debug temporarily
-pnpm run dev:no-debug
+The router uses a custom logger instance. You can control the log level programmatically:
+
+```typescript
+import { setRouterLogLevel } from './keepaliverouter';
+
+// Set log level
+setRouterLogLevel('debug');  // 'error' | 'warn' | 'info' | 'debug'
 ```
 
-### Manual Control
-```bash
-# Enable specific debug categories
-pnpm run dev:debug:router    # Core router operations
-pnpm run dev:debug:outlet    # Component rendering
-pnpm run dev:debug:hooks     # Hook usage
-pnpm run dev:debug:nav       # Navigation events
-```
+### Available Log Levels
 
-## Debug Categories
+- `'error'` - Only errors
+- `'warn'` - Warnings and errors
+- `'info'` - Info, warnings, and errors (default)
+- `'debug'` - All log levels (most verbose)
 
-### 1. Router Core (`keepalive:router`)
-Logs core router operations and state management:
+## Logging Features
 
-- Route flattening operations and performance
-- Navigation completion events
-- URL history management (pushState/replaceState)
+### 1. Route Changes
+Logs navigation events with context:
+
+- Route transitions (from → to)
+- Navigation source (programmatic, browser navigation)
 - Route mounting state changes
-- Browser history integration
 
 **Example Output:**
 ```
-keepalive:router Flattening routes: { routeCount: 4, parentPath: '' }
-keepalive:perf Route flattening took 0.23ms
-keepalive:router Navigation completed: { from: '/', to: '/editor' }
-keepalive:router State update (route mounted): { newlyMounted: '/editor', totalMounted: 2 }
-keepalive:router URL updated via pushState: { url: '/editor' }
+[keepalive:router] Route change: /dashboard → /editor { from: '/dashboard', to: '/editor', context: 'navigate' }
+[keepalive:router] Navigation completed { from: '/dashboard', to: '/editor' }
 ```
 
-### 2. Outlet Rendering (`keepalive:outlet`)
-Logs component mounting, rendering, and visibility changes:
+### 2. Route Mounting
+Logs when routes are mounted or rendered:
 
-- Route component render/hide state changes
-- Redirect handling and resolution
-- Route skipping logic (unmounted routes)
+- Route mount/unmount events
+- Route render/hide state changes
+- Redirect handling
 
 **Example Output:**
 ```
-keepalive:outlet Handling redirect: { from: '/', to: '/editor', redirectTo: '/editor' }
-keepalive:outlet Route hide: /dashboard
-keepalive:outlet Route render: /editor
+[keepalive:router] State update { context: 'route mounted', state: { newlyMounted: '/editor', totalMounted: 2 } }
+[keepalive:router] Route render { route: '/editor', action: 'render', previousState: undefined }
 ```
 
-### 3. Navigation (`keepalive:navigation`)
-Logs all navigation events with context:
+### 3. Navigation Events
+Logs all navigation operations:
 
 - Programmatic navigation via `navigate()`
 - Browser back/forward button navigation
-- Route changes with source context
+- History operations
 
 **Example Output:**
 ```
-keepalive:navigation Route change: /dashboard → /editor (navigate)
-keepalive:navigation Route change: /editor → /dashboard (browser navigation)
+[keepalive:router] Route change: /dashboard → /editor { from: '/dashboard', to: '/editor', context: 'navigate' }
+[keepalive:router] Route change: /editor → /dashboard { from: '/editor', to: '/dashboard', context: 'browser navigation' }
 ```
 
-### 4. Hooks Usage (`keepalive:hooks`)
-Logs router hook usage and parameters:
+## Programmatic Control
 
-- Hook calls with parameters and return values
-- Navigation utility usage (`goBack`, `goForward`)
-- Route information queries
+### Setting Log Level
 
-**Example Output:**
-```
-keepalive:hooks Hook useLocation called: { pathname: '/editor', search: '', hash: '', state: null, key: '/editor' }
-keepalive:hooks Hook useIsActive called: { path: '/editor', isActive: true }
-keepalive:hooks goBack called
-```
-
-### 5. Performance (`keepalive:perf`)
-Logs performance metrics for router operations:
-
-- Route flattening timing
-- Navigation timing
-- Component mounting performance
-
-**Example Output:**
-```
-keepalive:perf Route flattening took 1.23ms
-keepalive:perf Navigation completed in 0.45ms
-```
-
-### 6. Errors (`keepalive:error`)
-Logs router-related errors with context:
-
-- Navigation errors
-- Route configuration errors
-- Context usage errors
-
-**Example Output:**
-```
-keepalive:error Error in navigation: Route '/invalid' not found
-```
-
-## Browser Console Control
-
-### Enable/Disable in Browser Console
-```javascript
-// Enable all router debugging
-localStorage.setItem('debug', 'keepalive:*');
-
-// Enable specific categories
-localStorage.setItem('debug', 'keepalive:router,keepalive:navigation');
-
-// Enable only navigation
-localStorage.setItem('debug', 'keepalive:navigation');
-
-// Disable all debugging
-localStorage.removeItem('debug');
-
-// Refresh page to apply changes
-location.reload();
-```
-
-### Programmatic Control
 ```typescript
-import { enableRouterDebugging, disableRouterDebugging } from './keepaliverouter';
+import { setRouterLogLevel, routerLogger } from './keepaliverouter';
 
-// Enable all router debugging
-enableRouterDebugging();
+// Set log level programmatically
+setRouterLogLevel('debug');
 
-// Disable all router debugging
-disableRouterDebugging();
+// Use logger directly (if needed)
+routerLogger.info('Custom message', { data: 'value' });
+routerLogger.debug('Debug message', { details: 'info' });
+routerLogger.warn('Warning message', { issue: 'description' });
+routerLogger.error('Error message', { error: errorObject });
 ```
 
-## Debug Features
+### Logger API
+
+The `routerLogger` instance provides standard logging methods:
+
+```typescript
+routerLogger.error(message, data?);
+routerLogger.warn(message, data?);
+routerLogger.info(message, data?);
+routerLogger.debug(message, data?);
+```
+
+## Logging Features
 
 ### Smart Logging
 - **State change detection**: Only logs when route states actually change
 - **Duplicate prevention**: Avoids logging the same state multiple times
 - **Context awareness**: Provides context for why events occurred
-- **Performance tracking**: Automatic timing of critical operations
 
-### Development vs Production
-- **Auto-enable in development**: Debug automatically enabled in dev mode
-- **Production safe**: Debug code is stripped in production builds
-- **Zero performance impact**: No overhead when debugging is disabled
-- **Environment aware**: Respects Vite environment variables
+### Helper Functions
 
-### Configuration Options
+The router provides helper functions for common logging scenarios:
+
 ```typescript
-// Vite environment variables
-VITE_DISABLE_ROUTER_DEBUG=true  // Disable auto-enable in development
+import { logRouteChange, logRouteMounting, logRouterState, logError } from './keepaliverouter/utils/logger';
 
-// Debug library patterns
-DEBUG=keepalive:*               // All router debugging
-DEBUG=keepalive:router          // Only router core
-DEBUG=keepalive:outlet          // Only outlet rendering
-DEBUG=keepalive:hooks           // Only hook usage
-DEBUG=keepalive:navigation      // Only navigation events
-DEBUG=keepalive:perf            // Only performance metrics
-DEBUG=keepalive:error           // Only errors
+// Log route changes
+logRouteChange('/dashboard', '/editor', 'navigate');
+
+// Log route mounting
+logRouteMounting('/editor', 'render');
+
+// Log router state
+logRouterState({ mountedRoutes: 3 }, 'state update');
+
+// Log errors
+logError('Navigation error', errorObject);
 ```
 
 ## Debugging Workflows
 
 ### 1. Navigation Issues
-Enable navigation and router debugging:
-```bash
-pnpm run dev:debug:nav
-```
-Look for:
+Set log level to debug and look for:
 - Route change events
 - Navigation completion
 - URL updates
 - Browser history events
 
-### 2. Component Rendering Issues
-Enable outlet debugging:
-```bash
-pnpm run dev:debug:outlet
+```typescript
+setRouterLogLevel('debug');
+// Navigate and check console output
 ```
+
+### 2. Component Rendering Issues
 Look for:
 - Route render/hide events
 - Component mounting states
 - Redirect handling
 - Route skipping logic
 
-### 3. Performance Issues
-Enable performance debugging:
-```bash
-DEBUG=keepalive:perf pnpm run dev
-```
+### 3. State Management Issues
 Look for:
-- Route flattening timing
-- Navigation performance
-- Component mounting timing
+- State update logs
+- Route mounting logs
+- History changes
 
-### 4. Hook Usage Issues
-Enable hooks debugging:
-```bash
-pnpm run dev:debug:hooks
+### 4. Error Debugging
+Set log level to error to see only errors:
+```typescript
+setRouterLogLevel('error');
 ```
-Look for:
-- Hook call parameters
-- Return values
-- Navigation utility usage
 
 ## Advanced Debugging
 
-### Custom Debug Logging
-While internal debug functions are not exposed, you can use the debug library directly in your components:
+### Custom Logging in Components
+You can use the router logger in your components:
 
 ```typescript
-import debug from 'debug';
-
-const myComponentLogger = debug('myapp:component');
+import { routerLogger } from './keepaliverouter';
 
 const MyComponent = () => {
   const navigate = useNavigate();
   
   const handleClick = () => {
-    myComponentLogger('Navigating to editor');
+    routerLogger.info('Navigating to editor');
     navigate('/editor');
   };
   
@@ -250,7 +187,7 @@ const MyComponent = () => {
     // Log navigation timing
     requestAnimationFrame(() => {
       const duration = performance.now() - startTime;
-      console.log(`Navigation took ${duration.toFixed(2)}ms`);
+      routerLogger.debug('Navigation timing', { duration: `${duration.toFixed(2)}ms` });
     });
   };
   
@@ -260,88 +197,82 @@ const MyComponent = () => {
 
 ## Troubleshooting
 
-### Debug Not Working
-1. **Check environment**: Ensure you're in development mode
-2. **Clear localStorage**: `localStorage.removeItem('debug')`
-3. **Refresh page**: Debug settings require page reload
-4. **Check console**: Look for debug initialization messages
+### Logs Not Appearing
+1. **Check log level**: Ensure log level is set appropriately (use 'debug' for all logs)
+2. **Check console**: Look for logger initialization
+3. **Verify logger import**: Ensure you're importing from the correct path
 
-### Too Much Debug Output
-1. **Use specific categories**: Instead of `keepalive:*`, use specific patterns
-2. **Disable verbose categories**: Skip `keepalive:hooks` if too noisy
-3. **Use browser filtering**: Filter console output by debug category
+### Too Much Log Output
+1. **Increase log level**: Use 'warn' or 'error' to reduce output
+2. **Filter in console**: Use browser console filtering
+3. **Use specific log levels**: Only log what you need
 
-### Missing Debug Output
-1. **Verify debug is enabled**: Check `localStorage.getItem('debug')`
-2. **Check pattern matching**: Ensure debug pattern matches category names
-3. **Refresh after changes**: Debug settings require page reload
+### Missing Log Output
+1. **Set log level**: Call `setRouterLogLevel('debug')` to enable all logs
+2. **Check logger instance**: Verify routerLogger is properly initialized
+3. **Check browser console**: Ensure console is not filtered
 
 ## Integration with Development Tools
 
 ### Browser DevTools
-- Debug output appears in browser console with colors
-- Use console filtering to focus on specific categories
+- Log output appears in browser console
+- Use console filtering to focus on specific log levels
 - Leverage console grouping for complex debugging sessions
 
 ### VS Code Integration
-- Install "Debug Visualizer" extension for enhanced debug output
-- Use console.log() statements in conjunction with debug logging
+- Use console.log() statements in conjunction with router logging
 - Set breakpoints in router code for detailed inspection
+- Use React DevTools to inspect router state
 
 ### Performance Profiling
-- Use browser Performance tab alongside `keepalive:perf` logs
+- Use browser Performance tab to monitor navigation
 - Monitor memory usage with keep-alive components
 - Profile navigation performance with React DevTools
 
 ## Best Practices
 
-### 1. Start Broad, Then Narrow
-```bash
-# Start with all debugging
-pnpm run dev:debug
+### 1. Set Appropriate Log Level
+```typescript
+// Development: Use debug level
+setRouterLogLevel('debug');
 
-# Then focus on specific issues
-pnpm run dev:debug:navigation
+// Production: Use error level only
+setRouterLogLevel('error');
 ```
 
 ### 2. Use Context Information
-Debug logs include context about why events occurred - pay attention to the context strings.
+Log messages include context about why events occurred - pay attention to the context data.
 
-### 3. Monitor Performance
-Keep an eye on `keepalive:perf` logs to ensure router operations remain fast.
+### 3. Monitor State Changes
+Watch for state update logs to understand route mounting behavior.
 
 ### 4. Clean Up Production Code
-Debug logging is automatically removed in production, but avoid excessive debug statements in your own code.
+Set log level to 'error' in production to minimize console output.
 
 ### 5. Document Debug Sessions
-When filing issues, include relevant debug output to help with troubleshooting.
+When filing issues, include relevant log output to help with troubleshooting.
 
-## Debug Output Examples
+## Log Output Examples
 
 ### Typical Navigation Flow
 ```
-keepalive:navigation Route change: /dashboard → /editor (navigate) +0ms
-keepalive:router State update (route mounted): { newlyMounted: '/editor', totalMounted: 3 } +1ms
-keepalive:router Navigation completed: { from: '/dashboard', to: '/editor' } +0ms
-keepalive:outlet Route hide: /dashboard +2ms
-keepalive:outlet Route render: /editor +0ms
-keepalive:router URL updated via pushState: { url: '/editor' } +15ms
+[keepalive:router] Route change: /dashboard → /editor { from: '/dashboard', to: '/editor', context: 'navigate' }
+[keepalive:router] State update { context: 'route mounted', state: { newlyMounted: '/editor', totalMounted: 3 } }
+[keepalive:router] Navigation completed { from: '/dashboard', to: '/editor' }
+[keepalive:router] Route render { route: '/editor', action: 'render' }
 ```
 
 ### First-Time Route Visit
 ```
-keepalive:navigation Route change: / → /settings (navigate) +0ms
-keepalive:router State update (route mounted): { newlyMounted: '/settings', totalMounted: 2 } +1ms
-keepalive:router Navigation completed: { from: '/', to: '/settings' } +0ms
-keepalive:outlet Route hide: / +1ms
-keepalive:outlet Route render: /settings +0ms
-keepalive:router URL updated via pushState: { url: '/settings' } +12ms
+[keepalive:router] Route change: / → /settings { from: '/', to: '/settings', context: 'navigate' }
+[keepalive:router] State update { context: 'route mounted', state: { newlyMounted: '/settings', totalMounted: 2 } }
+[keepalive:router] Navigation completed { from: '/', to: '/settings' }
+[keepalive:router] Route render { route: '/settings', action: 'render' }
 ```
 
 ### Browser Navigation (Back Button)
 ```
-keepalive:navigation Route change: /editor → /dashboard (browser navigation) +0ms
-keepalive:router Navigation completed: { from: '/editor', to: '/dashboard' } +0ms
-keepalive:outlet Route hide: /editor +1ms
-keepalive:outlet Route render: /dashboard +0ms
+[keepalive:router] Route change: /editor → /dashboard { from: '/editor', to: '/dashboard', context: 'browser navigation' }
+[keepalive:router] Navigation completed { from: '/editor', to: '/dashboard' }
+[keepalive:router] Route render { route: '/dashboard', action: 'render' }
 ```

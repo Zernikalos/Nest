@@ -259,7 +259,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { goBack } = useRouteInfo();
+  const { goBack, canGoBack } = useRouteInfo();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -322,7 +322,8 @@ const LoginForm = () => {
             <button
               type="button"
               onClick={goBack}
-              className="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400"
+              disabled={!canGoBack()}
+              className="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 disabled:opacity-50"
             >
               Cancel
             </button>
@@ -382,7 +383,8 @@ const CodeEditor = () => {
       const shouldLeave = confirm('You have unsaved changes. Are you sure you want to leave?');
       if (!shouldLeave) return;
     }
-    navigate(path);
+    // Navigate with history (default behavior)
+    navigate(path, true);
   };
 
   return (

@@ -119,7 +119,7 @@ const ContactForm = () => {
   // Warn before navigation if there are unsaved changes
   useEffect(() => {
     if (hasUnsavedChanges) {
-      const handleBeforeUnload = (e) => {
+      const handleBeforeUnload = (e: BeforeUnloadEvent) => {
         e.preventDefault();
         e.returnValue = '';
       };
@@ -142,12 +142,12 @@ const ContactForm = () => {
     setHasUnsavedChanges(false);
   };
 
-  const handleNavigation = (path) => {
+  const handleNavigation = (path: string) => {
     if (hasUnsavedChanges) {
       const shouldLeave = confirm('You have unsaved changes. Continue?');
       if (!shouldLeave) return;
     }
-    navigate(path);
+    navigate(path, true); // Navigate with history
   };
 
   return (
@@ -237,46 +237,38 @@ export const dashboardRoutes = createRoutes([
 ]);
 ```
 
-### 2. Route Metadata Usage
+### 2. Route Title Usage
 
-Leverage route metadata for better UX:
+Leverage route titles for better UX:
 
 ```tsx
 const routes = createRoutes([
   {
     path: '/editor',
     component: CodeEditor,
-    title: 'Code Editor',
-    meta: {
-      requiresAuth: true,
-      showInNav: true,
-      icon: 'code',
-      shortcut: 'Ctrl+E'
-    }
+    title: 'Code Editor'
   }
 ]);
 
-// Use metadata in navigation
+// Use titles in navigation
 const Navigation = () => {
   const routes = useRoutes();
   
-  const navRoutes = routes.filter(route => route.meta?.showInNav);
-  
   return (
     <nav>
-      {navRoutes.map(route => (
-        <NavLink key={route.path} to={route.path}>
-          <Icon name={route.meta.icon} />
-          {route.title}
-          {route.meta.shortcut && (
-            <kbd>{route.meta.shortcut}</kbd>
-          )}
-        </NavLink>
+      {routes.map(route => (
+        route.title && (
+          <NavLink key={route.path} to={route.path}>
+            {route.title}
+          </NavLink>
+        )
       ))}
     </nav>
   );
 };
 ```
+
+**Note:** The router supports `title` property on routes. For additional metadata, you can extend the Route type or maintain a separate metadata mapping.
 
 ## Performance Optimization
 

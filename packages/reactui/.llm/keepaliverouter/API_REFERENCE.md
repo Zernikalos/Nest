@@ -157,12 +157,21 @@ Core hook that provides access to the router context.
 ```tsx
 interface KeepAliveRouterContextType {
   currentRoute: string;
-  navigate: (path: string) => void;
+  navigate: (path: string, addToHistory?: boolean) => void;
   routes: Route[];
   flatRoutes: Route[];
   setRoutes: (routes: Route[]) => void;
   isRouteActive: (path: string) => boolean;
   mountedRoutes: Set<string>;
+  getRoutesForLevel: (level: number) => Route[];
+  getRouteLevel: (path: string) => number;
+  getCurrentRouteSegments: () => string[];
+  goBack: () => void;
+  goForward: () => void;
+  canGoBack: () => boolean;
+  canGoForward: () => boolean;
+  history: readonly string[];
+  historyIndex: number;
 }
 ```
 
@@ -177,8 +186,12 @@ Hook for programmatic navigation, similar to react-router-dom.
 
 **Returns:**
 ```tsx
-(path: string) => void
+(path: string, addToHistory?: boolean) => void
 ```
+
+**Parameters:**
+- `path: string` - The route path to navigate to
+- `addToHistory?: boolean` - Whether to add to history (default: true). Set to false to replace current history entry.
 
 **Example:**
 ```tsx
@@ -187,6 +200,11 @@ const navigate = useNavigate();
 const handleSubmit = () => {
   // Process form...
   navigate('/success');
+};
+
+// Navigate without adding to history (replace current entry)
+const handleRedirect = () => {
+  navigate('/login', false);
 };
 ```
 
@@ -247,10 +265,13 @@ Enhanced hook that provides route metadata and navigation utilities.
   path: string;
   title?: string;
   component?: React.ComponentType;
-  navigate: (path: string) => void;
+  navigate: (path: string, addToHistory?: boolean) => void;
   goBack: () => void;
   goForward: () => void;
   canGoBack: () => boolean;
+  canGoForward: () => boolean;
+  history: readonly string[];
+  historyIndex: number;
   routeExists: (path: string) => boolean;
   getRouteInfo: (path: string) => Route | undefined;
 }
@@ -471,57 +492,69 @@ const dashboardRoute = route()
 
 ## Debug Utilities
 
-### enableRouterDebugging
+### routerLogger
 
-Programmatically enable all router debugging.
-
-**Example:**
-```tsx
-import { enableRouterDebugging } from './keepaliverouter';
-
-// Enable all router debugging
-enableRouterDebugging();
-```
-
-**Behavior:**
-- Sets `localStorage.debug` to `keepalive:*` in browser
-- Sets `process.env.DEBUG` to `keepalive:*` in Node.js
-- Enables all debug categories (router, outlet, hooks, navigation, performance, errors)
-
-### disableRouterDebugging
-
-Programmatically disable all router debugging.
+The router uses a custom logger instance for debugging.
 
 **Example:**
 ```tsx
-import { disableRouterDebugging } from './keepaliverouter';
+import { routerLogger, setRouterLogLevel } from './keepaliverouter';
 
-// Disable all router debugging
-disableRouterDebugging();
+// Set log level programmatically
+setRouterLogLevel('debug');
+
+// Use logger directly (if needed)
+routerLogger.info('Custom message', { data: 'value' });
 ```
 
-**Behavior:**
-- Removes `localStorage.debug` in browser
-- Deletes `process.env.DEBUG` in Node.js
-- Requires page refresh to take effect
+**Available Log Levels:**
+- `'error'` - Only errors
+- `'warn'` - Warnings and errors
+- `'info'` - Info, warnings, and errors
+- `'debug'` - All log levels
+
+### setRouterLogLevel
+
+Set the log level for the router logger.
+
+**Example:**
+```tsx
+import { setRouterLogLevel } from './keepaliverouter';
+
+// Enable debug logging
+setRouterLogLevel('debug');
+
+// Reduce logging in production
+setRouterLogLevel('error');
+```
 
 ## Browser Integration
 
 The router integrates with the browser's history API:
 
-- **Forward/Back buttons**: Automatically handled
-- **URL updates**: Routes update the browser URL
+- **Forward/Back buttons**: Automatically handled via `popstate` events
+- **URL updates**: Routes update the browser URL using `pushState`/`replaceState`
 - **Direct URL access**: Initial route can be set from URL
 - **History state**: Uses `pushState` for navigation, `replaceState` for redirects
+- **History management**: Internal `RouteHistory` class manages navigation history independently
 
-## Debug Integration
+## Route Utilities
 
-The router includes comprehensive debugging support:
+The router exports several utility functions for path manipulation:
 
-- **Auto-enable in development**: Debug automatically enabled in dev mode
-- **Category-based logging**: Separate debug categories for different router aspects
-- **Performance monitoring**: Automatic timing of critical operations
-- **Smart logging**: Only logs state changes, avoids duplicate logs
-- **Production safe**: Debug code stripped in production builds
+- `normalizePath(path: string)`: Normalizes a path
+- `joinPaths(...segments: string[])`: Joins path segments
+- `splitPath(path: string)`: Splits path into segments
+- `getPathUpToLevel(path: string, level: number)`: Gets path up to specific level
+- `isExactMatch(path1: string, path2: string)`: Checks exact path match
+- `isPathPrefix(path: string, prefix: string)`: Checks if path starts with prefix
+- `getParentPath(path: string)`: Gets parent path
+- `getPathDepth(path: string)`: Gets path depth/level
+- `resolvePath(basePath: string, relativePath: string)`: Resolves relative paths
+- `getQueryParams(url: string)`: Extracts query parameters
+- `buildUrl(path: string, params?: Record<string, string | number | boolean>)`: Builds URL with params
+- `getParentPaths(path: string)`: Gets all parent paths
+- `findMatchingRoute<T>(routes: T[], targetPath: string)`: Finds matching route
+- `flattenRoutes<T>(routes: T[], parentPath?: string, level?: number)`: Flattens nested routes
 
 See **[DEBUGGING.md](./DEBUGGING.md)** for complete debugging guide.
