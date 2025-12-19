@@ -1,6 +1,7 @@
-import React, { useEffect, createContext, useContext, useMemo, useCallback } from 'react';
+import React, { useEffect, createContext, useContext, useMemo, useRef } from 'react';
 import { useKeepAliveRouter } from './KeepAliveRouter';
 import { routerLogger, logRouteMounting } from './logger';
+import { resolvePath, getPathUpToLevel, findMatchingRoute } from './routeUtils';
 
 // Context for outlet nesting level
 interface OutletLevelContextType {
@@ -18,14 +19,9 @@ interface KeepAliveOutletProps {
     className?: string;
 }
 
-// Simplified redirect path resolution
+// Redirect path resolution using routeUtils
 const resolveRedirectPath = (currentPath: string, redirectTo: string): string => {
-    if (redirectTo.startsWith('/')) {
-        return redirectTo;
-    }
-    const pathParts = currentPath.split('/');
-    pathParts.pop();
-    return `${pathParts.join('/')}/${redirectTo}`;
+    return resolvePath(currentPath, redirectTo);
 };
 
 export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = '' }) => {
@@ -33,8 +29,7 @@ export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = ''
         getRoutesForLevel, 
         mountedRoutes, 
         navigate, 
-        currentRoute,
-        getCurrentRouteSegments 
+        currentRoute
     } = useKeepAliveRouter();
     
     const { level: currentLevel } = useOutletLevel();
@@ -43,42 +38,47 @@ export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = ''
     // Get routes that belong to this outlet level
     const routesForThisLevel = getRoutesForLevel(currentLevel);
     
-    // Get current route segments to determine what should be active at this level
-    const currentSegments = getCurrentRouteSegments();
-    
     // Memoized active route detection to avoid recalculation on every render
     const activeRoute = useMemo(() => {
-        const pathUpToLevel = '/' + currentSegments.slice(0, currentLevel + 1).join('/');
-        return routesForThisLevel.find(route => route.path === pathUpToLevel);
-    }, [currentSegments, currentLevel, routesForThisLevel]);
+        const pathUpToLevel = getPathUpToLevel(currentRoute, currentLevel);
+        return findMatchingRoute(routesForThisLevel, pathUpToLevel);
+    }, [currentRoute, currentLevel, routesForThisLevel]);
 
-    // Memoized redirect handler to avoid recreating function on every render
-    const handleRedirect = useCallback(() => {
+    // Handle redirects - use ref to prevent multiple redirects and loops
+    const redirectHandledRef = useRef<string | null>(null);
+    const lastRedirectRouteRef = useRef<string | null>(null);
+    
+    useEffect(() => {
+        // Reset redirect tracking if the route changed (not from a redirect)
+        if (lastRedirectRouteRef.current && lastRedirectRouteRef.current !== currentRoute) {
+            redirectHandledRef.current = null;
+            lastRedirectRouteRef.current = null;
+        }
+        
         if (activeRoute?.redirectTo) {
             const resolvedPath = resolveRedirectPath(currentRoute, activeRoute.redirectTo);
-            routerLogger.info('Handling redirect at level', { 
-                level: currentLevel,
-                from: currentRoute, 
-                to: resolvedPath, 
-                redirectTo: activeRoute.redirectTo 
-            });
-            navigate(resolvedPath);
+            const redirectKey = `${activeRoute.path}:${resolvedPath}`;
+            
+            // Only redirect if we haven't handled this redirect for this route combination
+            // and we're not already at the destination
+            if (redirectHandledRef.current !== redirectKey && resolvedPath !== currentRoute) {
+                redirectHandledRef.current = redirectKey;
+                lastRedirectRouteRef.current = currentRoute;
+                routerLogger.info('Handling redirect at level', { 
+                    level: currentLevel,
+                    from: currentRoute, 
+                    to: resolvedPath, 
+                    redirectTo: activeRoute.redirectTo 
+                });
+                navigate(resolvedPath);
+            }
+        } else {
+            // Reset redirect tracking when no redirect is needed
+            redirectHandledRef.current = null;
+            lastRedirectRouteRef.current = null;
         }
     }, [activeRoute, currentRoute, currentLevel, navigate]);
 
-    // Handle redirects
-    useEffect(() => {
-        handleRedirect();
-    }, [handleRedirect]);
-
-    // Log outlet rendering
-    routerLogger.debug('Outlet rendering at level', {
-        level: currentLevel,
-        routesCount: routesForThisLevel.length,
-        activeRoute: activeRoute?.path,
-        currentRoute,
-        currentSegments
-    });
 
     return (
         <OutletLevelContext.Provider value={{ level: nextLevel }}>

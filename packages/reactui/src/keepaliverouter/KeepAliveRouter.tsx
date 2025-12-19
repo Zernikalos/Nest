@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import { routerLogger, logRouteChange, logRouterState } from './logger';
+import { normalizePath, joinPaths, splitPath, isExactMatch, getParentPaths } from './routeUtils';
 
 // Types for our custom router
 export interface Route {
@@ -27,15 +28,23 @@ interface KeepAliveRouterContextType {
     getCurrentRouteSegments: () => string[];
 }
 
-    // Simplified route flattening function
+    // Simplified route flattening function using routeUtils
     const flattenRoutes = (routes: Route[], parentPath = '', level = 0): Route[] => {
         const flattened: Route[] = [];
         
         for (const route of routes) {
-            // Simplified path construction
-            const fullPath = !parentPath ? route.path : 
-                            route.path === '' ? parentPath : 
-                            `${parentPath}/${route.path}`;
+            // Handle empty path (index routes) - use parentPath directly
+            let fullPath: string;
+            if (!route.path || route.path === '') {
+                // Index route: use parent path as-is
+                fullPath = parentPath || '/';
+            } else if (parentPath) {
+                // Child route: join with parent and normalize to ensure leading slash
+                fullPath = normalizePath(joinPaths(parentPath, route.path));
+            } else {
+                // Root route: normalize
+                fullPath = normalizePath(route.path);
+            }
             
             // More efficient object creation - only copy necessary properties
             const flattenedRoute: Route = {
@@ -104,27 +113,34 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
 
     // Memoized navigation function to prevent unnecessary re-renders
     const navigate = useCallback((path: string) => {
+        const normalizedPath = normalizePath(path);
         // Early return if navigating to the same route
-        if (path === currentRoute) {
+        if (isExactMatch(normalizedPath, currentRoute)) {
             return;
         }
         
         const previousRoute = currentRoute;
-        logRouteChange(previousRoute, path, 'navigate');
+        logRouteChange(previousRoute, normalizedPath, 'navigate');
         
-        // More efficient route mounting logic
+        // More efficient route mounting logic - mount all parent routes too
         setMountedRoutes(prev => {
-            if (prev.has(path)) {
-                return prev; // No need to create new Set if route already mounted
+            const newMounted = new Set(prev);
+            const parentPaths = getParentPaths(normalizedPath);
+            
+            // Mount all parent paths (e.g., for /settings/appearance, mount /settings too)
+            for (const parentPath of parentPaths) {
+                if (!newMounted.has(parentPath)) {
+                    newMounted.add(parentPath);
+                    logRouterState({ newlyMounted: parentPath, totalMounted: newMounted.size }, 'route mounted');
+                }
             }
-            // Log route mounting
-            logRouterState({ newlyMounted: path, totalMounted: prev.size + 1 }, 'route mounted');
-            return new Set([...prev, path]);
+            
+            return newMounted;
         });
         
-        setCurrentRoute(path);
+        setCurrentRoute(normalizedPath);
         // Log navigation
-        routerLogger.info('Navigation completed', { from: previousRoute, to: path });
+        routerLogger.info('Navigation completed', { from: previousRoute, to: normalizedPath });
     }, [currentRoute]);
 
     // Memoized route checking function
@@ -143,7 +159,7 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
 
     // Memoized function to get current route segments
     const getCurrentRouteSegments = useCallback((): string[] => {
-        return currentRoute.split('/').filter(segment => segment !== '');
+        return splitPath(currentRoute);
     }, [currentRoute]);
 
     // Handle browser back/forward buttons

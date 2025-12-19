@@ -16,3 +16,20 @@ export { useLocation, useParams, useRouteInfo, useIsActive, useRoutes } from './
 
 // Logger utilities
 export { routerLogger, setRouterLogLevel } from './logger';
+
+// Route utilities
+export {
+    normalizePath,
+    joinPaths,
+    splitPath,
+    getPathUpToLevel,
+    isExactMatch,
+    isPathPrefix,
+    getParentPath,
+    getPathDepth,
+    resolvePath,
+    getQueryParams,
+    buildUrl,
+    getParentPaths,
+    findMatchingRoute,
+} from './routeUtils';
