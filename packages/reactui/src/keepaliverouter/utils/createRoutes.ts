@@ -1,4 +1,4 @@
-import type { Route } from './KeepAliveRouter';
+import type { Route } from '../types';
 
 /**
  * Route configuration helper

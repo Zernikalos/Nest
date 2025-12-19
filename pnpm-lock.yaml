@@ -317,6 +317,9 @@ importers:
       lucide-react:
         specifier: 0.561.0
         version: 0.561.0(react@19.2.3)
+      path-to-regexp:
+        specifier: 8.3.0
+        version: 8.3.0
       react:
         specifier: 19.2.3
         version: 19.2.3

@@ -10,14 +10,20 @@ The KeepAliveRouter is designed as a lightweight, React Context-based routing so
 
 ```
 KeepAliveRouterProvider (Context Provider)
-├── Router State Management
-│   ├── Current Route Tracking
-│   ├── Mounted Routes Set
-│   ├── Route Configuration
-│   └── Navigation Functions
+├── Navigator Store (Zustand)
+│   ├── Navigator Class (Core Logic)
+│   │   ├── Route Management
+│   │   ├── Navigation Logic
+│   │   ├── Route History (RouteHistory)
+│   │   └── State Change Callbacks
+│   └── Store Actions & Getters
+│       ├── navigate(path, addToHistory?)
+│       ├── goBack() / goForward()
+│       ├── setRoutes(routes)
+│       └── State Getters
 ├── Browser History Integration
 │   ├── PopState Event Handling
-│   ├── URL Synchronization
+│   ├── URL Synchronization (via RouteHistory)
 │   └── History API Management
 └── KeepAliveOutlet (Route Renderer)
     ├── Route Mounting Logic
@@ -33,12 +39,85 @@ KeepAliveRouterProvider (Context Provider)
 ```tsx
 interface KeepAliveRouterContextType {
   currentRoute: string;           // Currently active route path
-  navigate: (path: string) => void; // Navigation function
+  navigate: (path: string, addToHistory?: boolean) => void; // Navigation function
   routes: Route[];                // Original route configuration
   flatRoutes: Route[];            // Flattened routes for easy lookup
   setRoutes: (routes: Route[]) => void; // Dynamic route updates
   isRouteActive: (path: string) => boolean; // Active route checker
   mountedRoutes: Set<string>;     // Set of routes that have been visited
+  getRoutesForLevel: (level: number) => Route[]; // Get routes for nesting level
+  getRouteLevel: (path: string) => number; // Get route nesting level
+  getCurrentRouteSegments: () => string[]; // Get current route segments
+  goBack: () => void;             // Navigate backward in history
+  goForward: () => void;           // Navigate forward in history
+  canGoBack: () => boolean;       // Check if can go back
+  canGoForward: () => boolean;     // Check if can go forward
+  history: readonly string[];      // Navigation history array
+  historyIndex: number;            // Current position in history
+}
+```
+
+### Navigator Class
+
+The core routing logic is handled by the `Navigator` class, which is independent from React:
+
+```tsx
+class Navigator {
+  private routes: Route[];
+  private flatRoutes: Route[];
+  private currentRoute: string;
+  private mountedRoutes: Set<string>;
+  private history: RouteHistory;
+  private onStateChange?: (state: NavigatorState) => void;
+  
+  // Core methods
+  navigate(path: string, addToHistory?: boolean): void;
+  goBack(): void;
+  goForward(): void;
+  setRoutes(routes: Route[]): void;
+  // ... more methods
+}
+```
+
+### Zustand Store
+
+The router uses Zustand for state management:
+
+```tsx
+interface NavigatorStore extends NavigatorState {
+  // Actions
+  navigate: (path: string, addToHistory?: boolean) => void;
+  goBack: () => void;
+  goForward: () => void;
+  setRoutes: (routes: Route[]) => void;
+  handlePopState: (path: string) => void;
+  syncUrl: () => void;
+  
+  // Getters
+  getRoutesForLevel: (level: number) => Route[];
+  getRouteLevel: (path: string) => number;
+  // ... more getters
+  
+  // Internal Navigator instance
+  _navigator: Navigator;
+}
+```
+
+### RouteHistory Class
+
+Navigation history is managed by a separate `RouteHistory` class:
+
+```tsx
+class RouteHistory {
+  private history: string[];
+  private currentIndex: number;
+  private maxSize?: number;
+  
+  add(path: string, addToHistory?: boolean): string;
+  goBack(): string | null;
+  goForward(): string | null;
+  syncUrl(path: string): void;
+  // ... more methods
 }
 ```
 
@@ -150,32 +229,40 @@ The KeepAliveOutlet implements the core keep-alive functionality:
 
 ### History API Integration
 
+The router handles browser history through the `RouteHistory` class and `KeepAliveRouterProvider`:
+
 ```tsx
-// Handle browser back/forward buttons
+// In KeepAliveRouterProvider
 useEffect(() => {
   const handlePopState = () => {
     const currentPath = window.location.pathname;
-    navigate(currentPath);
+    useStore.getState().handlePopState(currentPath);
   };
 
   window.addEventListener('popstate', handlePopState);
   
   // Set initial URL
-  if (window.location.pathname !== currentRoute) {
-    window.history.replaceState(null, '', currentRoute);
-  }
+  useStore.getState().syncUrl();
 
   return () => {
     window.removeEventListener('popstate', handlePopState);
   };
-}, []);
+}, [useStore]);
 
-// Update URL when route changes
-useEffect(() => {
-  if (window.location.pathname !== currentRoute) {
-    window.history.pushState(null, '', currentRoute);
+// In Navigator.navigate()
+navigate(path: string, addToHistory: boolean = true): void {
+  // ... route mounting logic ...
+  this.history.add(normalized, addToHistory);
+  this.history.syncUrl(normalized);
+}
+
+// In RouteHistory
+syncUrl(path: string): void {
+  const normalized = normalizePath(path);
+  if (window.location.pathname !== normalized) {
+    window.history.replaceState(null, '', normalized);
   }
-}, [currentRoute]);
+}
 ```
 
 ### URL Synchronization

@@ -1,4 +1,4 @@
-import { createLogger, LogLevel } from '../logger';
+import { createLogger, LogLevel } from '../../logger';
 
 // Single logger instance for the router
 export const routerLogger = createLogger('keepalive:router');

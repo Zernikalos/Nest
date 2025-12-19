@@ -153,11 +153,12 @@ const params = useParams();
 
 **After (KeepAliveRouter):**
 ```tsx
-import { useNavigate, useLocation, useParams } from './keepaliverouter';
+import { useNavigate, useLocation, useParams, useRouteInfo } from './keepaliverouter';
 
-const navigate = useNavigate(); // Same API
-const location = useLocation(); // Limited functionality
+const navigate = useNavigate(); // Similar API, but accepts optional addToHistory parameter
+const location = useLocation(); // Limited functionality (pathname only)
 const params = useParams();     // Returns empty object (not supported yet)
+const { goBack, goForward, canGoBack, canGoForward, history } = useRouteInfo(); // Additional utilities
 ```
 
 ### 5. Handle Redirects
@@ -190,10 +191,11 @@ import { Navigate } from './keepaliverouter';
 | `Link` | `Link` | Similar API with `activeClassName` |
 | `NavLink` | `NavLink` | Render prop support |
 | `Navigate` | `Navigate` | Programmatic redirects |
-| `useNavigate` | `useNavigate` | Identical API |
+| `useNavigate` | `useNavigate` | Similar API, accepts optional `addToHistory` parameter |
 | `useLocation` | `useLocation` | Basic pathname support |
-| Nested routes | Nested routes | Full support |
+| Nested routes | Nested routes | Full support with automatic level detection |
 | Index routes | Index routes | Via `index: true` |
+| History navigation | History navigation | `goBack()`, `goForward()`, `canGoBack()`, `canGoForward()` via `useRouteInfo()` |
 
 ### Unsupported Features
 
@@ -438,6 +440,35 @@ const DataHeavyComponent = () => {
       loadData().then(setData);
     }
   }, [isActive]);
+};
+```
+
+### 3. History Navigation
+```tsx
+const NavigationControls = () => {
+  const { goBack, goForward, canGoBack, canGoForward, history, historyIndex } = useRouteInfo();
+  
+  return (
+    <div>
+      <button onClick={goBack} disabled={!canGoBack()}>
+        Back
+      </button>
+      <button onClick={goForward} disabled={!canGoForward()}>
+        Forward
+      </button>
+      <div>History: {history.length} entries, current: {historyIndex}</div>
+    </div>
+  );
+};
+```
+
+### 4. Navigation Without History
+```tsx
+const navigate = useNavigate();
+
+// Navigate without adding to history (replace current entry)
+const handleRedirect = () => {
+  navigate('/login', false);
 };
 ```
 

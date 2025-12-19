@@ -123,12 +123,13 @@ If you have existing flat routes, they will continue to work. The new nesting fe
 
 ## Debugging
 
-Enable router debugging to see how routes are assigned levels:
+Enable router logging to see how routes are assigned levels:
 
 ```tsx
-import { enableRouterDebugging } from '@/keepaliverouter';
+import { setRouterLogLevel } from '@/keepaliverouter';
 
-enableRouterDebugging();
+// Set log level to debug to see detailed information
+setRouterLogLevel('debug');
 ```
 
 This will log information about route levels, outlet rendering, and nesting behavior to help with debugging.
