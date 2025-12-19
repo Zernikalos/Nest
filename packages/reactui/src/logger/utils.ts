@@ -145,12 +145,17 @@ export function isError(value: any): value is Error {
  * Extract error information from an Error object
  */
 export function extractErrorInfo(error: Error): LogContext {
-  return {
+  const errorInfo: LogContext = {
     message: error.message,
     name: error.name,
-    stack: error.stack,
-    ...(error.cause && { cause: error.cause })
+    stack: error.stack
   };
+  
+  if (error.cause) {
+    errorInfo.cause = error.cause;
+  }
+  
+  return errorInfo;
 }
 
 /**

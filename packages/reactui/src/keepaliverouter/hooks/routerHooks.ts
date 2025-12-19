@@ -1,5 +1,4 @@
-import { useKeepAliveRouter } from '../components/KeepAliveRouter';
-import { routerLogger } from '../utils/logger';
+import { useKeepAliveRouter } from '@/keepaliverouter';
 
 /**
  * Hook similar to react-router-dom's useLocation

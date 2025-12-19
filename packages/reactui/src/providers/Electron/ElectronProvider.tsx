@@ -1,6 +1,6 @@
 import { createContext, useCallback, useRef, type ReactNode, useEffect } from 'react'
-import type { ElectronSubscription } from '../../types/electron'
-import { createLogger, LogLevel } from '../../logger'
+import type { ElectronSubscription } from '@/types/electron.ts'
+import { createLogger } from '@/logger'
 
 interface ElectronProviderState {
     onLoadZko: (callback: (data: any) => void) => void
