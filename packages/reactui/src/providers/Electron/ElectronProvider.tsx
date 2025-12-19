@@ -1,5 +1,6 @@
 import { createContext, useCallback, useRef, type ReactNode, useEffect } from 'react'
 import type { ElectronSubscription } from '../../types/electron'
+import { createLogger, LogLevel } from '../../logger'
 
 interface ElectronProviderState {
     onLoadZko: (callback: (data: any) => void) => void
@@ -33,14 +34,17 @@ const ElectronProviderContext = createContext<ElectronProviderState>(initialStat
 
 const isElectron = typeof window !== 'undefined' && window.NativeZernikalos !== undefined
 
+// Logger for Electron provider
+const electronLogger = createLogger('electron:provider')
+
 export function ElectronProvider({ children, ...props }: { children: ReactNode }) {
     const subscriptions = useRef<Map<string, ElectronSubscription>>(new Map())
 
     const onLoadZko = useCallback((callback: (data: any) => void) => {
         if (isElectron && !subscriptions.current.has('loadZko')) {
-            console.log("🔄 ElectronProvider - Registering LoadZko callback")
+            electronLogger.debug('Registering LoadZko callback')
             const subscription = window.NativeZernikalos?.handleLoadZko((ev: any, data: any) => {
-                console.log("📁 LoadZko callback triggered", { ev, data })
+                electronLogger.debug('LoadZko callback triggered', { ev, data })
                 callback(data)
             })
             if (subscription) {
@@ -51,9 +55,9 @@ export function ElectronProvider({ children, ...props }: { children: ReactNode }
 
     const onImportFile = useCallback((callback: (data: any) => void) => {
         if (isElectron && !subscriptions.current.has('importFile')) {
-            console.log("🔄 ElectronProvider - Registering ImportFile callback")
+            electronLogger.debug('Registering ImportFile callback')
             const subscription = window.NativeZernikalos?.handleShowImport((ev: any, data: any) => {
-                console.log("📁 ImportFile callback triggered", { ev, data })
+                electronLogger.debug('ImportFile callback triggered', { ev, data })
                 callback(data)
             })
             if (subscription) {
@@ -64,9 +68,9 @@ export function ElectronProvider({ children, ...props }: { children: ReactNode }
 
     const onBundleScene = useCallback((callback: (data: any) => void) => {
         if (isElectron && !subscriptions.current.has('bundleScene')) {
-            console.log("🔄 ElectronProvider - Registering BundleScene callback")
+            electronLogger.debug('Registering BundleScene callback')
             const subscription = window.NativeZernikalos?.handleBundleScene((ev: any, data: any) => {
-                console.log("📦 BundleScene callback triggered", { ev, data })
+                electronLogger.debug('BundleScene callback triggered', { ev, data })
                 callback(data)
             })
             if (subscription) {
@@ -79,28 +83,28 @@ export function ElectronProvider({ children, ...props }: { children: ReactNode }
         const subscription = subscriptions.current.get('loadZko')
         subscription?.off()
         subscriptions.current.delete('loadZko')
-        console.log("🔄 ElectronProvider - Removed LoadZko callback")
+        electronLogger.debug('Removed LoadZko callback')
     }, [])
 
     const offImportFile = useCallback(() => {
         const subscription = subscriptions.current.get('importFile')
         subscription?.off()
         subscriptions.current.delete('importFile')
-        console.log("🔄 ElectronProvider - Removed ImportFile callback")
+        electronLogger.debug('Removed ImportFile callback')
     }, [])
 
     const offBundleScene = useCallback(() => {
         const subscription = subscriptions.current.get('bundleScene')
         subscription?.off()
         subscriptions.current.delete('bundleScene')
-        console.log("🔄 ElectronProvider - Removed BundleScene callback")
+        electronLogger.debug('Removed BundleScene callback')
     }, [])
 
     const onCreateProject = useCallback((callback: () => void) => {
         if (isElectron && !subscriptions.current.has('createProject')) {
-            console.log("🔄 ElectronProvider - Registering CreateProject callback")
+            electronLogger.debug('Registering CreateProject callback')
             const subscription = window.NativeZernikalos?.handleCreateProject?.((ev: any) => {
-                console.log("📁 CreateProject callback triggered", { ev })
+                electronLogger.debug('CreateProject callback triggered', { ev })
                 callback()
             })
             if (subscription) {
@@ -113,14 +117,14 @@ export function ElectronProvider({ children, ...props }: { children: ReactNode }
         const subscription = subscriptions.current.get('createProject')
         subscription?.off()
         subscriptions.current.delete('createProject')
-        console.log("🔄 ElectronProvider - Removed CreateProject callback")
+        electronLogger.debug('Removed CreateProject callback')
     }, [])
 
     const onOpenProject = useCallback((callback: (data: { filePath: string }) => void) => {
         if (isElectron && !subscriptions.current.has('openProject')) {
-            console.log("🔄 ElectronProvider - Registering OpenProject callback")
+            electronLogger.debug('Registering OpenProject callback')
             const subscription = window.NativeZernikalos?.handleOpenProject?.((ev: any, data: any) => {
-                console.log("📁 OpenProject callback triggered", { ev, data })
+                electronLogger.debug('OpenProject callback triggered', { ev, data })
                 callback(data)
             })
             if (subscription) {
@@ -133,7 +137,7 @@ export function ElectronProvider({ children, ...props }: { children: ReactNode }
         const subscription = subscriptions.current.get('openProject')
         subscription?.off()
         subscriptions.current.delete('openProject')
-        console.log("🔄 ElectronProvider - Removed OpenProject callback")
+        electronLogger.debug('Removed OpenProject callback')
     }, [])
 
     // Cleanup cuando se desmonta el provider

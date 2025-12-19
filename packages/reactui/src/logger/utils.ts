@@ -133,3 +133,60 @@ export function safeStringify(obj: any, space?: number): string {
     return value;
   }, space);
 }
+
+/**
+ * Check if a value is an Error instance
+ */
+export function isError(value: any): value is Error {
+  return value instanceof Error;
+}
+
+/**
+ * Extract error information from an Error object
+ */
+export function extractErrorInfo(error: Error): LogContext {
+  return {
+    message: error.message,
+    name: error.name,
+    stack: error.stack,
+    ...(error.cause && { cause: error.cause })
+  };
+}
+
+/**
+ * Process log arguments to detect and handle Errors automatically
+ * Returns processed context and data arrays
+ */
+export function processLogArgs(
+  context?: LogContext, 
+  ...data: any[]
+): { processedContext: LogContext; processedData: any[] } {
+  const processedContext: LogContext = { ...context };
+  const processedData: any[] = [];
+  
+  // Process data array to detect errors
+  for (const item of data) {
+    if (isError(item)) {
+      // Merge error info into context
+      Object.assign(processedContext, extractErrorInfo(item));
+      // Still include the error object in data for console output
+      processedData.push(item);
+    } else {
+      processedData.push(item);
+    }
+  }
+  
+  // Also check context for errors
+  if (context) {
+    for (const [key, value] of Object.entries(context)) {
+      if (isError(value)) {
+        // Replace error in context with extracted info
+        Object.assign(processedContext, extractErrorInfo(value));
+        delete processedContext[key];
+        processedContext[`${key}Error`] = extractErrorInfo(value);
+      }
+    }
+  }
+  
+  return { processedContext, processedData };
+}
