@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useMemo, useCall
 import type { ReactNode } from 'react';
 import { routerLogger, logRouteChange, logRouterState } from './logger';
 import { normalizePath, joinPaths, splitPath, isExactMatch, getParentPaths } from './routeUtils';
+import { useRouteHistory } from './routeHistory';
 
 // Types for our custom router
 export interface Route {
@@ -17,7 +18,7 @@ export interface Route {
 
 interface KeepAliveRouterContextType {
     currentRoute: string;
-    navigate: (path: string) => void;
+    navigate: (path: string, addToHistory?: boolean) => void;
     routes: Route[];
     flatRoutes: Route[];
     setRoutes: (routes: Route[]) => void;
@@ -26,6 +27,12 @@ interface KeepAliveRouterContextType {
     getRoutesForLevel: (level: number) => Route[];
     getRouteLevel: (path: string) => number;
     getCurrentRouteSegments: () => string[];
+    goBack: () => void;
+    goForward: () => void;
+    canGoBack: () => boolean;
+    canGoForward: () => boolean;
+    history: readonly string[];
+    historyIndex: number;
 }
 
     // Simplified route flattening function using routeUtils
@@ -102,9 +109,34 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
     initialRoute = '/',
     routes: initialRoutes,
 }) => {
-    const [currentRoute, setCurrentRoute] = useState(initialRoute);
     const [routes, setRoutes] = useState<Route[]>(initialRoutes);
+    
+    // Initialize route history
+    const routeHistory = useRouteHistory(initialRoute);
+    const currentRoute = routeHistory.currentRoute;
+    
     const [mountedRoutes, setMountedRoutes] = useState<Set<string>>(new Set([initialRoute]));
+    
+    // Sync mountedRoutes when currentRoute changes (from history navigation)
+    useEffect(() => {
+        setMountedRoutes(prev => {
+            const newMounted = new Set(prev);
+            const parentPaths = getParentPaths(currentRoute);
+            
+            // Mount all parent paths for the current route
+            let hasChanges = false;
+            for (const parentPath of parentPaths) {
+                if (!newMounted.has(parentPath)) {
+                    newMounted.add(parentPath);
+                    hasChanges = true;
+                    logRouterState({ newlyMounted: parentPath, totalMounted: newMounted.size }, 'route mounted');
+                }
+            }
+            
+            // Only return new Set if there were changes
+            return hasChanges ? newMounted : prev;
+        });
+    }, [currentRoute]);
     
     // Flatten routes to handle nested routes properly
     const flatRoutes = useMemo(() => {
@@ -112,7 +144,7 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
     }, [routes]);
 
     // Memoized navigation function to prevent unnecessary re-renders
-    const navigate = useCallback((path: string) => {
+    const navigate = useCallback((path: string, addToHistory: boolean = true) => {
         const normalizedPath = normalizePath(path);
         // Early return if navigating to the same route
         if (isExactMatch(normalizedPath, currentRoute)) {
@@ -138,10 +170,15 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
             return newMounted;
         });
         
-        setCurrentRoute(normalizedPath);
+        // Add to history (this will trigger onChange callback and update currentRoute synchronously)
+        // The onChange callback will update currentRoute, which will trigger the useEffect to sync mountedRoutes
+        routeHistory.add(normalizedPath, addToHistory);
+        // Sync URL after adding to history
+        routeHistory.syncUrl(normalizedPath);
+        
         // Log navigation
         routerLogger.info('Navigation completed', { from: previousRoute, to: normalizedPath });
-    }, [currentRoute]);
+    }, [currentRoute, routeHistory]);
 
     // Memoized route checking function
     const isRouteActive = useCallback((path: string) => currentRoute === path, [currentRoute]);
@@ -162,32 +199,102 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
         return splitPath(currentRoute);
     }, [currentRoute]);
 
-    // Handle browser back/forward buttons
+    // History navigation functions
+    const goBack = useCallback(() => {
+        const previousRoute = routeHistory.goBack();
+        if (previousRoute) {
+            // Mount routes if needed
+            setMountedRoutes(prev => {
+                const newMounted = new Set(prev);
+                const parentPaths = getParentPaths(previousRoute);
+                
+                for (const parentPath of parentPaths) {
+                    if (!newMounted.has(parentPath)) {
+                        newMounted.add(parentPath);
+                        logRouterState({ newlyMounted: parentPath, totalMounted: newMounted.size }, 'route mounted');
+                    }
+                }
+                
+                return newMounted;
+            });
+            
+            routeHistory.syncUrl(previousRoute);
+            logRouteChange(currentRoute, previousRoute, 'goBack');
+        }
+    }, [currentRoute, routeHistory]);
+
+    const goForward = useCallback(() => {
+        const nextRoute = routeHistory.goForward();
+        if (nextRoute) {
+            // Mount routes if needed
+            setMountedRoutes(prev => {
+                const newMounted = new Set(prev);
+                const parentPaths = getParentPaths(nextRoute);
+                
+                for (const parentPath of parentPaths) {
+                    if (!newMounted.has(parentPath)) {
+                        newMounted.add(parentPath);
+                        logRouterState({ newlyMounted: parentPath, totalMounted: newMounted.size }, 'route mounted');
+                    }
+                }
+                
+                return newMounted;
+            });
+            
+            routeHistory.syncUrl(nextRoute);
+            logRouteChange(currentRoute, nextRoute, 'goForward');
+        }
+    }, [currentRoute, routeHistory]);
+
+    // Handle browser back/forward buttons (synchronization only)
     useEffect(() => {
         const handlePopState = () => {
             const currentPath = window.location.pathname;
-            logRouteChange(currentRoute, currentPath, 'browser navigation');
-            navigate(currentPath);
+            if (currentPath !== currentRoute) {
+                logRouteChange(currentRoute, currentPath, 'browser navigation');
+                // Sync with history but don't add to history (user used browser buttons)
+                const normalizedPath = normalizePath(currentPath);
+                
+                // Mount routes if needed
+                setMountedRoutes(prev => {
+                    const newMounted = new Set(prev);
+                    const parentPaths = getParentPaths(normalizedPath);
+                    
+                    for (const parentPath of parentPaths) {
+                        if (!newMounted.has(parentPath)) {
+                            newMounted.add(parentPath);
+                            logRouterState({ newlyMounted: parentPath, totalMounted: newMounted.size }, 'route mounted');
+                        }
+                    }
+                    
+                    return newMounted;
+                });
+                
+                // Update history without adding to history
+                routeHistory.add(normalizedPath, false);
+                routeHistory.syncUrl(normalizedPath);
+            }
         };
 
         window.addEventListener('popstate', handlePopState);
         
         // Set initial URL
-        if (window.location.pathname !== currentRoute) {
-            window.history.replaceState(null, '', currentRoute);
-        }
+        routeHistory.syncUrl(initialRoute);
 
         return () => {
             window.removeEventListener('popstate', handlePopState);
         };
-    }, []);
+    }, [currentRoute, routeHistory, initialRoute]);
 
-    // Update URL when route changes
+    // Log current state for debugging
     useEffect(() => {
-        if (window.location.pathname !== currentRoute) {
-            window.history.pushState(null, '', currentRoute);
-        }
-    }, [currentRoute]);
+        routerLogger.info('Router state updated', {
+            currentRoute,
+            mountedRoutes: Array.from(mountedRoutes),
+            history: routeHistory.getHistory(),
+            historyIndex: routeHistory.getIndex(),
+        });
+    }, [currentRoute, mountedRoutes, routeHistory]);
 
     const contextValue: KeepAliveRouterContextType = {
         currentRoute,
@@ -200,6 +307,12 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
         getRoutesForLevel,
         getRouteLevel,
         getCurrentRouteSegments,
+        goBack,
+        goForward,
+        canGoBack: routeHistory.canGoBack,
+        canGoForward: routeHistory.canGoForward,
+        history: routeHistory.getHistory(),
+        historyIndex: routeHistory.getIndex(),
     };
 
     return (

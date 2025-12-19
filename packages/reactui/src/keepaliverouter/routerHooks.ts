@@ -32,19 +32,20 @@ export const useParams = () => {
  * Enhanced version with additional utilities
  */
 export const useRouteInfo = () => {
-    const { currentRoute, routes, navigate } = useKeepAliveRouter();
+    const { 
+        currentRoute, 
+        routes, 
+        navigate, 
+        goBack, 
+        goForward, 
+        canGoBack, 
+        canGoForward,
+        history,
+        historyIndex
+    } = useKeepAliveRouter();
+    
     const route = routes.find(r => r.path === currentRoute);
     
-    // Additional navigation utilities
-    const goBack = () => {
-        routerLogger.info('goBack called');
-        window.history.back();
-    };
-    const goForward = () => {
-        routerLogger.info('goForward called');
-        window.history.forward();
-    };
-    const canGoBack = () => window.history.length > 1;
     const routeExists = (path: string) => routes.some(r => r.path === path);
     const getRouteInfo = (path: string) => {
         return routes.find(r => r.path === path);
@@ -59,6 +60,9 @@ export const useRouteInfo = () => {
         goBack,
         goForward,
         canGoBack,
+        canGoForward,
+        history,
+        historyIndex,
         routeExists,
         getRouteInfo,
     };

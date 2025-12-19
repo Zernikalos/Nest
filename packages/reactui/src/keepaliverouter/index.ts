@@ -33,3 +33,6 @@ export {
     getParentPaths,
     findMatchingRoute,
 } from './routeUtils';
+
+// Route history
+export { RouteHistory, useRouteHistory } from './routeHistory';
