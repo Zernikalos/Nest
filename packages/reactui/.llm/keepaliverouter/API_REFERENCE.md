@@ -24,28 +24,29 @@ interface KeepAliveRouterProviderProps {
 
 ### KeepAliveOutlet
 
-Renders all mounted route components, displaying only the active one while keeping others hidden. Supports nested outlets with automatic level detection.
+Renders all mounted route components, displaying only the active one while keeping others hidden. Supports nested outlets with automatic level detection. Uses React's native `Activity` component for efficient visibility management.
 
 **Props:**
 ```tsx
-interface KeepAliveOutletProps {
-  className?: string;
-}
+// No props - component is self-contained
+export const KeepAliveOutlet: React.FC = () => { ... }
 ```
 
 **Behavior:**
 - Mounts components when first visited
-- Keeps mounted components in DOM but hidden
-- Shows only the active route component
+- Keeps mounted components in DOM but hidden using React's `Activity` component
+- Shows only the active route component (mode="visible")
+- Hides inactive routes (mode="hidden")
 - Handles redirect routes automatically
-- **NEW**: Automatically detects nesting level and renders only appropriate routes
-- **NEW**: Supports multiple nested outlets like React Router
+- Automatically detects nesting level and renders only appropriate routes
+- Supports multiple nested outlets like React Router
+- **Uses native React Activity**: Leverages React 19's Activity API for optimal performance
 
 **Examples:**
 
 Basic usage:
 ```tsx
-<KeepAliveOutlet className="main-content" />
+<KeepAliveOutlet />
 ```
 
 Nested outlets:

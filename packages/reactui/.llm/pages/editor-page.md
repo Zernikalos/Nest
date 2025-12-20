@@ -6,10 +6,12 @@ The Editor Page is the main interface of Zernikalos Studio, providing a comprehe
 
 ## Location
 - **Main Component**: `src/pages/editor/EditorPage.tsx`
-- **Core View**: `src/pages/editor/EditorView/EditorView.tsx`
-- **Layout**: `src/pages/editor/EditorView/EditorViewLayout.tsx`
-- **Top Bar**: `src/pages/editor/EditorView/EditorViewTopBar.tsx`
-- **Content**: `src/pages/editor/EditorView/EditorViewContent.tsx`
+- **Layout**: `src/pages/editor/EditorLayout.tsx`
+- **Top Bar**: `src/pages/editor/EditorTopBar.tsx`
+- **Main Panel**: `src/pages/editor/EditorMainPanel.tsx`
+- **Form View**: `src/pages/editor/EditorForm/EditorForm.tsx`
+- **Code View**: `src/pages/editor/EditorCode/EditorCode.tsx`
+- **Viewer**: `src/pages/editor/EditorViewer/EditorViewer.tsx`
 - **New Project**: `src/pages/editor/NewProject.tsx`
 - **Forms**: `src/pages/editor/forms/FormZObject.tsx`
 - **Providers**: `src/pages/editor/providers/`
@@ -19,14 +21,15 @@ The Editor Page is the main interface of Zernikalos Studio, providing a comprehe
 ### Main Components
 ```
 EditorPage
-├── NewProject (when no project active)
-└── EditorView (when project active)
-    └── NestEditorProvider
-        └── EditorViewLayout
-            ├── TreeView (left panel - 25% width)
-            └── Right Panel (75% width)
-                ├── EditorViewTopBar (tabs and view toggle)
-                └── EditorViewContent (form or code view)
+└── NestEditorProvider
+    └── EditorLayout
+        ├── TreeView (left panel - 25% width)
+        └── Right Panel (75% width)
+            ├── EditorTopBar (tabs and view toggle)
+            └── EditorMainPanel
+                ├── EditorForm (form view)
+                ├── EditorCode (code view)
+                └── EditorViewer (viewer view)
 ```
 
 ### Layout System
@@ -49,15 +52,14 @@ EditorPage
 
 ### Editing Interface
 - **Tab System**: Multiple tabs for different objects
-- **View Modes**: Form and Code view options
+- **View Modes**: Form, Code, and Viewer view options
 - **Object Editing**: Direct editing of Zernikalos objects
+- **3D Viewer**: Integrated Zernikalos viewer for 3D preview
 
 ## State Management
 
 ### Local State
-- **projectActive**: Boolean for project loading state
-- **treeUpdateTrigger**: Counter for forcing tree updates
-- **activeView**: Current view mode ('form' | 'code')
+- **activeView**: Current view mode ('form' | 'code' | 'viewer')
 
 ### Store Integration
 - **useZkoStore**: Current ZKO data and conversion state
@@ -83,8 +85,9 @@ EditorPage
 - **Tab Closing**: Individual tabs can be closed
 
 ### View Modes
-- **Form View**: Property editing interface
-- **Code View**: Code-based editing (future implementation)
+- **Form View**: Property editing interface with form controls
+- **Code View**: Code-based editing with text editor
+- **Viewer View**: 3D visualization of the Zernikalos scene
 
 ## Data Flow
 
@@ -95,7 +98,7 @@ useZkoStore → zkResult → TreeView data → EditorView
 
 ### Object Selection
 ```
-TreeView selection → activeNode → selectedZObject → EditorViewContent
+TreeView selection → activeNode → selectedZObject → EditorMainPanel → (EditorForm | EditorCode | EditorViewer)
 ```
 
 ### Object Updates
@@ -122,15 +125,33 @@ Key points for the editor module:
 - **Data**: Converted from Zernikalos objects
 - **Selection**: Integrated with editor state
 
-### EditorViewTopBar
-- **Purpose**: Tab management interface
-- **Features**: Tab switching, closing, view mode selection
+### EditorTopBar
+- **Purpose**: Tab management interface and view mode toggle
+- **Features**: Tab switching, closing, view mode selection (form/code/viewer)
 - **State**: Connected to editor state hooks
+- **Location**: `src/pages/editor/EditorTopBar.tsx`
 
-### EditorViewContent
-- **Purpose**: Main editing interface
-- **Modes**: Form and code editing
-- **Data**: Selected object properties
+### EditorMainPanel
+- **Purpose**: Main editing interface container
+- **Features**: Switches between form, code, and viewer views based on activeView
+- **Components**: Renders EditorForm, EditorCode, or EditorViewer conditionally
+- **Location**: `src/pages/editor/EditorMainPanel.tsx`
+
+### EditorForm
+- **Purpose**: Property editing interface
+- **Features**: Form-based editing of ZObject properties
+- **Empty States**: Shows appropriate messages when no project/object is selected
+- **Location**: `src/pages/editor/EditorForm/EditorForm.tsx`
+
+### EditorCode
+- **Purpose**: Code-based editing interface
+- **Features**: Text editor for ZObject code representation
+- **Location**: `src/pages/editor/EditorCode/EditorCode.tsx`
+
+### EditorViewer
+- **Purpose**: 3D visualization of the Zernikalos scene
+- **Features**: Integrated ZernikalosViewer component, auto-regenerates proto on changes
+- **Location**: `src/pages/editor/EditorViewer/EditorViewer.tsx`
 
 ## Hooks and Utilities
 
@@ -164,10 +185,10 @@ const { selectedZObject, handleSelect } = useNestEditorContext();
 ## Future Enhancements
 
 ### Planned Features
-- **Code View**: Advanced code editing interface
 - **Property Panels**: Enhanced property editing
 - **Object Creation**: New object creation tools
 - **Undo/Redo**: History management system
+- **Viewer Enhancements**: Additional viewer controls and features
 
 ### Extension Points
 - **Custom Views**: Additional view modes

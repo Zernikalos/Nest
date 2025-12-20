@@ -35,8 +35,8 @@ export const SettingsPage = () => {
 
 **Key Features**:
 - Integrates sidebar navigation with content area
-- Uses `SidebarLayout` for consistent responsive behavior
-- Manages routing through React Router `Outlet`
+- Uses `SettingsLayout` for consistent responsive behavior
+- Manages routing through KeepAliveRouter `KeepAliveOutlet`
 - Configurable sidebar width (320px default)
 
 **Props**: None (self-contained component)
@@ -44,8 +44,8 @@ export const SettingsPage = () => {
 **Dependencies**:
 - `SettingsSidebar`
 - `SettingsSelectorSection`
-- `SidebarLayout` from layouts
-- React Router `Outlet`
+- `SettingsLayout` from `src/pages/settings/layouts/SettingsLayout.tsx`
+- KeepAliveRouter `KeepAliveOutlet`
 
 ---
 

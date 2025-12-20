@@ -77,7 +77,7 @@ KeepAliveRouterProvider (Context Provider)
 The main context provider that manages routing state.
 
 ### 2. KeepAliveOutlet
-Renders all mounted routes, showing only the active one.
+Renders all mounted routes, showing only the active one. Uses React's native `Activity` component for efficient visibility management (mode="visible" for active route, mode="hidden" for inactive routes).
 
 ### 3. Link / NavLink
 Navigation components similar to react-router-dom.
@@ -179,6 +179,7 @@ The module is used in the Zernikalos Studio project for managing editor views, s
 - **Initial Load**: Faster subsequent navigation after first visit
 - **DOM Size**: Larger DOM tree with hidden components
 - **State Management**: Requires careful consideration of component lifecycle
+- **Activity API**: Uses React 19's native `Activity` component for efficient visibility management, providing better performance than manual display toggling
 
 ## When to Use
 
