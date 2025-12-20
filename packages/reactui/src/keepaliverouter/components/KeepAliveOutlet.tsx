@@ -20,7 +20,11 @@ const resolveRedirectPath = (currentPath: string, redirectTo: string): string =>
     return resolvePath(currentPath, redirectTo);
 };
 
-export const KeepAliveOutlet: React.FC = () => {
+interface KeepAliveOutletProps {
+    className?: string;
+}
+
+export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className }) => {
     const { 
         getRoutesForLevel, 
         mountedRoutes, 
@@ -101,7 +105,13 @@ export const KeepAliveOutlet: React.FC = () => {
                         mode={isActive ? "visible" : "hidden"}
                         key={path}
                     >
-                        <Component />
+                        {className ? (
+                            <div className={className}>
+                                <Component />
+                            </div>
+                        ) : (
+                            <Component />
+                        )}
                     </Activity>
                 );
             })}

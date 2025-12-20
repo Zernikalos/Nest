@@ -14,12 +14,12 @@ export function MainLayout() {
                     <Sidebar />
                 </div>
                 
-                {/* Main content with scroll */}
+                {/* Main content without scroll - scroll is handled by KeepAliveOutlet inside Activity */}
                 <main 
                     id="router-view" 
-                    className="flex flex-col flex-1 ml-[56px] h-screen overflow-y-auto"
+                    className="flex flex-col flex-1 ml-[56px] overflow-hidden"
                 >
-                    <KeepAliveOutlet/>
+                    <KeepAliveOutlet className="h-full overflow-y-auto"/>
                 </main>
             </div>
         </div>

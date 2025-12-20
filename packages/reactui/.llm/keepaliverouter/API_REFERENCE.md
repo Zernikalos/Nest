@@ -28,8 +28,11 @@ Renders all mounted route components, displaying only the active one while keepi
 
 **Props:**
 ```tsx
-// No props - component is self-contained
-export const KeepAliveOutlet: React.FC = () => { ... }
+interface KeepAliveOutletProps {
+  className?: string;  // Optional className applied to wrapper div inside Activity
+}
+
+export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className }) => { ... }
 ```
 
 **Behavior:**
@@ -41,12 +44,25 @@ export const KeepAliveOutlet: React.FC = () => { ... }
 - Automatically detects nesting level and renders only appropriate routes
 - Supports multiple nested outlets like React Router
 - **Uses native React Activity**: Leverages React 19's Activity API for optimal performance
+- **Scroll preservation**: When `className` is provided, it's applied to a wrapper div inside `Activity`, allowing scroll position to be preserved across route changes
 
 **Examples:**
 
 Basic usage:
 ```tsx
 <KeepAliveOutlet />
+```
+
+With scroll preservation:
+```tsx
+const MainLayout = () => (
+  <div className="h-screen overflow-hidden">
+    <main className="flex flex-col flex-1 overflow-hidden">
+      {/* Scroll is preserved inside Activity when navigating between routes */}
+      <KeepAliveOutlet className="h-full overflow-y-auto" />
+    </main>
+  </div>
+);
 ```
 
 Nested outlets:
