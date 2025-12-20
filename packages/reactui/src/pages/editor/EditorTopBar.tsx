@@ -1,16 +1,19 @@
 import React from 'react';
 import TabList from '@/components/tablist/TabList';
 import ViewToggle from '@/components/ViewToggle';
-import { useNestEditorContext } from '../providers/NestEditorContext';
+import { useNestEditorContext } from '@/pages/editor/providers';
+import { cn } from '@/lib/utils';
 
 interface EditorViewTopBarProps {
     activeView: 'form' | 'code' | 'viewer';
     onViewChange: (view: 'form' | 'code' | 'viewer') => void;
+    className?: string;
 }
 
-export const EditorViewTopBar: React.FC<EditorViewTopBarProps> = ({
+export const EditorTopBar: React.FC<EditorViewTopBarProps> = ({
     activeView,
     onViewChange,
+    className,
 }) => {
     const { 
         openedNodes, 
@@ -20,7 +23,7 @@ export const EditorViewTopBar: React.FC<EditorViewTopBarProps> = ({
     } = useNestEditorContext();
 
     return (
-        <div className="flex items-center max-h-8">
+        <div className={cn('flex items-center h-8', className)}>
             <TabList
                 className="flex-1"
                 showBorder={false}
