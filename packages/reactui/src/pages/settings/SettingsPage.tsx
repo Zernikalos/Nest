@@ -1,6 +1,6 @@
 import { KeepAliveOutlet } from "@/keepaliverouter"
 import { MdPalette, MdSettings, MdInfo } from "react-icons/md"
-import { SettingsLayout } from "@/layouts/SidebarLayout"
+import { SettingsLayout } from "@/pages/settings/layouts/SettingsLayout"
 import { SettingsSidebar } from "./components/layout"
 import { SettingsSelectorSection } from "./components/navigation"
 

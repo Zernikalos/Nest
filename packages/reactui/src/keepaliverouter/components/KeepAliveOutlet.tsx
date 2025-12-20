@@ -1,4 +1,4 @@
-import React, { useEffect, createContext, useContext, useMemo, useRef } from 'react';
+import React, { useEffect, createContext, useContext, useMemo, useRef, Activity } from 'react';
 import { useKeepAliveRouter } from './KeepAliveRouter';
 import { routerLogger, logRouteMounting } from '../utils/logger';
 import { resolvePath, getPathUpToLevel, findMatchingRoute } from '../utils/routeUtils';
@@ -102,15 +102,12 @@ export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = ''
                     logRouteMounting(path, isActive ? 'render' : 'hide');
 
                     return (
-                        <div
+                        <Activity
+                            mode={isActive ? "visible" : "hidden"}
                             key={path}
-                            style={{
-                                display: isActive ? 'block' : 'none',
-                                position: isActive ? 'relative' : 'absolute',
-                            }}
                         >
                             <Component />
-                        </div>
+                        </Activity>
                     );
                 })}
             </div>
