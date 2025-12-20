@@ -7,14 +7,20 @@ export function MainLayout() {
     useElectronProjectIntegration()
     
     return (
-        <div className="h-screen">
-            <div className="grid h-screen">
-                <div className="grid grid-rows-1 grid-cols-[56px_minmax(0,1fr)] max-h-screen">
+        <div className="h-screen overflow-hidden">
+            <div className="flex h-screen">
+                {/* Fixed Sidebar */}
+                <div className="fixed left-0 top-0 h-screen z-10">
                     <Sidebar />
-                    <main id="router-view" className="flex flex-col">
-                        <KeepAliveOutlet className="flex-1" />
-                    </main>
                 </div>
+                
+                {/* Main content with scroll */}
+                <main 
+                    id="router-view" 
+                    className="flex flex-col flex-1 ml-[56px] h-screen overflow-y-auto"
+                >
+                    <KeepAliveOutlet/>
+                </main>
             </div>
         </div>
     );

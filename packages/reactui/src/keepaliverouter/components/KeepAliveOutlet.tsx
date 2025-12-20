@@ -15,16 +15,12 @@ export const useOutletLevel = () => {
     return useContext(OutletLevelContext);
 };
 
-interface KeepAliveOutletProps {
-    className?: string;
-}
-
 // Redirect path resolution using routeUtils
 const resolveRedirectPath = (currentPath: string, redirectTo: string): string => {
     return resolvePath(currentPath, redirectTo);
 };
 
-export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = '' }) => {
+export const KeepAliveOutlet: React.FC = () => {
     const { 
         getRoutesForLevel, 
         mountedRoutes, 
@@ -82,35 +78,33 @@ export const KeepAliveOutlet: React.FC<KeepAliveOutletProps> = ({ className = ''
 
     return (
         <OutletLevelContext.Provider value={{ level: nextLevel }}>
-            <div className={className}>
-                {routesForThisLevel.map((route) => {
-                    const { path, component: Component, redirectTo } = route;
-                    const isActive = activeRoute?.path === path;
-                    const isMounted = mountedRoutes.has(path);
-                    
-                    // Skip redirect routes and routes without components
-                    if (redirectTo || !Component) {
-                        return null;
-                    }
-                    
-                    // Only render if the route has been visited at least once
-                    if (!isMounted) {
-                        return null;
-                    }
-                    
-                    // Log route rendering state
-                    logRouteMounting(path, isActive ? 'render' : 'hide');
+            {routesForThisLevel.map((route) => {
+                const { path, component: Component, redirectTo } = route;
+                const isActive = activeRoute?.path === path;
+                const isMounted = mountedRoutes.has(path);
+                
+                // Skip redirect routes and routes without components
+                if (redirectTo || !Component) {
+                    return null;
+                }
+                
+                // Only render if the route has been visited at least once
+                if (!isMounted) {
+                    return null;
+                }
+                
+                // Log route rendering state
+                logRouteMounting(path, isActive ? 'render' : 'hide');
 
-                    return (
-                        <Activity
-                            mode={isActive ? "visible" : "hidden"}
-                            key={path}
-                        >
-                            <Component />
-                        </Activity>
-                    );
-                })}
-            </div>
+                return (
+                    <Activity
+                        mode={isActive ? "visible" : "hidden"}
+                        key={path}
+                    >
+                        <Component />
+                    </Activity>
+                );
+            })}
         </OutletLevelContext.Provider>
     );
 };
