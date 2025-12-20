@@ -21,6 +21,9 @@ This directory contains comprehensive documentation for Large Language Models to
   - **[Electron Provider](./providers/electron-provider.md)** - Electron API management
   - **useElectronProjectIntegration** - Hook for Electron project integration (replaces ZkProjectProvider)
 
+### 🛠️ Utilities & Infrastructure
+- **[Logger System](./logger.md)** - Centralized logging system with global level control
+
 ### 🎨 UI & Components
 - **[UI Theming](./ui-theming.md)** - CSS variables, themes, and styling strategy
 - **[TreeView Component](./treeview-component.md)** - Tree structure component documentation

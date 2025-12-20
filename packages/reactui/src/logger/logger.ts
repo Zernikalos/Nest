@@ -1,4 +1,4 @@
-import debug from 'debug';
+import log from 'loglevel';
 import { 
   DEFAULT_CONFIG, 
   COLORS, 
@@ -8,6 +8,7 @@ import {
   truncateMessage, 
   formatTimestamp, 
   isLoggingEnabled,
+  processLogArgs,
 } from './utils';
 import { LogLevel } from './LogLevel';
 
@@ -18,19 +19,30 @@ const getEnvironmentConfig = () => {
   
   // Get log level from environment variables
   const envLogLevel = import.meta.env?.VITE_LOG_LEVEL || process.env.LOG_LEVEL;
-  const envDebugNamespaces = import.meta.env?.VITE_DEBUG_NAMESPACES || process.env.DEBUG_NAMESPACES;
   
   return {
     isDev,
     isProd,
-    envLogLevel,
-    envDebugNamespaces
+    envLogLevel
   };
+};
+
+// Map our LogLevel to loglevel's numeric levels
+// loglevel: 0=TRACE, 1=DEBUG, 2=INFO, 3=WARN, 4=ERROR, 5=SILENT
+const mapToLoglevel = (level: LogLevel): log.LogLevelNumbers => {
+  switch (level) {
+    case LogLevel.TRACE: return 0;
+    case LogLevel.DEBUG: return 1;
+    case LogLevel.INFO: return 2;
+    case LogLevel.WARN: return 3;
+    case LogLevel.ERROR: return 4;
+    default: return 2; // INFO as default
+  }
 };
 
 // Auto-configure logging based on environment
 const autoConfigureLogging = () => {
-  const { isDev, isProd, envLogLevel, envDebugNamespaces } = getEnvironmentConfig();
+  const { isDev, isProd, envLogLevel } = getEnvironmentConfig();
   
   if (envLogLevel) {
     // Parse environment log level
@@ -49,15 +61,9 @@ const autoConfigureLogging = () => {
   } else if (isDev) {
     // Development defaults
     setGlobalLogLevel(LogLevel.DEBUG);
-    if (envDebugNamespaces) {
-      enableDebug(envDebugNamespaces.split(','));
-    } else {
-      enableDebug('*');
-    }
   } else if (isProd) {
     // Production defaults
     setGlobalLogLevel(LogLevel.WARN);
-    disableDebug();
   }
 };
 
@@ -109,25 +115,52 @@ export interface Logger {
 }
 
 /**
- * Main Logger implementation using debug library internally
+ * Main Logger implementation using loglevel library internally
  */
 export class LoggerImpl implements Logger {
+  // Static registry of all logger instances
+  private static readonly loggerRegistry = new Set<LoggerImpl>();
+  
+  // Static global log level that affects all loggers
+  private static globalLogLevel: LogLevel | null = null;
+  
   private config: LoggerConfig;
   private context: LogContext = {};
-  private debugInstance: debug.Debugger;
+  private logInstance: log.Logger;
   private namespace: string;
   private groupStack: string[] = [];
   private timers: Map<string, number> = new Map();
+  
+  // Static methods to access registry and global level
+  static getRegistry(): Set<LoggerImpl> {
+    return LoggerImpl.loggerRegistry;
+  }
+  
+  static getGlobalLogLevel(): LogLevel | null {
+    return LoggerImpl.globalLogLevel;
+  }
+  
+  static setGlobalLogLevel(level: LogLevel | null): void {
+    LoggerImpl.globalLogLevel = level;
+  }
 
   constructor(namespace: string, config: Partial<LoggerConfig> = {}) {
     this.namespace = namespace;
     this.config = { ...DEFAULT_CONFIG, ...config };
     
-    // Initialize debug instance
-    this.debugInstance = debug(namespace);
+    // Create loglevel instance for this namespace
+    this.logInstance = log.getLogger(namespace);
     
-    // Set debug level based on config
-    this.updateDebugLevel();
+    // Register this logger in the static registry
+    LoggerImpl.loggerRegistry.add(this);
+    
+    // Apply global log level if set, otherwise use config level
+    if (LoggerImpl.globalLogLevel !== null) {
+      this.config.level = LoggerImpl.globalLogLevel;
+    }
+    
+    // Set log level based on config or global level
+    this.updateLogLevel();
   }
 
   // Core logging methods
@@ -208,8 +241,10 @@ export class LoggerImpl implements Logger {
 
   // Configuration
   setLevel(level: LogLevel): void {
+    // If global log level is set, individual loggers should respect it
+    // But we still allow setting it for when global level is cleared
     this.config.level = level;
-    this.updateDebugLevel();
+    this.updateLogLevel();
   }
 
   getLevel(): LogLevel {
@@ -224,7 +259,9 @@ export class LoggerImpl implements Logger {
   private log(level: LogLevel, message: string, context?: LogContext, data: any[] = []): void {
     if (!this.isEnabled(level)) return;
 
-    const mergedContext = { ...this.context, ...context };
+    // Process arguments to automatically detect and handle Errors
+    const { processedContext, processedData } = processLogArgs(context, ...data);
+    const mergedContext = { ...this.context, ...processedContext };
     const timestamp = new Date();
     
     // Create log entry
@@ -234,7 +271,7 @@ export class LoggerImpl implements Logger {
       message,
       context: mergedContext,
       timestamp,
-      data
+      data: processedData
     };
 
     // Format and output the log
@@ -249,55 +286,48 @@ export class LoggerImpl implements Logger {
       ? truncateMessage(message, this.config.maxMessageLength)
       : message;
 
-    // Build prefix
-    let prefix = '';
-    
-    if (this.config.enableTimestamp) {
-      prefix += `[${formatTimestamp(timestamp)}] `;
-    }
-    
-    prefix += `[${this.namespace}] `;
-    
-    if (this.config.enableColors) {
-      const levelColor = getLevelColor(level);
-      prefix += `${levelColor}${getLevelName(level)}${COLORS.reset} `;
-    } else {
-      prefix += `${getLevelName(level)} `;
-    }
-
     // Format context
     let contextStr = '';
     if (context && Object.keys(context).length > 0) {
       contextStr = ` ${formatContext(context, this.config.maxContextDepth)}`;
     }
 
-    // Output to console with appropriate method
-    const fullMessage = `${prefix}${displayMessage}${contextStr}`;
+    // Build formatted message with prefix
+    const prefix = this.config.enableTimestamp 
+      ? `[${formatTimestamp(timestamp)}] `
+      : '';
     
+    const levelPrefix = this.config.enableColors
+      ? `${getLevelColor(level)}${getLevelName(level)}${COLORS.reset}`
+      : getLevelName(level);
+    
+    const fullMessage = `${prefix}[${this.namespace}] ${levelPrefix} ${displayMessage}${contextStr}`;
+
+    // Use loglevel library as primary output mechanism
     switch (level) {
       case LogLevel.ERROR:
-        console.error(fullMessage, ...(data || []));
+        this.logInstance.error(fullMessage, ...(data || []));
         break;
       case LogLevel.WARN:
-        console.warn(fullMessage, ...(data || []));
+        this.logInstance.warn(fullMessage, ...(data || []));
         break;
       case LogLevel.INFO:
-        console.info(fullMessage, ...(data || []));
+        this.logInstance.info(fullMessage, ...(data || []));
         break;
       case LogLevel.DEBUG:
+        this.logInstance.debug(fullMessage, ...(data || []));
+        break;
       case LogLevel.TRACE:
-        // Use debug library for debug/trace levels
-        if (this.debugInstance.enabled) {
-          this.debugInstance(`${displayMessage}${contextStr}`, ...(data || []));
-        }
+        this.logInstance.trace(fullMessage, ...(data || []));
         break;
     }
   }
 
-  private updateDebugLevel(): void {
-    // Set debug level based on config
-    const debugLevel = this.config.level >= LogLevel.DEBUG ? '*' : '';
-    debug.enable(`${this.namespace}${debugLevel}`);
+  private updateLogLevel(): void {
+    // Use global level if set, otherwise use config level
+    const effectiveLevel = LoggerImpl.globalLogLevel !== null ? LoggerImpl.globalLogLevel : this.config.level;
+    const loglevelLevel = mapToLoglevel(effectiveLevel);
+    this.logInstance.setLevel(loglevelLevel, false);
   }
 }
 
@@ -337,30 +367,35 @@ export const globalLogger = createLogger('app');
 
 
 /**
- * Set global log level for all loggers
+ * Set global log level for all loggers (existing and future)
+ * This function updates all currently registered loggers and sets the default
+ * level for any new loggers that will be created.
  */
 export function setGlobalLogLevel(level: LogLevel): void {
-  globalLogger.setLevel(level);
+  // Store the global level
+  LoggerImpl.setGlobalLogLevel(level);
   
-  // Update debug library global setting
-  const debugLevel = level >= LogLevel.DEBUG ? '*' : '';
-  debug.enable(`*${debugLevel}`);
+  // Update all existing loggers
+  LoggerImpl.getRegistry().forEach(logger => {
+    logger.setLevel(level);
+  });
+  
+  // Also set the default loglevel instance for any direct usage
+  log.setLevel(mapToLoglevel(level), false);
 }
 
 /**
- * Enable/disable debug for specific namespaces
+ * Get the current global log level
  */
-export function enableDebug(namespaces: string | string[]): void {
-  const nsArray = Array.isArray(namespaces) ? namespaces : [namespaces];
-  const debugString = nsArray.join(',');
-  debug.enable(debugString);
+export function getGlobalLogLevel(): LogLevel | null {
+  return LoggerImpl.getGlobalLogLevel();
 }
 
 /**
- * Disable all debug output
+ * Clear the global log level, allowing individual loggers to use their own levels
  */
-export function disableDebug(): void {
-  debug.disable();
+export function clearGlobalLogLevel(): void {
+  LoggerImpl.setGlobalLogLevel(null);
 }
 
 // Auto-configure logging on module load

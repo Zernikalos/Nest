@@ -27,16 +27,16 @@ export const logRouterState = (state: any, context?: string) => {
     routerLogger.debug(`State update`, { context, state });
 };
 
-// Helper function to log errors
-export const logError = (context: string, error: any) => {
-    routerLogger.error(`Error occurred`, {
-        context,
-        error: error instanceof Error ? {
-            message: error.message,
-            stack: error.stack,
-            name: error.name
-        } : error
-    });
+// Helper function to log errors - now simplified thanks to automatic error detection
+// Supports both old signature (context, error) and new signature (message, error?, context?)
+export const logError = (messageOrContext: string, errorOrMessage?: any, context?: any) => {
+    // If second arg is an Error, use old signature: (context, error)
+    if (errorOrMessage instanceof Error) {
+        routerLogger.error(`Error occurred`, { context: messageOrContext }, errorOrMessage);
+    } else {
+        // New signature: (message, error?, context?)
+        routerLogger.error(messageOrContext, context, errorOrMessage);
+    }
 };
 
 // Helper to set log level for router

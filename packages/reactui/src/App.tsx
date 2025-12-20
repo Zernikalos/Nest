@@ -4,8 +4,11 @@ import { AppearanceProvider, ElectronProvider } from './providers';
 import { KeepAliveRouterProvider } from './keepaliverouter';
 import { appRoutes } from './router';
 import { MainLayout } from './layouts/MainLayout';
+import { LogLevel, setGlobalLogLevel } from './logger';
 
 const queryClient = new QueryClient();
+
+setGlobalLogLevel(LogLevel.INFO);
 
 function AppContent() {
     return (
