@@ -33,9 +33,7 @@ export const EditorMainPanel: React.FC<EditorMainPanelProps> = ({ activeView }) 
             )}
 
             {(activeView === 'code') && (
-                <div className="w-full h-full">
-                    <EditorCode />
-                </div>
+                <EditorCode />
             )}
 
             {(activeView === 'viewer') && (

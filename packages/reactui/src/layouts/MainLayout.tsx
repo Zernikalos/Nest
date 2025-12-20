@@ -7,21 +7,17 @@ export function MainLayout() {
     useElectronProjectIntegration()
     
     return (
-        <div className="h-screen overflow-hidden">
-            <div className="flex h-screen">
-                {/* Fixed Sidebar */}
-                <div className="fixed left-0 top-0 h-screen z-10">
-                    <Sidebar />
-                </div>
-                
-                {/* Main content without scroll - scroll is handled by KeepAliveOutlet inside Activity */}
-                <main 
-                    id="router-view" 
-                    className="flex flex-col flex-1 ml-[56px] overflow-hidden"
-                >
-                    <KeepAliveOutlet className="h-full overflow-y-auto"/>
-                </main>
-            </div>
+        <div className="flex h-screen overflow-hidden">
+            {/* Sidebar */}
+            <Sidebar />
+            
+            {/* Main content - scroll is handled by KeepAliveOutlet inside Activity */}
+            <main 
+                id="router-view" 
+                className="flex flex-col flex-1 overflow-hidden"
+            >
+                <KeepAliveOutlet className="h-full overflow-y-auto"/>
+            </main>
         </div>
     );
 }

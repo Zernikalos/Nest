@@ -14,7 +14,7 @@ export const EditorViewer: React.FC = () => {
     }, [zkResult?.filePath, regenerateZko]);
 
     return (
-        <div className="w-full h-full absolute inset-0">
+        <div className="h-full w-full">
             <ZernikalosViewer
                 sceneData={zkResult?.proto || null}
                 width="100%"
