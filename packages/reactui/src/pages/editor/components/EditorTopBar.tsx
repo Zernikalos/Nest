@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { use } from 'react';
 import TabList from '@/components/tablist/TabList';
 import ViewToggle from '@/pages/editor/components/ViewToggle';
-import { useNestEditorContext } from '@/pages/editor/providers';
 import { cn } from '@/lib/utils';
+import { NestEditorContext, type NestEditorContextType } from '../providers/NestEditorContext';
 
 interface EditorViewTopBarProps {
     className?: string;
@@ -16,7 +16,7 @@ export const EditorTopBar: React.FC<EditorViewTopBarProps> = ({
         activeNode, 
         handleTabChange, 
         handleTabClose,
-    } = useNestEditorContext();
+    } = use(NestEditorContext) as NestEditorContextType;
 
     return (
         <div className={cn('flex items-center h-8', className)}>

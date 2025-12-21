@@ -1,9 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { use, useEffect } from 'react';
 import { ZernikalosViewer } from '@/components/ZernikalosViewer';
-import { useNestEditorContext } from '../providers';
+import { NestEditorContext, type NestEditorContextType } from '../providers/NestEditorContext.tsx';
 
 export const EditorViewer: React.FC = () => {
-    const { zkResult, regenerateZko } = useNestEditorContext();
+    const editorContext = use(NestEditorContext) as NestEditorContextType;
+
+    if (!editorContext) {
+        return null;
+    }
+
+    const { zkResult, regenerateZko } = editorContext;
 
     // Regenerate proto when zkResult changes (by filePath)
     useEffect(() => {

@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { use, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { merge } from 'lodash';
 import { zernikalos } from '@/lib/zernikalos';
-import { useNestEditorContext } from '../providers/NestEditorContext';
 import { CommonFieldsForm } from './CommonFieldsForm';
 import { TransformFieldsForm } from './TransformFieldsForm';
+import { NestEditorContext, type NestEditorContextType } from '../providers/NestEditorContext.tsx';
 
 interface FormZObjectProps {
     zObject: zernikalos.objects.ZObject;
@@ -42,7 +42,7 @@ const buildDefaults = (zObj: zernikalos.objects.ZObject): FormData => ({
 });
 
 export const FormZObject: React.FC<FormZObjectProps> = ({ zObject }) => {
-    const { notifyChange } = useNestEditorContext();
+    const { notifyChange } = use(NestEditorContext) as NestEditorContextType;
     
     const methods = useForm<FormData>({
         defaultValues: buildDefaults(zObject),

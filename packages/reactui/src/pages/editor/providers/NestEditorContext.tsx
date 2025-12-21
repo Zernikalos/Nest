@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 import { type NestInternalEditorState } from './hooks/useNestInternalEditorState';
 import type { ZkResultExtended } from '@/types/project';
 
@@ -10,13 +10,13 @@ interface NestEditorContextType extends NestInternalEditorState {
 
 const NestEditorContext = createContext<NestEditorContextType | undefined>(undefined);
 
-export const useNestEditorContext = () => {
-    const context = useContext(NestEditorContext);
-    if (context === undefined) {
-        throw new Error('useNestEditorContext must be used within a NestEditorProvider');
-    }
-    return context;
-};
+// export const useNestEditorContext = () => {
+//     const context = useContext(NestEditorContext);
+//     if (context === undefined) {
+//         throw new Error('useNestEditorContext must be used within a NestEditorProvider');
+//     }
+//     return context;
+// };
 
 export { NestEditorContext };
 export type { NestEditorContextType };

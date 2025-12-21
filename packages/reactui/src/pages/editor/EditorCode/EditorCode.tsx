@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { use } from 'react';
 import { MonacoEditor } from '@/components/MonacoEditor';
-import { useNestEditorContext } from '../providers/NestEditorContext';
+import { NestEditorContext, type NestEditorContextType } from '../providers/NestEditorContext.tsx';
 import { useAppTheme } from '@/providers/Theme';
 import { sanitizeEditableObject } from './sanitizeEditableObject';
 
 export const EditorCode: React.FC = () => {
-    const { zkResult, selectedZObject } = useNestEditorContext();
+    const editorContext = use(NestEditorContext) as NestEditorContextType;
+
+    if (!editorContext) {
+        return null;
+    }
+
+    const { zkResult, selectedZObject } = editorContext;
+
     const { theme: appTheme } = useAppTheme();
 
     const editableObject = sanitizeEditableObject(zkResult, selectedZObject);

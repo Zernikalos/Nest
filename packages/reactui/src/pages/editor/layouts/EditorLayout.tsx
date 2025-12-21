@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use } from 'react';
 
 import { TreeView } from '@/components/treeview';
 import {
@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/resizable';
 import { EditorTopBar } from '../components/EditorTopBar.tsx';
 import { EditorMainPanel } from '../EditorMainPanel.tsx';
-import { useNestEditorContext } from '../providers/NestEditorContext.tsx';
+import { NestEditorContext, type NestEditorContextType } from '../providers/NestEditorContext.tsx';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 export const EditorLayout: React.FC = () => {
@@ -16,7 +16,7 @@ export const EditorLayout: React.FC = () => {
         tree,
         selectedIds,
         handleSelect,
-    } = useNestEditorContext();
+    } = use(NestEditorContext) as NestEditorContextType;
     
     return (
         <ResizablePanelGroup direction="horizontal" className="h-full">

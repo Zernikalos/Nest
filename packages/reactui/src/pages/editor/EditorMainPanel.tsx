@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { use } from 'react';
 import { KeepAliveOutlet } from '@/keepaliverouter';
-import { useNestEditorContext } from '@/pages/editor/providers';
+import { NestEditorContext, type NestEditorContextType } from './providers/NestEditorContext.tsx';
 
 export const EditorMainPanel: React.FC = () => {
-    const { zkResult } = useNestEditorContext();
+    const { zkResult } = use(NestEditorContext) as NestEditorContextType;
 
     // Check if views can be displayed
     const canShowCode = zkResult?.exported;
