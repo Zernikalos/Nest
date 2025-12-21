@@ -57,8 +57,11 @@ The navigation system in Zernikalos Studio is built around React Router with a s
 
 ### Layout Integration
 - Sidebar is integrated into `MainLayout`
-- Uses CSS Grid for responsive layout
-- Fixed sidebar width with flexible main content area
+- Uses fixed positioning for sidebar (fixed left-0 top-0)
+- Sidebar has fixed width (56px) and full height
+- Main content area uses flexbox with left margin (ml-[56px]) to account for fixed sidebar
+- Main content has overflow-y-auto for scrolling
+- Layout uses flexbox instead of CSS Grid
 
 ## State Management
 

@@ -1,6 +1,12 @@
 import React from 'react';
-import { EditorView } from '@/pages/editor/EditorView';
+
+import { NestEditorProvider } from './providers/NestEditorProvider';
+import { EditorLayout } from '@/pages/editor/EditorLayout.tsx';
 
 export const EditorPage: React.FC = () => {
-    return <EditorView />;
+    return (
+        <NestEditorProvider>
+            <EditorLayout />
+        </NestEditorProvider>
+    );
 };

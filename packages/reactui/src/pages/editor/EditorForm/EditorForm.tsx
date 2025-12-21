@@ -2,6 +2,27 @@ import React from 'react';
 import { FormZObject } from './FormZObject';
 import { useNestEditorContext } from '../providers/NestEditorContext';
 
+interface EmptyStateProps {
+    title: string;
+    description: string;
+    fullHeight?: boolean;
+}
+
+const EmptyState: React.FC<EmptyStateProps> = ({ title, description }) => {
+    return (
+        <div className="flex h-full items-center justify-center p-6">
+            <div className="text-center">
+                <span className="font-semibold text-gray-600">
+                    {title}
+                </span>
+                <p className="text-sm text-gray-500 mt-2">
+                    {description}
+                </p>
+            </div>
+        </div>
+    );
+};
+
 export const EditorForm: React.FC = () => {
     const { selectedZObject, zkResult, tree } = useNestEditorContext();
 
@@ -13,51 +34,33 @@ export const EditorForm: React.FC = () => {
     const renderContent = () => {
         if (!isProjectLoaded) {
             return (
-                <div className="flex h-full items-center justify-center p-6">
-                    <div className="text-center">
-                        <span className="font-semibold text-gray-600">
-                            Import a project to start editing
-                        </span>
-                        <p className="text-sm text-gray-500 mt-2">
-                            Import a 3D file from the file menu
-                        </p>
-                    </div>
-                </div>
+                <EmptyState
+                    title="Import a project to start editing"
+                    description="Import a 3D file from the file menu"
+                />
             );
         }
 
         if (!hasNodes) {
             return (
-                <div className="flex h-full items-center justify-center p-6">
-                    <div className="text-center">
-                        <span className="font-semibold text-gray-600">
-                            No objects found in project
-                        </span>
-                        <p className="text-sm text-gray-500 mt-2">
-                            The project appears to be empty or corrupted
-                        </p>
-                    </div>
-                </div>
+                <EmptyState
+                    title="No objects found in project"
+                    description="The project appears to be empty"
+                />
             );
         }
 
         if (!hasSelectedNode) {
             return (
-                <div className="flex h-full items-center justify-center p-6">
-                    <div className="text-center">
-                        <span className="font-semibold text-gray-600">
-                            Select a node to open form
-                        </span>
-                        <p className="text-sm text-gray-500 mt-2">
-                            Choose an object from the tree to edit its properties
-                        </p>
-                    </div>
-                </div>
+                <EmptyState
+                    title="Select a node to open form"
+                    description="Choose an object from the tree to edit its properties"
+                />
             );
         }
 
         return (
-            <div className="p-6 border-t">
+            <div className="p-6">
                 <FormZObject 
                     zObject={selectedZObject}
                 />
@@ -66,8 +69,6 @@ export const EditorForm: React.FC = () => {
     };
 
     return (
-        <div className="w-full h-full">
-            {renderContent()}
-        </div>
+        renderContent()
     );
 };

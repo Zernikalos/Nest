@@ -89,7 +89,7 @@ App.tsx
 ```
 Components → Hooks → Stores
      ↓
-EditorView, TreeView, Forms
+EditorLayout, EditorMainPanel, TreeView, Forms
 ```
 
 ## Key Design Principles

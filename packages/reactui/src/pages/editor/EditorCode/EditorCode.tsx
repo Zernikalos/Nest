@@ -4,7 +4,7 @@ import { useNestEditorContext } from '../providers/NestEditorContext';
 import { useAppTheme } from '@/providers/Theme';
 import { sanitizeEditableObject } from './sanitizeEditableObject';
 
-export const TextEditor: React.FC = () => {
+export const EditorCode: React.FC = () => {
     const { zkResult, selectedZObject } = useNestEditorContext();
     const { theme: appTheme } = useAppTheme();
 
