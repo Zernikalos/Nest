@@ -1,4 +1,4 @@
-import { normalizePath, isExactMatch, getParentPaths, splitPath, flattenRoutes } from '../utils/routeUtils';
+import { normalizePath, isExactMatch, getParentPaths, splitPath, flattenRoutes, isPathPrefix } from '../utils/routeUtils';
 import { RouteHistory } from './routeHistory';
 import { routerLogger, logRouteChange, logRouterState } from '../utils/logger';
 import type { Route } from '../types';
@@ -170,6 +170,14 @@ export class Navigator {
      */
     isRouteActive(path: string): boolean {
         return this.currentRoute === path;
+    }
+
+    /**
+     * Checks if the current route is in the hierarchy of the given path
+     * Returns true if the current route is the exact path or a subroute
+     */
+    isInRouteHierarchy(path: string): boolean {
+        return isPathPrefix(this.currentRoute, path);
     }
 
     /**

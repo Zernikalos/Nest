@@ -10,6 +10,7 @@ interface KeepAliveRouterContextType {
     flatRoutes: Route[];
     setRoutes: (routes: Route[]) => void;
     isRouteActive: (path: string) => boolean;
+    isInRouteHierarchy: (path: string) => boolean;
     mountedRoutes: Set<string>;
     getRoutesForLevel: (level: number) => Route[];
     getRouteLevel: (path: string) => number;
@@ -104,6 +105,7 @@ export const KeepAliveRouterProvider: React.FC<KeepAliveRouterProviderProps> = (
         flatRoutes,
         setRoutes: useStore.getState().setRoutes,
         isRouteActive: useStore.getState().isRouteActive,
+        isInRouteHierarchy: useStore.getState().isInRouteHierarchy,
         mountedRoutes,
         getRoutesForLevel: useStore.getState().getRoutesForLevel,
         getRouteLevel: useStore.getState().getRouteLevel,

@@ -79,6 +79,15 @@ export const useIsActive = (path: string) => {
 };
 
 /**
+ * Hook to check if the current route is in the hierarchy of a given path
+ * Returns true if the current route is the exact path or a subroute
+ */
+export const useIsInHierarchy = (path: string) => {
+    const { isInRouteHierarchy } = useKeepAliveRouter();
+    return isInRouteHierarchy(path);
+};
+
+/**
  * Hook to get all available routes
  */
 export const useRoutes = () => {
