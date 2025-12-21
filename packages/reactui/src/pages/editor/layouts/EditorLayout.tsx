@@ -6,9 +6,9 @@ import {
     ResizablePanel,
     ResizablePanelGroup,
 } from '@/components/ui/resizable';
-import { EditorTopBar } from './EditorTopBar.tsx';
-import { EditorMainPanel } from './EditorMainPanel';
-import { useNestEditorContext } from './providers/NestEditorContext';
+import { EditorTopBar } from '../components/EditorTopBar.tsx';
+import { EditorMainPanel } from '../EditorMainPanel.tsx';
+import { useNestEditorContext } from '../providers/NestEditorContext.tsx';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 export const EditorLayout: React.FC = () => {

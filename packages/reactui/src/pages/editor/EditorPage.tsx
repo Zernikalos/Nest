@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { NestEditorProvider } from './providers/NestEditorProvider';
-import { EditorLayout } from '@/pages/editor/EditorLayout.tsx';
+import { EditorLayout } from '@/pages/editor/layouts/EditorLayout';
 
 export const EditorPage: React.FC = () => {
     return (
