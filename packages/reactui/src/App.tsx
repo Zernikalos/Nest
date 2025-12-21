@@ -8,7 +8,7 @@ import { LogLevel, setGlobalLogLevel } from './logger';
 
 const queryClient = new QueryClient();
 
-setGlobalLogLevel(LogLevel.INFO);
+setGlobalLogLevel(LogLevel.DEBUG);
 
 function AppContent() {
     return (

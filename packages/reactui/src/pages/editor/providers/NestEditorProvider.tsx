@@ -1,8 +1,9 @@
-import React, { type ReactNode } from 'react';
+import React, { type ReactNode, useEffect } from 'react';
 import { NestEditorContext } from './NestEditorContext';
 import { useZkoStore } from '@/stores/useZkoStore';
 import { useAssetToZko } from '@/hooks/useAssetToZko';
 import { useNestInternalEditorState } from './hooks';
+import { editorLogger } from '../editorLogger';
 
 interface NestEditorProviderProps {
     children: ReactNode;
@@ -15,6 +16,14 @@ export const NestEditorProvider: React.FC<NestEditorProviderProps> = ({
     const { regenerateZko } = useAssetToZko();
     const root = zkResult?.zko?.root;
     const editorState = useNestInternalEditorState({ root });
+
+    useEffect(() => {
+        if (zkResult) {
+            editorLogger.info('Editor project loaded', {
+                filePath: zkResult.filePath,
+            });
+        }
+    }, [zkResult?.filePath]);
 
     const contextValue = {
         ...editorState,

@@ -1,6 +1,7 @@
 import React, { use, useEffect } from 'react';
 import { ZernikalosViewer } from '@/components/ZernikalosViewer';
 import { NestEditorContext, type NestEditorContextType } from '../providers/NestEditorContext.tsx';
+import { editorLogger } from '../editorLogger';
 
 export const EditorViewer: React.FC = () => {
     const editorContext = use(NestEditorContext) as NestEditorContextType;
@@ -14,7 +15,7 @@ export const EditorViewer: React.FC = () => {
     // Regenerate proto when zkResult changes (by filePath)
     useEffect(() => {
         if (zkResult) {
-            console.log('🔄 Regenerating proto for viewer...', zkResult.filePath);
+            editorLogger.debug('🔄 Regenerating proto for viewer...');
             regenerateZko();
         }
     }, [zkResult?.filePath, regenerateZko]);
@@ -25,7 +26,12 @@ export const EditorViewer: React.FC = () => {
                 sceneData={zkResult?.proto || null}
                 width="100%"
                 height="100%"
-                onError={(error) => console.error('Zernikalos viewer error:', error)}
+                onError={(error) => {
+                    editorLogger.error('Zernikalos viewer error', {
+                        filePath: zkResult?.filePath,
+                        error,
+                    });
+                }}
             />
         </div>
     );

@@ -3,6 +3,7 @@ import { MonacoEditor } from '@/components/MonacoEditor';
 import { NestEditorContext, type NestEditorContextType } from '../providers/NestEditorContext.tsx';
 import { useAppTheme } from '@/providers/Theme';
 import { sanitizeEditableObject } from './sanitizeEditableObject';
+import { editorLogger } from '../editorLogger';
 
 export const EditorCode: React.FC = () => {
     const editorContext = use(NestEditorContext) as NestEditorContextType;
@@ -17,7 +18,10 @@ export const EditorCode: React.FC = () => {
 
     const editableObject = sanitizeEditableObject(zkResult, selectedZObject);
 
-    console.log(editableObject);
+    // Log object directly to console for inspection (passed as data, not context, to preserve expandability)
+    if (editableObject) {
+        editorLogger.debug('Editable object', undefined, editableObject);
+    }
 
     if (!editableObject) {
         return (
