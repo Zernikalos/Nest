@@ -9,7 +9,7 @@ import { settingsRoutes } from './pages/settings/settingsRouter';
 export const appRoutes = createRoutes([
     {
         path: '/',
-        redirectTo: '/editor',
+        redirectTo: '/projects',
         index: true,
         title: 'Home'
     },
