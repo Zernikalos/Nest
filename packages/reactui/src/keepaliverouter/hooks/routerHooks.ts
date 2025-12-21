@@ -94,3 +94,13 @@ export const useRoutes = () => {
     const { routes } = useKeepAliveRouter();
     return routes;
 };
+
+/**
+ * Hook to get the last visited route within a given path hierarchy
+ * @param path - The parent path to search within
+ * @returns The last visited child route, or the parent path if none found
+ */
+export const useLastRouteInHierarchy = (path: string) => {
+    const { getLastRouteInHierarchy } = useKeepAliveRouter();
+    return getLastRouteInHierarchy(path);
+};

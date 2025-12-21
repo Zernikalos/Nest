@@ -22,6 +22,7 @@ interface NavigatorStore extends NavigatorState {
     getCurrentRouteSegments: () => string[];
     isRouteActive: (path: string) => boolean;
     isInRouteHierarchy: (path: string) => boolean;
+    getLastRouteInHierarchy: (path: string) => string;
     canGoBack: () => boolean;
     canGoForward: () => boolean;
     
@@ -92,6 +93,10 @@ export const createNavigatorStore = (initialRoute: string, routes: Route[], maxH
             
             isInRouteHierarchy: (path: string) => {
                 return navigator.isInRouteHierarchy(path);
+            },
+            
+            getLastRouteInHierarchy: (path: string) => {
+                return navigator.getLastRouteInHierarchy(path);
             },
             
             canGoBack: () => {
