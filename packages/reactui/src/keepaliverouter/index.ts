@@ -14,7 +14,7 @@ export { createRoutes, createRoute, RouteBuilder, route } from './utils/createRo
 export type { RouteConfig } from './utils/createRoutes';
 
 // Router hooks
-export { useLocation, useParams, useRouteInfo, useIsActive, useRoutes } from './hooks/routerHooks';
+export { useLocation, useParams, useRouteInfo, useIsActive, useRoutes, useLastRouteInHierarchy } from './hooks/routerHooks';
 
 // Logger utilities
 export { routerLogger, setRouterLogLevel } from './utils/logger';

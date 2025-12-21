@@ -1,4 +1,4 @@
-import { normalizePath, isExactMatch, getParentPaths, splitPath, flattenRoutes } from '../utils/routeUtils';
+import { normalizePath, isExactMatch, getParentPaths, splitPath, flattenRoutes, isPathPrefix } from '../utils/routeUtils';
 import { RouteHistory } from './routeHistory';
 import { routerLogger, logRouteChange, logRouterState } from '../utils/logger';
 import type { Route } from '../types';
@@ -170,6 +170,40 @@ export class Navigator {
      */
     isRouteActive(path: string): boolean {
         return this.currentRoute === path;
+    }
+
+    /**
+     * Checks if the current route is in the hierarchy of the given path
+     * Returns true if the current route is the exact path or a subroute
+     */
+    isInRouteHierarchy(path: string): boolean {
+        return isPathPrefix(this.currentRoute, path);
+    }
+
+    /**
+     * Gets the last visited route within a given path hierarchy
+     * Uses O(1) prefix index lookup instead of searching through history
+     * @param path - The parent path to search within
+     * @returns The last visited child route, or the parent path if none found
+     */
+    getLastRouteInHierarchy(path: string): string {
+        const normalized = normalizePath(path);
+        
+        // If we're already in this hierarchy, return current route
+        if (isPathPrefix(this.currentRoute, normalized) && this.currentRoute !== normalized) {
+            return this.currentRoute;
+        }
+        
+        // O(1) lookup using the prefix index
+        const lastRoute = this.history.getLastRouteInPrefix(normalized);
+        
+        // If we found a route and it's different from the prefix, return it
+        if (lastRoute && lastRoute !== normalized) {
+            return lastRoute;
+        }
+        
+        // If no child route found, return the parent path
+        return normalized;
     }
 
     /**

@@ -1,5 +1,5 @@
 import { createRoutes } from './keepaliverouter';
-import { EditorPage } from './pages/editor';
+import { editorRoutes } from './pages/editor';
 import { DevicesPage } from './pages/devices';
 import { ExporterPage } from './pages/ExporterPage';
 import { ProjectPage } from './pages/projects';
@@ -9,7 +9,7 @@ import { settingsRoutes } from './pages/settings/settingsRouter';
 export const appRoutes = createRoutes([
     {
         path: '/',
-        redirectTo: '/editor',
+        redirectTo: '/projects',
         index: true,
         title: 'Home'
     },
@@ -17,11 +17,6 @@ export const appRoutes = createRoutes([
         path: '/projects',
         component: ProjectPage,
         title: 'Projects'
-    },
-    {
-        path: '/editor',
-        component: EditorPage,
-        title: 'Editor'
     },
     {
         path: '/devices',
@@ -33,5 +28,6 @@ export const appRoutes = createRoutes([
         component: ExporterPage,
         title: 'Exporter'
     },
-    ...settingsRoutes
+    ...settingsRoutes,
+    ...editorRoutes
 ]);

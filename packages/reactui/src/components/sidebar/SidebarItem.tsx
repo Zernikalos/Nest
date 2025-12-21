@@ -1,5 +1,5 @@
 import type { IconType } from 'react-icons';
-import { Link } from '@/keepaliverouter';
+import { Link, useCurrentRoute, useLastRouteInHierarchy, isPathPrefix } from '@/keepaliverouter';
 
 import {
     Tooltip,
@@ -7,7 +7,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 
 interface SidebarItemProps {
     name: string;
@@ -22,6 +22,17 @@ export const SidebarItem = memo(({
     icon: Icon,
     selected,
 }: SidebarItemProps) => {
+    const currentRoute = useCurrentRoute();
+    const targetPath = useLastRouteInHierarchy(path);
+    
+    // Si ya estamos en esta jerarquía, mantener la ruta actual
+    const finalPath = useMemo(() => {
+        if (isPathPrefix(path, currentRoute)) {
+            return currentRoute;
+        }
+        return targetPath;
+    }, [path, currentRoute, targetPath]);
+    
     return (
         <div
             className={cn(
@@ -32,7 +43,7 @@ export const SidebarItem = memo(({
             <Tooltip>
                 <TooltipTrigger asChild>
                     <Link
-                        to={path}
+                        to={finalPath}
                         className={cn(
                             'flex items-center text-4xl py-4 px-2 h-12 overflow-hidden text-ellipsis whitespace-nowrap text-sidebar-foreground',
                             'hover:bg-base-300 hover:text-base-foreground transition duration-300 ease-in-out',

@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { normalizePath } from '../utils/routeUtils';
+import { normalizePath, splitPath } from '../utils/routeUtils';
 
 /**
  * RouteHistory class manages navigation history in memory
@@ -10,12 +10,44 @@ export class RouteHistory {
     private currentIndex: number = 0;
     private maxSize?: number;
     private onChange?: (route: string) => void;
+    // Index that maps prefix -> last visited route with that prefix
+    private prefixIndex: Map<string, string> = new Map();
 
     constructor(initialRoute: string, maxSize?: number) {
         const normalized = normalizePath(initialRoute);
         this.history = [normalized];
         this.currentIndex = 0;
         this.maxSize = maxSize;
+        // Initialize index with initial route
+        this.updatePrefixIndex(normalized);
+    }
+
+    /**
+     * Updates the prefix index when a route is added
+     */
+    private updatePrefixIndex(route: string): void {
+        const segments = splitPath(route);
+        
+        // For each prefix of the route (including the complete route)
+        for (let i = 1; i <= segments.length; i++) {
+            const prefix = '/' + segments.slice(0, i).join('/');
+            // Update index: this route is the most recent for this prefix
+            this.prefixIndex.set(prefix, route);
+        }
+    }
+
+    /**
+     * Rebuilds the prefix index when routes are removed from history
+     */
+    private rebuildPrefixIndex(): void {
+        this.prefixIndex.clear();
+        // Rebuild index from current history
+        for (let i = 0; i <= this.currentIndex; i++) {
+            const route = this.history[i];
+            if (route) {
+                this.updatePrefixIndex(route);
+            }
+        }
     }
 
     /**
@@ -31,6 +63,7 @@ export class RouteHistory {
             // Just update current without adding to history
             if (this.history[this.currentIndex] !== normalized) {
                 this.history[this.currentIndex] = normalized;
+                this.updatePrefixIndex(normalized);
                 this.notifyChange(normalized);
             }
             return normalized;
@@ -39,17 +72,22 @@ export class RouteHistory {
         // If we're in the middle of history, remove future entries
         if (this.currentIndex < this.history.length - 1) {
             this.history = this.history.slice(0, this.currentIndex + 1);
+            // Rebuild index because we removed routes
+            this.rebuildPrefixIndex();
         }
 
         // Add new route
         this.history.push(normalized);
         this.currentIndex = this.history.length - 1;
+        this.updatePrefixIndex(normalized);
 
         // Enforce max size if set
         if (this.maxSize && this.history.length > this.maxSize) {
             const removeCount = this.history.length - this.maxSize;
             this.history = this.history.slice(removeCount);
             this.currentIndex = this.history.length - 1;
+            // Rebuild index because we removed routes
+            this.rebuildPrefixIndex();
         }
 
         this.notifyChange(normalized);
@@ -119,6 +157,17 @@ export class RouteHistory {
      */
     getIndex(): number {
         return this.currentIndex;
+    }
+
+    /**
+     * Gets the last visited route within a given prefix
+     * O(1) lookup using the prefix index
+     * @param prefix - The prefix path to search within
+     * @returns The last visited route with that prefix, or undefined if none found
+     */
+    getLastRouteInPrefix(prefix: string): string | undefined {
+        const normalized = normalizePath(prefix);
+        return this.prefixIndex.get(normalized);
     }
 
     /**

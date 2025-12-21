@@ -17,15 +17,16 @@ import { useCallback } from 'react';
 
 export function Sidebar() {
     const currentRoute = useCurrentRoute();
-    const { isRouteActive } = useKeepAliveRouter();
+    const { isInRouteHierarchy } = useKeepAliveRouter();
 
-    // Helper function to check if a route is active with custom logic
+    // Helper function to check if we're in the hierarchy of a route
     const checkActiveRoute = useCallback((path: string) => {
+        // Special case for editor: also match root route
         if (path === '/editor') {
-            return isRouteActive('/editor') || currentRoute === '/';
+            return currentRoute === '/' || isInRouteHierarchy(path);
         }
-        return isRouteActive(path);
-    }, [currentRoute, isRouteActive]);
+        return isInRouteHierarchy(path);
+    }, [currentRoute, isInRouteHierarchy]);
 
     return (
         <TooltipProvider disableHoverableContent>

@@ -4,16 +4,17 @@
 Desktop application for asset management and debugging of Zernikalos Engine.
 
 ## Core Technologies
-- Vue.js 3.5.13
-- NestJS 11.0.9
-- TypeScript 5.7.3
-- Pinia 3.0.0
-- Webpack 5.97.1
+- React
+- NestJS
+- TypeScript
+- Vite
+- Tailwind CSS v4
+- Zustand
 - Electron (with electron-builder)
 
 ## Prerequisites
-- Node.js
-- pnpm
+- Node.js >= 23
+- pnpm >= 9
 
 ## Installation
 ```bash
@@ -32,44 +33,51 @@ pnpm i -r
 pnpm dev
 ```
 
-### Production Mode
+### Generating distribution package
 ```bash
 # Build the application
 pnpm build
 
-# Start the compiled application
-pnpm start
+# Generate the electron executable
+pnpm dist
 ```
 
 ## Project Structure
 
-The project is organized into four main components:
+The project is organized into three main components:
 
 ### 📱 electronapp
-The main Electron application that serves as the desktop application container.
+The main Electron application that serves as the desktop application container. Handles window management, native dialogs, and IPC communication.
 
 ### 🖥️ nestserver
-A NestJS server implementation that handles internal functionalities of Zernikalos Nest. This component manages the core business logic and operations.
+A NestJS server implementation that handles internal functionalities of Zernikalos Nest. This component manages the core business logic, file operations, project management, and WebSocket communication for debugging.
 
-### 🎨 nestui
-A Vue.js web application that provides the user interface for the application. Built with Vue 3 and modern web technologies.
-
-### 🔄 store
-Pinia store implementation that manages the state and communication between:
-- UI components
-- Electron main process
-- NestJS server
+### 🎨 reactui
+A React web application that provides the user interface for the application. Built with React 19, Vite, Tailwind CSS v4, and shadcn/ui components. Manages state using Zustand (local state) and TanStack Query (server state).
 
 ## Features
 
-### Importing 3D assets and transform into ZKO format
-![Zernikalos Nest Import](./docs/assets/img.png)
+### Project Management
+![Zernikalos Nest Projects](./docs/assets/image_projects.png)
 
-### Edit required field using the editor
-![Zernikalos Nest Editor](./docs/assets/img_1.png)
+### Asset Editor
+The editor allows you to edit and configure your 3D assets with multiple views:
 
-### Link some mobile device using the debugger
-![Zernikalos Nest Device Link](./docs/assets/img_2.png)
+![Zernikalos Nest Editor View A](./docs/assets/image_editor_a.png)
+
+![Zernikalos Nest Editor View B](./docs/assets/image_editor_b.png)
+
+![Zernikalos Nest Editor View C](./docs/assets/image_editor_c.png)
+
+### Device Configuration
+Link and configure external mobile devices for debugging and testing:
+
+![Zernikalos Nest Device Configuration](./docs/assets/image_devices.png)
+
+### Editor Settings and Themes
+Customize the editor appearance and behavior:
+
+![Zernikalos Nest Editor Settings](./docs/assets/image_themes.png)
 
 
 ## Available Scripts

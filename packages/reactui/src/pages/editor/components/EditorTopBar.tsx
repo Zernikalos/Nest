@@ -1,18 +1,14 @@
-import React from 'react';
+import React, { use } from 'react';
 import TabList from '@/components/tablist/TabList';
-import ViewToggle from '@/components/ViewToggle';
-import { useNestEditorContext } from '@/pages/editor/providers';
+import ViewToggle from '@/pages/editor/components/ViewToggle';
 import { cn } from '@/lib/utils';
+import { NestEditorContext, type NestEditorContextType } from '../providers/NestEditorContext';
 
 interface EditorViewTopBarProps {
-    activeView: 'form' | 'code' | 'viewer';
-    onViewChange: (view: 'form' | 'code' | 'viewer') => void;
     className?: string;
 }
 
 export const EditorTopBar: React.FC<EditorViewTopBarProps> = ({
-    activeView,
-    onViewChange,
     className,
 }) => {
     const { 
@@ -20,7 +16,7 @@ export const EditorTopBar: React.FC<EditorViewTopBarProps> = ({
         activeNode, 
         handleTabChange, 
         handleTabClose,
-    } = useNestEditorContext();
+    } = use(NestEditorContext) as NestEditorContextType;
 
     return (
         <div className={cn('flex items-center h-8', className)}>
@@ -33,10 +29,7 @@ export const EditorTopBar: React.FC<EditorViewTopBarProps> = ({
                 onTabClose={handleTabClose}
             />
             <div className="flex items-center pl-4 flex-shrink-0">
-                <ViewToggle
-                    activeView={activeView}
-                    onViewChange={onViewChange}
-                />
+                <ViewToggle />
             </div>
         </div>
     );

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { use } from 'react';
 import { FormZObject } from './FormZObject';
-import { useNestEditorContext } from '../providers/NestEditorContext';
+import { type NestEditorContextType } from '../providers/NestEditorContext';
+import { NestEditorContext } from '../providers/NestEditorContext.tsx';
 
 interface EmptyStateProps {
     title: string;
@@ -24,12 +25,16 @@ const EmptyState: React.FC<EmptyStateProps> = ({ title, description }) => {
 };
 
 export const EditorForm: React.FC = () => {
-    const { selectedZObject, zkResult, tree } = useNestEditorContext();
+    const editorContext = use(NestEditorContext) as NestEditorContextType;
+
+    if (!editorContext) {
+        return null;
+    }
 
     // Determine the current state
-    const isProjectLoaded = zkResult !== null;
-    const hasNodes = tree.length > 0;
-    const hasSelectedNode = selectedZObject !== null;
+    const isProjectLoaded = editorContext.zkResult !== null;
+    const hasNodes = editorContext.tree.length > 0;
+    const hasSelectedNode = editorContext.selectedZObject !== null;
 
     const renderContent = () => {
         if (!isProjectLoaded) {
@@ -62,7 +67,7 @@ export const EditorForm: React.FC = () => {
         return (
             <div className="p-6">
                 <FormZObject 
-                    zObject={selectedZObject}
+                    zObject={editorContext.selectedZObject as any}
                 />
             </div>
         );

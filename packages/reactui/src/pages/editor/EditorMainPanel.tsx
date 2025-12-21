@@ -1,15 +1,9 @@
-import React from 'react';
-import { EditorForm } from './EditorForm';
-import { EditorCode } from '@/pages/editor/EditorCode/EditorCode.tsx';
-import { EditorViewer } from './EditorViewer/EditorViewer';
-import { useNestEditorContext } from '@/pages/editor/providers';
+import React, { use } from 'react';
+import { KeepAliveOutlet } from '@/keepaliverouter';
+import { NestEditorContext, type NestEditorContextType } from './providers/NestEditorContext.tsx';
 
-interface EditorMainPanelProps {
-    activeView: 'form' | 'code' | 'viewer';
-}
-
-export const EditorMainPanel: React.FC<EditorMainPanelProps> = ({ activeView }) => {
-    const { zkResult } = useNestEditorContext();
+export const EditorMainPanel: React.FC = () => {
+    const { zkResult } = use(NestEditorContext) as NestEditorContextType;
 
     // Check if views can be displayed
     const canShowCode = zkResult?.exported;
@@ -28,17 +22,7 @@ export const EditorMainPanel: React.FC<EditorMainPanelProps> = ({ activeView }) 
 
     return (
         <div className="flex-1 w-full overflow-auto relative">
-            {(activeView === "form") && (
-                <EditorForm />
-            )}
-
-            {(activeView === 'code') && (
-                <EditorCode />
-            )}
-
-            {(activeView === 'viewer') && (
-                <EditorViewer />
-            )}
+            <KeepAliveOutlet className="h-full overflow-y-auto" />
         </div>
     );
 };
