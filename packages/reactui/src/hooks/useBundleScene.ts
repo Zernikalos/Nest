@@ -1,7 +1,10 @@
 import { useCallback } from 'react'
 import { useZkoStore } from '@/stores/useZkoStore'
 import { zkExport } from '@zernikalos/zkbuilder'
+import { createLogger } from '@/logger'
 import _ from 'lodash'
+
+const bundleSceneLogger = createLogger('electron:bundle-scene')
 
 export function useBundleScene() {
     const { zkResult } = useZkoStore()
@@ -14,11 +17,25 @@ export function useBundleScene() {
     }, [zkResult])
     
     const saveBundle = useCallback(async () => {
-        const bundled = await bundleScene()
-        if (bundled) {
-            window.NativeZernikalos?.actionSaveFile(bundled)
+        if (_.isNil(zkResult)) {
+            bundleSceneLogger.warn('Cannot bundle scene: no ZKO result available')
+            return
         }
-    }, [bundleScene])
+        try {
+            bundleSceneLogger.debug('Starting bundle scene export')
+            const bundled = await bundleScene()
+            if (bundled) {
+                bundleSceneLogger.debug('Bundle scene exported successfully', { size: bundled.length })
+                await window.NativeZernikalos?.actionSaveFile(bundled)
+                bundleSceneLogger.debug('Bundle scene save dialog triggered')
+            } else {
+                bundleSceneLogger.warn('Bundle scene returned undefined')
+            }
+        } catch (error) {
+            bundleSceneLogger.error('Error bundling scene', { error })
+            throw error
+        }
+    }, [bundleScene, zkResult])
     
     return {
         bundleScene,

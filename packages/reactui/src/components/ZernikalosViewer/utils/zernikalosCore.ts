@@ -16,11 +16,14 @@ export const createZernikalosInstance = (
  */
 export const createSceneStateHandler = (
     onReady: (ctx: any, done: () => void) => void,
-    onRender: (ctx: any, done: () => void) => void
+    onUpdate: (ctx: any, done: () => void) => void,
 ): zernikalos.scenestatehandler.ZSceneStateHandler => {
     return {
         onReady,
-        onRender,
+        onUpdate,
+        onRender(_ctx: any, done: () => void) {
+            done();
+        },
         onResize(_ctx: any, _width: number, _height: number, done: () => void) {
             done();
         }

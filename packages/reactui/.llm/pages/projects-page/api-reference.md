@@ -353,20 +353,24 @@ function AppContent() {
 
 **Event Handlers:**
 - `onCreateProject()` → `useProjectUIStore.setIsCreateDialogOpen(true)`
-- `onImportFile()` → `useAssetToZko.convertAssetToZko()`
-- `onBundleScene()` → `useBundleScene.saveBundle()`
+- `onImportFile(data)` → `useAssetToZko.convertAssetToZko(data)`
+- `onBundleScene()` → Wrapper handler (ignores undefined `data`) → `useBundleScene.saveBundle()`
+- `onOpenProject(data)` → `useProject.openProject(data.filePath)`
 
 **Integration:**
 - Called once at app root level
 - No context needed (hook-based)
 - Handles Electron-specific logic
+- Proper cleanup on unmount (calls `offBundleScene()`, `offImportFile()`, etc.)
+- Error handling with user-friendly messages
 
 **Dependencies:**
 - `useElectronEvents` - Electron event handlers
 - `useAssetToZko` - Asset conversion hook
 - `useBundleScene` - Scene bundling hook
 - `useProjectUIStore` - UI state store
-- `useZkoStore` - ZKO state store
+- `useZkoStore` - ZKO state store (for error messages)
+- `integrationLogger` - Logger for integration events
 
 ## 📝 TypeScript Interfaces
 
