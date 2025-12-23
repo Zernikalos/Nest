@@ -186,14 +186,23 @@ The project management system follows a clear separation of concerns:
 **Responsibility:**
 - Bundles and exports ZKO scene
 - Handles file saving
+- Validates ZKO result before bundling
+- Error handling and logging
 
 **Methods:**
-- `bundleScene()` - Export ZKO to proto
-- `saveBundle()` - Save bundle via Electron
+- `bundleScene()` - Export ZKO to proto format
+- `saveBundle()` - Save bundle via Electron (validates zkResult, handles errors)
 
 **Uses:**
 - `useZkoStore` - Reads current ZKO
 - `zkExport` - ZKBuilder export function
+- `bundleSceneLogger` - Logger for bundle operations (namespace: `electron:bundle-scene`)
+
+**Error Handling:**
+- Validates `zkResult` exists before bundling
+- Logs warnings if no ZKO result available
+- Catches and logs errors during export
+- Throws errors for upstream handling
 
 ### `useElectronProjectIntegration`
 **Location:** `src/hooks/useElectronProjectIntegration.ts`
@@ -201,17 +210,26 @@ The project management system follows a clear separation of concerns:
 **Responsibility:**
 - Integrates Electron events with hooks
 - Replaces deprecated `ZkProjectProvider`
+- Handles event cleanup and error management
 
 **Event Handlers:**
 - File import → `useAssetToZko.convertAssetToZko()`
-- Bundle scene → `useBundleScene.saveBundle()`
+- Bundle scene → Wrapper handler → `useBundleScene.saveBundle()` (ignores undefined `data` parameter)
 - Create project → `useProjectUIStore.setIsCreateDialogOpen()`
+- Open project → `useProject.openProject()`
 
 **Uses:**
 - `useElectronEvents` - Electron event handlers
 - `useAssetToZko` - Asset conversion
 - `useBundleScene` - Scene bundling
 - `useProjectUIStore` - UI state
+- `integrationLogger` - Logger for integration events (namespace: `electron:integration`)
+
+**Features:**
+- Wraps event handlers to handle Electron IPC parameter mismatches
+- Proper cleanup with `offBundleScene()`, `offImportFile()`, etc.
+- Error handling with user-friendly error messages
+- Logging for debugging Electron event flow
 
 ## 🔌 Integration Layer
 
@@ -276,16 +294,31 @@ Components Update
 
 ### Scene Bundling Flow
 ```
-User Action
+Electron Menu Event (Bundle Scene)
+    ↓
+MainWindow.sendToRenderer(RendererMenuEvents.BUNDLE_SCENE)
+    ↓
+ElectronProvider.onBundleScene() callback
+    ↓
+useElectronProjectIntegration handler (ignores undefined data)
     ↓
 useBundleScene.saveBundle()
     ↓
+Validates zkResult exists
+    ↓
 useZkoStore (read zkResult)
     ↓
-zkExport()
+bundleScene() → zkExport()
     ↓
-Electron: actionSaveFile()
+Electron: actionSaveFile() (awaited)
+    ↓
+bundleSceneDialog() → File saved
 ```
+
+**Error Handling:**
+- If `zkResult` is null: Warning logged, operation aborted
+- If export fails: Error logged and thrown
+- If save fails: Error caught in integration handler, user error message set
 
 ## 🎯 Design Patterns
 

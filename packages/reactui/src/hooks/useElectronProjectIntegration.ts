@@ -6,13 +6,16 @@ import { useProject } from './useProject'
 import { useProjectUIStore } from '@/stores/useProjectUIStore'
 import { useZkoStore } from '@/stores/useZkoStore'
 import { useNavigate } from '@/keepaliverouter'
+import { createLogger } from '@/logger'
+
+const integrationLogger = createLogger('electron:integration')
 
 /**
  * Hook that integrates Electron events with project management hooks.
  * Should be called once at the app root level, but after KeepAliveRouterProvider.
  */
 export function useElectronProjectIntegration() {
-    const { onImportFile, offImportFile, isElectron, onBundleScene, onCreateProject, offCreateProject, onOpenProject, offOpenProject } = useElectronEvents()
+    const { onImportFile, offImportFile, isElectron, onBundleScene, offBundleScene, onCreateProject, offCreateProject, onOpenProject, offOpenProject } = useElectronEvents()
     const { convertAssetToZko } = useAssetToZko()
     const { saveBundle } = useBundleScene()
     const { openProject } = useProject()
@@ -40,9 +43,21 @@ export function useElectronProjectIntegration() {
     // Bundle scene listener
     useEffect(() => {
         if (isElectron) {
-            onBundleScene(saveBundle)
+            const handler = async () => {
+                try {
+                    integrationLogger.debug('Bundle scene event received')
+                    await saveBundle()
+                } catch (error) {
+                    integrationLogger.error('Failed to bundle scene', { error })
+                    setError('Failed to bundle scene. Please try again.')
+                }
+            }
+            onBundleScene(handler)
+            return () => {
+                offBundleScene()
+            }
         }
-    }, [isElectron, onBundleScene, saveBundle])
+    }, [isElectron, onBundleScene, offBundleScene, saveBundle, setError])
     
     // Create project listener
     useEffect(() => {
