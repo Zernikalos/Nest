@@ -1,41 +1,41 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useZkoStore } from '@/stores/useZkoStore'
-import { zkExport } from '@zernikalos/zkbuilder'
 import { createLogger } from '@/logger'
-import _ from 'lodash'
+import { ZkoManager } from '@/core/ZkoManager'
+import type { ZkResultExtended } from '@/types/project'
 
 const bundleSceneLogger = createLogger('electron:bundle-scene')
 
 export function useBundleScene() {
+    // Use singleton instance of ZkoManager
+    const manager = useMemo(() => {
+        return ZkoManager.getInstance()
+    }, [])
+
     const { zkResult } = useZkoStore()
     
-    const bundleScene = useCallback(async (): Promise<Uint8Array | undefined> => {
-        if (_.isNil(zkResult)) {
-            return undefined
-        }
-        return await zkExport(zkResult.zko, { format: "proto" }) as Uint8Array
-    }, [zkResult])
+    const bundleScene = useCallback(async (zkResultParam: ZkResultExtended): Promise<Uint8Array> => {
+        // Use manager's bundleScene method with zkResult parameter
+        return await manager.bundleScene(zkResultParam)
+    }, [manager])
     
     const saveBundle = useCallback(async () => {
-        if (_.isNil(zkResult)) {
+        const currentZkResult = useZkoStore.getState().zkResult
+        if (!currentZkResult) {
             bundleSceneLogger.warn('Cannot bundle scene: no ZKO result available')
             return
         }
         try {
             bundleSceneLogger.debug('Starting bundle scene export')
-            const bundled = await bundleScene()
-            if (bundled) {
-                bundleSceneLogger.debug('Bundle scene exported successfully', { size: bundled.length })
-                await window.NativeZernikalos?.actionSaveFile(bundled)
-                bundleSceneLogger.debug('Bundle scene save dialog triggered')
-            } else {
-                bundleSceneLogger.warn('Bundle scene returned undefined')
-            }
+            const bundled = await bundleScene(currentZkResult)
+            bundleSceneLogger.debug('Bundle scene exported successfully', { size: bundled.length })
+            await window.NativeZernikalos?.actionSaveFile(bundled)
+            bundleSceneLogger.debug('Bundle scene save dialog triggered')
         } catch (error) {
             bundleSceneLogger.error('Error bundling scene', { error })
             throw error
         }
-    }, [bundleScene, zkResult])
+    }, [bundleScene])
     
     return {
         bundleScene,

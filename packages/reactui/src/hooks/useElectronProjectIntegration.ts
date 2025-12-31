@@ -74,10 +74,10 @@ export function useElectronProjectIntegration() {
     // Open project listener
     useEffect(() => {
         if (isElectron) {
-            const handler = (data: { filePath: string }) => {
+            const handler = async (data: { filePath: string }) => {
                 try {
-                    // Open project (now just sets the path, React Query will fetch)
-                    openProject(data.filePath)
+                    // Open project (now uses ProjectManager internally)
+                    await openProject(data.filePath)
                     
                     // Navigate to projects page (which will show ProjectEditView if project is open)
                     navigate("/projects")

@@ -169,3 +169,4 @@ const { data: projectMetadata } = useProjectQuery(projectFilePath)
 4. **Use query key factories**: Consistent cache key management
 5. **Handle mutations properly**: Update cache on success, handle errors
 
+

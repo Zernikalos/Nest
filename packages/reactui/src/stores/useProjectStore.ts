@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-interface ProjectState {
+interface ProjectStoreState {
     projectFilePath: string | null
 }
 
@@ -9,7 +9,7 @@ interface ProjectActions {
     clearProjectPath: () => void
 }
 
-export const useProjectStore = create<ProjectState & ProjectActions>((set) => ({
+export const useProjectStore = create<ProjectStoreState & ProjectActions>((set) => ({
     projectFilePath: null,
     
     setProjectPath: (filePath) => set({ 

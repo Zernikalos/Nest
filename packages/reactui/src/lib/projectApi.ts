@@ -1,44 +1,38 @@
 import { api } from "./httpClient";
+import type { Project, InputAsset, CreateProjectDTO } from '@/core/Project'
 
-export interface CreateProjectDTO {
-    name: string;
-    filePath: string;
+// Re-export types for backward compatibility
+export type { Project, InputAsset, CreateProjectDTO }
+// Legacy export name for backward compatibility
+export type ProjectMetadata = Project
+
+/**
+ * API client interface for project operations
+ * Defines the contract for project API operations
+ */
+export interface ProjectApiClient {
+    createProject(name: string, filePath: string): Promise<Project>
+    getProjectByPath(filePath: string): Promise<Project>
+    addInputAsset(filePath: string, asset: Omit<InputAsset, 'id' | 'importedAt'>): Promise<Project>
 }
 
-export interface InputAsset {
-    id: string
-    path: string
-    fileName: string
-    format: "obj" | "gltf" | "fbx" | "collada"
-    importedAt: string
-}
-
-export interface ProjectMetadata {
-    name: string;
-    version: string;
-    createdAt: string;
-    lastModified: string;
-    zkBuilderVersion?: string;
-    assets?: InputAsset[];
-}
-
-export async function createProject(name: string, filePath: string): Promise<ProjectMetadata> {
-    const response = await api.post<ProjectMetadata>("/projects/create", {
+export async function createProject(name: string, filePath: string): Promise<Project> {
+    const response = await api.post<Project>("/projects/create", {
         name,
         filePath,
     });
     return response.data;
 }
 
-export async function getProjectByPath(filePath: string): Promise<ProjectMetadata> {
-    const response = await api.get<ProjectMetadata>("/projects/by-path", {
+export async function getProjectByPath(filePath: string): Promise<Project> {
+    const response = await api.get<Project>("/projects/by-path", {
         params: { filePath },
     });
     return response.data;
 }
 
-export async function addInputAsset(filePath: string, asset: Omit<InputAsset, 'id' | 'importedAt'>): Promise<ProjectMetadata> {
-    const response = await api.post<ProjectMetadata>("/projects/add-asset", {
+export async function addInputAsset(filePath: string, asset: Omit<InputAsset, 'id' | 'importedAt'>): Promise<Project> {
+    const response = await api.post<Project>("/projects/add-asset", {
         filePath,
         asset,
     });

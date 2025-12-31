@@ -9,6 +9,5 @@ export { useSettingsQuery, useUpdateSettingsMutation, type AppSettings } from "@
 // Project management hooks
 export { useProject } from "./useProject"
 export { useAssetToZko } from "./useAssetToZko"
-export { useCreateProject } from "./useCreateProject"
 export { useBundleScene } from "./useBundleScene"
 export { useElectronProjectIntegration } from "./useElectronProjectIntegration" 

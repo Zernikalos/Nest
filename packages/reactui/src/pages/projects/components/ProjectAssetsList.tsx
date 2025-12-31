@@ -2,7 +2,7 @@ import React from 'react';
 import { BsFileEarmark, BsFolder, BsTrash } from 'react-icons/bs';
 import { Button } from '@/components/ui/button';
 import { useProject } from '@/hooks/useProject';
-import type { InputAsset } from '@/lib/projectApi';
+import type { InputAsset } from '@/core/Project';
 
 const getAssetIcon = (_format: string) => {
     // TODO: Use format to show different icons per file type
