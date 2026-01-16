@@ -1,10 +1,11 @@
-import React, { use, useEffect } from 'react';
+import React, { use, useEffect, useCallback, useMemo, useRef } from 'react';
 import { ZernikalosViewer } from '@/components/ZernikalosViewer';
 import { NestEditorContext, type NestEditorContextType } from '../providers/NestEditorContext.tsx';
 import { editorLogger } from '../editorLogger';
 
 export const EditorViewer: React.FC = () => {
     const editorContext = use(NestEditorContext) as NestEditorContextType;
+    const previousFilePathRef = useRef<string | null>(null);
 
     if (!editorContext) {
         return null;
@@ -12,9 +13,24 @@ export const EditorViewer: React.FC = () => {
 
     const { zkResult, regenerateZko } = editorContext;
 
-    // Regenerate proto when zkResult changes (by filePath)
+    // Memoize sceneData based on zko reference to prevent unnecessary re-renders
+    const sceneData = useMemo(() => {
+        return zkResult?.proto || null
+    }, [zkResult?.zko, zkResult?.proto])
+
+    // Memoize onError callback to prevent recreating on each render
+    const handleError = useCallback((error: Error) => {
+        editorLogger.error('Zernikalos viewer error', {
+            filePath: zkResult?.filePath,
+            error,
+        });
+    }, [zkResult?.filePath]);
+
+    // Regenerate proto only when filePath actually changes
     useEffect(() => {
-        if (zkResult) {
+        const currentFilePath = zkResult?.filePath;
+        if (currentFilePath && currentFilePath !== previousFilePathRef.current) {
+            previousFilePathRef.current = currentFilePath;
             editorLogger.debug('🔄 Regenerating proto for viewer...');
             regenerateZko();
         }
@@ -23,15 +39,10 @@ export const EditorViewer: React.FC = () => {
     return (
         <div className="h-full w-full">
             <ZernikalosViewer
-                sceneData={zkResult?.proto || null}
+                sceneData={sceneData}
                 width="100%"
                 height="100%"
-                onError={(error) => {
-                    editorLogger.error('Zernikalos viewer error', {
-                        filePath: zkResult?.filePath,
-                        error,
-                    });
-                }}
+                onError={handleError}
             />
         </div>
     );

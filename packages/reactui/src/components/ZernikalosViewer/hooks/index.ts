@@ -1,1 +1,1 @@
-export { useZernikalosInitialization } from './useZernikalosInitialization';
+export { useZernikalosViewer } from './useZernikalosViewer';

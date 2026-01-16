@@ -1,10 +1,10 @@
 import React from 'react';
 import { IoDocumentText, IoColorPalette } from 'react-icons/io5';
 import { TemplateCard } from './TemplateCard';
-import { useCreateProject } from '@/hooks/useCreateProject';
+import { useProjectUIStore } from '@/stores/useProjectUIStore';
 
 export const ProjectTemplates: React.FC = () => {
-    const { setIsDialogOpen } = useCreateProject();
+    const { setIsCreateDialogOpen } = useProjectUIStore();
 
     return (
         <div>
@@ -18,14 +18,14 @@ export const ProjectTemplates: React.FC = () => {
                     description="Start with a blank canvas"
                     icon={IoDocumentText}
                     iconClassName="bg-primary"
-                    onClick={() => setIsDialogOpen(true)}
+                    onClick={() => setIsCreateDialogOpen(true)}
                 />
                 <TemplateCard
                     name="3D Scene"
                     description="Basic 3D scene template"
                     icon={IoColorPalette}
                     iconClassName="bg-accent"
-                    onClick={() => setIsDialogOpen(true)}
+                    onClick={() => setIsCreateDialogOpen(true)}
                 />
             </div>
         </div>

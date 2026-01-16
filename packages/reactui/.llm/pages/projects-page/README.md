@@ -4,6 +4,7 @@ This documentation explains the complete project management system in Zernikalos
 
 ## 📋 Table of Contents
 
+- **[Project Architecture](./project-architecture.md)** - Complete overview of Project management system (React Query, Zustand, ProjectManager)
 - **[Architecture](./architecture.md)** - Components and responsibilities of each layer
 - **[Flow](./flow.md)** - Step-by-step flow diagrams and explanations
 - **[API Reference](./api-reference.md)** - Endpoints, interfaces, and TypeScript types
