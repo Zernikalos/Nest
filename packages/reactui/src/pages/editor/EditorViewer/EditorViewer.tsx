@@ -1,4 +1,4 @@
-import React, { use, useEffect } from 'react';
+import React, { use, useEffect, useCallback, useMemo } from 'react';
 import { ZernikalosViewer } from '@/components/ZernikalosViewer';
 import { NestEditorContext, type NestEditorContextType } from '../providers/NestEditorContext.tsx';
 import { editorLogger } from '../editorLogger';
@@ -12,13 +12,21 @@ export const EditorViewer: React.FC = () => {
 
     const { zkResult, regenerateZko } = editorContext;
 
-    // Regenerate proto when zkResult changes (by filePath)
+    // Memoize onError callback to prevent recreating on each render
+    const handleError = useCallback((error: Error) => {
+        editorLogger.error('Zernikalos viewer error', {
+            filePath: zkResult?.filePath,
+            error,
+        });
+    }, [zkResult?.filePath]);
+
+    // Regenerate proto when zkResult filePath changes (not regenerateZko to avoid infinite loop)
     useEffect(() => {
-        if (zkResult) {
+        if (zkResult?.filePath) {
             editorLogger.debug('🔄 Regenerating proto for viewer...');
             regenerateZko();
         }
-    }, [zkResult?.filePath, regenerateZko]);
+    }, [zkResult?.filePath]);
 
     return (
         <div className="h-full w-full">
@@ -26,12 +34,7 @@ export const EditorViewer: React.FC = () => {
                 sceneData={zkResult?.proto || null}
                 width="100%"
                 height="100%"
-                onError={(error) => {
-                    editorLogger.error('Zernikalos viewer error', {
-                        filePath: zkResult?.filePath,
-                        error,
-                    });
-                }}
+                onError={handleError}
             />
         </div>
     );

@@ -46,14 +46,20 @@ export const useZernikalosInitialization = ({
         player: null
     });
 
+    // Store onError in ref to avoid recreating callbacks
+    const onErrorRef = useRef(onError);
+    useLayoutEffect(() => {
+        onErrorRef.current = onError;
+    }, [onError]);
+
     // Handle errors
     const handleError = useCallback((err: Error) => {
         console.error('Zernikalos error:', err);
         setError(err);
-        onError?.(err);
-    }, [onError]);
+        onErrorRef.current?.(err);
+    }, []);
 
-    // Cleanup function
+    // Cleanup function - stable reference
     const cleanup = useCallback(() => {
         console.log('🧹 Cleaning up Zernikalos resources');
         disposeZernikalosInstance(refs.current.zernikalos);
@@ -162,7 +168,7 @@ export const useZernikalosInitialization = ({
 
         // Cleanup on unmount or dependency change
         return cleanup;
-    }, [sceneData, logLevel, scaleModel, playAnimation, animationIndex, cleanup, handleError]);
+    }, [sceneData, logLevel, scaleModel, playAnimation, animationIndex]);
 
     return {
         isInitialized,
