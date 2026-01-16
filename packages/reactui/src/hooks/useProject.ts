@@ -3,7 +3,7 @@ import { useNavigate } from '@/keepaliverouter'
 import { useProjectStore } from '@/stores/useProjectStore'
 import { useProjectUIStore } from '@/stores/useProjectUIStore'
 import { useProjectQuery } from '@/queries'
-import type { InputAsset } from '@/core/Project'
+import type { IInputAsset } from '@/core/Project'
 import { ProjectManager } from '@/core/ProjectManager'
 import * as projectApi from '@/lib/projectApi'
 import { queryClient } from '@/App'
@@ -56,7 +56,7 @@ export function useProject() {
         clearProjectPath()
     }, [manager, clearProjectPath])
     
-    const addAssetToProject = useCallback(async (asset: Omit<InputAsset, 'id' | 'importedAt'>) => {
+    const addAssetToProject = useCallback(async (asset: Omit<IInputAsset, 'id' | 'importedAt'>) => {
         if (!projectFilePath) {
             throw new Error('No project is currently open')
         }

@@ -1,4 +1,4 @@
-import type { ProjectManagerState, Project, InputAsset } from './Project'
+import type { ProjectManagerState, Project, IInputAsset } from './Project'
 import type { ProjectApiClient } from '@/lib/projectApi'
 import { QueryClient } from '@tanstack/react-query'
 import { projectKeys } from '@/queries/projects'
@@ -73,7 +73,7 @@ export class ProjectManager {
         return this.openProject(this.state.filePath)
     }
 
-    async addAssetToProject(asset: Omit<InputAsset, 'id' | 'importedAt'>): Promise<Project> {
+    async addAssetToProject(asset: Omit<IInputAsset, 'id' | 'importedAt'>): Promise<Project> {
         if (!this.state.filePath) {
             throw new Error('No project is currently open')
         }
