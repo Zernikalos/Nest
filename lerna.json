@@ -1,7 +1,16 @@
 {
-  "version": "0.1.0",
+  "version": "0.0.0",
   "npmClient": "pnpm",
   "command": {
+    "version": {
+      "allowBranch": ["main", "master"],
+      "conventionalCommits": true,
+      "createRelease": false,
+      "message": "chore(release): publish %s",
+      "push": true,
+      "tagVersionPrefix": "v",
+      "yes": false
+    },
     "exec": {
       "stream": true
     }
