@@ -1,6 +1,6 @@
 {
   "name": "nestserver",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
   "main": "dist/main.js",
   "license": "MPL-2.0",

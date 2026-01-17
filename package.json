@@ -1,12 +1,21 @@
 {
   "name": "zernikalos-nest",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
   "description": "Desktop editor for asset management and debugging of Zernikalos Engine",
   "main": "packages/electronapp/dist/main/index.js",
   "license": "MPL-2.0",
   "scripts": {
     "commit": "git-cz",
+
+    "release": "lerna version --conventional-commits",
+    "release:patch": "lerna version patch --conventional-commits --yes",
+    "release:minor": "lerna version minor --conventional-commits --yes",
+    "release:major": "lerna version major --conventional-commits --yes",
+    "release:prepatch": "lerna version prepatch --conventional-commits --yes --preid alpha",
+    "release:preminor": "lerna version preminor --conventional-commits --yes --preid alpha",
+    "release:premajor": "lerna version premajor --conventional-commits --yes --preid alpha",
+    "release:prerelease": "lerna version prerelease --conventional-commits --yes --preid alpha",
 
     "dev": "lerna run dev --parallel",
     "dev:main": "lerna run dev --scope=electronapp",
