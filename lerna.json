@@ -1,9 +1,12 @@
 {
-  "version": "0.0.0",
+  "version": "0.1.0",
   "npmClient": "pnpm",
   "command": {
     "version": {
-      "allowBranch": ["main", "master"],
+      "allowBranch": [
+        "main",
+        "master"
+      ],
       "conventionalCommits": true,
       "createRelease": false,
       "message": "chore(release): publish %s",
@@ -16,4 +19,3 @@
     }
   }
 }
-

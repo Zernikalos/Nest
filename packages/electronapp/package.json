@@ -1,6 +1,6 @@
 {
   "name": "electronapp",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
   "main": "dist/index.js",
   "license": "MPL-2.0",
@@ -12,13 +12,13 @@
     "clean": "rimraf node_modules dist out"
   },
   "dependencies": {
-    "nestserver": "workspace:*",
-    "rxjs": "7.8.2",
     "crc-32": "1.2.2",
-    "strip-ansi": "7.1.2",
-    "lodash": "4.17.21",
     "events": "3.3.0",
-    "reflect-metadata": "0.2.2"
+    "lodash": "4.17.21",
+    "nestserver": "workspace:*",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2",
+    "strip-ansi": "7.1.2"
   },
   "devDependencies": {
     "electron": "39.2.7",
