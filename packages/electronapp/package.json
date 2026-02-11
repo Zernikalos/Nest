@@ -14,14 +14,14 @@
   "dependencies": {
     "crc-32": "1.2.2",
     "events": "3.3.0",
-    "lodash": "4.17.21",
+    "lodash": "4.17.23",
     "nestserver": "workspace:*",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2",
     "strip-ansi": "7.1.2"
   },
   "devDependencies": {
-    "electron": "39.2.7",
+    "electron": "40.2.1",
     "tsconfig-paths": "4.2.0"
   }
 }
