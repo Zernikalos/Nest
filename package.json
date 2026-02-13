@@ -1,31 +1,26 @@
 {
   "name": "zernikalos-nest",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
   "description": "Desktop editor for asset management and debugging of Zernikalos Engine",
   "main": "packages/electronapp/dist/main/index.js",
   "license": "MPL-2.0",
   "scripts": {
     "commit": "git-cz",
-
     "release": "lerna version --conventional-commits --no-push && pnpm run release:finalize",
     "release:prepatch": "lerna version prepatch --conventional-commits --yes --preid alpha --no-push && pnpm run release:finalize",
     "release:preminor": "lerna version preminor --conventional-commits --yes --preid alpha --no-push && pnpm run release:finalize",
     "release:premajor": "lerna version premajor --conventional-commits --yes --preid alpha --no-push && pnpm run release:finalize",
     "release:prerelease": "lerna version prerelease --conventional-commits --yes --preid alpha --no-push && pnpm run release:finalize",
-
     "release:finalize": "pnpm run sync-root-version && git add package.json && git commit --amend --no-edit",
     "sync-root-version": "node scripts/sync-root-version.js",
-
     "dev": "lerna run dev --parallel",
     "dev:main": "lerna run dev --scope=electronapp",
     "dev:ui": "lerna run dev --scope=reactui",
-
     "build": "lerna run build",
     "build:ui": "lerna run build --scope=reactui",
     "build:server": "lerna run build --scope=nestserver",
     "build:electron": "lerna run build --scope=electronapp",
-
     "predist": "rimraf out",
     "dist": "node scripts/build-electron.js",
     "dist:mac": "node scripts/build-electron.js mac",
@@ -33,7 +28,6 @@
     "dist:linux": "node scripts/build-electron.js linux",
     "dist:all": "node scripts/build-electron.js all",
     "pack": "node scripts/build-electron.js --dir",
-
     "lint": "eslint ./engine/**/src/**/*.ts",
     "lint:packages": "lerna run lint",
     "test:packages": "lerna run test",
@@ -52,15 +46,12 @@
   },
   "devDependencies": {
     "lerna": "9.0.4",
-
     "@eslint/js": "9.39.2",
     "@types/express": "5.0.6",
     "@types/jest": "30.0.0",
     "@types/lodash": "4.17.23",
     "@types/node": "25.2.3",
-
     "electron-builder": "26.7.0",
-
     "babel-loader": "10.0.0",
     "@babel/preset-env": "7.29.0",
     "eslint": "9.39.2",
@@ -76,14 +67,12 @@
     "webpack": "5.105.2",
     "webpack-cli": "6.0.1",
     "webpack-dev-server": "5.2.3",
-
     "@types/supertest": "6.0.3",
     "source-map-support": "0.5.21",
     "supertest": "7.2.2",
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
     "chokidar": "4.0.3",
-
     "vite": "7.3.1"
   },
   "workspaces": {
