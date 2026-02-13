@@ -33,13 +33,13 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
         with:
-          version: 9
+          version: 10
 
       # Sets up Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '23'
+          node-version: '24'
           cache: 'pnpm'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@zernikalos'
@@ -62,14 +62,23 @@ jobs:
       - name: Package application
         run: pnpm dist
 
+      # List generated artifacts for debugging
+      - name: List generated artifacts
+        run: |
+          echo "Artifacts generated in out/:"
+          ls -lh out/ || echo "No out/ directory found"
+
       # Create the GitHub Release
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
           # Use the manually provided tag, or fall back to the tag from the push event
           tag: ${{ github.event.inputs.tag || github.ref_name }}
-          releaseName: "Release ${{ github.event.inputs.tag || github.ref_name }}"
-          # Include only distribution files (installers), exclude build directories and config files
+          name: "Release ${{ github.event.inputs.tag || github.ref_name }}"
+          # Include all possible distribution files
+          # On Linux: only .zip files will be found (others will show warnings, which is normal)
+          # On macOS: .dmg files would be generated
+          # On Windows: .exe and .blockmap files would be generated
           artifacts: |
             out/*.zip
             out/*.dmg
