@@ -1,6 +1,6 @@
 {
   "name": "zernikalos-nest",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
   "description": "Desktop editor for asset management and debugging of Zernikalos Engine",
   "main": "packages/electronapp/dist/main/index.js",
@@ -8,14 +8,14 @@
   "scripts": {
     "commit": "git-cz",
 
-    "release": "lerna version --conventional-commits",
-    "release:patch": "lerna version patch --conventional-commits --yes",
-    "release:minor": "lerna version minor --conventional-commits --yes",
-    "release:major": "lerna version major --conventional-commits --yes",
-    "release:prepatch": "lerna version prepatch --conventional-commits --yes --preid alpha",
-    "release:preminor": "lerna version preminor --conventional-commits --yes --preid alpha",
-    "release:premajor": "lerna version premajor --conventional-commits --yes --preid alpha",
-    "release:prerelease": "lerna version prerelease --conventional-commits --yes --preid alpha",
+    "release": "lerna version --conventional-commits --no-push && pnpm run release:finalize",
+    "release:prepatch": "lerna version prepatch --conventional-commits --yes --preid alpha --no-push && pnpm run release:finalize",
+    "release:preminor": "lerna version preminor --conventional-commits --yes --preid alpha --no-push && pnpm run release:finalize",
+    "release:premajor": "lerna version premajor --conventional-commits --yes --preid alpha --no-push && pnpm run release:finalize",
+    "release:prerelease": "lerna version prerelease --conventional-commits --yes --preid alpha --no-push && pnpm run release:finalize",
+
+    "release:finalize": "pnpm run sync-root-version && git add package.json && git commit --amend --no-edit",
+    "sync-root-version": "node scripts/sync-root-version.js",
 
     "dev": "lerna run dev --parallel",
     "dev:main": "lerna run dev --scope=electronapp",
@@ -73,7 +73,7 @@
     "typescript": "5.9.3",
     "typescript-eslint": "8.50.0",
     "vue-eslint-parser": "10.2.0",
-    "webpack": "5.105.1",
+    "webpack": "5.105.2",
     "webpack-cli": "6.0.1",
     "webpack-dev-server": "5.2.3",
 

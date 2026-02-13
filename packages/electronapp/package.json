@@ -21,7 +21,7 @@
     "strip-ansi": "7.1.2"
   },
   "devDependencies": {
-    "electron": "40.2.1",
+    "electron": "40.4.0",
     "tsconfig-paths": "4.2.0"
   }
 }

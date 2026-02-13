@@ -34,10 +34,10 @@
         "@radix-ui/react-toggle-group": "1.1.11",
         "@radix-ui/react-tooltip": "1.2.8",
         "@tailwindcss/vite": "4.1.18",
-        "@tanstack/react-query": "5.90.20",
+        "@tanstack/react-query": "5.90.21",
 
-        "@zernikalos/zernikalos": "next",
-        "@zernikalos/zkbuilder": "next",
+        "@zernikalos/zernikalos": "0.8.0",
+        "@zernikalos/zkbuilder": "0.6.0",
         "axios": "1.13.5",
         "class-variance-authority": "0.7.1",
         "clsx": "2.1.1",
@@ -57,7 +57,7 @@
     },
     "devDependencies": {
         "@types/debug": "4.1.12",
-        "@types/react": "19.2.13",
+        "@types/react": "19.2.14",
         "@types/react-dom": "19.2.3",
         "@vitejs/plugin-react": "5.1.4",
         "eslint-config-prettier": "^10.1.8",
