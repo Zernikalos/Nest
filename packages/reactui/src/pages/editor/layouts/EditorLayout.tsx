@@ -19,8 +19,12 @@ export const EditorLayout: React.FC = () => {
     } = use(NestEditorContext) as NestEditorContextType;
     
     return (
-        <ResizablePanelGroup direction="horizontal" className="h-full">
-            <ResizablePanel defaultSize={25}>
+        <ResizablePanelGroup
+            direction="horizontal"
+            className="h-full"
+            autoSaveId="editor-layout"
+        >
+            <ResizablePanel id="editor-tree" defaultSize={25}>
                 <ScrollArea className="h-full">
                     <TreeView
                         className="h-full"
@@ -31,7 +35,7 @@ export const EditorLayout: React.FC = () => {
                 </ScrollArea>
             </ResizablePanel>
             <ResizableHandle />
-            <ResizablePanel defaultSize={75} className="flex flex-col">
+            <ResizablePanel id="editor-main" defaultSize={75} className="flex flex-col">
                 <EditorTopBar
                     className="border-b flex-shrink-0"
                 />

@@ -1,4 +1,5 @@
 packages:
+  - 'packages/ide-core'
   - 'packages/reactui'
   - 'packages/nestserver'
   - 'packages/electronapp'

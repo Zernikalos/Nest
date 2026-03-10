@@ -18,6 +18,7 @@
     "dev:main": "lerna run dev --scope=electronapp",
     "dev:ui": "lerna run dev --scope=reactui",
     "build": "lerna run build",
+    "build:core": "lerna run build --scope=@zstudio/ide-core",
     "build:ui": "lerna run build --scope=reactui",
     "build:server": "lerna run build --scope=nestserver",
     "build:electron": "lerna run build --scope=electronapp",

@@ -16,6 +16,7 @@ export const reactUiConfig = defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'src'),
+            '@zstudio/ide-core': path.resolve(__dirname, '../ide-core/src/index.ts'),
         },
         preserveSymlinks: true,
     },
