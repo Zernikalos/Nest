@@ -89,6 +89,17 @@ Exit criteria:
 
 For V2, only the React renderer (`reactui`) is in scope.
 
+### Phase 5 Vue adapter (prepared)
+
+A Vue 3 adapter package (`packages/vueui`) has been added to prove the same runtime can drive a second renderer:
+
+- **Runtime**: Uses `@zstudio/ide-core` only. `createEditorRuntime` lives in ide-core; both `reactui` and `vueui` call it with their own `StoragePort` (e.g. localStorage).
+- **Vue package**: `vueui` provides:
+  - `IdeCoreProvider.vue`: provides the runtime via `provide/inject`.
+  - `useIdeCore()` composable: subscribes to scene tree and workbench view models, exposes `dispatchSceneTree`, `executeCommand`, `contextKey`, etc.
+  - **Scene Tree widget**: `SceneTree.vue` + `SceneTreeNode.vue` render the tree from `getSceneTreeViewModel()`, dispatch `SELECT_NODES` and `OPEN_TAB` on click. No fork of ide-core; same contracts.
+- **Run**: From repo root, `pnpm --filter vueui dev` (or run from `packages/vueui`). Not wired into the Electron app; standalone Vue app to validate Phase 5 exit criteria.
+
 ## Risks and Controls
 
 1. Risk: migration fatigue

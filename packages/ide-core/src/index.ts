@@ -32,3 +32,8 @@ export * from './ports/MockStoragePort.js';
 export * from './services/CommandService.js';
 export * from './services/ContextKeyService.js';
 export * from './services/DocumentService.js';
+export {
+    createEditorRuntime,
+    type EditorRuntime,
+    type EditorRuntimePorts,
+} from './createEditorRuntime.js';

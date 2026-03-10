@@ -1,6 +1,7 @@
 packages:
   - 'packages/ide-core'
   - 'packages/reactui'
+  - 'packages/vueui'
   - 'packages/nestserver'
   - 'packages/electronapp'
 

@@ -1,6 +1,7 @@
 import {BrowserWindow, ipcMain} from "electron"
-import path from "path"
 import {MenuEvents, RendererMenuEvents} from "./menu/MenuEvents"
+import {createMenu} from "./menu/menu"
+import type { MenuContextSnapshot } from "./menu/MenuContext"
 import {importFileDialog} from "./dialogs/importFileDialog"
 import {bundleSceneDialog} from "./dialogs/bundleSceneDialog"
 import {NestEvents} from "./NestEvents"
@@ -105,7 +106,7 @@ export class MainWindow {
             try {
                 await fs.writeFile(pathInfo.filePath, fileData)
             } catch (e) {
-                console.log(`Unable to write file to ${path}. Error: ${e}`)
+                console.log(`Unable to write file to ${pathInfo.filePath}. Error: ${e}`)
             }
         })
 
@@ -127,6 +128,10 @@ export class MainWindow {
 
         ipcMain.handle("userSettings:set", (event, key, value) => {
             this.settings.updateSettings({[key]: value})
+        })
+
+        ipcMain.on('ide:menuContext', (_event, context: MenuContextSnapshot) => {
+            createMenu(context)
         })
     }
 }

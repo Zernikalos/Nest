@@ -1,0 +1,59 @@
+<script setup lang="ts">
+import { useProject } from '@/composables/useProject';
+import { useProjectUIStore } from '@/stores/projectUIStore';
+import CreateProjectDialog from '@/components/CreateProjectDialog.vue';
+import Button from '@/components/ui/Button.vue';
+import { Plus, FolderOpen } from 'lucide-vue-next';
+
+const { createProjectWithDialog, openProject } = useProject();
+const projectUIStore = useProjectUIStore();
+
+async function handleOpen() {
+  try {
+    const filePath = await window.NativeZernikalos?.showOpenProjectDialog?.();
+    if (!filePath) return;
+    await openProject(filePath);
+  } catch (e) {
+    console.error('Failed to open project:', e);
+  }
+}
+</script>
+
+<template>
+  <div class="text-center mb-12">
+    <div class="flex items-center justify-center gap-3 mb-6">
+      <span class="text-2xl font-bold text-primary">ZK</span>
+      <h1 class="text-5xl font-bold text-primary">Zernikalos Nest</h1>
+    </div>
+    <p class="text-lg mb-8 max-w-2xl mx-auto text-muted-foreground">
+      Create stunning 3D experiences with our powerful visual editor.
+      Build, animate, and deploy interactive content effortlessly.
+    </p>
+    <div class="flex gap-4 justify-center">
+      <Button
+        size="lg"
+        class="px-6 py-2 text-base font-medium"
+        @click="projectUIStore.setIsCreateDialogOpen(true)"
+      >
+        <Plus class="size-4" />
+        New Project
+      </Button>
+      <Button
+        size="lg"
+        variant="outline"
+        class="px-6 py-2 text-base font-medium"
+        @click="handleOpen"
+      >
+        <FolderOpen class="size-4" />
+        Open Project
+      </Button>
+    </div>
+    <CreateProjectDialog
+      :open="projectUIStore.isCreateDialogOpen"
+      :is-creating="projectUIStore.isCreating"
+      :error="projectUIStore.creationError"
+      @update:open="projectUIStore.setIsCreateDialogOpen($event)"
+      @create="createProjectWithDialog"
+    />
+  </div>
+</template>

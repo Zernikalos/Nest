@@ -74,6 +74,7 @@ export function useElectronProjectIntegration() {
             openProject(filePath)
                 .then(() => {
                     contextKey.set('projectOpen', true)
+                    window.NativeZernikalos?.sendMenuContext?.({ projectOpen: true })
                     navigate('/projects')
                 })
                 .catch((error) => {
@@ -122,4 +123,11 @@ export function useElectronProjectIntegration() {
         offOpenProject,
         executeCommand,
     ])
+
+    // Sync menu context to main process for dynamic enable/disable (Phase 4)
+    useEffect(() => {
+        if (!isElectron) return
+        const projectOpen = contextKey.getBool('projectOpen')
+        window.NativeZernikalos?.sendMenuContext?.({ projectOpen })
+    }, [isElectron, contextKey])
 }

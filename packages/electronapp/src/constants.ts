@@ -3,7 +3,9 @@ import {app, nativeImage} from "electron";
 import path from "path";
 
 const DEV_FRONTEND_URL = "http://localhost:5173"
+const DEV_VUEUI_URL = "http://localhost:5174"
 const MAIN_WINDOW_ENTRY = path.join(app.getAppPath(), 'packages', 'reactui', 'dist', 'index.html');
+const VUEUI_MAIN_ENTRY = path.join(app.getAppPath(), 'packages', 'vueui', 'dist', 'index.html');
 const PRELOAD_SCRIPT_PATH = path.resolve(__dirname, '..', 'preload/preload.js')
 
 export class Constants {
@@ -45,9 +47,9 @@ export class Constants {
 
     public static get MainWindowPath(): string {
         if (Constants.isDebug) {
-            return DEV_FRONTEND_URL
+            return DEV_VUEUI_URL
         } else {
-            return MAIN_WINDOW_ENTRY
+            return VUEUI_MAIN_ENTRY
         }
     }
 
