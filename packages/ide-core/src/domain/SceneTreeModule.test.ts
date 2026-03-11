@@ -17,6 +17,8 @@ describe('SceneTreeModule', () => {
         expect(vm.selectedIds).toEqual([]);
         expect(vm.activeNode).toBeNull();
         expect(vm.openedNodes).toEqual([]);
+        expect(vm.expandedNodeIds).toEqual([]);
+        expect(vm.focusedNodeId).toBeNull();
     });
 
     it('SET_TREE updates tree', () => {
@@ -40,6 +42,9 @@ describe('SceneTreeModule', () => {
         const vm = getSceneTreeViewModel(store.getState());
         expect(vm.selectedIds).toEqual(['2']);
         expect(vm.activeNode).toBe('2');
+        expect(vm.openedNodes).toHaveLength(1);
+        expect(vm.openedNodes[0].id).toBe('2');
+        expect(vm.focusedNodeId).toBe('2');
     });
 
     it('OPEN_TAB adds to opened nodes', () => {

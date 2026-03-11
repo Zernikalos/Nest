@@ -1,6 +1,7 @@
 /**
- * Evaluates context keys for command enablement.
- * Keys are strings like "editorHasSelection", "editorFocus", etc.
+ * Evaluates context keys for command enablement and UI state.
+ * Keys are strings (e.g. "editorHasSelection", "projectOpen"); values are set by the runtime or adapters.
+ * Expressions support: "key", "!key", "key == value".
  */
 
 export class ContextKeyService {
@@ -14,18 +15,22 @@ export class ContextKeyService {
         return this.context.get(key);
     }
 
+    /** Returns true if the key is strictly true or the string "true". */
     getBool(key: string): boolean {
         const v = this.context.get(key);
         return v === true || v === 'true';
     }
 
+    /** Returns the string value if the key holds a string; otherwise undefined. */
     getString(key: string): string | undefined {
         const v = this.context.get(key);
         return typeof v === 'string' ? v : undefined;
     }
 
+    /**
+     * Evaluate a simple expression: "key" (getBool), "!key" (negated), or "key == value" (strict equality).
+     */
     evaluate(expr: string): boolean {
-        // Simple expression: "key" or "!key" or "key == value"
         const trimmed = expr.trim();
         if (trimmed.startsWith('!')) {
             return !this.getBool(trimmed.slice(1));

@@ -2,8 +2,8 @@ import { useContext, useState, useEffect, useCallback } from 'react';
 import { IdeCoreContext } from './IdeCoreContext';
 import {
     SELECT_NODES,
-    OPEN_TAB,
     CLOSE_TAB,
+    SET_ACTIVE_TAB,
     SET_PANEL_SIZES,
 } from '@zstudio/ide-core';
 
@@ -40,17 +40,13 @@ export function useIdeCore() {
     const handleSelect = useCallback(
         (ids: string[]) => {
             dispatch(SELECT_NODES, ids);
-            const lastId = ids[ids.length - 1];
-            if (lastId) {
-                dispatch(OPEN_TAB, lastId);
-            }
         },
         [dispatch]
     );
 
     const handleTabChange = useCallback(
         (nodeId: string) => {
-            dispatch(OPEN_TAB, nodeId);
+            dispatch(SET_ACTIVE_TAB, nodeId);
         },
         [dispatch]
     );
@@ -83,6 +79,7 @@ export function useIdeCore() {
         getSceneTreeState: () => runtime.getSceneTreeState(),
         executeCommand: runtime.executeCommand,
         registerCommand: runtime.registerCommand,
+        unregisterCommand: runtime.unregisterCommand,
         contextKey: runtime.contextKey,
     };
 }

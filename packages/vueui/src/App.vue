@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { provide } from 'vue';
 import { TooltipProvider } from 'radix-vue';
 import IdeCoreProvider from './components/IdeCoreProvider.vue';
 import ElectronProvider from './components/ElectronProvider.vue';
@@ -6,6 +7,19 @@ import AppBody from './components/AppBody.vue';
 import { useAppearanceStore } from '@/stores/appearanceStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { onMounted } from 'vue';
+import { HOST_PORT_KEY, type HostPort } from '@/types/hostPort';
+
+const api = typeof window !== 'undefined' ? window.NativeZernikalos : undefined;
+const hostPort: HostPort = {
+  showSaveProjectDialog: api?.showSaveProjectDialog
+    ? (name: string) => api.showSaveProjectDialog!(name).then((r) => r ?? null)
+    : async () => null,
+  showOpenProjectDialog: api?.showOpenProjectDialog
+    ? () => api.showOpenProjectDialog!().then((r) => r ?? null)
+    : async () => null,
+  sendMenuContext: api?.sendMenuContext ?? (() => {}),
+};
+provide(HOST_PORT_KEY, hostPort);
 
 const appearance = useAppearanceStore();
 const settings = useSettingsStore();

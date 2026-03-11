@@ -1,9 +1,11 @@
 import type { RuntimeIntent, RuntimeEffect, RuntimeStore } from '../contracts/index.js';
 
+/** Reducer: (state, intent) => { nextState, effects }. Effects can be run by the caller (e.g. for persistence). */
 export type Reducer<S> = (state: S, intent: RuntimeIntent) => { state: S; effects: RuntimeEffect[] };
 
 /**
  * Creates a RuntimeStore with a reducer and optional effect executor.
+ * State updates are synchronous; effects are passed to onEffects when provided.
  */
 export function createStore<S>(
     initialState: S,

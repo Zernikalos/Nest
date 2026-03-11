@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import type { StoragePort } from '@zstudio/ide-core';
 
 export interface GeneralFormData {
   confirmBeforeExit: boolean;
@@ -18,6 +19,8 @@ export interface SettingsFormData {
 }
 
 const STORAGE_KEY = 'zernikalos-settings';
+
+let preferencesPort: StoragePort | null = null;
 
 const defaultSettings: SettingsFormData = {
   appearance: {
@@ -64,6 +67,21 @@ function loadSettings(): SettingsFormData {
 export const useSettingsStore = defineStore('settings', {
   state: (): SettingsFormData => loadSettings(),
   actions: {
+    setPreferencesPort(port: StoragePort) {
+      preferencesPort = port;
+    },
+    async hydrateFromPort() {
+      if (!preferencesPort) return;
+      try {
+        const stored = await preferencesPort.get(STORAGE_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored) as unknown;
+          if (validateSettings(parsed)) this.$patch(parsed);
+        }
+      } catch {
+        console.warn(`Failed to load settings from port "${STORAGE_KEY}"`);
+      }
+    },
     updateGeneralSettings(general: Partial<GeneralFormData>) {
       this.general = { ...this.general, ...general };
       this.persist();
@@ -75,7 +93,12 @@ export const useSettingsStore = defineStore('settings', {
     persist() {
       if (typeof window === 'undefined') return;
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(this.$state));
+        const data = JSON.stringify(this.$state);
+        if (preferencesPort) {
+          void preferencesPort.set(STORAGE_KEY, data);
+        } else {
+          localStorage.setItem(STORAGE_KEY, data);
+        }
       } catch {
         console.warn(`Failed to save settings to "${STORAGE_KEY}"`);
       }

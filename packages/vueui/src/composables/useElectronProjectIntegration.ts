@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, watch } from 'vue';
+import { onMounted, onUnmounted, watch, nextTick, inject } from 'vue';
 import { useRouter } from 'vue-router';
 import { useElectronEvents } from '@/composables/useElectronEvents';
 import { useIdeCore } from '@/composables/useIdeCore';
@@ -13,6 +13,9 @@ import {
   FILE_CREATE_PROJECT,
   FILE_OPEN_PROJECT,
 } from '@/lib/commandIds';
+import type { AssetConversionData } from '@/types/project';
+import { useAssetToZko } from '@/composables/useAssetToZko';
+import { HOST_PORT_KEY, type HostPort } from '@/types/hostPort';
 
 /**
  * Composable that integrates Electron IPC events with project/editor commands.
@@ -21,9 +24,11 @@ import {
  */
 export function useElectronProjectIntegration() {
   const router = useRouter();
+  const hostPort = inject<HostPort>(HOST_PORT_KEY);
   const electron = useElectronEvents();
-  const { executeCommand, registerCommand, contextKey } = useIdeCore();
+  const { executeCommand, registerCommand, unregisterCommand, contextKey } = useIdeCore();
   const { openProject } = useProject();
+  const { convertAssetToZko } = useAssetToZko();
   const projectUIStore = useProjectUIStore();
   const zkoStore = useZkoStore();
   const projectStore = useProjectStore();
@@ -34,9 +39,20 @@ export function useElectronProjectIntegration() {
       // Placeholder: no handler yet
     });
 
-    registerCommand(FILE_IMPORT_FILE, (_payload?: unknown) => {
-      // Placeholder: asset conversion will be wired in Phase 3 (Editor)
-      zkoStore.setError('Asset conversion only available in Electron environment');
+    registerCommand(FILE_IMPORT_FILE, (payload?: unknown) => {
+      const data = (payload || {}) as AssetConversionData;
+      if (!data.path || !data.fileName || !data.format) {
+        zkoStore.setError('Invalid import data: path, fileName and format are required.');
+        return;
+      }
+      convertAssetToZko(data)
+        .then(async () => {
+          await nextTick();
+          await router.push('/editor/viewer');
+        })
+        .catch(() => {
+          zkoStore.setError('Asset conversion failed. Please try again.');
+        });
     });
 
     registerCommand(FILE_BUNDLE_SCENE, () => {
@@ -54,7 +70,7 @@ export function useElectronProjectIntegration() {
       openProject(filePath)
         .then(() => {
           contextKey?.set?.('projectOpen', true);
-          window.NativeZernikalos?.sendMenuContext?.({ projectOpen: true });
+          hostPort?.sendMenuContext?.({ projectOpen: true });
           router.push('/projects');
         })
         .catch((err) => console.error('Failed to open project:', err));
@@ -73,6 +89,11 @@ export function useElectronProjectIntegration() {
   });
 
   onUnmounted(() => {
+    unregisterCommand?.(FILE_LOAD_ZKO);
+    unregisterCommand?.(FILE_IMPORT_FILE);
+    unregisterCommand?.(FILE_BUNDLE_SCENE);
+    unregisterCommand?.(FILE_CREATE_PROJECT);
+    unregisterCommand?.(FILE_OPEN_PROJECT);
     if (!electron.isElectron) return;
     electron.offLoadZko();
     electron.offImportFile();
@@ -81,14 +102,12 @@ export function useElectronProjectIntegration() {
     electron.offOpenProject();
   });
 
-  // Keep contextKey and menu context in sync with project store
+  // Keep contextKey and menu context in sync with project store.
   watch(
     () => projectStore.projectFilePath != null,
     (projectOpen) => {
       contextKey?.set?.('projectOpen', projectOpen);
-      if (electron.isElectron) {
-        window.NativeZernikalos?.sendMenuContext?.({ projectOpen });
-      }
+      hostPort?.sendMenuContext?.({ projectOpen });
     },
     { immediate: true }
   );

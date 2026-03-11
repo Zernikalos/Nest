@@ -1,16 +1,19 @@
 <script setup lang="ts">
+import { inject } from 'vue';
 import { useProject } from '@/composables/useProject';
 import { useProjectUIStore } from '@/stores/projectUIStore';
 import CreateProjectDialog from '@/components/CreateProjectDialog.vue';
 import Button from '@/components/ui/Button.vue';
 import { Plus, FolderOpen } from 'lucide-vue-next';
+import { HOST_PORT_KEY, type HostPort } from '@/types/hostPort';
 
 const { createProjectWithDialog, openProject } = useProject();
 const projectUIStore = useProjectUIStore();
+const hostPort = inject<HostPort>(HOST_PORT_KEY);
 
 async function handleOpen() {
   try {
-    const filePath = await window.NativeZernikalos?.showOpenProjectDialog?.();
+    const filePath = await hostPort?.showOpenProjectDialog?.();
     if (!filePath) return;
     await openProject(filePath);
   } catch (e) {
@@ -52,8 +55,8 @@ async function handleOpen() {
       :open="projectUIStore.isCreateDialogOpen"
       :is-creating="projectUIStore.isCreating"
       :error="projectUIStore.creationError"
+      :on-create="createProjectWithDialog"
       @update:open="projectUIStore.setIsCreateDialogOpen($event)"
-      @create="createProjectWithDialog"
     />
   </div>
 </template>

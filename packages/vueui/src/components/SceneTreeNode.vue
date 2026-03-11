@@ -9,10 +9,15 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   select: [node: TreeNode];
+  open: [node: TreeNode];
 }>();
 
 function onClick(node: TreeNode) {
   emit('select', node);
+}
+
+function onDoubleClick(node: TreeNode) {
+  emit('open', node);
 }
 </script>
 
@@ -22,6 +27,7 @@ function onClick(node: TreeNode) {
       class="scene-tree-node__row"
       :class="{ 'scene-tree-node__row--selected': props.selectedIds.includes(node.id) }"
       @click="onClick(props.node)"
+      @dblclick="onDoubleClick(props.node)"
     >
       <span class="scene-tree-node__icon" v-if="props.node.iconType">{{ props.node.iconType }}</span>
       <span class="scene-tree-node__label">{{ props.node.label }}</span>
@@ -33,6 +39,7 @@ function onClick(node: TreeNode) {
         :node="child"
         :selected-ids="props.selectedIds"
         @select="(node) => emit('select', node)"
+        @open="(node) => emit('open', node)"
       />
     </ul>
   </li>

@@ -38,7 +38,7 @@ export function useElectronProjectIntegration() {
         offOpenProject,
         isElectron,
     } = useElectronEvents()
-    const { executeCommand, registerCommand, contextKey } = useIdeCore()
+    const { executeCommand, registerCommand, unregisterCommand, contextKey } = useIdeCore()
     const { convertAssetToZko } = useAssetToZko()
     const { saveBundle } = useBundleScene()
     const { openProject } = useProject()
@@ -81,8 +81,16 @@ export function useElectronProjectIntegration() {
                     console.error('Failed to open project:', error)
                 })
         })
+        return () => {
+            unregisterCommand(FILE_LOAD_ZKO)
+            unregisterCommand(FILE_IMPORT_FILE)
+            unregisterCommand(FILE_BUNDLE_SCENE)
+            unregisterCommand(FILE_CREATE_PROJECT)
+            unregisterCommand(FILE_OPEN_PROJECT)
+        }
     }, [
         registerCommand,
+        unregisterCommand,
         convertAssetToZko,
         saveBundle,
         setIsCreateDialogOpen,

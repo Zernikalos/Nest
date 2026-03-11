@@ -1,4 +1,30 @@
 import { ref, watch, onUnmounted, type Ref } from 'vue';
+import { zernikalos } from '@/lib/zernikalos';
+
+/** Minimal type for zernikalos API used by the viewer */
+type Zk = {
+  Zernikalos: new () => {
+    dispose: () => void;
+    settings: { logLevel: number };
+    initializeWithCanvas: (c: HTMLCanvasElement, h: unknown) => void;
+  };
+  logger: { ZLogLevel: Record<string, number> };
+  loader: { loadFromProto: (d: Int8Array) => Promise<{ root: unknown }> };
+  objects: {
+    ZScene: new () => { addChild: (c: unknown) => void };
+    ZCamera: new () => {
+      transform?: {
+        rotate: (a: number, x: number, y: number, z: number) => void;
+        translate: (x: number, y: number, z: number) => void;
+      };
+    };
+  };
+  search: {
+    findFirstModel: (s: unknown) => { transform: { scaleByFactor: (n: number) => void } } | null;
+  };
+};
+
+const zk = zernikalos as Zk;
 
 export interface UseZernikalosViewerOptions {
   sceneData: Ref<Uint8Array | null>;
@@ -68,36 +94,6 @@ export function useZernikalosViewer(options: UseZernikalosViewerOptions) {
         }
         instance = null;
       }
-
-      const zernikalosModule = await import('@zernikalos/zernikalos').catch(() => null);
-      const zernikalos =
-        zernikalosModule?.zernikalos ?? (zernikalosModule as { default?: unknown })?.default;
-      if (!zernikalos) {
-        throw new Error('Viewer not available');
-      }
-
-      type Zk = {
-        Zernikalos: new () => {
-          dispose: () => void;
-          settings: { logLevel: number };
-          initializeWithCanvas: (c: HTMLCanvasElement, h: unknown) => void;
-        };
-        logger: { ZLogLevel: Record<string, number> };
-        loader: { loadFromProto: (d: Int8Array) => Promise<{ root: unknown }> };
-        objects: {
-          ZScene: new () => { addChild: (c: unknown) => void };
-          ZCamera: new () => {
-            transform?: {
-              rotate: (a: number, x: number, y: number, z: number) => void;
-              translate: (x: number, y: number, z: number) => void;
-            };
-          };
-        };
-        search: {
-          findFirstModel: (s: unknown) => { transform: { scaleByFactor: (n: number) => void } } | null;
-        };
-      };
-      const zk = zernikalos as Zk;
 
       canvas.width = container.clientWidth;
       canvas.height = container.clientHeight;

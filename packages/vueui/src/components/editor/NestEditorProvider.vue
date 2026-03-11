@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { provide, watch, onMounted, onUnmounted, computed, ref } from 'vue';
-import { OPEN_TAB, SET_ACTIVE_TAB } from '@zstudio/ide-core';
-import type { ZObjectLike } from '@zstudio/ide-core';
+import { provide, watch, computed, onMounted, onUnmounted } from 'vue';
+import type { ZObjectLike, WidgetContribution } from '@zstudio/ide-core';
 import { useZkoStore } from '@/stores/zkoStore';
 import { useIdeCore } from '@/composables/useIdeCore';
 import { useZObjectState } from '@/composables/useZObjectState';
@@ -15,11 +14,36 @@ const {
   handleTabChange,
   handleTabClose,
   setTreeFromRoot,
-  sessionSave,
-  sessionRestore,
-  dispatchSceneTree,
-  getSceneTreeState,
+  registerWidget,
+  unregisterWidget,
+  openWidget,
 } = useIdeCore();
+
+const SCENE_TREE_WIDGET_ID = 'scene-tree';
+
+const sceneTreeContribution: WidgetContribution = {
+  id: SCENE_TREE_WIDGET_ID,
+  title: 'Scene Tree',
+  defaultArea: 'left',
+  closable: false,
+  createController() {
+    return {
+      serializeState: () => ({}),
+      restoreState: () => {},
+      getViewModel: () => ({}),
+      handleIntent: () => [],
+    };
+  },
+};
+
+onMounted(() => {
+  registerWidget(sceneTreeContribution);
+  openWidget(SCENE_TREE_WIDGET_ID, 'left');
+});
+
+onUnmounted(() => {
+  unregisterWidget(SCENE_TREE_WIDGET_ID);
+});
 
 const root = computed(() => {
   const zk = zkoStore.zkResult?.zko as { root?: ZObjectLike } | undefined;
@@ -42,43 +66,6 @@ const { selectedZObject } = useZObjectState(
 function notifyChange() {
   setTreeFromRoot(root.value);
 }
-
-const restoreAttempted = ref(false);
-onMounted(() => {
-  const r = root.value;
-  const treeLen = viewModel.value.tree.length;
-  if (r && treeLen > 0 && sessionRestore && dispatchSceneTree && getSceneTreeState && !restoreAttempted.value) {
-    restoreAttempted.value = true;
-    sessionRestore().then((data) => {
-      if (data?.sceneTree) {
-        const { openedNodeIds, activeNode } = data.sceneTree;
-        const state = getSceneTreeState();
-        const treeIds = new Set<string>();
-        const collect = (nodes: { id: string; children?: unknown[] }[]) => {
-          for (const node of nodes) {
-            treeIds.add(node.id);
-            if (node.children) collect(node.children as { id: string; children?: unknown[] }[]);
-          }
-        };
-        collect(state.tree);
-        const validIds = openedNodeIds.filter((id: string) => treeIds.has(id));
-        for (const id of validIds) {
-          dispatchSceneTree({ type: OPEN_TAB, payload: id });
-        }
-        if (activeNode && treeIds.has(activeNode)) {
-          dispatchSceneTree({ type: SET_ACTIVE_TAB, payload: activeNode });
-        }
-      }
-    });
-  }
-  if (!r) {
-    restoreAttempted.value = false;
-  }
-});
-
-onUnmounted(() => {
-  sessionSave?.();
-});
 
 async function regenerateZko(): Promise<ZkResultExtended | null> {
   return zkoStore.zkResult;

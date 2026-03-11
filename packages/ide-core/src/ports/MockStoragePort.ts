@@ -1,8 +1,8 @@
 import type { StoragePort } from './index.js';
 
 /**
- * In-memory StoragePort for tests.
- * No DOM, no Electron.
+ * In-memory StoragePort implementation for tests and non-persistent scenarios.
+ * No DOM, no Electron; all data is lost when the process ends.
  */
 export class MockStoragePort implements StoragePort {
     private store = new Map<string, string>();
@@ -19,6 +19,7 @@ export class MockStoragePort implements StoragePort {
         this.store.delete(key);
     }
 
+    /** Clear all entries (test helper; not part of StoragePort). */
     clear(): void {
         this.store.clear();
     }

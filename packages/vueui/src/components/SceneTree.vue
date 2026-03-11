@@ -4,7 +4,7 @@ import { useIdeCore } from '@/composables/useIdeCore';
 import type { TreeNode } from '@zstudio/ide-core';
 import SceneTreeNode from './SceneTreeNode.vue';
 
-const { viewModel, handleSelect } = useIdeCore();
+const { viewModel, handleSelect, handleTabChange } = useIdeCore();
 
 const tree = computed(() => viewModel.value.tree);
 const selectedIds = computed(() => viewModel.value.selectedIds);
@@ -19,6 +19,10 @@ function onNodeClick(node: TreeNode) {
     : [node.id];
   handleSelect(ids);
 }
+
+function onNodeDoubleClick(node: TreeNode) {
+  handleTabChange(node.id);
+}
 </script>
 
 <template>
@@ -31,6 +35,7 @@ function onNodeClick(node: TreeNode) {
         :node="node"
         :selected-ids="selectedIds"
         @select="onNodeClick"
+        @open="onNodeDoubleClick"
       />
     </ul>
   </div>

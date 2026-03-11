@@ -15,6 +15,9 @@ declare global {
       sendMenuContext?: (context: MenuContextSnapshot) => void;
       showSaveProjectDialog?: (projectName: string) => Promise<string | null | undefined>;
       showOpenProjectDialog?: () => Promise<string | null | undefined>;
+      storageGet?: (key: string) => Promise<string | null>;
+      storageSet?: (key: string, value: string) => Promise<void>;
+      storageDelete?: (key: string) => Promise<void>;
     };
   }
 }

@@ -1,8 +1,8 @@
 import type { TreeNode, ZObjectLike } from './types.js';
 
 /**
- * Converts a ZObject-like tree to TreeNode.
- * Icon is a type string; renderer resolves to actual icon component.
+ * Converts a ZObject-like tree to a TreeNode view model.
+ * Icon is represented as a type string; the UI renderer resolves it to an actual icon component.
  */
 export function convertZObjectToTreeNode(zObject: ZObjectLike): TreeNode {
     return {
@@ -14,7 +14,7 @@ export function convertZObjectToTreeNode(zObject: ZObjectLike): TreeNode {
 }
 
 /**
- * Finds a TreeNode by id in a tree.
+ * Finds a TreeNode by id in a tree (depth-first). Returns undefined if not found.
  */
 export function findNodeById(tree: TreeNode[], id: string): TreeNode | undefined {
     for (const node of tree) {

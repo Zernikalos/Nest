@@ -1,13 +1,18 @@
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, inject } from 'vue';
 import { useRouter } from 'vue-router';
 import { useProjectStore } from '@/stores/projectStore';
 import { useProjectUIStore } from '@/stores/projectUIStore';
 import * as projectApi from '@/lib/projectApi';
 import type { Project } from '@/types/project';
 import type { IInputAsset } from '@/types/project';
+import { HOST_PORT_KEY, type HostPort } from '@/types/hostPort';
+import { RUNTIME_KEY } from '@/composables/useIdeCore';
+import type { EditorRuntime } from '@zstudio/ide-core';
 
 export function useProject() {
   const router = useRouter();
+  const hostPort = inject<HostPort>(HOST_PORT_KEY);
+  const runtime = inject<EditorRuntime | null>(RUNTIME_KEY, null);
   const projectStore = useProjectStore();
   const projectUIStore = useProjectUIStore();
 
@@ -18,6 +23,9 @@ export function useProject() {
   watch(
     () => projectStore.projectFilePath,
     async (filePath) => {
+      if (typeof runtime?.setWorkspace === 'function') {
+        runtime.setWorkspace(filePath ?? null);
+      }
       if (!filePath) {
         project.value = null;
         error.value = null;
@@ -41,11 +49,16 @@ export function useProject() {
   const isProjectOpen = computed(() => projectFilePath.value !== null);
   const projectMetadata = computed(() => project.value ?? null);
 
+  function syncMenuContext(projectOpen: boolean) {
+    hostPort?.sendMenuContext?.({ projectOpen });
+  }
+
   async function createProject(name: string, filePath: string): Promise<void> {
     try {
       const created = await projectApi.createProject(name, filePath);
       projectStore.setProjectPath(filePath);
       project.value = created;
+      syncMenuContext(true);
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Failed to create project';
       projectUIStore.setCreationError(message);
@@ -58,6 +71,7 @@ export function useProject() {
       const p = await projectApi.getProjectByPath(filePath);
       projectStore.setProjectPath(filePath);
       project.value = p;
+      syncMenuContext(true);
     } catch (e) {
       throw e;
     }
@@ -67,6 +81,7 @@ export function useProject() {
     projectStore.clearProjectPath();
     project.value = null;
     error.value = null;
+    syncMenuContext(false);
   }
 
   async function addAssetToProject(
@@ -82,9 +97,7 @@ export function useProject() {
     projectUIStore.setCreating(true);
     projectUIStore.setCreationError(null);
     try {
-      const filePath = await window.NativeZernikalos?.showSaveProjectDialog?.(
-        projectName
-      );
+      const filePath = await hostPort?.showSaveProjectDialog?.(projectName);
       if (!filePath) {
         projectUIStore.setCreating(false);
         return;

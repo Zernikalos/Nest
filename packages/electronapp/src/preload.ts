@@ -54,6 +54,9 @@ contextBridge.exposeInMainWorld('NativeZernikalos', {
     actionSaveFile: (fileData: Uint8Array) => ipcRenderer.invoke(NestEvents.SAVE_FILE, fileData),
     showSaveProjectDialog: (projectName: string) => ipcRenderer.invoke(NestEvents.SHOW_SAVE_PROJECT_DIALOG, projectName),
     showOpenProjectDialog: () => ipcRenderer.invoke(NestEvents.SHOW_OPEN_PROJECT_DIALOG),
+    storageGet: (key: string) => ipcRenderer.invoke('ide-storage:get', key),
+    storageSet: (key: string, value: string) => ipcRenderer.invoke('ide-storage:set', key, value),
+    storageDelete: (key: string) => ipcRenderer.invoke('ide-storage:delete', key),
 })
 
 contextBridge.exposeInMainWorld('userSettings', {

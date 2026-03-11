@@ -1,7 +1,8 @@
 import {BrowserWindow, ipcMain} from "electron"
+import * as path from "node:path"
 import {MenuEvents, RendererMenuEvents} from "./menu/MenuEvents"
 import {createMenu} from "./menu/menu"
-import type { MenuContextSnapshot } from "./menu/MenuContext"
+import {DEFAULT_MENU_CONTEXT, type MenuContextSnapshot} from "./menu/MenuContext"
 import {importFileDialog} from "./dialogs/importFileDialog"
 import {bundleSceneDialog} from "./dialogs/bundleSceneDialog"
 import {NestEvents} from "./NestEvents"
@@ -35,6 +36,7 @@ export class MainWindow {
     public async load() {
         await this.createWindow()
         this.subscribeToEvents()
+        createMenu(DEFAULT_MENU_CONTEXT)
 
         if (Constants.isDebug) {
             await this.mainWindow.loadURL(Constants.MainWindowPath)
@@ -132,6 +134,39 @@ export class MainWindow {
 
         ipcMain.on('ide:menuContext', (_event, context: MenuContextSnapshot) => {
             createMenu(context)
+        })
+
+        const ideStoragePath = path.join(Constants.userDataPath, 'ide-session.json')
+        ipcMain.handle('ide-storage:get', async (_event, key: string) => {
+            try {
+                const raw = await fs.readFile(ideStoragePath, 'utf-8')
+                const data = JSON.parse(raw) as Record<string, string>
+                return data[key] ?? null
+            } catch {
+                return null
+            }
+        })
+        ipcMain.handle('ide-storage:set', async (_event, key: string, value: string) => {
+            let data: Record<string, string> = {}
+            try {
+                const raw = await fs.readFile(ideStoragePath, 'utf-8')
+                data = JSON.parse(raw) as Record<string, string>
+            } catch {
+                // file missing or invalid
+            }
+            data[key] = value
+            await fs.mkdir(path.dirname(ideStoragePath), { recursive: true })
+            await fs.writeFile(ideStoragePath, JSON.stringify(data), 'utf-8')
+        })
+        ipcMain.handle('ide-storage:delete', async (_event, key: string) => {
+            try {
+                const raw = await fs.readFile(ideStoragePath, 'utf-8')
+                const data = JSON.parse(raw) as Record<string, string>
+                delete data[key]
+                await fs.writeFile(ideStoragePath, JSON.stringify(data), 'utf-8')
+            } catch {
+                // ignore
+            }
         })
     }
 }

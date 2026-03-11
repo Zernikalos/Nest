@@ -1,12 +1,27 @@
 <script setup lang="ts">
 import { cn } from '@/lib/utils';
 
-const props = defineProps<{ class?: string; type?: string }>();
+const props = defineProps<{
+  class?: string;
+  type?: string;
+  modelValue?: string | number;
+}>();
+
+const emit = defineEmits<{
+  'update:modelValue': [value: string];
+}>();
+
+function onInput(event: Event) {
+  const target = event.target as HTMLInputElement | null;
+  emit('update:modelValue', target?.value ?? '');
+}
 </script>
 
 <template>
   <input
     :type="props.type ?? 'text'"
+    :value="props.modelValue"
+    @input="onInput"
     data-slot="input"
     :class="
       cn(
