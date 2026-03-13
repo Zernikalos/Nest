@@ -5,6 +5,8 @@ import type { ZkResultExtended } from '@/types/project';
 export interface NestEditorContextValue {
   tree: Ref<TreeNode[]>;
   selectedIds: Ref<string[]>;
+  openedNodes: Ref<TreeNode[]>;
+  activeNode: Ref<string | null>;
   handleSelect: (ids: string[]) => void;
   handleTabChange: (nodeId: string) => void;
   handleTabClose: (nodeId: string) => void;

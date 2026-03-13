@@ -3,6 +3,7 @@ defineOptions({ name: 'EditorViewerView' });
 import { computed, watch } from 'vue';
 import { useNestEditor } from '@/composables/useNestEditor';
 import ZernikalosViewer from '@/components/ZernikalosViewer/ZernikalosViewer.vue';
+import EditorEmptyState from '@/components/editor/EditorEmptyState.vue';
 
 const editor = useNestEditor();
 
@@ -27,13 +28,13 @@ function onViewerError(error: Error) {
 <template>
   <div class="editor-viewer-view">
     <template v-if="!editor">
-      <div class="empty-state">Editor context not available.</div>
+      <EditorEmptyState title="Editor context not available." />
     </template>
     <template v-else-if="!hasScene">
-      <div class="empty-state">
-        <span class="empty-state__title">No scene loaded</span>
-        <p class="empty-state__desc">Load a project to preview the 3D scene.</p>
-      </div>
+      <EditorEmptyState
+        title="No scene loaded"
+        description="Load a project to preview the 3D scene."
+      />
     </template>
     <template v-else>
       <div class="viewer-wrapper">
@@ -50,27 +51,15 @@ function onViewerError(error: Error) {
 
 <style scoped>
 .editor-viewer-view {
-  padding: 1rem;
   height: 100%;
-}
-.empty-state {
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  text-align: center;
-  color: #6b7280;
-}
-.empty-state__title {
-  font-weight: 600;
-}
-.empty-state__desc {
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
 }
 .viewer-wrapper {
-  height: 100%;
-  min-height: 200px;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
 }
 </style>

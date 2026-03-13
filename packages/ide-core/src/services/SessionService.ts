@@ -1,31 +1,41 @@
+import { z } from 'zod';
 import type { StoragePort } from '../ports/index.js';
 
 /**
- * Shape of the persisted session. Stored as JSON via StoragePort.
- * Used to restore scene tree, workbench layout, and open documents after reload.
+ * Zod schema for the persisted session. Validates shape when restoring from storage.
+ * Stored as JSON via StoragePort; used to restore scene tree, workbench layout, and open documents.
  */
-export interface SessionData {
-    sceneTree: {
-        openedNodeIds: string[];
-        activeNode: string | null;
-        selectedIds?: string[];
-        expandedNodeIds?: string[];
-    };
-    workbench?: {
-        activeWidgetId: string | null;
-        openWidgetIds: string[];
-        panelSizes?: Record<string, number[]>;
-    };
-    documents?: {
-        activeUri: string | null;
-        opened: {
-            uri: string;
-            title?: string;
-            dirty: boolean;
-            viewState?: unknown;
-        }[];
-    };
-}
+const SessionDataSchema = z.object({
+    sceneTree: z.object({
+        openedNodeIds: z.array(z.string()),
+        activeNode: z.string().nullable(),
+        selectedIds: z.array(z.string()).optional(),
+        expandedNodeIds: z.array(z.string()).optional(),
+    }),
+    workbench: z
+        .object({
+            activeWidgetId: z.string().nullable(),
+            openWidgetIds: z.array(z.string()),
+            panelSizes: z.record(z.string(), z.array(z.number())).optional(),
+        })
+        .optional(),
+    documents: z
+        .object({
+            activeUri: z.string().nullable(),
+            opened: z.array(
+                z.object({
+                    uri: z.string(),
+                    title: z.string().optional(),
+                    dirty: z.boolean(),
+                    viewState: z.unknown().optional(),
+                })
+            ),
+        })
+        .optional(),
+});
+
+/** Shape of the persisted session. Inferred from schema; use for typing when building session snapshots. */
+export type SessionData = z.infer<typeof SessionDataSchema>;
 
 const SESSION_KEY = 'ide-session';
 
@@ -41,24 +51,16 @@ export class SessionService {
         await this.storage.set(SESSION_KEY, JSON.stringify(data));
     }
 
-    /** Restore the last saved session, or null if missing or invalid. */
+    /** Restore the last saved session, or null if missing or invalid. Uses Zod for validation. */
     async restore(): Promise<SessionData | null> {
         const raw = await this.storage.get(SESSION_KEY);
         if (!raw) return null;
         try {
-            const parsed = JSON.parse(raw) as SessionData;
-            if (
-                parsed &&
-                typeof parsed === 'object' &&
-                parsed.sceneTree &&
-                Array.isArray(parsed.sceneTree.openedNodeIds) &&
-                (parsed.sceneTree.activeNode === null || typeof parsed.sceneTree.activeNode === 'string')
-            ) {
-                return parsed;
-            }
+            const parsed = JSON.parse(raw) as unknown;
+            const result = SessionDataSchema.safeParse(parsed);
+            return result.success ? result.data : null;
         } catch {
-            // Invalid JSON or shape
+            return null;
         }
-        return null;
     }
 }

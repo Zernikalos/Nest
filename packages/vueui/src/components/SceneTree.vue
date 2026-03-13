@@ -26,8 +26,8 @@ function onNodeDoubleClick(node: TreeNode) {
 </script>
 
 <template>
-  <div class="scene-tree">
-    <div class="scene-tree__header">Scene Tree</div>
+  <div class="scene-tree island-radius">
+    <div class="scene-tree__header text-xs uppercase tracking-wider font-semibold text-muted-foreground mb-1 px-1">Scene Tree</div>
     <ul class="scene-tree__list">
       <SceneTreeNode
         v-for="node in tree"
@@ -44,11 +44,8 @@ function onNodeDoubleClick(node: TreeNode) {
 <style scoped>
 .scene-tree {
   font-family: system-ui, sans-serif;
-  padding: 8px;
-}
-.scene-tree__header {
-  font-weight: 600;
-  margin-bottom: 8px;
+  padding: 4px;
+  border-radius: var(--island-radius);
 }
 .scene-tree__list {
   list-style: none;

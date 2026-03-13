@@ -3,6 +3,7 @@
  * Tracks which widgets are in which area (left/right/bottom/center), panel sizes, and active widget.
  * Widgets are registered by id; the UI maps ids to components.
  */
+import { produce } from 'immer';
 import type { RuntimeIntent, RuntimeEffect } from '../contracts/index.js';
 import { createStore } from '../kernel/createStore.js';
 import type { WorkbenchArea } from './types.js';
@@ -52,13 +53,9 @@ function reducer(
         case REGISTER_WIDGET: {
             const widget = intent.payload as WorkbenchWidgetDescriptor;
             return {
-                state: {
-                    ...state,
-                    registeredWidgets: {
-                        ...state.registeredWidgets,
-                        [widget.id]: widget,
-                    },
-                },
+                state: produce(state, (d) => {
+                    d.registeredWidgets[widget.id] = widget;
+                }),
                 effects: [],
             };
         }
@@ -68,10 +65,9 @@ function reducer(
                 sizes: number[];
             };
             return {
-                state: {
-                    ...state,
-                    panelSizes: { ...state.panelSizes, [groupId]: sizes },
-                },
+                state: produce(state, (d) => {
+                    d.panelSizes[groupId] = sizes;
+                }),
                 effects: [],
             };
         }
@@ -80,31 +76,21 @@ function reducer(
                 id: string;
                 area?: WorkbenchArea;
             };
-            const descriptor = state.registeredWidgets[id];
-            const targetArea = area ?? descriptor?.defaultArea ?? state.widgetAreaById[id] ?? 'center';
-            const existingArea = state.widgetAreaById[id];
-            const areas: WorkbenchState['areas'] = {
-                left: [...state.areas.left],
-                right: [...state.areas.right],
-                bottom: [...state.areas.bottom],
-                center: [...state.areas.center],
-            };
-            if (existingArea) {
-                areas[existingArea] = areas[existingArea].filter((widgetId) => widgetId !== id);
-            }
-            if (!areas[targetArea].includes(id)) {
-                areas[targetArea] = [...areas[targetArea], id];
-            }
             return {
-                state: {
-                    ...state,
-                    areas,
-                    widgetAreaById: {
-                        ...state.widgetAreaById,
-                        [id]: targetArea,
-                    },
-                    activeWidgetId: id,
-                },
+                state: produce(state, (d) => {
+                    const descriptor = d.registeredWidgets[id];
+                    const targetArea =
+                        area ?? descriptor?.defaultArea ?? d.widgetAreaById[id] ?? 'center';
+                    const existingArea = d.widgetAreaById[id];
+                    if (existingArea) {
+                        d.areas[existingArea] = d.areas[existingArea].filter((widgetId) => widgetId !== id);
+                    }
+                    if (!d.areas[targetArea].includes(id)) {
+                        d.areas[targetArea] = [...d.areas[targetArea], id];
+                    }
+                    d.widgetAreaById[id] = targetArea;
+                    d.activeWidgetId = id;
+                }),
                 effects: [],
             };
         }
@@ -114,39 +100,24 @@ function reducer(
                 return { state, effects: [] };
             }
             return {
-                state: {
-                    ...state,
-                    activeWidgetId: id,
-                },
+                state: produce(state, (d) => {
+                    d.activeWidgetId = id;
+                }),
                 effects: [],
             };
         }
         case CLOSE_WIDGET: {
             const { id } = intent.payload as { id: string };
-            const area = state.widgetAreaById[id];
-            if (!area) {
-                return { state, effects: [] };
-            }
-            const areas: WorkbenchState['areas'] = {
-                left: [...state.areas.left],
-                right: [...state.areas.right],
-                bottom: [...state.areas.bottom],
-                center: [...state.areas.center],
-            };
-            areas[area] = areas[area].filter((widgetId) => widgetId !== id);
-            const widgetAreaById = { ...state.widgetAreaById };
-            delete widgetAreaById[id];
-            let activeWidgetId = state.activeWidgetId;
-            if (activeWidgetId === id) {
-                activeWidgetId = areas[area][areas[area].length - 1] ?? null;
-            }
             return {
-                state: {
-                    ...state,
-                    areas,
-                    widgetAreaById,
-                    activeWidgetId,
-                },
+                state: produce(state, (d) => {
+                    const area = d.widgetAreaById[id];
+                    if (!area) return;
+                    d.areas[area] = d.areas[area].filter((widgetId) => widgetId !== id);
+                    delete d.widgetAreaById[id];
+                    if (d.activeWidgetId === id) {
+                        d.activeWidgetId = d.areas[area][d.areas[area].length - 1] ?? null;
+                    }
+                }),
                 effects: [],
             };
         }

@@ -1,3 +1,7 @@
+// Enable Immer MapSet plugin before any store/reducer runs (ide-core state may contain Set in tree data).
+import { enableMapSet } from 'immer';
+enableMapSet();
+
 import './index.css';
 import { createApp } from 'vue';
 import App from './App.vue';

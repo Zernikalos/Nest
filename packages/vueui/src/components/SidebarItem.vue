@@ -27,7 +27,7 @@ function getTo(path: string) {
           :class="cn(
             'flex items-center justify-center py-4 px-2 h-12 overflow-hidden text-ellipsis whitespace-nowrap text-base-foreground/80',
             'hover:bg-base-300 hover:text-base-foreground transition duration-300 ease-in-out',
-            props.selected && 'bg-primary/10 text-base-foreground'
+            props.selected && 'bg-base-300 text-base-foreground'
           )"
         >
           <slot name="icon">

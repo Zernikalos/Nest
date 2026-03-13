@@ -74,6 +74,8 @@ async function regenerateZko(): Promise<ZkResultExtended | null> {
 const context = {
   tree: computed(() => viewModel.value.tree),
   selectedIds: computed(() => viewModel.value.selectedIds),
+  openedNodes: computed(() => viewModel.value.openedNodes),
+  activeNode: computed(() => viewModel.value.activeNode),
   handleSelect,
   handleTabChange,
   handleTabClose,

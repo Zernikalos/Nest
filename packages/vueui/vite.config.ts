@@ -9,6 +9,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+      // Use ide-core source in dev so Immer/state fixes apply without relying on stale dist
+      '@zstudio/ide-core': fileURLToPath(new URL('../ide-core/src/index.ts', import.meta.url)),
     },
     preserveSymlinks: true,
   },

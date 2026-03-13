@@ -5,13 +5,15 @@ import { useProjectUIStore } from '@/stores/projectUIStore';
 import * as projectApi from '@/lib/projectApi';
 import type { Project } from '@/types/project';
 import type { IInputAsset } from '@/types/project';
-import { HOST_PORT_KEY, type HostPort } from '@/types/hostPort';
+import { HOST_PORT_KEY, PREFERENCES_PORT_KEY, type HostPort } from '@/types/hostPort';
 import { RUNTIME_KEY } from '@/composables/useIdeCore';
 import type { EditorRuntime } from '@zstudio/ide-core';
+import type { StoragePort } from '@zstudio/ide-core';
 
 export function useProject() {
   const router = useRouter();
   const hostPort = inject<HostPort>(HOST_PORT_KEY);
+  const preferencesPort = inject<StoragePort | undefined>(PREFERENCES_PORT_KEY);
   const runtime = inject<EditorRuntime | null>(RUNTIME_KEY, null);
   const projectStore = useProjectStore();
   const projectUIStore = useProjectUIStore();
@@ -72,6 +74,7 @@ export function useProject() {
       projectStore.setProjectPath(filePath);
       project.value = p;
       syncMenuContext(true);
+      await preferencesPort?.set('lastProjectPath', filePath);
     } catch (e) {
       throw e;
     }

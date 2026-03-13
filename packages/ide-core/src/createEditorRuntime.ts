@@ -332,10 +332,10 @@ export function createEditorRuntime(ports?: EditorRuntimePorts): EditorRuntime {
         const documents = documentStore.getState();
         await sessionService.save({
             sceneTree: {
-                openedNodeIds: Array.from(scene.openedNodeIds),
+                openedNodeIds: scene.openedNodeIds,
                 activeNode: scene.activeNode,
                 selectedIds: scene.selectedIds,
-                expandedNodeIds: Array.from(scene.expandedNodeIds),
+                expandedNodeIds: scene.expandedNodeIds,
             },
             workbench: {
                 activeWidgetId: workbench.activeWidgetId,

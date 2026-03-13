@@ -3,6 +3,7 @@
  * Synced with the scene tree: opening a node opens a document with uri zobject://nodeId.
  * Used for tab bars and active editor content; dirty/save are tracked here but I/O is platform-specific.
  */
+import { produce } from 'immer';
 import type { RuntimeEffect, RuntimeIntent } from '../contracts/index.js';
 import { createStore } from '../kernel/createStore.js';
 
@@ -56,23 +57,20 @@ function reducer(
         }
         case OPEN_DOCUMENT: {
             const payload = intent.payload as { uri: string; title?: string; viewState?: unknown };
-            const existing = state.byUri[payload.uri];
-            const nextDoc: DocumentRecord = {
-                uri: payload.uri,
-                title: payload.title ?? existing?.title,
-                dirty: existing?.dirty ?? false,
-                viewState: payload.viewState ?? existing?.viewState,
-            };
-            const byUri = { ...state.byUri, [payload.uri]: nextDoc };
-            const order = state.order.includes(payload.uri)
-                ? state.order
-                : [...state.order, payload.uri];
             return {
-                state: {
-                    byUri,
-                    order,
-                    activeUri: payload.uri,
-                },
+                state: produce(state, (d) => {
+                    const existing = d.byUri[payload.uri];
+                    d.byUri[payload.uri] = {
+                        uri: payload.uri,
+                        title: payload.title ?? existing?.title,
+                        dirty: existing?.dirty ?? false,
+                        viewState: payload.viewState ?? existing?.viewState,
+                    };
+                    if (!d.order.includes(payload.uri)) {
+                        d.order.push(payload.uri);
+                    }
+                    d.activeUri = payload.uri;
+                }),
                 effects: [],
             };
         }
@@ -81,15 +79,14 @@ function reducer(
             if (!state.byUri[payload.uri]) {
                 return { state, effects: [] };
             }
-            const byUri = { ...state.byUri };
-            delete byUri[payload.uri];
-            const order = state.order.filter((uri) => uri !== payload.uri);
-            let activeUri = state.activeUri;
-            if (activeUri === payload.uri) {
-                activeUri = order.length > 0 ? order[order.length - 1] : null;
-            }
             return {
-                state: { byUri, order, activeUri },
+                state: produce(state, (d) => {
+                    delete d.byUri[payload.uri];
+                    d.order = d.order.filter((uri) => uri !== payload.uri);
+                    if (d.activeUri === payload.uri) {
+                        d.activeUri = d.order.length > 0 ? d.order[d.order.length - 1] : null;
+                    }
+                }),
                 effects: [],
             };
         }
@@ -99,7 +96,9 @@ function reducer(
                 return { state, effects: [] };
             }
             return {
-                state: { ...state, activeUri: payload.uri },
+                state: produce(state, (d) => {
+                    d.activeUri = payload.uri;
+                }),
                 effects: [],
             };
         }
@@ -110,13 +109,9 @@ function reducer(
                 return { state, effects: [] };
             }
             return {
-                state: {
-                    ...state,
-                    byUri: {
-                        ...state.byUri,
-                        [payload.uri]: { ...doc, dirty: payload.dirty },
-                    },
-                },
+                state: produce(state, (d) => {
+                    if (d.byUri[payload.uri]) d.byUri[payload.uri].dirty = payload.dirty;
+                }),
                 effects: [],
             };
         }
@@ -127,13 +122,9 @@ function reducer(
                 return { state, effects: [] };
             }
             return {
-                state: {
-                    ...state,
-                    byUri: {
-                        ...state.byUri,
-                        [payload.uri]: { ...doc, viewState: payload.viewState },
-                    },
-                },
+                state: produce(state, (d) => {
+                    if (d.byUri[payload.uri]) d.byUri[payload.uri].viewState = payload.viewState;
+                }),
                 effects: [],
             };
         }

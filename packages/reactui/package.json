@@ -4,7 +4,7 @@
     "version": "0.1.1",
     "type": "module",
     "scripts": {
-        "dev": "vite",
+        "dev2": "vite",
         "dev:debug": "VITE_LOG_LEVEL=debug vite",
         "dev:trace": "VITE_LOG_LEVEL=trace vite",
         "dev:info": "VITE_LOG_LEVEL=info vite",

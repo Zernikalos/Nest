@@ -25,7 +25,7 @@ async function handleOpen() {
 <template>
   <div class="text-center mb-12">
     <div class="flex items-center justify-center gap-3 mb-6">
-      <span class="text-2xl font-bold text-primary">ZK</span>
+      <img src="/zklogo.svg" alt="Zernikalos" class="h-12 w-12 select-none" width="48" height="48" />
       <h1 class="text-5xl font-bold text-primary">Zernikalos Nest</h1>
     </div>
     <p class="text-lg mb-8 max-w-2xl mx-auto text-muted-foreground">

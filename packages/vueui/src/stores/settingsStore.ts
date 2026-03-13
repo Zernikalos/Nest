@@ -29,7 +29,7 @@ const defaultSettings: SettingsFormData = {
   },
   general: {
     confirmBeforeExit: true,
-    reopenProjectsOnStartup: false,
+    reopenProjectsOnStartup: true,
     autoSaveInactivitySeconds: 30,
     saveOnClose: 'ask',
   },

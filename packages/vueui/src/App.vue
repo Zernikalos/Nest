@@ -8,6 +8,7 @@ import { useAppearanceStore } from '@/stores/appearanceStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { onMounted } from 'vue';
 import { HOST_PORT_KEY, type HostPort } from '@/types/hostPort';
+import { NEST_EDITOR_KEY } from '@/composables/useNestEditor';
 
 const api = typeof window !== 'undefined' ? window.NativeZernikalos : undefined;
 const hostPort: HostPort = {
@@ -20,6 +21,8 @@ const hostPort: HostPort = {
   sendMenuContext: api?.sendMenuContext ?? (() => {}),
 };
 provide(HOST_PORT_KEY, hostPort);
+/* Default so inject() never "not found" when editor views are cached by KeepAlive outside NestEditorProvider */
+provide(NEST_EDITOR_KEY, undefined);
 
 const appearance = useAppearanceStore();
 const settings = useSettingsStore();

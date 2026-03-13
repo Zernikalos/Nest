@@ -16,7 +16,7 @@ const settingsStore = useSettingsStore();
 const isSaved = ref(false);
 const form = reactive<GeneralFormData>({
   confirmBeforeExit: true,
-  reopenProjectsOnStartup: false,
+  reopenProjectsOnStartup: true,
   autoSaveInactivitySeconds: 30,
   saveOnClose: 'ask',
 });

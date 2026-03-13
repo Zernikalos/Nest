@@ -1,7 +1,12 @@
 /**
  * Scene tree module: state and intents for the hierarchy of scene nodes (e.g. ZObjects).
  * Tracks selection, active node, opened "tabs", and expanded state. Used by the runtime and synced with documents.
+ * Uses plain arrays (not Set) so Immer works without the MapSet plugin across all bundle setups.
  */
+import { produce, enableMapSet } from 'immer';
+
+// Ensure MapSet plugin is loaded (state.tree can contain Map/Set from external data; must run before first produce).
+enableMapSet();
 import type { RuntimeIntent, RuntimeEffect } from '../contracts/index.js';
 import { createStore } from '../kernel/createStore.js';
 import type { TreeNode } from './types.js';
@@ -21,8 +26,8 @@ export interface SceneTreeState {
     tree: TreeNode[];
     selectedIds: string[];
     activeNode: string | null;
-    openedNodeIds: Set<string>;
-    expandedNodeIds: Set<string>;
+    openedNodeIds: string[];
+    expandedNodeIds: string[];
     focusedNodeId: string | null;
 }
 
@@ -30,8 +35,8 @@ const initialState: SceneTreeState = {
     tree: [],
     selectedIds: [],
     activeNode: null,
-    openedNodeIds: new Set(),
-    expandedNodeIds: new Set(),
+    openedNodeIds: [],
+    expandedNodeIds: [],
     focusedNodeId: null,
 };
 
@@ -42,72 +47,75 @@ function reducer(
     switch (intent.type) {
         case SET_TREE: {
             const tree = (intent.payload as { tree: TreeNode[] }).tree;
-            return { state: { ...state, tree }, effects: [] };
+            return { state: produce(state, (d) => { d.tree = tree; }), effects: [] };
         }
         case SELECT_NODES: {
             const selectedIds = intent.payload as string[];
             const lastId = selectedIds[selectedIds.length - 1];
             const activeNode = lastId ?? null;
-            const openedNodeIds = new Set(state.openedNodeIds);
-            if (activeNode) {
-                openedNodeIds.add(activeNode);
-            }
             return {
-                state: {
-                    ...state,
-                    selectedIds,
-                    activeNode,
-                    focusedNodeId: activeNode,
-                    openedNodeIds,
-                },
+                state: produce(state, (d) => {
+                    d.selectedIds = selectedIds;
+                    d.activeNode = activeNode;
+                    d.focusedNodeId = activeNode;
+                    if (activeNode && !d.openedNodeIds.includes(activeNode)) {
+                        d.openedNodeIds = [...d.openedNodeIds, activeNode];
+                    }
+                }),
                 effects: [],
             };
         }
         case OPEN_TAB: {
             const nodeId = intent.payload as string;
-            const openedNodeIds = new Set(state.openedNodeIds);
-            openedNodeIds.add(nodeId);
             return {
-                state: { ...state, openedNodeIds, activeNode: nodeId },
+                state: produce(state, (d) => {
+                    if (!d.openedNodeIds.includes(nodeId)) {
+                        d.openedNodeIds = [...d.openedNodeIds, nodeId];
+                    }
+                    d.activeNode = nodeId;
+                }),
                 effects: [],
             };
         }
         case CLOSE_TAB: {
             const nodeId = intent.payload as string;
-            const openedNodeIds = new Set(state.openedNodeIds);
-            openedNodeIds.delete(nodeId);
-            let activeNode = state.activeNode;
-            if (activeNode === nodeId) {
-                const remaining = Array.from(openedNodeIds).filter((id) => id !== nodeId);
-                activeNode = remaining.length > 0 ? remaining[0] : null;
-            }
             return {
-                state: {
-                    ...state,
-                    openedNodeIds,
-                    activeNode,
-                    focusedNodeId: activeNode,
-                },
+                state: produce(state, (d) => {
+                    d.openedNodeIds = d.openedNodeIds.filter((id) => id !== nodeId);
+                    if (d.activeNode === nodeId) {
+                        d.activeNode = d.openedNodeIds.length > 0 ? d.openedNodeIds[0] : null;
+                        d.focusedNodeId = d.activeNode;
+                    }
+                }),
                 effects: [],
             };
         }
         case SET_ACTIVE_TAB: {
             const nodeId = intent.payload as string;
-            return { state: { ...state, activeNode: nodeId, focusedNodeId: nodeId }, effects: [] };
+            return {
+                state: produce(state, (d) => {
+                    d.activeNode = nodeId;
+                    d.focusedNodeId = nodeId;
+                }),
+                effects: [],
+            };
         }
         case TOGGLE_NODE_EXPANDED: {
             const nodeId = intent.payload as string;
-            const expandedNodeIds = new Set(state.expandedNodeIds);
-            if (expandedNodeIds.has(nodeId)) {
-                expandedNodeIds.delete(nodeId);
-            } else {
-                expandedNodeIds.add(nodeId);
-            }
-            return { state: { ...state, expandedNodeIds }, effects: [] };
+            return {
+                state: produce(state, (d) => {
+                    if (d.expandedNodeIds.includes(nodeId)) {
+                        d.expandedNodeIds = d.expandedNodeIds.filter((id) => id !== nodeId);
+                    } else {
+                        d.expandedNodeIds = [...d.expandedNodeIds, nodeId];
+                    }
+                }),
+                effects: [],
+            };
         }
         case SET_FOCUSED_NODE: {
             const nodeId = (intent.payload as string) ?? null;
-            return { state: { ...state, focusedNodeId: nodeId }, effects: [] };
+            return { state: produce(state, (d) => { d.focusedNodeId = nodeId; }), effects: [] };
         }
         default:
             return { state, effects: [] };
@@ -132,7 +140,7 @@ export interface SceneTreeViewModel {
 
 /** Builds the view model from current state. Called by the runtime when the UI subscribes. */
 export function getSceneTreeViewModel(state: SceneTreeState): SceneTreeViewModel {
-    const openedNodes = Array.from(state.openedNodeIds)
+    const openedNodes = state.openedNodeIds
         .map((id) => findNodeById(state.tree, id))
         .filter((n): n is TreeNode => n !== undefined);
     return {
@@ -140,7 +148,7 @@ export function getSceneTreeViewModel(state: SceneTreeState): SceneTreeViewModel
         selectedIds: state.selectedIds,
         activeNode: state.activeNode,
         openedNodes,
-        expandedNodeIds: Array.from(state.expandedNodeIds),
+        expandedNodeIds: [...state.expandedNodeIds],
         focusedNodeId: state.focusedNodeId,
     };
 }

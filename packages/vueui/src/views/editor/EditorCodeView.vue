@@ -5,6 +5,7 @@ import { useNestEditor } from '@/composables/useNestEditor';
 import { useAppearanceStore } from '@/stores/appearanceStore';
 import { sanitizeEditableObject } from '@/utils/sanitizeEditableObject';
 import MonacoEditor from '@/components/MonacoEditor/MonacoEditor.vue';
+import EditorEmptyState from '@/components/editor/EditorEmptyState.vue';
 
 const editor = useNestEditor();
 const appearance = useAppearanceStore();
@@ -28,13 +29,13 @@ const hasData = computed(() => editableObject.value != null);
 <template>
   <div class="editor-code-view">
     <template v-if="!editor">
-      <div class="empty-state">Editor context not available.</div>
+      <EditorEmptyState title="Editor context not available." />
     </template>
     <template v-else-if="!hasData">
-      <div class="empty-state">
-        <span class="empty-state__title">No data available to display</span>
-        <p class="empty-state__desc">Load a project and select a node to view JSON.</p>
-      </div>
+      <EditorEmptyState
+        title="No data available to display"
+        description="Load a project and select a node to view JSON."
+      />
     </template>
     <template v-else>
       <div class="editor-code-content">
@@ -52,27 +53,22 @@ const hasData = computed(() => editableObject.value != null);
 
 <style scoped>
 .editor-code-view {
-  padding: 1rem;
   height: 100%;
-}
-.empty-state {
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  text-align: center;
-  color: #6b7280;
-}
-.empty-state__title {
-  font-weight: 600;
-}
-.empty-state__desc {
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
 }
 .editor-code-content {
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   overflow: hidden;
+  background: var(--base-100);
+}
+/* Remove extra margins from Monaco container so theme and layout are consistent */
+.editor-code-content :deep(.monaco-editor) {
+  padding: 0;
+}
+.editor-code-content :deep(.overflowing-hidden) {
+  padding: 0;
 }
 </style>
