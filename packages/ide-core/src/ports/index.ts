@@ -4,6 +4,13 @@
  * Adapters (e.g. vueui, electronapp) provide implementations.
  */
 
+import type {
+    AssetConversionInput,
+    AssetConversionResult,
+    IInputAsset,
+    Project,
+} from '../domain/types.js';
+
 /** Async key-value storage for session and preferences. Implement with localStorage or IPC in Electron. */
 export interface StoragePort {
     get(key: string): Promise<string | null>;
@@ -33,4 +40,28 @@ export interface KeymapPort {
 /** Telemetry or analytics. Optional. */
 export interface TelemetryPort {
     track(event: string, properties?: Record<string, unknown>): void;
+}
+
+/** Project/workspace operations (load, create, add asset). Implement via HTTP to Nest or IPC in Electron. */
+export interface ProjectPort {
+    getProjectByPath(path: string): Promise<Project>;
+    createProject(name: string, filePath: string): Promise<Project>;
+    addInputAsset(filePath: string, asset: Omit<IInputAsset, 'id' | 'importedAt'>): Promise<Project>;
+}
+
+/** Asset conversion from external format (gltf, obj, etc.) to ZKO. Implement via zkConvert/zkExport or backend. */
+export interface AssetConversionPort {
+    convertToZko(input: AssetConversionInput): Promise<AssetConversionResult>;
+}
+
+/** Options for starting an engine session (e.g. preview). Domain-level; no process/spawn details. */
+export interface EngineSessionStartOptions {
+    projectPath?: string;
+}
+
+/** Engine session lifecycle (start/stop/restart). Implement with in-page viewer or separate process (e.g. Electron). */
+export interface EngineSessionPort {
+    startEngineSession(options?: EngineSessionStartOptions): Promise<void>;
+    stopEngineSession(): Promise<void>;
+    restartEngineSession(): Promise<void>;
 }

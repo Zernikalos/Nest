@@ -7,6 +7,9 @@ import {
   createPreferencesPort,
   isElectronStorageAvailable,
 } from '@/runtime/storageAdapter';
+import { createProjectPort } from '@/runtime/projectAdapter';
+import { createAssetConversionPort } from '@/runtime/assetConversionAdapter';
+import { createEngineSessionPort } from '@/runtime/engineSessionAdapter';
 import { RUNTIME_KEY } from '@/composables/useIdeCore';
 import { PREFERENCES_PORT_KEY } from '@/types/hostPort';
 
@@ -17,7 +20,10 @@ if (!runtimeRef.value) {
     ? createElectronStoragePort()
     : createLocalStorageStoragePort();
   preferencesPort = createPreferencesPort(storage);
-  runtimeRef.value = createEditorRuntime({ storage });
+  const project = createProjectPort();
+  const assetConversion = createAssetConversionPort();
+  const engineSession = createEngineSessionPort();
+  runtimeRef.value = createEditorRuntime({ storage, project, assetConversion, engineSession });
 }
 provide(RUNTIME_KEY, runtimeRef.value);
 if (preferencesPort) {

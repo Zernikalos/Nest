@@ -1,13 +1,34 @@
 <script setup lang="ts">
-import { provide, watch, computed, onMounted, onUnmounted } from 'vue';
+import { provide, watch, computed, onMounted, onUnmounted, inject, ref } from 'vue';
 import type { ZObjectLike, WidgetContribution } from '@zstudio/ide-core';
-import { useZkoStore } from '@/stores/zkoStore';
 import { useIdeCore } from '@/composables/useIdeCore';
 import { useZObjectState } from '@/composables/useZObjectState';
 import { NEST_EDITOR_KEY } from '@/composables/useNestEditor';
+import { RUNTIME_KEY } from '@/composables/useIdeCore';
+import type { EditorRuntime } from '@zstudio/ide-core';
 import type { ZkResultExtended } from '@/types/project';
 
-const zkoStore = useZkoStore();
+const runtime = inject<EditorRuntime | null>(RUNTIME_KEY, null);
+
+const conversionViewModel = ref({
+  isConverting: false,
+  conversionError: null as string | null,
+  lastResult: null as ZkResultExtended | null,
+});
+
+let unsubConversion: (() => void) | null = null;
+onMounted(() => {
+  if (runtime) {
+    unsubConversion = runtime.subscribeAssetConversion(() => {
+      conversionViewModel.value = runtime.getAssetConversionViewModel();
+    });
+    conversionViewModel.value = runtime.getAssetConversionViewModel();
+  }
+});
+onUnmounted(() => {
+  unsubConversion?.();
+});
+
 const {
   viewModel,
   handleSelect,
@@ -46,7 +67,7 @@ onUnmounted(() => {
 });
 
 const root = computed(() => {
-  const zk = zkoStore.zkResult?.zko as { root?: ZObjectLike } | undefined;
+  const zk = conversionViewModel.value.lastResult?.zko as { root?: ZObjectLike } | undefined;
   return zk?.root;
 });
 
@@ -68,7 +89,7 @@ function notifyChange() {
 }
 
 async function regenerateZko(): Promise<ZkResultExtended | null> {
-  return zkoStore.zkResult;
+  return conversionViewModel.value.lastResult;
 }
 
 const context = {
@@ -79,7 +100,7 @@ const context = {
   handleSelect,
   handleTabChange,
   handleTabClose,
-  zkResult: computed(() => zkoStore.zkResult),
+  zkResult: computed(() => conversionViewModel.value.lastResult),
   selectedZObject,
   regenerateZko,
   notifyChange,

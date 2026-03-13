@@ -6,8 +6,18 @@
  * hold canonical editor state. Optional StoragePort enables session persistence (e.g. localStorage
  * or Electron main process). Document URIs use the scheme zobject://nodeId for scene nodes.
  */
-import type { TreeNode, ZObjectLike } from './domain/types.js';
-import type { StoragePort } from './ports/index.js';
+import type {
+    AssetConversionInput,
+    IInputAsset,
+    TreeNode,
+    ZObjectLike,
+} from './domain/types.js';
+import type {
+    AssetConversionPort,
+    EngineSessionPort,
+    ProjectPort,
+    StoragePort,
+} from './ports/index.js';
 import type { SessionData } from './services/SessionService.js';
 import type { CommandHandler } from './services/CommandService.js';
 import {
@@ -38,6 +48,31 @@ import {
     createDocumentStore,
     getDocumentViewModel,
 } from './domain/DocumentModule.js';
+import {
+    CLEAR_PROJECT,
+    SET_ERROR,
+    SET_LOADING,
+    SET_PROJECT,
+    SET_PROJECT_PATH,
+    createProjectStore,
+    getProjectViewModel,
+} from './domain/ProjectModule.js';
+import type { ProjectViewModel } from './domain/ProjectModule.js';
+import {
+    SET_CONVERSION_ERROR,
+    SET_CONVERSION_RESULT,
+    START_CONVERSION,
+    createAssetConversionStore,
+    getAssetConversionViewModel,
+} from './domain/AssetConversionModule.js';
+import type { AssetConversionViewModel } from './domain/AssetConversionModule.js';
+import {
+    SET_ERROR as ENGINE_SESSION_SET_ERROR,
+    SET_STATUS as ENGINE_SESSION_SET_STATUS,
+    createEngineSessionStore,
+    getEngineSessionViewModel,
+} from './domain/EngineSessionModule.js';
+import type { EngineSessionViewModel } from './domain/EngineSessionModule.js';
 import { convertZObjectToTreeNode, findNodeById } from './domain/sceneTreeUtils.js';
 import { SessionService } from './services/SessionService.js';
 import { CommandService } from './services/CommandService.js';
@@ -51,6 +86,12 @@ import type { DocumentState, DocumentViewModel } from './domain/DocumentModule.j
 export interface EditorRuntimePorts {
     /** If provided, session (scene tree, workbench, documents) is persisted and restored. */
     storage?: StoragePort;
+    /** If provided, project load/create/add-asset operations are delegated to this port. */
+    project?: ProjectPort;
+    /** If provided, asset-to-ZKO conversion is delegated to this port. */
+    assetConversion?: AssetConversionPort;
+    /** If provided, engine session start/stop/restart is delegated to this port (e.g. preview). */
+    engineSession?: EngineSessionPort;
 }
 
 /**
@@ -90,6 +131,22 @@ export interface EditorRuntime {
     hydrateSession(): Promise<void>;
     setWorkspace(path: string | null): void;
     getWorkspace(): string | null;
+    setProjectPath(path: string | null): void;
+    getProjectPath(): string | null;
+    getProjectViewModel(): ProjectViewModel;
+    subscribeProject(listener: () => void): () => void;
+    openProject(path: string): Promise<void>;
+    closeProject(): void;
+    createProject(name: string, filePath: string): Promise<void>;
+    addAssetToProject(asset: Omit<IInputAsset, 'id' | 'importedAt'>): Promise<void>;
+    getAssetConversionViewModel(): AssetConversionViewModel;
+    subscribeAssetConversion(listener: () => void): () => void;
+    convertAsset(input: AssetConversionInput): Promise<AssetConversionViewModel['lastResult']>;
+    getEngineSessionViewModel(): EngineSessionViewModel;
+    subscribeEngineSession(listener: () => void): () => void;
+    startEngine(): Promise<void>;
+    stopEngine(): Promise<void>;
+    restartEngine(): Promise<void>;
 }
 
 /** Collect all node ids from a tree (for validating session data). */
@@ -126,18 +183,44 @@ export function createEditorRuntime(ports?: EditorRuntimePorts): EditorRuntime {
     const sceneTreeStore = createSceneTreeStore();
     const workbenchStore = createWorkbenchStore();
     const documentStore = createDocumentStore();
+    const projectStore = createProjectStore();
+    const assetConversionStore = createAssetConversionStore();
     const commandService = new CommandService();
     const contextKeyService = new ContextKeyService();
     const sessionService = ports?.storage ? new SessionService(ports.storage) : null;
+    const projectPort = ports?.project ?? null;
+    const assetConversionPort = ports?.assetConversion ?? null;
+    const engineSessionPort = ports?.engineSession ?? null;
+    const engineSessionStore = createEngineSessionStore();
     const widgets = new Map<string, WidgetContribution>();
     const widgetControllers = new Map<string, WidgetController>();
 
-    let workspacePath: string | null = null;
-    const setWorkspace = (path: string | null) => {
-        workspacePath = path;
+    /** Load project from port when path is set and port is available. */
+    const loadProjectByPath = async (path: string) => {
+        if (!projectPort) return;
+        projectStore.dispatch({ type: SET_LOADING, payload: true });
+        try {
+            const project = await projectPort.getProjectByPath(path);
+            projectStore.dispatch({ type: SET_PROJECT, payload: project });
+        } catch (e) {
+            projectStore.dispatch({
+                type: SET_ERROR,
+                payload: e instanceof Error ? e : new Error(String(e)),
+            });
+        }
+    };
+
+    const setProjectPath = (path: string | null) => {
+        projectStore.dispatch({ type: SET_PROJECT_PATH, payload: path });
         contextKeyService.set('projectOpen', path !== null);
     };
-    const getWorkspace = () => workspacePath;
+
+    const setWorkspace = (path: string | null) => {
+        setProjectPath(path);
+    };
+
+    const getWorkspace = () => projectStore.getState().projectFilePath;
+    const getProjectPath = () => projectStore.getState().projectFilePath;
 
     let sessionHydrated = false;
     let hydrationPromise: Promise<void> | null = null;
@@ -370,6 +453,113 @@ export function createEditorRuntime(ports?: EditorRuntimePorts): EditorRuntime {
         dispatchWorkbenchIntent({ type: CLOSE_WIDGET, payload: { id } });
     };
 
+    const openProject = async (path: string): Promise<void> => {
+        setProjectPath(path);
+        if (path && projectPort) {
+            await loadProjectByPath(path);
+        }
+    };
+
+    const closeProject = (): void => {
+        projectStore.dispatch({ type: CLEAR_PROJECT });
+        contextKeyService.set('projectOpen', false);
+    };
+
+    const createProject = async (name: string, filePath: string): Promise<void> => {
+        if (!projectPort) throw new Error('Project port not available');
+        projectStore.dispatch({ type: SET_LOADING, payload: true });
+        try {
+            await projectPort.createProject(name, filePath);
+            setProjectPath(filePath);
+            await loadProjectByPath(filePath);
+        } catch (e) {
+            projectStore.dispatch({
+                type: SET_ERROR,
+                payload: e instanceof Error ? e : new Error(String(e)),
+            });
+            throw e;
+        }
+    };
+
+    const addAssetToProject = async (
+        asset: Omit<IInputAsset, 'id' | 'importedAt'>
+    ): Promise<void> => {
+        const path = projectStore.getState().projectFilePath;
+        if (!path || !projectPort) throw new Error('No project open or project port not available');
+        const updated = await projectPort.addInputAsset(path, asset);
+        projectStore.dispatch({ type: SET_PROJECT, payload: updated });
+    };
+
+    const convertAsset = async (
+        input: AssetConversionInput
+    ): Promise<AssetConversionViewModel['lastResult']> => {
+        if (!assetConversionPort) throw new Error('Asset conversion port not available');
+        assetConversionStore.dispatch({ type: START_CONVERSION });
+        try {
+            const result = await assetConversionPort.convertToZko(input);
+            assetConversionStore.dispatch({ type: SET_CONVERSION_RESULT, payload: result });
+            const path = projectStore.getState().projectFilePath;
+            if (path && projectPort && result) {
+                try {
+                    const updated = await projectPort.addInputAsset(path, {
+                        path: input.path,
+                        fileName: input.fileName,
+                        format: input.format,
+                    });
+                    projectStore.dispatch({ type: SET_PROJECT, payload: updated });
+                } catch {
+                    // Do not fail the conversion if saving asset fails
+                }
+            }
+            return result;
+        } catch (e) {
+            const message = e instanceof Error ? e.message : 'Unknown error occurred';
+            assetConversionStore.dispatch({ type: SET_CONVERSION_ERROR, payload: message });
+            throw e;
+        }
+    };
+
+    const startEngine = async (): Promise<void> => {
+        if (!engineSessionPort) return;
+        engineSessionStore.dispatch({ type: ENGINE_SESSION_SET_STATUS, payload: 'starting' });
+        try {
+            await engineSessionPort.startEngineSession({
+                projectPath: getWorkspace() ?? undefined,
+            });
+            engineSessionStore.dispatch({ type: ENGINE_SESSION_SET_STATUS, payload: 'running' });
+        } catch (e) {
+            const message = e instanceof Error ? e.message : String(e);
+            engineSessionStore.dispatch({ type: ENGINE_SESSION_SET_ERROR, payload: message });
+            throw e;
+        }
+    };
+
+    const stopEngine = async (): Promise<void> => {
+        if (!engineSessionPort) return;
+        engineSessionStore.dispatch({ type: ENGINE_SESSION_SET_STATUS, payload: 'stopping' });
+        try {
+            await engineSessionPort.stopEngineSession();
+            engineSessionStore.dispatch({ type: ENGINE_SESSION_SET_STATUS, payload: 'idle' });
+        } catch (e) {
+            const message = e instanceof Error ? e.message : String(e);
+            engineSessionStore.dispatch({ type: ENGINE_SESSION_SET_ERROR, payload: message });
+            throw e;
+        }
+    };
+
+    const restartEngine = async (): Promise<void> => {
+        if (!engineSessionPort) return;
+        engineSessionStore.dispatch({ type: ENGINE_SESSION_SET_STATUS, payload: 'stopping' });
+        try {
+            await engineSessionPort.restartEngineSession();
+            engineSessionStore.dispatch({ type: ENGINE_SESSION_SET_STATUS, payload: 'running' });
+        } catch (e) {
+            const message = e instanceof Error ? e.message : String(e);
+            engineSessionStore.dispatch({ type: ENGINE_SESSION_SET_ERROR, payload: message });
+            throw e;
+        }
+    };
+
     return {
         executeCommand: (id: string, payload?: unknown): RuntimeEffect[] => {
             const effects = commandService.execute(id, payload);
@@ -431,5 +621,25 @@ export function createEditorRuntime(ports?: EditorRuntimePorts): EditorRuntime {
         hydrateSession,
         setWorkspace,
         getWorkspace,
+        setProjectPath,
+        getProjectPath,
+        getProjectViewModel: () => getProjectViewModel(projectStore.getState()),
+        subscribeProject: (listener: () => void) => projectStore.subscribe(listener),
+        openProject,
+        closeProject,
+        createProject,
+        addAssetToProject,
+        getAssetConversionViewModel: () =>
+            getAssetConversionViewModel(assetConversionStore.getState()),
+        subscribeAssetConversion: (listener: () => void) =>
+            assetConversionStore.subscribe(listener),
+        convertAsset,
+        getEngineSessionViewModel: () =>
+            getEngineSessionViewModel(engineSessionStore.getState()),
+        subscribeEngineSession: (listener: () => void) =>
+            engineSessionStore.subscribe(listener),
+        startEngine,
+        stopEngine,
+        restartEngine,
     };
 }

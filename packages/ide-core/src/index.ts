@@ -8,7 +8,11 @@
 
 export * from './contracts/index.js';
 export * from './domain/types.js';
-export * from './domain/sceneTreeUtils.js';
+export {
+    convertZObjectToTreeNode,
+    findNodeById,
+    findZObjectById,
+} from './domain/sceneTreeUtils.js';
 export {
     createSceneTreeStore,
     getSceneTreeViewModel,
@@ -42,11 +46,44 @@ export {
     RESTORE_DOCUMENTS,
 } from './domain/DocumentModule.js';
 export type { DocumentState, DocumentViewModel, DocumentRecord } from './domain/DocumentModule.js';
+export {
+    createProjectStore,
+    getProjectViewModel,
+    SET_PROJECT_PATH,
+    SET_PROJECT,
+    SET_LOADING,
+    SET_ERROR,
+    CLEAR_PROJECT,
+} from './domain/ProjectModule.js';
+export type { ProjectState, ProjectViewModel } from './domain/ProjectModule.js';
+export {
+    createAssetConversionStore,
+    getAssetConversionViewModel,
+    START_CONVERSION,
+    SET_CONVERSION_RESULT,
+    SET_CONVERSION_ERROR,
+} from './domain/AssetConversionModule.js';
+export type {
+    AssetConversionState,
+    AssetConversionViewModel,
+} from './domain/AssetConversionModule.js';
+export {
+    createEngineSessionStore,
+    getEngineSessionViewModel,
+    SET_STATUS as ENGINE_SESSION_SET_STATUS,
+    SET_ERROR as ENGINE_SESSION_SET_ERROR,
+} from './domain/EngineSessionModule.js';
+export type {
+    EngineSessionState,
+    EngineSessionStatus,
+    EngineSessionViewModel,
+} from './domain/EngineSessionModule.js';
 export { SessionService } from './services/SessionService.js';
 export type { SessionData } from './services/SessionService.js';
 export * from './kernel/EventBus.js';
 export * from './kernel/createStore.js';
 export * from './ports/index.js';
+export type { EngineSessionPort, EngineSessionStartOptions } from './ports/index.js';
 export * from './ports/MockStoragePort.js';
 export * from './services/CommandService.js';
 export * from './services/ContextKeyService.js';

@@ -1,9 +1,6 @@
-import { ref, watch, computed, inject } from 'vue';
+import { ref, watch, computed, inject, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useProjectStore } from '@/stores/projectStore';
 import { useProjectUIStore } from '@/stores/projectUIStore';
-import * as projectApi from '@/lib/projectApi';
-import type { Project } from '@/types/project';
 import type { IInputAsset } from '@/types/project';
 import { HOST_PORT_KEY, PREFERENCES_PORT_KEY, type HostPort } from '@/types/hostPort';
 import { RUNTIME_KEY } from '@/composables/useIdeCore';
@@ -15,51 +12,47 @@ export function useProject() {
   const hostPort = inject<HostPort>(HOST_PORT_KEY);
   const preferencesPort = inject<StoragePort | undefined>(PREFERENCES_PORT_KEY);
   const runtime = inject<EditorRuntime | null>(RUNTIME_KEY, null);
-  const projectStore = useProjectStore();
   const projectUIStore = useProjectUIStore();
 
-  const project = ref<Project | null>(null);
-  const isLoading = ref(false);
-  const error = ref<Error | null>(null);
-
-  watch(
-    () => projectStore.projectFilePath,
-    async (filePath) => {
-      if (typeof runtime?.setWorkspace === 'function') {
-        runtime.setWorkspace(filePath ?? null);
-      }
-      if (!filePath) {
-        project.value = null;
-        error.value = null;
-        return;
-      }
-      isLoading.value = true;
-      error.value = null;
-      try {
-        project.value = await projectApi.getProjectByPath(filePath);
-      } catch (e) {
-        error.value = e instanceof Error ? e : new Error('Failed to load project');
-        project.value = null;
-      } finally {
-        isLoading.value = false;
-      }
-    },
-    { immediate: true }
+  const projectViewModel = ref(
+    runtime ? runtime.getProjectViewModel() : { projectFilePath: null, project: null, isLoading: false, error: null, isProjectOpen: false }
   );
 
-  const projectFilePath = computed(() => projectStore.projectFilePath);
-  const isProjectOpen = computed(() => projectFilePath.value !== null);
-  const projectMetadata = computed(() => project.value ?? null);
+  let unsubProject: (() => void) | null = null;
+  onMounted(() => {
+    if (runtime) {
+      unsubProject = runtime.subscribeProject(() => {
+        projectViewModel.value = runtime.getProjectViewModel();
+      });
+      projectViewModel.value = runtime.getProjectViewModel();
+    }
+  });
+  onUnmounted(() => {
+    unsubProject?.();
+  });
+
+  const projectFilePath = computed(() => projectViewModel.value.projectFilePath);
+  const isProjectOpen = computed(() => projectViewModel.value.isProjectOpen);
+  const projectMetadata = computed(() => projectViewModel.value.project);
+  const isLoading = computed(() => projectViewModel.value.isLoading);
+  const error = computed(() => projectViewModel.value.error);
 
   function syncMenuContext(projectOpen: boolean) {
     hostPort?.sendMenuContext?.({ projectOpen });
   }
 
+  watch(
+    () => projectViewModel.value.isProjectOpen,
+    (projectOpen) => {
+      syncMenuContext(projectOpen);
+    },
+    { immediate: true }
+  );
+
   async function createProject(name: string, filePath: string): Promise<void> {
+    if (!runtime) throw new Error('Runtime not available');
     try {
-      const created = await projectApi.createProject(name, filePath);
-      projectStore.setProjectPath(filePath);
-      project.value = created;
+      await runtime.createProject(name, filePath);
       syncMenuContext(true);
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Failed to create project';
@@ -69,31 +62,22 @@ export function useProject() {
   }
 
   async function openProject(filePath: string): Promise<void> {
-    try {
-      const p = await projectApi.getProjectByPath(filePath);
-      projectStore.setProjectPath(filePath);
-      project.value = p;
-      syncMenuContext(true);
-      await preferencesPort?.set('lastProjectPath', filePath);
-    } catch (e) {
-      throw e;
-    }
+    if (!runtime) throw new Error('Runtime not available');
+    await runtime.openProject(filePath);
+    syncMenuContext(true);
+    await preferencesPort?.set('lastProjectPath', filePath);
   }
 
   function closeProject(): void {
-    projectStore.clearProjectPath();
-    project.value = null;
-    error.value = null;
+    runtime?.closeProject();
     syncMenuContext(false);
   }
 
   async function addAssetToProject(
     asset: Omit<IInputAsset, 'id' | 'importedAt'>
   ): Promise<void> {
-    const path = projectStore.projectFilePath;
-    if (!path) throw new Error('No project is currently open');
-    const updated = await projectApi.addInputAsset(path, asset);
-    project.value = updated;
+    if (!runtime) throw new Error('Runtime not available');
+    await runtime.addAssetToProject(asset);
   }
 
   async function createProjectWithDialog(projectName: string): Promise<void> {

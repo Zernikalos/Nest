@@ -7,6 +7,8 @@ This directory contains comprehensive documentation for Large Language Models to
 ### 🏗️ Architecture & Overview
 - **[Architecture Overview](./architecture-overview.md)** - Complete system architecture and design principles
 - **[Tech Stack](./tech-stack.md)** - Technologies, frameworks, and build tools used
+- **[Vue UI](./vueui/)** - Vue-based renderer shell, routing, adapter layer, and host integration
+- **[IDE Core](./ide-core/)** - Framework-agnostic editor runtime, state modules, and contracts
 
 ### 🗄️ State Management
 - **[Stores Directory](./stores/)** - Zustand store implementations (local state only)
@@ -42,6 +44,11 @@ This directory contains comprehensive documentation for Large Language Models to
 ### Core Architecture
 ```
 App.tsx → Providers → Stores → Components
+```
+
+### V2 Runtime Direction
+```
+Host (Electron/Web) → UI Adapter (vueui/reactui) → ide-core runtime
 ```
 
 ### Key Technologies

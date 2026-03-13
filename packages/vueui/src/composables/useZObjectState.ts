@@ -1,27 +1,11 @@
 import { computed } from 'vue';
+import { findZObjectById } from '@zstudio/ide-core';
+import type { ZObjectLike } from '@zstudio/ide-core';
 
 /**
- * Find a ZObject in the tree by refId (node id in scene tree = refId).
- * Uses minimal shape compatible with ide-core ZObjectLike (no index signature).
+ * Resolve the selected ZObject from the scene tree root and active node id.
+ * Uses findZObjectById from ide-core for framework-agnostic tree lookup.
  */
-interface ZObjectLike {
-  refId: string;
-  children?: ZObjectLike[];
-}
-
-export function findZObjectById(
-  root: ZObjectLike | undefined | null,
-  refId: string
-): ZObjectLike | null {
-  if (!root) return null;
-  if (root.refId === refId) return root;
-  for (const child of root.children ?? []) {
-    const found = findZObjectById(child, refId);
-    if (found) return found;
-  }
-  return null;
-}
-
 export function useZObjectState(
   root: () => ZObjectLike | undefined | null,
   activeNode: () => string | null

@@ -1,11 +1,9 @@
-import { onMounted, onUnmounted, watch, nextTick, inject } from 'vue';
+import { onMounted, onUnmounted, watch, nextTick, inject, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useElectronEvents } from '@/composables/useElectronEvents';
 import { useIdeCore } from '@/composables/useIdeCore';
 import { useProject } from '@/composables/useProject';
 import { useProjectUIStore } from '@/stores/projectUIStore';
-import { useZkoStore } from '@/stores/zkoStore';
-import { useProjectStore } from '@/stores/projectStore';
 import {
   FILE_LOAD_ZKO,
   FILE_IMPORT_FILE,
@@ -14,8 +12,9 @@ import {
   FILE_OPEN_PROJECT,
 } from '@/lib/commandIds';
 import type { AssetConversionData } from '@/types/project';
-import { useAssetToZko } from '@/composables/useAssetToZko';
 import { HOST_PORT_KEY, type HostPort } from '@/types/hostPort';
+import { RUNTIME_KEY } from '@/composables/useIdeCore';
+import type { EditorRuntime } from '@zstudio/ide-core';
 
 /**
  * Composable that integrates Electron IPC events with project/editor commands.
@@ -25,13 +24,34 @@ import { HOST_PORT_KEY, type HostPort } from '@/types/hostPort';
 export function useElectronProjectIntegration() {
   const router = useRouter();
   const hostPort = inject<HostPort>(HOST_PORT_KEY);
+  const runtime = inject<EditorRuntime | null>(RUNTIME_KEY, null);
   const electron = useElectronEvents();
   const { executeCommand, registerCommand, unregisterCommand, contextKey } = useIdeCore();
   const { openProject } = useProject();
-  const { convertAssetToZko } = useAssetToZko();
   const projectUIStore = useProjectUIStore();
-  const zkoStore = useZkoStore();
-  const projectStore = useProjectStore();
+
+  const projectOpenRef = ref(false);
+  let unsubProject: (() => void) | null = null;
+  onMounted(() => {
+    if (runtime) {
+      unsubProject = runtime.subscribeProject(() => {
+        projectOpenRef.value = runtime.getProjectViewModel().isProjectOpen;
+      });
+      projectOpenRef.value = runtime.getProjectViewModel().isProjectOpen;
+    }
+  });
+  onUnmounted(() => {
+    unsubProject?.();
+  });
+
+  watch(
+    projectOpenRef,
+    (projectOpen) => {
+      contextKey?.set?.('projectOpen', projectOpen);
+      hostPort?.sendMenuContext?.({ projectOpen });
+    },
+    { immediate: true }
+  );
 
   // Register command handlers
   onMounted(() => {
@@ -41,23 +61,17 @@ export function useElectronProjectIntegration() {
 
     registerCommand(FILE_IMPORT_FILE, (payload?: unknown) => {
       const data = (payload || {}) as AssetConversionData;
-      if (!data.path || !data.fileName || !data.format) {
-        zkoStore.setError('Invalid import data: path, fileName and format are required.');
-        return;
-      }
-      convertAssetToZko(data)
-        .then(async () => {
-          await nextTick();
-          await router.push('/editor/viewer');
-        })
-        .catch(() => {
-          zkoStore.setError('Asset conversion failed. Please try again.');
-        });
+      if (!data.path || !data.fileName || !data.format || !runtime) return;
+      void runtime.convertAsset(data).then(async () => {
+        await nextTick();
+        await router.push('/editor/viewer');
+      }).catch(() => {
+        // Error is already in runtime asset conversion view model
+      });
     });
 
     registerCommand(FILE_BUNDLE_SCENE, () => {
       // Placeholder: bundle scene will be wired when useBundleScene exists
-      zkoStore.setError('Failed to bundle scene. Please try again.');
     });
 
     registerCommand(FILE_CREATE_PROJECT, () => {
@@ -69,8 +83,6 @@ export function useElectronProjectIntegration() {
       if (!filePath) return;
       openProject(filePath)
         .then(() => {
-          contextKey?.set?.('projectOpen', true);
-          hostPort?.sendMenuContext?.({ projectOpen: true });
           router.push('/projects');
         })
         .catch((err) => console.error('Failed to open project:', err));
@@ -101,14 +113,4 @@ export function useElectronProjectIntegration() {
     electron.offCreateProject();
     electron.offOpenProject();
   });
-
-  // Keep contextKey and menu context in sync with project store.
-  watch(
-    () => projectStore.projectFilePath != null,
-    (projectOpen) => {
-      contextKey?.set?.('projectOpen', projectOpen);
-      hostPort?.sendMenuContext?.({ projectOpen });
-    },
-    { immediate: true }
-  );
 }

@@ -26,3 +26,20 @@ export function findNodeById(tree: TreeNode[], id: string): TreeNode | undefined
     }
     return undefined;
 }
+
+/**
+ * Finds a ZObject in the tree by refId (node id in scene tree = refId). Depth-first.
+ * Returns null if not found.
+ */
+export function findZObjectById(
+    root: ZObjectLike | undefined | null,
+    refId: string
+): ZObjectLike | null {
+    if (!root) return null;
+    if (root.refId === refId) return root;
+    for (const child of root.children ?? []) {
+        const found = findZObjectById(child, refId);
+        if (found) return found;
+    }
+    return null;
+}

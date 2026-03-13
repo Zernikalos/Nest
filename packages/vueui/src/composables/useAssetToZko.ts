@@ -1,58 +1,42 @@
-import { zkConvert, zkExport } from '@zernikalos/zkbuilder';
-import { getFileUrl } from '@/lib/fileApi';
-import { useZkoStore } from '@/stores/zkoStore';
-import { useProject } from '@/composables/useProject';
-import type { AssetConversionData, ZkResultExtended } from '@/types/project';
+import { inject, ref, onMounted, onUnmounted } from 'vue';
+import type { AssetConversionData } from '@/types/project';
+import { RUNTIME_KEY } from '@/composables/useIdeCore';
+import type { EditorRuntime } from '@zstudio/ide-core';
 
 /**
- * Composable to convert an asset (gltf, obj, fbx, collada) to ZKO,
- * update the zko store, and optionally add the asset to the current project.
+ * Composable to trigger asset-to-ZKO conversion via the runtime.
+ * Conversion state (isConverting, conversionError, lastResult) lives in ide-core;
+ * use getAssetConversionViewModel() from useIdeCore or runtime for UI.
  */
 export function useAssetToZko() {
-  const zkoStore = useZkoStore();
-  const { addAssetToProject, isProjectOpen } = useProject();
+  const runtime = inject<EditorRuntime | null>(RUNTIME_KEY, null);
 
-  async function convertAssetToZko(data: AssetConversionData): Promise<ZkResultExtended> {
-    zkoStore.setConverting(true);
-    zkoStore.setError(null);
+  const conversionViewModel = ref(
+    runtime
+      ? runtime.getAssetConversionViewModel()
+      : { isConverting: false, conversionError: null, lastResult: null }
+  );
 
-    try {
-      const fileUrl = await getFileUrl({
-        path: data.path,
-        fileName: data.fileName,
+  let unsub: (() => void) | null = null;
+  onMounted(() => {
+    if (runtime) {
+      unsub = runtime.subscribeAssetConversion(() => {
+        conversionViewModel.value = runtime.getAssetConversionViewModel();
       });
-
-      const result = await zkConvert(
-        { filePath: fileUrl, format: data.format },
-        { exportOptions: { format: 'object' } }
-      );
-
-      const proto = (await zkExport(result.zko, { format: 'proto' })) as Uint8Array;
-      const extendedResult: ZkResultExtended = { ...result, proto };
-
-      zkoStore.setZkResult(extendedResult);
-      zkoStore.setConverting(false);
-
-      if (isProjectOpen.value) {
-        try {
-          await addAssetToProject({
-            path: data.path,
-            fileName: data.fileName,
-            format: data.format,
-          });
-        } catch {
-          // Do not fail the conversion if saving asset fails
-        }
-      }
-
-      return extendedResult;
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown error occurred';
-      zkoStore.setError(message);
-      zkoStore.setConverting(false);
-      throw error;
+      conversionViewModel.value = runtime.getAssetConversionViewModel();
     }
+  });
+  onUnmounted(() => {
+    unsub?.();
+  });
+
+  async function convertAssetToZko(data: AssetConversionData) {
+    if (!runtime) throw new Error('Runtime not available');
+    return runtime.convertAsset(data);
   }
 
-  return { convertAssetToZko };
+  return {
+    convertAssetToZko,
+    conversionViewModel,
+  };
 }
