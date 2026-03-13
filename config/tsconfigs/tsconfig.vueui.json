@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "jsx": "preserve",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "baseUrl": "../../vueui",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@ide-core": ["../ide-core/src/index.ts"]
+    }
+  },
+  "include": ["../../vueui/src/**/*.ts", "../../vueui/src/**/*.vue"]
+}

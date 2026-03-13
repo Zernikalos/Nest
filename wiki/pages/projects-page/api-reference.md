@@ -110,7 +110,7 @@ console.log(metadata.name) // "MyProject"
 
 ### `window.NativeZernikalos.showSaveProjectDialog`
 
-**Location:** `packages/electronapp/src/preload.ts`
+**Location:** `electronapp/src/preload.ts`
 
 **Signature:**
 ```typescript
@@ -143,7 +143,7 @@ if (filePath) {
 
 ### `window.NativeZernikalos.handleCreateProject`
 
-**Location:** `packages/electronapp/src/preload.ts`
+**Location:** `electronapp/src/preload.ts`
 
 **Signature:**
 ```typescript
@@ -495,4 +495,3 @@ Returns filePath or null
 - Handled by Electron
 - Logged in main process
 - May crash renderer if unhandled
-

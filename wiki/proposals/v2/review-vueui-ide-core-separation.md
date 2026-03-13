@@ -13,7 +13,7 @@
    No React, Vue, DOM, or browser APIs. Contracts live in `contracts/index.ts` (RuntimeIntent, RuntimeEffect, WidgetContribution, WidgetController, RuntimeStore).
 
 2. **Single runtime, multiple adapters**  
-   Both reactui and vueui use the same `createEditorRuntime()` from `@zstudio/ide-core`. Vue’s `useIdeCore` only injects the runtime and maps view models + intents; no core logic lives in Vue.
+   Both reactui and vueui use the same `createEditorRuntime()` from the root-level `ide-core` module via the `@ide-core` alias. Vue’s `useIdeCore` only injects the runtime and maps view models + intents; no core logic lives in Vue.
 
 3. **View models as projection**  
    Scene tree and workbench state are in the runtime; Vue subscribes and renders from `getSceneTreeViewModel()` / `getWorkbenchViewModel()`. Intents go through `dispatchSceneTree` / `dispatchWorkbench`.

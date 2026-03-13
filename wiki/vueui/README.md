@@ -4,7 +4,7 @@ This section documents the `vueui` package, the Vue-based application shell for 
 
 ## Purpose
 
-`vueui` is the renderer-side adapter between the user interface and the framework-agnostic editor runtime exported by `@zstudio/ide-core`.
+`vueui` is the primary renderer-side adapter between the user interface and the framework-agnostic editor runtime exported from the root-level `ide-core` module through the `@ide-core` alias.
 
 It is responsible for:
 
@@ -33,7 +33,7 @@ It is not responsible for:
 
 ## Main Architectural Relationships
 
-- `vueui` consumes `createEditorRuntime()` from `@zstudio/ide-core`
+- `vueui` consumes `createEditorRuntime()` from `@ide-core`
 - `useIdeCore()` exposes scene tree, workbench, and document view models to Vue components
 - Router state controls page/view navigation
 - Pinia stores hold UI-facing state such as project path, settings, and transient editor UI state

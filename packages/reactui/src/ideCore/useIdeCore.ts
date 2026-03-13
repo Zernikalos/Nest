@@ -5,7 +5,7 @@ import {
     CLOSE_TAB,
     SET_ACTIVE_TAB,
     SET_PANEL_SIZES,
-} from '@zstudio/ide-core';
+} from '@ide-core';
 
 export function useIdeCore() {
     const runtime = useContext(IdeCoreContext);

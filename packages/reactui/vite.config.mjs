@@ -4,6 +4,7 @@ import { readFileSync } from 'fs';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { createAppAliases } from '../../config/studio-paths.mjs';
 
 // https://vitejs.dev/config/
 export const reactUiConfig = defineConfig({
@@ -14,10 +15,7 @@ export const reactUiConfig = defineConfig({
         tailwindcss()
     ],
     resolve: {
-        alias: {
-            '@': path.resolve(__dirname, 'src'),
-            '@zstudio/ide-core': path.resolve(__dirname, '../ide-core/src/index.ts'),
-        },
+        alias: createAppAliases(path.resolve(__dirname, 'src')),
         preserveSymlinks: true,
     },
     define: {

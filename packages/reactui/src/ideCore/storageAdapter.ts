@@ -1,4 +1,4 @@
-import type { StoragePort } from '@zstudio/ide-core';
+import type { StoragePort } from '@ide-core';
 
 /**
  * StoragePort implementation using localStorage.

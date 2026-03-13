@@ -1,12 +1,11 @@
 packages:
-  - 'packages/ide-core'
+  - 'ide-core'
+  - 'electronapp'
+  - 'nestserver'
   - 'packages/reactui'
-  - 'packages/vueui'
-  - 'packages/nestserver'
-  - 'packages/electronapp'
+  - 'vueui'
 
 neverBuiltDependencies: []
 
 hoist-pattern:
   - '!*electron*'
-

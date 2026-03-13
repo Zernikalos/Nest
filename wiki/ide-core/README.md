@@ -1,10 +1,10 @@
 # IDE Core
 
-This section documents the `@zstudio/ide-core` package, the framework-agnostic runtime used by the Studio editor experience.
+This section documents the root-level `ide-core` module, the framework-agnostic runtime used by the Studio editor experience.
 
 ## Purpose
 
-`ide-core` contains the editor domain model and runtime orchestration that should remain independent from Vue, React, Electron, and the DOM.
+`ide-core` contains the editor domain model and runtime orchestration that should remain independent from Vue, React, Electron, and the DOM. In application code it is typically consumed through the `@ide-core` alias.
 
 It is responsible for:
 

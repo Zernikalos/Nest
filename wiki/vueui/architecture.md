@@ -20,7 +20,7 @@ HTTP/Electron/runtime side effects
 
 ## Runtime Integration
 
-The runtime entrypoint is re-exported from `src/runtime/createEditorRuntime.ts`, which forwards to `@zstudio/ide-core`.
+The runtime entrypoint is re-exported from `src/runtime/createEditorRuntime.ts`, which forwards to `@ide-core`.
 
 The main adapter is `src/composables/useIdeCore.ts`. It:
 

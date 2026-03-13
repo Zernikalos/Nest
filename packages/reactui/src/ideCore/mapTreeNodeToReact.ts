@@ -1,6 +1,6 @@
 import React from 'react';
 import { ObjectTypeIcon } from '@/pages/editor/components/ObjectTypeIcon';
-import type { TreeNode as CoreTreeNode } from '@zstudio/ide-core';
+import type { TreeNode as CoreTreeNode } from '@ide-core';
 import type { TreeNode } from '@/components/treeview';
 
 /**

@@ -7,8 +7,8 @@ This directory contains comprehensive documentation for Large Language Models to
 ### 🏗️ Architecture & Overview
 - **[Architecture Overview](./architecture-overview.md)** - Complete system architecture and design principles
 - **[Tech Stack](./tech-stack.md)** - Technologies, frameworks, and build tools used
-- **[Vue UI](./vueui/)** - Vue-based renderer shell, routing, adapter layer, and host integration
-- **[IDE Core](./ide-core/)** - Framework-agnostic editor runtime, state modules, and contracts
+- **[Vue UI](./vueui/)** - Primary Vue-based renderer shell, routing, adapter layer, and host integration
+- **[IDE Core](./ide-core/)** - Root-level framework-agnostic editor runtime, state modules, and contracts
 
 ### 🗄️ State Management
 - **[Stores Directory](./stores/)** - Zustand store implementations (local state only)
@@ -42,35 +42,38 @@ This directory contains comprehensive documentation for Large Language Models to
 ## 🎯 Quick Reference
 
 ### Core Architecture
-```
-App.tsx → Providers → Stores → Components
+```text
+Electron host -> vueui -> ide-core runtime -> nestserver/services
 ```
 
-### V2 Runtime Direction
-```
-Host (Electron/Web) → UI Adapter (vueui/reactui) → ide-core runtime
+### Current Repository Shape
+```text
+root package.json -> config/* -> electronapp | nestserver | ide-core | vueui
+                                       |
+                                       -> packages/reactui (legacy exception)
 ```
 
 ### Key Technologies
-- **React 18+** with TypeScript
-- **Zustand** for local state management
-- **React Query (TanStack Query)** for server state management
+- **Vue 3** with TypeScript for the primary renderer
+- **React 19** for the legacy isolated renderer package (`reactui`)
+- **Pinia / local stores** for renderer-local state
 - **Electron** for desktop functionality
+- **Nest-compatible server layer** embedded through the Electron host
 - **Tailwind CSS** for styling
-- **shadcn/ui** for components
+- **Radix / component libraries** for renderer UI primitives
 
 ### State Management Pattern
-- **Zustand stores** for local/client state only (no business logic)
-- **React Query** for server state (automatic caching, background refetching)
-- **Custom hooks** for business logic and orchestration (combine Zustand + React Query)
-- **React providers** for external system integration (when context needed)
+- **ide-core** owns editor domain/runtime behavior
+- **renderer-local stores** own local shell state and preferences
+- **adapters/composables/hooks** translate UI events into runtime intents
+- **Electron/Nest host integration** stays outside the runtime core
 
 ## 🚀 Development Guidelines
 
 ### Adding New Stores (Local State)
-1. Create store in `/src/stores/` (for local/client state only)
-2. Document in `.llm/stores/`
-3. Export from `stores/index.ts`
+1. Create store in the relevant renderer (`vueui/src/stores/` or `packages/reactui/src/stores/` when applicable)
+2. Keep business/domain logic out of the store when it belongs in `ide-core`
+3. Document the behavior in the wiki section that matches the renderer
 
 ### Adding New Queries (Server State)
 1. Create queries/mutations in `/src/queries/`
@@ -79,9 +82,9 @@ Host (Electron/Web) → UI Adapter (vueui/reactui) → ide-core runtime
 4. Document in `.llm/queries/`
 
 ### Adding New Providers
-1. Create provider in `/src/providers/`
-2. Document in `.llm/providers/`
-3. Update main providers index
+1. Create the provider/composable in the relevant renderer
+2. Keep host-specific integration out of `ide-core`
+3. Update the matching wiki section
 
 ### Component Development
 1. Connect to stores via hooks
@@ -89,10 +92,10 @@ Host (Electron/Web) → UI Adapter (vueui/reactui) → ide-core runtime
 3. Follow established patterns
 
 ### Adding New Pages
-1. Create page component in `/src/pages/`
-2. Add route to `src/router.tsx`
-3. Add navigation item to `Sidebar.tsx`
-4. Document in `.llm/pages/`
+1. Create the page inside the active renderer (`vueui/src/views/` or `packages/reactui/src/pages/`)
+2. Wire the route in that renderer
+3. Update navigation in that renderer
+4. Document the feature in the wiki
 
 ## 📖 For LLMs
 

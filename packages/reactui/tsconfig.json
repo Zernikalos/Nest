@@ -26,7 +26,7 @@
         "baseUrl": ".",
         "paths": {
             "@/*": ["./src/*"],
-            "@zstudio/ide-core": ["../ide-core/src/index.ts"]
+            "@ide-core": ["../../ide-core/src/index.ts"]
         }
     },
     "include": ["src", "vite.config.ts"]
