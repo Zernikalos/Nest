@@ -3,22 +3,29 @@ import { computed } from 'vue';
 import SettingsSectionItem from '@/components/settings/SettingsSectionItem.vue';
 import InfoDisplayItem from '@/components/settings/InfoDisplayItem.vue';
 import { Info, Monitor, Wrench } from 'lucide-vue-next';
+import { zernikalos } from '@/lib/zernikalos';
+import { ZKBUILDER_VERSION, ZKO_VERSION } from '@zernikalos/zkbuilder';
 
 defineOptions({ name: 'EnvironmentSettingsView' });
 
-// Zernikalos engine and ZKBuilder versions - when those packages are available
-// (e.g. in Nest/Electron context), they can be injected. For standalone vueui, show Unavailable.
-const engineVersion = 'Unavailable';
-const builderVersion = 'Unavailable';
-const engineZkoVersion: string | undefined = undefined;
-const builderZkoVersion: string | undefined = undefined;
+const zernikalosRuntime = zernikalos as {
+  version?: {
+    VERSION?: string;
+    ZKO_VERSION?: string;
+  };
+};
 
-const engineMissing = computed(() => engineZkoVersion == null);
-const builderMissing = computed(() => builderZkoVersion == null);
+const engineVersion = zernikalosRuntime.version?.VERSION ?? 'Unavailable';
+const builderVersion = ZKBUILDER_VERSION ?? 'Unavailable';
+const engineZkoVersion: string | undefined = zernikalosRuntime.version?.ZKO_VERSION;
+const builderZkoVersion: string | undefined = ZKO_VERSION;
+
+const engineMissing = computed(() => engineVersion === 'Unavailable');
+const builderMissing = computed(() => builderVersion === 'Unavailable');
 const zkoVersionMismatch = computed(
   () =>
-    !engineMissing.value &&
-    !builderMissing.value &&
+    engineZkoVersion != null &&
+    builderZkoVersion != null &&
     engineZkoVersion !== builderZkoVersion
 );
 const zkoVersion = computed(() =>
@@ -40,7 +47,7 @@ const zkoError = computed(() =>
 
 const appVersion = computed(
   () =>
-    (import.meta as unknown as { __APP_VERSION__?: string }).__APP_VERSION__ ??
+    (globalThis as { __APP_VERSION__?: string }).__APP_VERSION__ ??
     'Unknown'
 );
 
