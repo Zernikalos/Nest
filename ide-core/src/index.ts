@@ -62,6 +62,7 @@ export {
     START_CONVERSION,
     SET_CONVERSION_RESULT,
     SET_CONVERSION_ERROR,
+    SET_PROJECT_PERSIST_WARNING,
 } from './domain/AssetConversionModule.js';
 export type {
     AssetConversionState,

@@ -61,6 +61,7 @@ import type { ProjectViewModel } from './domain/ProjectModule.js';
 import {
     SET_CONVERSION_ERROR,
     SET_CONVERSION_RESULT,
+    SET_PROJECT_PERSIST_WARNING,
     START_CONVERSION,
     createAssetConversionStore,
     getAssetConversionViewModel,
@@ -141,6 +142,8 @@ export interface EditorRuntime {
     addAssetToProject(asset: Omit<IInputAsset, 'id' | 'importedAt'>): Promise<void>;
     getAssetConversionViewModel(): AssetConversionViewModel;
     subscribeAssetConversion(listener: () => void): () => void;
+    /** Set or clear a non-fatal project persistence warning (e.g. import blocked, dismiss banner). */
+    setProjectPersistWarning(message: string | null): void;
     convertAsset(input: AssetConversionInput): Promise<AssetConversionViewModel['lastResult']>;
     getEngineSessionViewModel(): EngineSessionViewModel;
     subscribeEngineSession(listener: () => void): () => void;
@@ -507,8 +510,12 @@ export function createEditorRuntime(ports?: EditorRuntimePorts): EditorRuntime {
                         format: input.format,
                     });
                     projectStore.dispatch({ type: SET_PROJECT, payload: updated });
-                } catch {
-                    // Do not fail the conversion if saving asset fails
+                } catch (e) {
+                    const detail = e instanceof Error ? e.message : String(e);
+                    assetConversionStore.dispatch({
+                        type: SET_PROJECT_PERSIST_WARNING,
+                        payload: `Could not save asset to project: ${detail}`,
+                    });
                 }
             }
             return result;
@@ -633,6 +640,12 @@ export function createEditorRuntime(ports?: EditorRuntimePorts): EditorRuntime {
             getAssetConversionViewModel(assetConversionStore.getState()),
         subscribeAssetConversion: (listener: () => void) =>
             assetConversionStore.subscribe(listener),
+        setProjectPersistWarning: (message: string | null) => {
+            assetConversionStore.dispatch({
+                type: SET_PROJECT_PERSIST_WARNING,
+                payload: message,
+            });
+        },
         convertAsset,
         getEngineSessionViewModel: () =>
             getEngineSessionViewModel(engineSessionStore.getState()),

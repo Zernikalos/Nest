@@ -14,7 +14,12 @@ export function useAssetToZko() {
   const conversionViewModel = ref(
     runtime
       ? runtime.getAssetConversionViewModel()
-      : { isConverting: false, conversionError: null, lastResult: null }
+      : {
+          isConverting: false,
+          conversionError: null,
+          lastResult: null,
+          projectPersistWarning: null,
+        }
   );
 
   let unsub: (() => void) | null = null;

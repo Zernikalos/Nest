@@ -60,8 +60,13 @@ export function useElectronProjectIntegration() {
     });
 
     registerCommand(FILE_IMPORT_FILE, (payload?: unknown) => {
+      if (!runtime) return;
+      if (!runtime.getProjectViewModel().isProjectOpen) {
+        runtime.setProjectPersistWarning('Open or create a project before importing.');
+        return;
+      }
       const data = (payload || {}) as AssetConversionData;
-      if (!data.path || !data.fileName || !data.format || !runtime) return;
+      if (!data.path || !data.fileName || !data.format) return;
       void runtime.convertAsset(data).then(async () => {
         await nextTick();
         await router.push('/editor/viewer');
