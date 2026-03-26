@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    "outDir": "../.tmp/ide-core-test"
+  },
+  "include": ["src/**/*.ts"]
+}

@@ -1,9 +1,18 @@
 import { createContext } from 'react';
-import { type NestInternalEditorState } from './hooks/useNestInternalEditorState';
+import type { TreeNode } from '@/components/treeview';
 import type { ZkResultExtended } from '@/types/project';
+import type { zernikalos } from '@/lib/zernikalos';
 
-// Extend the internal editor state to include zkResult
-interface NestEditorContextType extends NestInternalEditorState {
+export interface NestEditorContextType {
+    tree: TreeNode[];
+    selectedIds: string[];
+    openedNodes: TreeNode[];
+    activeNode: string | null;
+    selectedZObject: zernikalos.objects.ZObject | null;
+    handleSelect: (ids: string[]) => void;
+    handleTabChange: (nodeId: string) => void;
+    handleTabClose: (nodeId: string) => void;
+    notifyChange: () => void;
     zkResult: ZkResultExtended | null;
     regenerateZko: () => Promise<ZkResultExtended>;
 }
@@ -19,4 +28,3 @@ const NestEditorContext = createContext<NestEditorContextType | undefined>(undef
 // };
 
 export { NestEditorContext };
-export type { NestEditorContextType };

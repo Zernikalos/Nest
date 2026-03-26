@@ -28,33 +28,40 @@ export function useProject() {
     
     // Estado del servidor: project desde React Query (se actualiza automáticamente cuando Manager actualiza cache)
     const { data: project, isLoading, error } = useProjectQuery(projectFilePath)
+
+    const syncMenuContext = useCallback((projectOpen: boolean) => {
+        window.NativeZernikalos?.sendMenuContext?.({ projectOpen })
+    }, [])
     
     const createProject = useCallback(async (name: string, filePath: string) => {
         try {
             // Manager handles cache update directly via QueryClient
             await manager.createProject(name, filePath)
             setProjectPath(filePath)
+            syncMenuContext(true)
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Failed to create project"
             setCreationError(errorMessage)
             throw error
         }
-    }, [manager, setProjectPath, setCreationError])
+    }, [manager, setProjectPath, setCreationError, syncMenuContext])
     
     const openProject = useCallback(async (filePath: string) => {
         try {
             // Manager handles cache update directly via QueryClient
             await manager.openProject(filePath)
             setProjectPath(filePath)
+            syncMenuContext(true)
         } catch (error) {
             throw error
         }
-    }, [manager, setProjectPath])
+    }, [manager, setProjectPath, syncMenuContext])
     
     const closeProject = useCallback(() => {
         manager.closeProject()
         clearProjectPath()
-    }, [manager, clearProjectPath])
+        syncMenuContext(false)
+    }, [manager, clearProjectPath, syncMenuContext])
     
     const addAssetToProject = useCallback(async (asset: Omit<IInputAsset, 'id' | 'importedAt'>) => {
         if (!projectFilePath) {
@@ -113,4 +120,3 @@ export function useProject() {
         addAssetToProject,
     }
 }
-

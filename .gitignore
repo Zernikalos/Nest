@@ -110,6 +110,10 @@ dist
 # TernJS port file
 .tern-port
 
+# Dev: dynamic ports (Nest and Vite) written at runtime
+.zernikalos-nest-port
+.vite-dev-port
+
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 

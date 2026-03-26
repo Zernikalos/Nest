@@ -2,20 +2,32 @@ import React, { type ReactNode, useEffect } from 'react';
 import { NestEditorContext } from './NestEditorContext';
 import { useZkoStore } from '@/stores/useZkoStore';
 import { useAssetToZko } from '@/hooks/useAssetToZko';
-import { useNestInternalEditorState } from './hooks';
+import { useIdeCore } from '@/ideCore';
+import { mapTreeToReact } from '@/ideCore';
+import { useZObjectState } from './hooks/useZObjectState';
 import { editorLogger } from '../editorLogger';
 
-interface NestEditorProviderProps {
+interface NestEditorProviderInnerProps {
     children: ReactNode;
 }
 
-export const NestEditorProvider: React.FC<NestEditorProviderProps> = ({ 
-    children
-}) => {
-    const zkResult = useZkoStore(state => state.zkResult);
+function NestEditorProviderInner({ children }: NestEditorProviderInnerProps) {
+    const zkResult = useZkoStore((state) => state.zkResult);
     const { regenerateZko } = useAssetToZko();
     const root = zkResult?.zko?.root;
-    const editorState = useNestInternalEditorState({ root });
+    const {
+        viewModel,
+        handleSelect,
+        handleTabChange,
+        handleTabClose,
+        setTreeFromRoot,
+    } = useIdeCore();
+
+    const { selectedZObject } = useZObjectState({ root, activeNode: viewModel.activeNode });
+
+    useEffect(() => {
+        setTreeFromRoot(root);
+    }, [root, setTreeFromRoot]);
 
     useEffect(() => {
         if (zkResult) {
@@ -25,8 +37,20 @@ export const NestEditorProvider: React.FC<NestEditorProviderProps> = ({
         }
     }, [zkResult?.filePath]);
 
+    const notifyChange = () => {
+        setTreeFromRoot(root);
+    };
+
     const contextValue = {
-        ...editorState,
+        tree: mapTreeToReact(viewModel.tree),
+        selectedIds: viewModel.selectedIds,
+        openedNodes: mapTreeToReact(viewModel.openedNodes),
+        activeNode: viewModel.activeNode,
+        selectedZObject,
+        handleSelect,
+        handleTabChange,
+        handleTabClose,
+        notifyChange,
         zkResult,
         regenerateZko,
     };
@@ -36,4 +60,12 @@ export const NestEditorProvider: React.FC<NestEditorProviderProps> = ({
             {children}
         </NestEditorContext.Provider>
     );
+}
+
+interface NestEditorProviderProps {
+    children: ReactNode;
+}
+
+export const NestEditorProvider: React.FC<NestEditorProviderProps> = ({ children }) => {
+    return <NestEditorProviderInner>{children}</NestEditorProviderInner>;
 };

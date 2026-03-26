@@ -25,7 +25,8 @@
         /* Alias */
         "baseUrl": ".",
         "paths": {
-            "@/*": ["./src/*"]
+            "@/*": ["./src/*"],
+            "@ide-core": ["../../ide-core/src/index.ts"]
         }
     },
     "include": ["src", "vite.config.ts"]

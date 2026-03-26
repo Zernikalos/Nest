@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { AppearanceProvider, ElectronProvider } from './providers';
+import { IdeCoreProvider } from './ideCore';
 import { KeepAliveRouterProvider } from './keepaliverouter';
 import { appRoutes } from './router';
 import { MainLayout } from './layouts/MainLayout';
@@ -25,7 +26,9 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
             <AppearanceProvider defaultTheme="default" defaultFont="Rajdhani">
                 <ElectronProvider>
-                    <AppContent />
+                    <IdeCoreProvider>
+                        <AppContent />
+                    </IdeCoreProvider>
                 </ElectronProvider>
             </AppearanceProvider>
         </QueryClientProvider>
