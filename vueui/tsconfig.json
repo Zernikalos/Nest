@@ -9,11 +9,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "baseUrl": "../../vueui",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@ide-core": ["../ide-core/src/index.ts"]
     }
   },
-  "include": ["../../vueui/src/**/*.ts", "../../vueui/src/**/*.vue"]
+  "include": ["src/**/*.ts", "src/**/*.vue"]
 }

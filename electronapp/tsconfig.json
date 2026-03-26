@@ -12,9 +12,9 @@
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
-    "outDir": "../../electronapp/dist/main",
+    "outDir": "dist/main",
     "allowJs": true,
-    "baseUrl": "../../electronapp",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@ide-core": ["../ide-core/src/index.ts"],
@@ -22,6 +22,6 @@
       "@zstudio-server": ["../nestserver/dist/main.d.ts"]
     }
   },
-  "include": ["../../electronapp/src/**/*"],
-  "exclude": ["../../electronapp/node_modules", "../../electronapp/dist"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

@@ -12,7 +12,7 @@ export default {
         '^.+\\.ts$': [
             'ts-jest',
             {
-                tsconfig: '../config/tsconfigs/tsconfig.ide-core.test.json',
+                tsconfig: './tsconfig.test.json',
                 useESM: false,
             },
         ],

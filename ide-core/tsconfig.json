@@ -6,8 +6,8 @@
     "moduleResolution": "NodeNext",
     "declaration": true,
     "declarationMap": true,
-    "outDir": "../../ide-core/dist",
-    "rootDir": "../../ide-core/src",
+    "outDir": "dist",
+    "rootDir": "src",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -18,6 +18,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": ["../../ide-core/src"],
-  "exclude": ["../../ide-core/node_modules", "../../ide-core/dist", "../../ide-core/src/**/*.test.ts"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "src/**/*.test.ts"]
 }

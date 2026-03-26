@@ -3,9 +3,9 @@
     "target": "ESNext",
     "module": "commonjs",
     "lib": ["esnext"],
-    "rootDir": "../../nestserver/src",
-    "outDir": "../../nestserver/dist",
-    "baseUrl": "../../nestserver",
+    "rootDir": "src",
+    "outDir": "dist",
+    "baseUrl": ".",
     "emitDecoratorMetadata": true,
     "isolatedModules": false,
     "experimentalDecorators": true,
@@ -22,6 +22,6 @@
     "strictNullChecks": false,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["../../nestserver/src/**/*"],
-  "exclude": ["../../nestserver/node_modules", "../../nestserver/dist", "../../nestserver/**/*spec.ts"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*spec.ts"]
 }

@@ -32,7 +32,7 @@ module.exports = {
                 use: {
                     loader: 'ts-loader',
                     options: {
-                        configFile: fromRoot('config', 'tsconfigs', 'tsconfig.electronapp.json'),
+                        configFile: fromRoot('electronapp', 'tsconfig.json'),
                     },
                 },
                 exclude: [/node_modules/, /\.d\.ts$/],
