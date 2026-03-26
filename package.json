@@ -39,8 +39,8 @@
     "clean": "pnpm run clean:reactui && rimraf node_modules dist out"
   },
   "dependencies": {
-    "@zernikalos/zernikalos": "/Users/aaron/Documents/ZernikalosProject/Zernikalos/build/js/packages/@zernikalos/zernikalos",
-    "@zernikalos/zkbuilder": "/Users/aaron/Documents/ZernikalosProject/ZKBuilder/packages/zkbuilder",
+    "@zernikalos/zernikalos": "latest",
+    "@zernikalos/zkbuilder": "latest",
     "@guolao/vue-monaco-editor": "1.6.0",
     "@nestjs/common": "11.1.13",
     "@nestjs/config": "4.0.3",
