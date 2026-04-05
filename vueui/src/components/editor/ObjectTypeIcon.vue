@@ -7,7 +7,7 @@ import {
   Lightbulb,
   Layers,
   Bone,
-} from 'lucide-vue-next';
+} from '@lucide/vue';
 import type { ZObjectType } from './objectTypeIcon';
 
 const props = withDefaults(

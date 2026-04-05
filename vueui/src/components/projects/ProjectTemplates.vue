@@ -5,7 +5,7 @@ import CardHeader from '@/components/ui/CardHeader.vue';
 import CardTitle from '@/components/ui/CardTitle.vue';
 import CardDescription from '@/components/ui/CardDescription.vue';
 import CardContent from '@/components/ui/CardContent.vue';
-import { FileText, Palette } from 'lucide-vue-next';
+import { FileText, Palette } from '@lucide/vue';
 
 const projectUIStore = useProjectUIStore();
 </script>

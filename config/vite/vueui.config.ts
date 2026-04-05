@@ -45,9 +45,10 @@ export default defineConfig({
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
-        manualChunks: {
-          zernikalos: ['@zernikalos/zernikalos'],
-          zkbuilder: ['@zernikalos/zkbuilder'],
+        manualChunks: (id: string) => {
+          if (id.includes('@zernikalos/zernikalos')) return 'zernikalos';
+          if (id.includes('@zernikalos/zkbuilder')) return 'zkbuilder';
+          return undefined;
         },
       },
     },

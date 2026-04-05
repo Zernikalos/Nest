@@ -6,7 +6,7 @@ import Button from '@/components/ui/Button.vue';
 import Input from '@/components/ui/Input.vue';
 import Tooltip from '@/components/ui/Tooltip.vue';
 import Badge from '@/components/ui/Badge.vue';
-import { Clipboard, Check, Eye, EyeOff } from 'lucide-vue-next';
+import { Clipboard, Check, Eye, EyeOff } from '@lucide/vue';
 
 const deviceKey = ref('');
 const copyState = ref('Copy');

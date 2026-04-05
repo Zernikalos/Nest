@@ -13,8 +13,10 @@
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
     "outDir": "dist/main",
+    "rootDir": "src",
     "allowJs": true,
-    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "baseUrl": "",
     "paths": {
       "@/*": ["./src/*"],
       "@ide-core": ["../ide-core/src/index.ts"],

@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogClose,
 } from 'radix-vue';
-import { X } from 'lucide-vue-next';
+import { X } from '@lucide/vue';
 import { cn } from '@/lib/utils';
 
 const props = defineProps<{ class?: string; open?: boolean }>();
