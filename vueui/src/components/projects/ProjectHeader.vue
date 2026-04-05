@@ -4,7 +4,7 @@ import { useProject } from '@/composables/useProject';
 import { useProjectUIStore } from '@/stores/projectUIStore';
 import CreateProjectDialog from '@/components/CreateProjectDialog.vue';
 import Button from '@/components/ui/Button.vue';
-import { Plus, FolderOpen } from 'lucide-vue-next';
+import { Plus, FolderOpen } from '@lucide/vue';
 import { HOST_PORT_KEY, type HostPort } from '@/types/hostPort';
 
 const { createProjectWithDialog, openProject } = useProject();

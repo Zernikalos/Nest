@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Card from '@/components/ui/Card.vue';
 import CardContent from '@/components/ui/CardContent.vue';
-import { FolderOpen } from 'lucide-vue-next';
+import { FolderOpen } from '@lucide/vue';
 </script>
 
 <template>

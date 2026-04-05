@@ -7,7 +7,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { SettingsService } from './settings/settings.service';
 import { ConfigService } from '@nestjs/config';
-import getPort from 'get-port';
+import getPort, { portNumbers } from 'get-port';
 
 export { SettingsService };
 
@@ -31,7 +31,11 @@ export async function nestServerBootstrap(options: ServerOptions): Promise<ZNest
 
     const configService = app.get(ConfigService);
     const preferredPort = configService.get<number>('port');
-    const port = await getPort({ port: preferredPort });
+    const port = await getPort({
+        port: [preferredPort, 3003, 3004, 3005, ...portNumbers(3006, 3100)],
+        host: '0.0.0.0'
+    });
+    console.log(`[NestServer] Server will start on port: ${port}`);
 
     app.enableCors();
     app.useGlobalPipes(

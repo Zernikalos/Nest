@@ -8,7 +8,7 @@ import CardContent from '@/components/ui/CardContent.vue';
 import Badge from '@/components/ui/Badge.vue';
 import Separator from '@/components/ui/Separator.vue';
 import DebuggerKey from '@/components/devices/DebuggerKey.vue';
-import { Wifi, ShieldCheck, Smartphone, Cpu } from 'lucide-vue-next';
+import { Wifi, ShieldCheck, Smartphone, Cpu } from '@lucide/vue';
 </script>
 
 <template>

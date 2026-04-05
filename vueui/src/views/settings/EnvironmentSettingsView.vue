@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import SettingsSectionItem from '@/components/settings/SettingsSectionItem.vue';
 import InfoDisplayItem from '@/components/settings/InfoDisplayItem.vue';
-import { Info, Monitor, Wrench } from 'lucide-vue-next';
+import { Info, Monitor, Wrench } from '@lucide/vue';
 import { zernikalos } from '@/lib/zernikalos';
 import { ZKBUILDER_VERSION, ZKO_VERSION } from '@zernikalos/zkbuilder';
 

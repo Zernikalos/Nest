@@ -4,7 +4,6 @@ const steps = [
     'build:core',
     'build:server',
     'build:vueui',
-    'build:ui',
     'build:electron',
 ];
 

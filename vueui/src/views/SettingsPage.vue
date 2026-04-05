@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Settings, Palette, Info } from 'lucide-vue-next';
+import { Settings, Palette, Info } from '@lucide/vue';
 import { RouterView } from 'vue-router';
 import SettingsSelectorSection from '@/components/settings/SettingsSelectorSection.vue';
 

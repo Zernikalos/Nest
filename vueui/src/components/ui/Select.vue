@@ -13,7 +13,7 @@ import {
   SelectScrollUpButton,
   SelectScrollDownButton,
 } from 'radix-vue';
-import { ChevronDown, ChevronUp, Check } from 'lucide-vue-next';
+import { ChevronDown, ChevronUp, Check } from '@lucide/vue';
 import { cn } from '@/lib/utils';
 
 const props = withDefaults(

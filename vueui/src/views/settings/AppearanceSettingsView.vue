@@ -8,7 +8,7 @@ import SettingsSectionItem from '@/components/settings/SettingsSectionItem.vue';
 import SettingsFieldSelect from '@/components/settings/SettingsFieldSelect.vue';
 import SettingsFieldGeneric from '@/components/settings/SettingsFieldGeneric.vue';
 import Button from '@/components/ui/Button.vue';
-import { Palette, Type } from 'lucide-vue-next';
+import { Palette, Type } from '@lucide/vue';
 
 defineOptions({ name: 'AppearanceSettingsView' });
 

@@ -8,7 +8,7 @@ import SettingsFieldSwitch from '@/components/settings/SettingsFieldSwitch.vue';
 import SettingsFieldInput from '@/components/settings/SettingsFieldInput.vue';
 import SettingsFieldSelect from '@/components/settings/SettingsFieldSelect.vue';
 import Button from '@/components/ui/Button.vue';
-import { Settings } from 'lucide-vue-next';
+import { Settings } from '@lucide/vue';
 
 defineOptions({ name: 'GeneralSettingsView' });
 
