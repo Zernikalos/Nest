@@ -1,1 +1,0 @@
-export { useZernikalosViewer } from './useZernikalosViewer';

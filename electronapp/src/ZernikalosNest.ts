@@ -4,9 +4,7 @@ import {
     ipcMain,
     Menu,
 } from 'electron'
-import * as fs from 'fs'
-import * as path from 'path'
-import { nestServerBootstrap, ZNestServer, NEST_PORT_FILE } from "./nestServerAdapter"
+import { nestServerBootstrap, ZNestServer } from "./nestServerAdapter"
 
 import { createMenu } from "./menu"
 import { MainWindow, registerMainWindowIpcHandlers } from "./MainWindow"
@@ -67,25 +65,16 @@ export class ZernikalosNest {
             dbPath,
             settingsPath
         })
+        console.log(`[ZernikalosNest] Nest server started on port: ${this.nestServer.port}`)
         this.registerApiUrlHandler()
     }
 
     /** So the renderer can get the Nest API base URL (dynamic port in dev and prod). */
     private registerApiUrlHandler() {
         ipcMain.handle('get-api-url', (): string => {
-            if (Constants.isDebug) {
-                const portFile = path.join(process.cwd(), NEST_PORT_FILE)
-                try {
-                    if (fs.existsSync(portFile)) {
-                        const port = fs.readFileSync(portFile, 'utf8').trim()
-                        return `http://localhost:${port}/`
-                    }
-                } catch {
-                    // fallback
-                }
-                return 'http://localhost:3002/'
-            }
-            return `http://localhost:${this.nestServer.port}/`
+            const apiUrl = `http://localhost:${this.nestServer.port}/`
+            console.log(`[ZernikalosNest] Providing API URL to renderer: ${apiUrl}`)
+            return apiUrl
         })
     }
 

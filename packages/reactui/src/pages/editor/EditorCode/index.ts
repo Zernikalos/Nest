@@ -1,1 +1,0 @@
-export {EditorCode} from './EditorCode';

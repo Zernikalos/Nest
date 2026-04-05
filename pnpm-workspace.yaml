@@ -2,7 +2,6 @@ packages:
   - 'ide-core'
   - 'electronapp'
   - 'nestserver'
-  - 'packages/reactui'
   - 'vueui'
 
 neverBuiltDependencies: []

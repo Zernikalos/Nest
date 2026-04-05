@@ -17,13 +17,11 @@
     "dev": "node scripts/dev.js",
     "dev:main": "DEBUG=true electron electronapp/dist/main/index.js",
     "dev:ui": "vite --config config/vite/vueui.config.ts",
-    "dev:reactui": "pnpm --dir packages/reactui dev2",
     "dev:server": "tsc -w -p nestserver/tsconfig.json --preserveWatchOutput",
     "dev:electron:main": "webpack --watch -c config/webpack/electronapp.main.cjs",
     "dev:electron:preload": "vite build --watch -c config/vite/electronapp.preload.config.mjs",
     "build": "node scripts/build.js",
     "build:core": "tsc -p ide-core/tsconfig.json",
-    "build:ui": "pnpm --dir packages/reactui build",
     "build:vueui": "vue-tsc -p vueui/tsconfig.json --noEmit && vite build --config config/vite/vueui.config.ts",
     "build:server": "nest build --config config/nest/nestserver-cli.json",
     "build:electron": "pnpm run build:server && webpack -c config/webpack/electronapp.main.cjs && vite build -c config/vite/electronapp.preload.config.mjs",
@@ -34,9 +32,7 @@
     "dist:linux": "node scripts/build-electron.js linux",
     "dist:all": "node scripts/build-electron.js all",
     "pack": "node scripts/build-electron.js --dir",
-    "lint:reactui": "pnpm --dir packages/reactui lint",
-    "clean:reactui": "rimraf packages/reactui/node_modules packages/reactui/dist",
-    "clean": "pnpm run clean:reactui && rimraf node_modules dist out"
+    "clean": "rimraf node_modules dist out"
   },
   "dependencies": {
     "@zernikalos/zernikalos": "latest",
@@ -50,7 +46,7 @@
     "@nestjs/platform-ws": "11.1.13",
     "@nestjs/typeorm": "11.0.0",
     "@nestjs/websockets": "11.1.13",
-    "axios": "1.13.5",
+    "axios": "1.14.0",
     "bootstrap-icons-vue": "1.11.3",
     "class-transformer": "0.5.1",
     "class-validator": "0.14.3",
