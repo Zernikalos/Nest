@@ -1,30 +1,7 @@
 import { ref, watch, onUnmounted, type Ref } from 'vue';
 import { zernikalos } from '@/lib/zernikalos';
 
-/** Minimal type for zernikalos API used by the viewer */
-type Zk = {
-  Zernikalos: new () => {
-    dispose: () => void;
-    settings: { logLevel: number };
-    initializeWithCanvas: (c: HTMLCanvasElement, h: unknown) => void;
-  };
-  logger: { ZLogLevel: Record<string, number> };
-  loader: { loadFromProto: (d: Int8Array) => Promise<{ root: unknown }> };
-  objects: {
-    ZScene: new () => { addChild: (c: unknown) => void };
-    ZCamera: new () => {
-      transform?: {
-        rotate: (a: number, x: number, y: number, z: number) => void;
-        translate: (x: number, y: number, z: number) => void;
-      };
-    };
-  };
-  search: {
-    findFirstModel: (s: unknown) => { transform: { scaleByFactor: (n: number) => void } } | null;
-  };
-};
-
-const zk = zernikalos as Zk;
+const zk = zernikalos;
 
 export interface UseZernikalosViewerOptions {
   sceneData: Ref<Uint8Array | null>;
@@ -99,13 +76,13 @@ export function useZernikalosViewer(options: UseZernikalosViewerOptions) {
       canvas.height = container.clientHeight;
 
       const zkInstance = new zk.Zernikalos();
-      zkInstance.settings.logLevel = zk.logger.ZLogLevel[logLevel] ?? zk.logger.ZLogLevel.WARNING;
+      zkInstance.settings.logLevel = zk.logger.ZLogLevel.valueOf(logLevel) ?? zk.logger.ZLogLevel.WARNING;
       instance = zkInstance;
 
       const int8SceneData = new Int8Array(data.buffer, data.byteOffset, data.byteLength);
       const zko = await zk.loader.loadFromProto(int8SceneData);
 
-      const scene = new zk.objects.ZScene();
+      const scene = zk.objects.ZScene.Companion.defaultScene();
       const camera = new zk.objects.ZCamera();
       scene.addChild(zko.root);
       scene.addChild(camera);
@@ -128,15 +105,15 @@ export function useZernikalosViewer(options: UseZernikalosViewerOptions) {
       }
 
       zkInstance.initializeWithCanvas(canvas, {
-        onReady: (ctx: { activeCamera: unknown; scene: unknown }, done: () => void) => {
+        onReady: (ctx: zernikalos.context.ZContext, done: () => void) => {
           ctx.activeCamera = camera;
           ctx.scene = scene;
           done();
         },
-        onUpdate: (_ctx: unknown, done: () => void) => done(),
-        onRender: (_ctx: unknown, done: () => void) => done(),
-        onResize: (_ctx: unknown, _w: number, _h: number, done: () => void) => done(),
-      });
+        onUpdate: (_ctx: zernikalos.context.ZContext, done: () => void) => done(),
+        onRender: (_ctx: zernikalos.context.ZContext, done: () => void) => done(),
+        onResize: (_ctx: zernikalos.context.ZContext, _w: number, _h: number, done: () => void) => done(),
+      } as any);
 
       isInitialized.value = true;
     } catch (err) {

@@ -6,10 +6,10 @@ declare module 'splitpanes' {
   export const Pane: DefineComponent<Record<string, unknown>, Record<string, unknown>, unknown>;
 }
 
-declare module '@zernikalos/zernikalos' {
-  const zernikalos: unknown;
-  export { zernikalos };
-}
+// declare module '@zernikalos/zernikalos' {
+//   const zernikalos: unknown;
+//   export { zernikalos };
+// }
 
 declare module '*.json' {
   const value: any;
