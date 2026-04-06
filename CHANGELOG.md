@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/Zernikalos/Nest/compare/v0.1.1...v0.2.0) (2026-04-06)
+
+
+### Bug Fixes
+
+* 🐛 Builds failing ([c5605dd](https://github.com/Zernikalos/Nest/commit/c5605dd85fa9e15535423d7b6038e63b6d6995dc))
+* 🐛 Correcting missing features for vueui ([57b0583](https://github.com/Zernikalos/Nest/commit/57b05831fc4937cbb825900b1d5a23ea2a263a34))
+* 🐛 Not showing versions of Zernikalos engine ([402514a](https://github.com/Zernikalos/Nest/commit/402514a2c7af990501de5dce7c427a31cd071426))
+* 🐛 Small lerna config fix ([dd9cdc4](https://github.com/Zernikalos/Nest/commit/dd9cdc4cb5e0b1dd53b3ba087fd1cd7c5d4d0f59))
+* 🐛 Window name ([63cb316](https://github.com/Zernikalos/Nest/commit/63cb3166f61b59dd979b06cc76b208835cb4054a))
+
+
+### Features
+
+* 🎸 Better project suppor for IDE ([5343e48](https://github.com/Zernikalos/Nest/commit/5343e4854d86095502064385e5cfaf8e124b0646))
+* 🎸 Creation of ide-core package ([2229749](https://github.com/Zernikalos/Nest/commit/2229749a52c0c2fdcf627bda9bd61a9eee73e58d))
+* 🎸 IDE basic improvements ([13cfafc](https://github.com/Zernikalos/Nest/commit/13cfafc0ad98faca54200e8e18ae180119c7b505))
+* 🎸 Re-export previous asset ([b09e302](https://github.com/Zernikalos/Nest/commit/b09e302a43705db04bc64d5e3405ccb728341f82))
+* 🎸 Recovering Vue ui ([6b30a32](https://github.com/Zernikalos/Nest/commit/6b30a32909d95deaa8c5d2852fcf97cca721a519))
+
+
+
+
+
+# [0.2.0](https://github.com/Zernikalos/Nest/compare/v0.1.1...v0.2.0) (2026-04-06)
+
+
+### Bug Fixes
+
+* 🐛 Builds failing ([c5605dd](https://github.com/Zernikalos/Nest/commit/c5605dd85fa9e15535423d7b6038e63b6d6995dc))
+* 🐛 Correcting missing features for vueui ([57b0583](https://github.com/Zernikalos/Nest/commit/57b05831fc4937cbb825900b1d5a23ea2a263a34))
+* 🐛 Not showing versions of Zernikalos engine ([402514a](https://github.com/Zernikalos/Nest/commit/402514a2c7af990501de5dce7c427a31cd071426))
+* 🐛 Small lerna config fix ([dd9cdc4](https://github.com/Zernikalos/Nest/commit/dd9cdc4cb5e0b1dd53b3ba087fd1cd7c5d4d0f59))
+* 🐛 Window name ([63cb316](https://github.com/Zernikalos/Nest/commit/63cb3166f61b59dd979b06cc76b208835cb4054a))
+
+
+### Features
+
+* 🎸 Better project suppor for IDE ([5343e48](https://github.com/Zernikalos/Nest/commit/5343e4854d86095502064385e5cfaf8e124b0646))
+* 🎸 Creation of ide-core package ([2229749](https://github.com/Zernikalos/Nest/commit/2229749a52c0c2fdcf627bda9bd61a9eee73e58d))
+* 🎸 IDE basic improvements ([13cfafc](https://github.com/Zernikalos/Nest/commit/13cfafc0ad98faca54200e8e18ae180119c7b505))
+* 🎸 Re-export previous asset ([b09e302](https://github.com/Zernikalos/Nest/commit/b09e302a43705db04bc64d5e3405ccb728341f82))
+* 🎸 Recovering Vue ui ([6b30a32](https://github.com/Zernikalos/Nest/commit/6b30a32909d95deaa8c5d2852fcf97cca721a519))
+
+
+
+
+
 ## [0.1.1](https://github.com/Zernikalos/Nest/compare/v0.1.0...v0.1.1) (2026-02-13)
 
 **Note:** Version bump only for package zernikalos-nest
