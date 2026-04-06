@@ -106,6 +106,9 @@
     "vue-tsc": "3.2.6"
   },
   "workspaces": {
+    "packages": [
+      "."
+    ],
     "nohoist": [
       "**@electron/**"
     ]
