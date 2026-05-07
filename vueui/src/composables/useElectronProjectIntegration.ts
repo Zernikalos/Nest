@@ -76,7 +76,26 @@ export function useElectronProjectIntegration() {
     });
 
     registerCommand(FILE_BUNDLE_SCENE, () => {
-      // Placeholder: bundle scene will be wired when useBundleScene exists
+      if (!runtime) return;
+      if (!electron.isElectron) return;
+
+      const proto = runtime.getAssetConversionViewModel().lastResult?.proto;
+      if (!proto) {
+        runtime.setProjectPersistWarning('No scene available to bundle. Import an asset first.');
+        return;
+      }
+
+      const saveFile = window.NativeZernikalos?.actionSaveFile;
+      if (!saveFile) {
+        console.warn('[bundleScene] NativeZernikalos.actionSaveFile not available');
+        runtime.setProjectPersistWarning('Bundle scene is not available in this environment.');
+        return;
+      }
+
+      void saveFile(proto).catch((err) => {
+        console.error('Failed to save bundle scene', err);
+        runtime.setProjectPersistWarning('Failed to save bundle scene.');
+      });
     });
 
     registerCommand(FILE_CREATE_PROJECT, () => {

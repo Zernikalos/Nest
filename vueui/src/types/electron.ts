@@ -13,6 +13,7 @@ declare global {
       handleCreateProject?: (callback: (ev: unknown) => void) => ElectronSubscription;
       handleOpenProject?: (callback: (ev: unknown, data: { filePath: string }) => void) => ElectronSubscription;
       sendMenuContext?: (context: MenuContextSnapshot) => void;
+      actionSaveFile?: (fileData: Uint8Array) => Promise<void>;
       showSaveProjectDialog?: (projectName: string) => Promise<string | null | undefined>;
       showOpenProjectDialog?: () => Promise<string | null | undefined>;
       storageGet?: (key: string) => Promise<string | null>;
