@@ -4,7 +4,27 @@ packages:
   - 'nestserver'
   - 'vueui'
 
-neverBuiltDependencies: []
+# Flat node_modules (matches CI); avoids Rolldown failing to resolve @vue/* with pnpm isolated layout
+nodeLinker: hoisted
+
+minimumReleaseAgeExclude:
+  - '@zernikalos/*'
+
+# Transitive deps must resolve from registry / workspace / trusted sources only
+# (blocks git+, tarball URLs, etc. in subdependencies)
+blockExoticSubdeps: true
+
+# Explicit lifecycle-script allowlist (strictDepBuilds defaults to true)
+allowBuilds:
+  simple-git-hooks: true
+  esbuild: false
+  '@nestjs/core': false
+  electron: true
+  electron-winstaller: false
+  nx: false
+  protobufjs: false
+  unrs-resolver: false
+  vue-demi: false
 
 hoist-pattern:
   - '!*electron*'

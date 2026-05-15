@@ -13,8 +13,8 @@ Desktop application for asset management and debugging of Zernikalos Engine.
 - Electron (with electron-builder)
 
 ## Prerequisites
-- Node.js >= 23
-- pnpm >= 9
+- Node.js >= 24
+- pnpm >= 11
 
 ## Installation
 ```bash

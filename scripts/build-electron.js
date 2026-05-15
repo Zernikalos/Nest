@@ -2,18 +2,18 @@
 
 const builder = require("electron-builder");
 const Platform = builder.Platform;
-const { options } = require("../config/electron/builder-options.cjs");
+const { options } = require("../electronapp/builder-options.cjs");
 
 // Build function
 async function build() {
-    const platformArg = process.argv.find(arg => 
-        arg === "mac" || arg === "darwin" || 
-        arg === "win" || arg === "win32" || 
+    const platformArg = process.argv.find(arg =>
+        arg === "mac" || arg === "darwin" ||
+        arg === "win" || arg === "win32" ||
         arg === "linux" || arg === "all"
     );
-    
+
     const isDirOnly = process.argv.includes("--dir");
-    
+
     let targets;
     let config = { ...options };
 
@@ -51,16 +51,16 @@ async function build() {
     try {
         const platformName = platformArg || process.platform;
         console.log(`Building for: ${platformName}`);
-        
+
         if (isDirOnly) {
             console.log("Packaging only (no installers)...");
         }
-        
+
         const result = await builder.build({
             targets: targets,
             config: config
         });
-        
+
         console.log("Build completed successfully!");
         console.log(JSON.stringify(result, null, 2));
     } catch (error) {

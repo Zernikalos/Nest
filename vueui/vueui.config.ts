@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue';
 import tailwindcss from '@tailwindcss/vite';
 import * as path from 'path';
 import * as fs from 'fs';
-import { fromRoot, createAppAliases } from '../studio-paths.mjs';
+import { fromRoot, createAppAliases } from '../config/studio-paths.mjs';
 
 const VITE_DEV_PORT_FILE = '.vite-dev-port';
 

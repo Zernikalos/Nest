@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { fromRoot, createAppAliases } from '../studio-paths.mjs';
+import { fromRoot, createAppAliases } from '../config/studio-paths.mjs';
 
 export default defineConfig({
     build: {
