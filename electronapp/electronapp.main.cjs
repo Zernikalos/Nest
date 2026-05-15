@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const { fromRoot, createAppAliases } = require('../studio-paths.cjs');
+const { fromRoot, createAppAliases } = require('../config/studio-paths.cjs');
 
 module.exports = {
     context: fromRoot('electronapp'),
