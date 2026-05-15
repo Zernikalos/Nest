@@ -32,40 +32,61 @@ function onClose(e: Event, uri: string) {
 <template>
   <div
     v-if="openedDocuments.length > 0"
-    class="document-tab-bar flex items-center gap-0.5 island-radius-t border border-b-0 border-base-300 bg-base-200 px-1 pt-1 min-h-9"
+    class="document-tab-bar flex-shrink-0 mb-[var(--island-gap)] border border-base-300 island-radius overflow-hidden bg-base-200/80"
+    role="tablist"
+    aria-label="Open documents"
   >
-    <div
-      v-for="doc in openedDocuments"
-      :key="doc.uri"
-      role="tab"
-      tabindex="0"
-      :class="cn(
-        'document-tab inline-flex items-center gap-1.5 rounded-t-md px-3 py-1.5 text-sm font-medium transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary border-b-2',
-        activeUri === doc.uri
-          ? 'bg-base-100 text-base-foreground shadow border-primary'
-          : 'text-muted-foreground hover:bg-base-300 hover:text-base-foreground border-transparent'
-      )"
-      @click="onTabClick(doc.uri)"
-      @keydown.enter.prevent="onTabClick(doc.uri)"
-      @keydown.space.prevent="onTabClick(doc.uri)"
-    >
-      <span class="truncate max-w-[120px]">
-        {{ labelForUri(doc.uri, doc.title) }}
-      </span>
-      <button
-        type="button"
-        class="document-tab-close rounded p-0.5 hover:bg-base-300 focus-visible:outline-none focus-visible:ring-1"
-        aria-label="Close"
-        @click="onClose($event, doc.uri)"
+    <div class="document-tab-bar__scroll flex items-stretch overflow-x-auto min-h-9">
+      <div
+        v-for="doc in openedDocuments"
+        :key="doc.uri"
+        role="tab"
+        tabindex="0"
+        :aria-selected="activeUri === doc.uri"
+        :class="cn(
+          'document-tab group relative inline-flex items-center gap-1.5 h-9 max-w-[200px] flex-shrink-0 px-2.5 text-xs cursor-pointer',
+          'text-muted-foreground hover:text-base-foreground transition-colors duration-150',
+          'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-primary',
+          activeUri === doc.uri
+            ? 'bg-base-100 text-base-foreground'
+            : 'hover:bg-base-300/60'
+        )"
+        @click="onTabClick(doc.uri)"
+        @keydown.enter.prevent="onTabClick(doc.uri)"
+        @keydown.space.prevent="onTabClick(doc.uri)"
       >
-        <span class="inline-block w-3.5 h-3.5 leading-none text-muted-foreground hover:text-base-foreground">×</span>
-      </button>
+        <span
+          v-if="activeUri === doc.uri"
+          class="absolute inset-x-0 top-0 h-px bg-primary"
+          aria-hidden
+        />
+        <span class="truncate min-w-0 font-medium">{{ labelForUri(doc.uri, doc.title) }}</span>
+        <button
+          type="button"
+          :class="cn(
+            'document-tab-close flex-shrink-0 rounded p-0.5 -mr-0.5',
+            'hover:bg-base-300 focus-visible:outline-none focus-visible:ring-1',
+            activeUri === doc.uri ? 'opacity-70 hover:opacity-100' : 'opacity-0 group-hover:opacity-70 group-hover:hover:opacity-100'
+          )"
+          aria-label="Close"
+          @click="onClose($event, doc.uri)"
+        >
+          <span class="block w-3 h-3 leading-none text-muted-foreground hover:text-base-foreground">×</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.document-tab-bar {
-  flex-shrink: 0;
+.document-tab-bar__scroll {
+  scrollbar-width: thin;
+}
+.document-tab-bar__scroll::-webkit-scrollbar {
+  height: 4px;
+}
+.document-tab-bar__scroll::-webkit-scrollbar-thumb {
+  background: var(--base-300, hsl(var(--muted)));
+  border-radius: 2px;
 }
 </style>
