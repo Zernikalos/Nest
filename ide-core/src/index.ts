@@ -2,11 +2,49 @@
  * @zstudio/ide-core
  *
  * Framework-agnostic IDE runtime. No React, Vue, Svelte, or DOM imports.
- * Use createEditorRuntime() to build the runtime; inject a StoragePort for session persistence.
- * UI adapters (e.g. vueui, reactui) subscribe to view models and dispatch intents.
+ * Use `createEditorRuntime()` to build the runtime; inject a `StoragePort` for session persistence.
+ *
+ * ## Module layout
+ *
+ * ```text
+ *                    ┌─────────────────────────────────────┐
+ *                    │  createEditorRuntime(ports)         │
+ *                    │  EditorRuntime (namespaced API)     │
+ *                    └─────────────────┬───────────────────┘
+ *                                      │
+ *         ┌────────────────────────────┼────────────────────────────┐
+ *         │                            │                            │
+ *         ▼                            ▼                            ▼
+ *  ┌──────────────┐           ┌─────────────────┐           ┌──────────────┐
+ *  │  contracts   │           │     runtime     │           │   services   │
+ *  │ intents      │◄──────────│ EffectCaller    │           │ Command      │
+ *  │ effects      │           │ StoreDispatcher │           │ ContextKey   │
+ *  │ Widget*      │           │ Coordinators:   │           │ Session      │
+ *  └──────┬───────┘           │  SceneDocument  │           └──────┬───────┘
+ *         │                   │  Session        │                  │
+ *         │                   │  WidgetLifecycle│                  │
+ *         │                   │  Project        │                  │
+ *         │                   │  Engine         │                  │
+ *         │                   └────────┬────────┘                  │
+ *         │                            │                            │
+ *         ▼                            ▼                            ▼
+ *  ┌──────────────┐           ┌─────────────────┐           ┌──────────────┐
+ *  │    domain    │           │     kernel      │           │    ports     │
+ *  │ *Module      │◄──────────│ createStore     │           │ Storage      │
+ *  │ reducers     │           └─────────────────┘           │ Project      │
+ *  │ view models  │                                         │ Engine…      │
+ *  │ documentUri  │                                         └──────────────┘
+ *  └──────────────┘
+ *
+ * Data flow: UI dispatches typed intents → domain stores (Immer reducers) →
+ * coordinators sync cross-cutting rules → EffectCaller runs side effects (e.g. session persist).
+ * Open tabs live only in DocumentModule; SceneTreeModule projects openedNodes from documents.
+ * ```
  */
 
 export * from './contracts/index.js';
+export * from './contracts/intents.js';
+export * from './contracts/effects.js';
 export * from './domain/types.js';
 export {
     convertZObjectToTreeNode,
@@ -14,12 +52,14 @@ export {
     findZObjectById,
 } from './domain/sceneTreeUtils.js';
 export {
+    nodeIdToDocumentUri,
+    documentUriToNodeId,
+    isZObjectDocumentUri,
+} from './domain/documentUri.js';
+export {
     createSceneTreeStore,
     getSceneTreeViewModel,
     SELECT_NODES,
-    OPEN_TAB,
-    CLOSE_TAB,
-    SET_ACTIVE_TAB,
     SET_TREE,
     TOGGLE_NODE_EXPANDED,
     SET_FOCUSED_NODE,
@@ -81,16 +121,17 @@ export type {
 } from './domain/EngineSessionModule.js';
 export { SessionService } from './services/SessionService.js';
 export type { SessionData } from './services/SessionService.js';
-export * from './kernel/EventBus.js';
 export * from './kernel/createStore.js';
 export * from './ports/index.js';
 export type { EngineSessionPort, EngineSessionStartOptions } from './ports/index.js';
 export * from './ports/MockStoragePort.js';
 export * from './services/CommandService.js';
 export * from './services/ContextKeyService.js';
-export * from './services/DocumentService.js';
+export { EffectCaller } from './runtime/EffectCaller.js';
+export type { EffectHandler } from './runtime/EffectCaller.js';
+export { migrateSessionData } from './runtime/SessionCoordinator.js';
 export {
     createEditorRuntime,
     type EditorRuntime,
     type EditorRuntimePorts,
-} from './createEditorRuntime.js';
+} from './runtime/createEditorRuntime.js';

@@ -15,16 +15,16 @@ export function useProject() {
   const projectUIStore = useProjectUIStore();
 
   const projectViewModel = ref(
-    runtime ? runtime.getProjectViewModel() : { projectFilePath: null, project: null, isLoading: false, error: null, isProjectOpen: false }
+    runtime ? runtime.project.getViewModel() : { projectFilePath: null, project: null, isLoading: false, error: null, isProjectOpen: false }
   );
 
   let unsubProject: (() => void) | null = null;
   onMounted(() => {
     if (runtime) {
-      unsubProject = runtime.subscribeProject(() => {
-        projectViewModel.value = runtime.getProjectViewModel();
+      unsubProject = runtime.project.subscribe(() => {
+        projectViewModel.value = runtime.project.getViewModel();
       });
-      projectViewModel.value = runtime.getProjectViewModel();
+      projectViewModel.value = runtime.project.getViewModel();
     }
   });
   onUnmounted(() => {
@@ -52,7 +52,7 @@ export function useProject() {
   async function createProject(name: string, filePath: string): Promise<void> {
     if (!runtime) throw new Error('Runtime not available');
     try {
-      await runtime.createProject(name, filePath);
+      await runtime.project.create(name, filePath);
       syncMenuContext(true);
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Failed to create project';
@@ -63,13 +63,13 @@ export function useProject() {
 
   async function openProject(filePath: string): Promise<void> {
     if (!runtime) throw new Error('Runtime not available');
-    await runtime.openProject(filePath);
+    await runtime.project.open(filePath);
     syncMenuContext(true);
     await preferencesPort?.set('lastProjectPath', filePath);
   }
 
   function closeProject(): void {
-    runtime?.closeProject();
+    runtime?.project.close();
     syncMenuContext(false);
   }
 
@@ -77,7 +77,7 @@ export function useProject() {
     asset: Omit<IInputAsset, 'id' | 'importedAt'>
   ): Promise<void> {
     if (!runtime) throw new Error('Runtime not available');
-    await runtime.addAssetToProject(asset);
+    await runtime.project.addAsset(asset);
   }
 
   async function createProjectWithDialog(projectName: string): Promise<void> {

@@ -56,7 +56,7 @@ function iconTypeFor(node: { iconType?: string }): string {
 
 <template>
   <div
-    class="editor-tab-bar-actions flex-shrink-0 flex items-center h-9 border-l border-base-300 bg-base-200/80 px-0.5"
+    class="editor-tab-bar-actions flex h-9 flex-shrink-0 items-center border-l border-base-300 bg-transparent px-0.5"
     aria-label="Editor tab bar actions"
   >
     <!-- Open editors dropdown -->

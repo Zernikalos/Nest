@@ -1,32 +1,26 @@
 /**
  * Scene tree module: state and intents for the hierarchy of scene nodes (e.g. ZObjects).
- * Tracks selection, active node, opened "tabs", and expanded state. Used by the runtime and synced with documents.
- * Uses plain arrays (not Set) so Immer works without the MapSet plugin across all bundle setups.
+ * Tracks selection, focus, and expansion. Open tabs are owned by DocumentModule.
  */
 import { produce, enableMapSet } from 'immer';
 
-// Ensure MapSet plugin is loaded (state.tree can contain Map/Set from external data; must run before first produce).
 enableMapSet();
 import type { RuntimeIntent, RuntimeEffect } from '../contracts/index.js';
 import { createStore } from '../kernel/createStore.js';
 import type { TreeNode } from './types.js';
 import { findNodeById } from './sceneTreeUtils.js';
+import type { DocumentState } from './DocumentModule.js';
+import { documentUriToNodeId, isZObjectDocumentUri } from './documentUri.js';
 
-/** Intent type constants for the scene tree reducer. */
 export const SELECT_NODES = 'sceneTree/SELECT_NODES';
-export const OPEN_TAB = 'sceneTree/OPEN_TAB';
-export const CLOSE_TAB = 'sceneTree/CLOSE_TAB';
-export const SET_ACTIVE_TAB = 'sceneTree/SET_ACTIVE_TAB';
 export const SET_TREE = 'sceneTree/SET_TREE';
 export const TOGGLE_NODE_EXPANDED = 'sceneTree/TOGGLE_NODE_EXPANDED';
 export const SET_FOCUSED_NODE = 'sceneTree/SET_FOCUSED_NODE';
 
-/** Internal state for the scene tree reducer. */
 export interface SceneTreeState {
     tree: TreeNode[];
     selectedIds: string[];
     activeNode: string | null;
-    openedNodeIds: string[];
     expandedNodeIds: string[];
     focusedNodeId: string | null;
 }
@@ -35,7 +29,6 @@ const initialState: SceneTreeState = {
     tree: [],
     selectedIds: [],
     activeNode: null,
-    openedNodeIds: [],
     expandedNodeIds: [],
     focusedNodeId: null,
 };
@@ -58,44 +51,6 @@ function reducer(
                     d.selectedIds = selectedIds;
                     d.activeNode = activeNode;
                     d.focusedNodeId = activeNode;
-                    if (activeNode && !d.openedNodeIds.includes(activeNode)) {
-                        d.openedNodeIds = [...d.openedNodeIds, activeNode];
-                    }
-                }),
-                effects: [],
-            };
-        }
-        case OPEN_TAB: {
-            const nodeId = intent.payload as string;
-            return {
-                state: produce(state, (d) => {
-                    if (!d.openedNodeIds.includes(nodeId)) {
-                        d.openedNodeIds = [...d.openedNodeIds, nodeId];
-                    }
-                    d.activeNode = nodeId;
-                }),
-                effects: [],
-            };
-        }
-        case CLOSE_TAB: {
-            const nodeId = intent.payload as string;
-            return {
-                state: produce(state, (d) => {
-                    d.openedNodeIds = d.openedNodeIds.filter((id) => id !== nodeId);
-                    if (d.activeNode === nodeId) {
-                        d.activeNode = d.openedNodeIds.length > 0 ? d.openedNodeIds[0] : null;
-                        d.focusedNodeId = d.activeNode;
-                    }
-                }),
-                effects: [],
-            };
-        }
-        case SET_ACTIVE_TAB: {
-            const nodeId = intent.payload as string;
-            return {
-                state: produce(state, (d) => {
-                    d.activeNode = nodeId;
-                    d.focusedNodeId = nodeId;
                 }),
                 effects: [],
             };
@@ -128,7 +83,6 @@ export function createSceneTreeStore(
     return createStore(initialState, reducer, onEffects);
 }
 
-/** View model derived from SceneTreeState for UI projection (tree, selection, opened nodes, expanded ids). */
 export interface SceneTreeViewModel {
     tree: TreeNode[];
     selectedIds: string[];
@@ -138,16 +92,41 @@ export interface SceneTreeViewModel {
     focusedNodeId: string | null;
 }
 
-/** Builds the view model from current state. Called by the runtime when the UI subscribes. */
-export function getSceneTreeViewModel(state: SceneTreeState): SceneTreeViewModel {
-    const openedNodes = state.openedNodeIds
-        .map((id) => findNodeById(state.tree, id))
-        .filter((n): n is TreeNode => n !== undefined);
+/**
+ * Builds the view model from scene tree state. When documents are provided,
+ * openedNodes and activeNode are derived from the document store (canonical tabs).
+ */
+export function getSceneTreeViewModel(
+    state: SceneTreeState,
+    documents?: DocumentState
+): SceneTreeViewModel {
+    if (documents) {
+        const openedNodes = documents.order
+            .filter(isZObjectDocumentUri)
+            .map((uri) => documentUriToNodeId(uri))
+            .filter((id): id is string => id !== null)
+            .map((id) => findNodeById(state.tree, id))
+            .filter((n): n is TreeNode => n !== undefined);
+
+        const activeFromDoc = documents.activeUri
+            ? documentUriToNodeId(documents.activeUri)
+            : null;
+
+        return {
+            tree: state.tree,
+            selectedIds: state.selectedIds,
+            activeNode: activeFromDoc ?? state.activeNode,
+            openedNodes,
+            expandedNodeIds: [...state.expandedNodeIds],
+            focusedNodeId: state.focusedNodeId,
+        };
+    }
+
     return {
         tree: state.tree,
         selectedIds: state.selectedIds,
         activeNode: state.activeNode,
-        openedNodes,
+        openedNodes: [],
         expandedNodeIds: [...state.expandedNodeIds],
         focusedNodeId: state.focusedNodeId,
     };

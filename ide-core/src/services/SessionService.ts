@@ -7,8 +7,9 @@ import type { StoragePort } from '../ports/index.js';
  */
 const SessionDataSchema = z.object({
     sceneTree: z.object({
-        openedNodeIds: z.array(z.string()),
-        activeNode: z.string().nullable(),
+        /** @deprecated Legacy tab list; migrated to documents on restore. */
+        openedNodeIds: z.array(z.string()).optional(),
+        activeNode: z.string().nullable().optional(),
         selectedIds: z.array(z.string()).optional(),
         expandedNodeIds: z.array(z.string()).optional(),
     }),

@@ -17,7 +17,8 @@ export interface TreeNode {
 export interface ZObjectLike {
     refId: string;
     name: string;
-    type?: string;
+    /** Plain string or Kotlin/JS enum-like `{ name: "MODEL" }` from deserialized ZKO. */
+    type?: string | { name: string };
     children?: ZObjectLike[];
 }
 

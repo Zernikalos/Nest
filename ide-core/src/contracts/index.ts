@@ -12,6 +12,9 @@ export interface RuntimeIntent {
     payload?: unknown;
 }
 
+export type { EditorIntent, SceneTreeIntent, DocumentIntent, WorkbenchIntent } from './intents.js';
+export { SESSION_PERSIST, CONTEXT_SYNC, sessionPersistEffect, contextSyncEffect } from './effects.js';
+
 /** Message produced by the runtime as a result of handling an intent (e.g. for platform adapters). */
 export interface RuntimeEffect {
     type: string;

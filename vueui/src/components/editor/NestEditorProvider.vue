@@ -28,8 +28,8 @@ function pickNewestAsset(assets: IInputAsset[]): IInputAsset {
 
 async function tryRehydrateFromLastAsset() {
   if (!runtime) return;
-  const projectVm = runtime.getProjectViewModel();
-  const convVm = runtime.getAssetConversionViewModel();
+  const projectVm = runtime.project.getViewModel();
+  const convVm = runtime.assetConversion.getViewModel();
   const path = projectVm.projectFilePath;
   if (!path) {
     rehydrateAttemptedForPath.value = null;
@@ -43,7 +43,7 @@ async function tryRehydrateFromLastAsset() {
   rehydrateAttemptedForPath.value = path;
   const asset = pickNewestAsset(assets);
   try {
-    await runtime.convertAsset({
+    await runtime.assetConversion.convert({
       path: asset.path,
       fileName: asset.fileName,
       format: asset.format,
@@ -54,22 +54,22 @@ async function tryRehydrateFromLastAsset() {
 }
 
 function dismissProjectPersistWarning() {
-  runtime?.setProjectPersistWarning(null);
+  runtime?.assetConversion.setProjectPersistWarning(null);
 }
 
 onMounted(() => {
   if (runtime) {
-    unsubProject = runtime.subscribeProject(() => {
-      if (!runtime!.getProjectPath()) {
+    unsubProject = runtime.project.subscribe(() => {
+      if (!runtime!.project.getPath()) {
         rehydrateAttemptedForPath.value = null;
       }
       void tryRehydrateFromLastAsset();
     });
-    unsubConversion = runtime.subscribeAssetConversion(() => {
-      conversionViewModel.value = runtime!.getAssetConversionViewModel();
+    unsubConversion = runtime.assetConversion.subscribe(() => {
+      conversionViewModel.value = runtime!.assetConversion.getViewModel();
       void tryRehydrateFromLastAsset();
     });
-    conversionViewModel.value = runtime.getAssetConversionViewModel();
+    conversionViewModel.value = runtime.assetConversion.getViewModel();
     void tryRehydrateFromLastAsset();
   }
 });

@@ -18,8 +18,6 @@ import type { EditorRuntime } from '@ide-core';
 
 /**
  * Composable that integrates Electron IPC events with project/editor commands.
- * Registers commands with the runtime and wires window events to executeCommand.
- * Call once inside IdeCoreProvider (e.g. from App or a root layout).
  */
 export function useElectronProjectIntegration() {
   const router = useRouter();
@@ -34,10 +32,10 @@ export function useElectronProjectIntegration() {
   let unsubProject: (() => void) | null = null;
   onMounted(() => {
     if (runtime) {
-      unsubProject = runtime.subscribeProject(() => {
-        projectOpenRef.value = runtime.getProjectViewModel().isProjectOpen;
+      unsubProject = runtime.project.subscribe(() => {
+        projectOpenRef.value = runtime.project.getViewModel().isProjectOpen;
       });
-      projectOpenRef.value = runtime.getProjectViewModel().isProjectOpen;
+      projectOpenRef.value = runtime.project.getViewModel().isProjectOpen;
     }
   });
   onUnmounted(() => {
@@ -53,7 +51,6 @@ export function useElectronProjectIntegration() {
     { immediate: true }
   );
 
-  // Register command handlers
   onMounted(() => {
     registerCommand(FILE_LOAD_ZKO, () => {
       // Placeholder: no handler yet
@@ -61,13 +58,15 @@ export function useElectronProjectIntegration() {
 
     registerCommand(FILE_IMPORT_FILE, (payload?: unknown) => {
       if (!runtime) return;
-      if (!runtime.getProjectViewModel().isProjectOpen) {
-        runtime.setProjectPersistWarning('Open or create a project before importing.');
+      if (!runtime.project.getViewModel().isProjectOpen) {
+        runtime.assetConversion.setProjectPersistWarning(
+          'Open or create a project before importing.'
+        );
         return;
       }
       const data = (payload || {}) as AssetConversionData;
       if (!data.path || !data.fileName || !data.format) return;
-      void runtime.convertAsset(data).then(async () => {
+      void runtime.assetConversion.convert(data).then(async () => {
         await nextTick();
         await router.push('/editor/viewer');
       }).catch(() => {
@@ -79,22 +78,26 @@ export function useElectronProjectIntegration() {
       if (!runtime) return;
       if (!electron.isElectron) return;
 
-      const proto = runtime.getAssetConversionViewModel().lastResult?.proto;
+      const proto = runtime.assetConversion.getViewModel().lastResult?.proto;
       if (!proto) {
-        runtime.setProjectPersistWarning('No scene available to bundle. Import an asset first.');
+        runtime.assetConversion.setProjectPersistWarning(
+          'No scene available to bundle. Import an asset first.'
+        );
         return;
       }
 
       const saveFile = window.NativeZernikalos?.actionSaveFile;
       if (!saveFile) {
         console.warn('[bundleScene] NativeZernikalos.actionSaveFile not available');
-        runtime.setProjectPersistWarning('Bundle scene is not available in this environment.');
+        runtime.assetConversion.setProjectPersistWarning(
+          'Bundle scene is not available in this environment.'
+        );
         return;
       }
 
       void saveFile(proto).catch((err) => {
         console.error('Failed to save bundle scene', err);
-        runtime.setProjectPersistWarning('Failed to save bundle scene.');
+        runtime.assetConversion.setProjectPersistWarning('Failed to save bundle scene.');
       });
     });
 

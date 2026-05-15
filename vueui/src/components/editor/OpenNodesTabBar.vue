@@ -1,12 +1,16 @@
 <script setup lang="ts">
 defineOptions({ name: 'OpenNodesTabBar' });
 import { computed, ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
-import { useNestEditor } from '@/composables/useNestEditor';
+import { useIdeCore } from '@/composables/useIdeCore';
 import ObjectTypeIcon from '@/components/editor/ObjectTypeIcon.vue';
 import EditorTabBarActions from '@/components/editor/EditorTabBarActions.vue';
 import { cn } from '@/lib/utils';
+import {
+  saveEditorTabBarScrollLeft,
+  restoreEditorTabBarScroll,
+} from '@/composables/useEditorTabBarScroll';
 
-const editor = useNestEditor();
+const { viewModel, handleTabChange, handleTabClose } = useIdeCore();
 
 const tabsScrollEl = ref<HTMLElement | null>(null);
 const thumbWidthPx = ref(0);
@@ -14,6 +18,9 @@ const thumbOffsetPx = ref(0);
 const hasOverflow = ref(false);
 
 let resizeObserver: ResizeObserver | null = null;
+
+const openedNodes = computed(() => viewModel.value.openedNodes);
+const activeNode = computed(() => viewModel.value.activeNode);
 
 function syncThumb() {
   const el = tabsScrollEl.value;
@@ -37,6 +44,16 @@ function syncThumb() {
   thumbOffsetPx.value = maxScroll > 0 ? (scrollLeft / maxScroll) * maxThumbOffset : 0;
 }
 
+function persistScroll() {
+  const el = tabsScrollEl.value;
+  if (el) saveEditorTabBarScrollLeft(el.scrollLeft);
+}
+
+function onTabsScroll() {
+  syncThumb();
+  persistScroll();
+}
+
 const thumbStyle = computed(() => ({
   width: `${thumbWidthPx.value}px`,
   transform: `translateX(${thumbOffsetPx.value}px)`,
@@ -49,15 +66,15 @@ function onTabsWheel(e: WheelEvent) {
   if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
   e.preventDefault();
   el.scrollLeft += e.deltaY;
+  persistScroll();
+  syncThumb();
 }
-
-const openedNodes = computed(() => editor?.openedNodes?.value ?? []);
-const activeNode = computed(() => editor?.activeNode?.value ?? null);
 
 watch(openedNodes, () => nextTick(syncThumb), { deep: true });
 
 onMounted(() => {
   nextTick(() => {
+    restoreEditorTabBarScroll(tabsScrollEl.value);
     syncThumb();
     const el = tabsScrollEl.value;
     if (!el) return;
@@ -70,17 +87,18 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  persistScroll();
   resizeObserver?.disconnect();
   resizeObserver = null;
 });
 
 function onTabClick(nodeId: string) {
-  editor?.handleTabChange(nodeId);
+  handleTabChange(nodeId);
 }
 
 function onClose(e: Event, nodeId: string) {
   e.stopPropagation();
-  editor?.handleTabClose(nodeId);
+  handleTabClose(nodeId);
 }
 
 function iconTypeFor(node: { iconType?: string }): string {
@@ -90,16 +108,15 @@ function iconTypeFor(node: { iconType?: string }): string {
 
 <template>
   <div
-    v-if="editor"
     class="open-nodes-tab-bar flex h-9 flex-shrink-0 border-b border-base-300 bg-base-200/80"
     role="tablist"
     aria-label="Open objects"
   >
-    <div class="open-nodes-tab-bar__tabs-wrap flex-1 min-w-0">
+    <div class="open-nodes-tab-bar__tabs-wrap min-w-0 flex-1">
       <div
         ref="tabsScrollEl"
         class="open-nodes-tab-bar__tabs h-9"
-        @scroll="syncThumb"
+        @scroll="onTabsScroll"
         @wheel="onTabsWheel"
       >
         <div class="open-nodes-tab-bar__tabs-inner flex h-9 w-max min-w-full items-stretch">
@@ -110,8 +127,8 @@ function iconTypeFor(node: { iconType?: string }): string {
             tabindex="0"
             :aria-selected="activeNode === node.id"
             :class="cn(
-              'open-node-tab group relative inline-flex flex-shrink-0 items-center gap-1.5 h-9 max-w-[180px] px-2.5 text-xs cursor-pointer',
-              'text-muted-foreground hover:text-base-foreground transition-colors duration-150',
+              'open-node-tab group relative inline-flex h-9 max-w-[180px] flex-shrink-0 cursor-pointer items-center gap-1.5 px-2.5 text-xs',
+              'text-muted-foreground transition-colors duration-150 hover:text-base-foreground',
               'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-primary',
               activeNode === node.id
                 ? 'bg-base-100 text-base-foreground'
@@ -127,18 +144,18 @@ function iconTypeFor(node: { iconType?: string }): string {
               aria-hidden
             />
             <ObjectTypeIcon :type="iconTypeFor(node)" :size="14" />
-            <span class="truncate min-w-0">{{ node.label }}</span>
+            <span class="min-w-0 truncate">{{ node.label }}</span>
             <button
               type="button"
               :class="cn(
-                'open-node-tab-close flex-shrink-0 rounded p-0.5 -mr-0.5',
+                'open-node-tab-close -mr-0.5 flex-shrink-0 rounded p-0.5',
                 'hover:bg-base-300 focus-visible:outline-none focus-visible:ring-1',
                 activeNode === node.id ? 'opacity-70 hover:opacity-100' : 'opacity-0 group-hover:opacity-70 group-hover:hover:opacity-100'
               )"
               :aria-label="`Close ${node.label}`"
               @click="onClose($event, node.id)"
             >
-              <span class="block w-3 h-3 leading-none text-muted-foreground hover:text-base-foreground">×</span>
+              <span class="block h-3 w-3 leading-none text-muted-foreground hover:text-base-foreground">×</span>
             </button>
           </div>
         </div>

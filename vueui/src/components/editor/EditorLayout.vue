@@ -44,10 +44,12 @@ function handleResize(payload: { panes?: { size: number }[] }) {
         <SceneTree v-else />
       </ScrollArea>
     </Pane>
-    <Pane :size="rightSize" :min-size="0" :max-size="100" class="resizable-pane-main resizable-pane-island-right flex flex-col min-w-0">
-      <OpenNodesTabBar />
-      <div class="flex-1 min-h-0 overflow-hidden">
-        <slot />
+    <Pane :size="rightSize" :min-size="0" :max-size="100" class="resizable-pane-main resizable-pane-island-right">
+      <div class="flex h-full min-h-0 min-w-0 flex-col overflow-hidden">
+        <OpenNodesTabBar />
+        <div class="min-h-0 flex-1 overflow-hidden">
+          <slot />
+        </div>
       </div>
     </Pane>
   </Splitpanes>

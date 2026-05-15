@@ -1,13 +1,6 @@
 import { inject, ref, onMounted, onUnmounted } from 'vue';
 import type { EditorRuntime } from '@ide-core';
-import {
-  SELECT_NODES,
-  CLOSE_TAB,
-  SET_ACTIVE_TAB,
-  SET_PANEL_SIZES,
-  CLOSE_DOCUMENT,
-  SET_ACTIVE_DOCUMENT,
-} from '@ide-core';
+import { SELECT_NODES, SET_PANEL_SIZES, nodeIdToDocumentUri } from '@ide-core';
 
 export const RUNTIME_KEY = Symbol('ideRuntime') as symbol;
 
@@ -17,22 +10,25 @@ export function useIdeCore() {
     throw new Error('useIdeCore must be used within IdeCoreProvider');
   }
 
-  const viewModel = ref(runtime.getSceneTreeViewModel());
-  const workbenchViewModel = ref(runtime.getWorkbenchViewModel());
-  const documentViewModel = ref(runtime.getDocumentViewModel());
+  const viewModel = ref(runtime.scene.getViewModel());
+  const workbenchViewModel = ref(runtime.workbench.getViewModel());
+  const documentViewModel = ref(runtime.documents.getViewModel());
+
+  const refreshSceneViewModel = () => {
+    viewModel.value = runtime.scene.getViewModel();
+  };
 
   let unsubScene: (() => void) | null = null;
   let unsubWorkbench: (() => void) | null = null;
   let unsubDocuments: (() => void) | null = null;
   onMounted(() => {
-    unsubScene = runtime.subscribeSceneTree(() => {
-      viewModel.value = runtime.getSceneTreeViewModel();
+    unsubScene = runtime.scene.subscribe(refreshSceneViewModel);
+    unsubWorkbench = runtime.workbench.subscribe(() => {
+      workbenchViewModel.value = runtime.workbench.getViewModel();
     });
-    unsubWorkbench = runtime.subscribeWorkbench(() => {
-      workbenchViewModel.value = runtime.getWorkbenchViewModel();
-    });
-    unsubDocuments = runtime.subscribeDocuments(() => {
-      documentViewModel.value = runtime.getDocumentViewModel();
+    unsubDocuments = runtime.documents.subscribe(() => {
+      documentViewModel.value = runtime.documents.getViewModel();
+      refreshSceneViewModel();
     });
   });
   onUnmounted(() => {
@@ -42,27 +38,27 @@ export function useIdeCore() {
   });
 
   const handleSelect = (ids: string[]) => {
-    runtime.dispatchSceneTree({ type: SELECT_NODES, payload: ids });
+    runtime.scene.dispatch({ type: SELECT_NODES, payload: ids });
   };
 
   const handleTabChange = (nodeId: string) => {
-    runtime.dispatchSceneTree({ type: SET_ACTIVE_TAB, payload: nodeId });
+    runtime.documents.openZObject(nodeId);
   };
 
   const handleTabClose = (nodeId: string) => {
-    runtime.dispatchSceneTree({ type: CLOSE_TAB, payload: nodeId });
+    runtime.documents.close(nodeIdToDocumentUri(nodeId));
   };
 
   const handleCloseDocument = (uri: string) => {
-    runtime.dispatchDocuments({ type: CLOSE_DOCUMENT, payload: { uri } });
+    runtime.documents.close(uri);
   };
 
   const handleSetActiveDocument = (uri: string | null) => {
-    runtime.dispatchDocuments({ type: SET_ACTIVE_DOCUMENT, payload: { uri } });
+    runtime.documents.setActive(uri);
   };
 
   const onLayoutChange = (groupId: string, sizes: number[]) => {
-    runtime.dispatchWorkbench({
+    runtime.workbench.dispatch({
       type: SET_PANEL_SIZES,
       payload: { groupId, sizes },
     });
@@ -78,22 +74,20 @@ export function useIdeCore() {
     handleCloseDocument,
     handleSetActiveDocument,
     onLayoutChange,
-    setTreeFromRoot: runtime.setTreeFromRoot,
-    sessionSave: runtime.sessionSave,
-    sessionRestore: runtime.sessionRestore,
-    dispatchSceneTree: runtime.dispatchSceneTree,
-    dispatchDocuments: runtime.dispatchDocuments,
-    getSceneTreeState: runtime.getSceneTreeState,
-    getDocumentViewModel: runtime.getDocumentViewModel,
-    subscribeDocuments: runtime.subscribeDocuments,
-    executeCommand: runtime.executeCommand,
-    registerCommand: runtime.registerCommand,
-    unregisterCommand: runtime.unregisterCommand,
-    contextKey: runtime.contextKey,
-    registerWidget: runtime.registerWidget,
-    unregisterWidget: runtime.unregisterWidget,
-    openWidget: runtime.openWidget,
-    setWorkspace: runtime.setWorkspace,
-    getWorkspace: runtime.getWorkspace,
+    setTreeFromRoot: runtime.scene.setTreeFromRoot,
+    sessionSave: runtime.session.save,
+    sessionRestore: runtime.session.restore,
+    getSceneTreeState: runtime.scene.getState,
+    getDocumentViewModel: runtime.documents.getViewModel,
+    subscribeDocuments: runtime.documents.subscribe,
+    executeCommand: runtime.commands.execute,
+    registerCommand: runtime.commands.register,
+    unregisterCommand: runtime.commands.unregister,
+    contextKey: runtime.context,
+    registerWidget: runtime.workbench.registerWidget,
+    unregisterWidget: runtime.workbench.unregisterWidget,
+    openWidget: runtime.workbench.openWidget,
+    setWorkspace: runtime.project.setPath,
+    getWorkspace: runtime.project.getPath,
   };
 }

@@ -1,6 +1,19 @@
 import type { TreeNode, ZObjectLike } from './types.js';
 
 /**
+ * Resolves ZObject.type to a string for TreeNode.iconType (Vue icons expect a string).
+ * Handles Kotlin/JS enum-like objects `{ name: "MODEL" }` from deserialized ZKO.
+ */
+export function zObjectTypeToIconString(type: ZObjectLike['type'] | undefined): string | undefined {
+    if (type == null) return undefined;
+    if (typeof type === 'string') return type;
+    if (typeof type === 'object' && 'name' in type && typeof type.name === 'string') {
+        return type.name;
+    }
+    return undefined;
+}
+
+/**
  * Converts a ZObject-like tree to a TreeNode view model.
  * Icon is represented as a type string; the UI renderer resolves it to an actual icon component.
  */
@@ -8,7 +21,7 @@ export function convertZObjectToTreeNode(zObject: ZObjectLike): TreeNode {
     return {
         id: zObject.refId,
         label: zObject.name,
-        iconType: zObject.type,
+        iconType: zObjectTypeToIconString(zObject.type) ?? '',
         children: zObject.children?.map((child) => convertZObjectToTreeNode(child)) ?? [],
     };
 }

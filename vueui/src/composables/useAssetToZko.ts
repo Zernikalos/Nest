@@ -5,15 +5,13 @@ import type { EditorRuntime } from '@ide-core';
 
 /**
  * Composable to trigger asset-to-ZKO conversion via the runtime.
- * Conversion state (isConverting, conversionError, lastResult) lives in ide-core;
- * use getAssetConversionViewModel() from useIdeCore or runtime for UI.
  */
 export function useAssetToZko() {
   const runtime = inject<EditorRuntime | null>(RUNTIME_KEY, null);
 
   const conversionViewModel = ref(
     runtime
-      ? runtime.getAssetConversionViewModel()
+      ? runtime.assetConversion.getViewModel()
       : {
           isConverting: false,
           conversionError: null,
@@ -25,10 +23,10 @@ export function useAssetToZko() {
   let unsub: (() => void) | null = null;
   onMounted(() => {
     if (runtime) {
-      unsub = runtime.subscribeAssetConversion(() => {
-        conversionViewModel.value = runtime.getAssetConversionViewModel();
+      unsub = runtime.assetConversion.subscribe(() => {
+        conversionViewModel.value = runtime.assetConversion.getViewModel();
       });
-      conversionViewModel.value = runtime.getAssetConversionViewModel();
+      conversionViewModel.value = runtime.assetConversion.getViewModel();
     }
   });
   onUnmounted(() => {
@@ -37,7 +35,7 @@ export function useAssetToZko() {
 
   async function convertAssetToZko(data: AssetConversionData) {
     if (!runtime) throw new Error('Runtime not available');
-    return runtime.convertAsset(data);
+    return runtime.assetConversion.convert(data);
   }
 
   return {
