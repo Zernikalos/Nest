@@ -22,7 +22,7 @@ HTTP/Electron/runtime side effects
 
 The runtime entrypoint is re-exported from `src/runtime/createEditorRuntime.ts`, which forwards to `@ide-core`.
 
-The main adapter is `src/composables/useIdeCore.ts`. It:
+The main adapter is `@ide-core/vue` (`useEditorStore`, `provideEditorRuntime`, `installEditorStore`). `IdeCoreProvider` wires the runtime and Pinia store. Product composables (`useProject`, `useAssetToZko`) read from the editor store instead of manual `onChange` subscriptions.
 
 - injects the shared `EditorRuntime`
 - subscribes to scene tree, workbench, and document updates
@@ -63,7 +63,7 @@ Editor-oriented components such as `SceneTree.vue`, `DocumentTabBar.vue`, and `E
 
 Composables are the orchestration layer. Notable examples:
 
-- `useIdeCore.ts` bridges Vue to the runtime
+- `@ide-core/vue` bridges Vue to the runtime snapshot (Pinia + composables)
 - `useProject.ts` coordinates project loading and project-facing state
 - `useElectronProjectIntegration.ts` handles Electron-triggered project flows
 - `useNestEditor.ts` and `useZObjectState.ts` adapt editor-facing data for concrete views

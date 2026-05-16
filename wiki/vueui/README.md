@@ -34,7 +34,7 @@ It is not responsible for:
 ## Main Architectural Relationships
 
 - `vueui` consumes `createEditorRuntime()` from `@ide-core`
-- `useIdeCore()` exposes scene tree, workbench, and document view models to Vue components
+- `@ide-core/vue` `useEditorStore()` exposes reactive slices and `runtime` actions
 - Router state controls page/view navigation
 - Pinia stores hold UI-facing state such as project path, settings, and transient editor UI state
 - Electron integration is handled in the Vue layer through providers/composables and host-facing types

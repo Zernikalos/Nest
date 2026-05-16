@@ -2,70 +2,42 @@
 
 ## Entry Point
 
-The main entry point is `createEditorRuntime()` from `src/createEditorRuntime.ts`.
+`createEditorRuntime()` from `src/core/runtime/createEditorRuntime.ts` (import `@ide-core`).
 
-It produces a runtime object that acts as the editor-facing API for renderer adapters.
+## Snapshot and subscriptions
 
-## Runtime Responsibilities
+| API | Use |
+|-----|-----|
+| `getSnapshot()` | Full `EditorSnapshot` |
+| `getSlice(key)` | One slice (`scene` merges documents for opened tabs) |
+| `onChange` / `subscribe` | Any domain change (coalesced per microtask) |
+| `subscribeSlice(key, listener)` | Only the editor(s) for that slice |
 
-A renderer consuming the runtime can typically:
+In Vue, prefer `@ide-core/vue`: `useEditorStore()`, `useEditorSnapshot()`, or `useEditorSlice(key)`.
 
-- read scene tree, workbench, and document view models
-- subscribe to scene tree, workbench, and document updates
-- dispatch intents to scene tree, workbench, and document stores
-- register and unregister commands
-- execute commands
-- work with context keys
-- register and unregister widgets
-- open widgets
-- save and restore session state
-- update or query the current workspace
+## Domain editors
 
-## Important View Models
+| Editor | Examples |
+|--------|----------|
+| `scene` | `selectNodes`, `setTreeFromRoot`, `toggleExpanded` |
+| `documents` | `openZObject`, `close`, `setActive`, `restore` |
+| `workbench` | `register`, `open`, `setPanelSizes`, `getController` |
+| `project` | `open`, `close`, `create`, `addAsset`, `getPath` |
+| `engine` | `start`, `stop`, `restart` |
+| `assetConversion` | `convert`, `setProjectPersistWarning` |
 
-### Scene Tree View Model
+Use editor methods from UI — not internal `patch()` or store internals.
 
-Used to render the editor tree, selection state, expansion state, and active node information.
+## Orchestration
 
-### Document View Model
+`EditorOrchestrator` syncs scene tree ↔ documents. Wired from `SceneTreeEditor` and `DocumentsEditor`.
 
-Used to render open documents/tabs, active document, and tab-level metadata.
+## Widget model
 
-### Workbench View Model
+`WidgetContribution` + `WorkbenchEditor` lifecycle. `createSceneTreeWidgetContribution()` for the scene tree panel.
 
-Used to render widget placement across workbench areas such as `left`, `right`, `bottom`, and `center`.
+## Commands, context, session
 
-## Important Intents
-
-The package exports intent constants for common state transitions, including:
-
-- scene tree intents such as `SELECT_NODES`, `OPEN_TAB`, `CLOSE_TAB`, `SET_ACTIVE_TAB`
-- document intents such as `OPEN_DOCUMENT`, `CLOSE_DOCUMENT`, `SET_ACTIVE_DOCUMENT`
-- workbench intents such as `REGISTER_WIDGET`, `OPEN_WIDGET`, `CLOSE_WIDGET`, `SET_PANEL_SIZES`
-
-These constants help keep adapters explicit and consistent.
-
-## Widget Model
-
-Widgets are registered through `WidgetContribution` contracts. The runtime owns widget lifecycle, while the renderer is expected to render a widget by its identifier and view model.
-
-This is important because it preserves a clean split:
-
-- runtime decides what is open and where it belongs
-- UI decides how it looks
-
-## Session Persistence
-
-Session persistence is optional and depends on the provided `StoragePort`.
-
-This allows the same runtime to run:
-
-- in browser-only development with local storage
-- in Electron with an app-managed storage implementation
-- in tests with a mock storage implementation
-
-## Practical Guidance
-
-- Put domain behavior in the runtime API, not in renderer hooks
-- Prefer extending contracts over leaking framework assumptions into the core
-- Keep all public runtime outputs serializable and renderer-neutral
+- `commands.execute/register/unregister/has`
+- `context.set/get/getBool/evaluate`
+- `session.save/restore/hydrate` (with `StoragePort`)

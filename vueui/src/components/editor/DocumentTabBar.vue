@@ -1,26 +1,22 @@
 <script setup lang="ts">
 defineOptions({ name: 'DocumentTabBar' });
 import { computed } from 'vue';
-import { useIdeCore } from '@/composables/useIdeCore';
+import { nodeIdToDocumentUri } from '@ide-core';
+import { useEditorStore, useEditorSlice } from '@ide-core/vue';
 import ObjectTypeIcon from '@/components/editor/ObjectTypeIcon.vue';
 import EditorTabBarActions from '@/components/editor/EditorTabBarActions.vue';
 import { cn } from '@/lib/utils';
 
-const {
-  viewModel,
-  documentViewModel,
-  handleTabChange,
-  handleTabClose,
-  handleSetActiveDocument,
-  handleCloseDocument,
-} = useIdeCore();
+const editor = useEditorStore();
+const scene = useEditorSlice('scene');
+const documents = useEditorSlice('documents');
 
-const openedNodes = computed(() => viewModel.value.openedNodes);
-const activeNode = computed(() => viewModel.value.activeNode);
-const activeUri = computed(() => documentViewModel.value.activeUri);
+const openedNodes = computed(() => scene.value.openedNodes);
+const activeNode = computed(() => scene.value.activeNode);
+const activeUri = computed(() => documents.value.activeUri);
 
 const otherDocuments = computed(() =>
-  documentViewModel.value.openedDocuments.filter((doc) => !doc.uri.startsWith('zobject://'))
+  documents.value.openedDocuments.filter((doc) => !doc.uri.startsWith('zobject://'))
 );
 
 const tabClass = (active: boolean) =>
@@ -33,12 +29,12 @@ const tabClass = (active: boolean) =>
   );
 
 function onTabClick(nodeId: string) {
-  handleTabChange(nodeId);
+  editor.openZObject(nodeId);
 }
 
 function onClose(e: Event, nodeId: string) {
   e.stopPropagation();
-  handleTabClose(nodeId);
+  editor.closeDocument(nodeIdToDocumentUri(nodeId));
 }
 
 function labelForUri(uri: string, title?: string): string {
@@ -47,12 +43,12 @@ function labelForUri(uri: string, title?: string): string {
 }
 
 function onOtherTabClick(uri: string) {
-  handleSetActiveDocument(uri);
+  editor.setActiveDocument(uri);
 }
 
 function onOtherClose(e: Event, uri: string) {
   e.stopPropagation();
-  handleCloseDocument(uri);
+  editor.closeDocument(uri);
 }
 
 function onScrollWheel(e: WheelEvent) {
@@ -66,62 +62,57 @@ function onScrollWheel(e: WheelEvent) {
 
 <template>
   <div
-    class="editor-tab-bar flex min-h-9 w-full min-w-0 flex-shrink-0 items-stretch overflow-hidden border-b border-base-300 bg-base-200/80 island-radius-t"
+    v-if="openedNodes.length > 0 || otherDocuments.length > 0"
+    class="open-nodes-tab-bar editor-tab-bar flex min-h-9 w-full min-w-0 flex-shrink-0 items-stretch overflow-hidden border-b border-base-300 bg-base-200/80 island-radius-t"
     role="tablist"
-    aria-label="Open editors"
+    aria-label="Open documents"
   >
     <div
-      class="editor-tab-bar__scroll min-w-0 flex-1 overflow-x-auto overflow-y-hidden"
+      class="editor-tab-bar__scroll relative min-w-0 flex-1 overflow-x-auto overflow-y-hidden"
       @wheel="onScrollWheel"
     >
       <div class="editor-tab-bar__track inline-flex items-center gap-0.5 px-1 pb-1 pt-1">
-      <div
-        v-for="node in openedNodes"
-        :key="node.id"
-        role="tab"
-        tabindex="0"
-        :aria-selected="activeNode === node.id"
-        :class="tabClass(activeNode === node.id)"
-        @click="onTabClick(node.id)"
-        @keydown.enter.prevent="onTabClick(node.id)"
-        @keydown.space.prevent="onTabClick(node.id)"
-      >
-        <ObjectTypeIcon :type="node.iconType ?? ''" :size="14" class="flex-shrink-0" />
-        <span class="max-w-[120px] truncate">{{ node.label }}</span>
-        <button
-          type="button"
-          class="open-node-tab-close rounded p-0.5 opacity-0 transition-opacity hover:bg-base-300 focus-visible:outline-none focus-visible:ring-1 group-hover:opacity-100"
-          :aria-label="`Close ${node.label}`"
-          @click="onClose($event, node.id)"
+        <div
+          v-for="node in openedNodes"
+          :key="node.id"
+          role="tab"
+          tabindex="0"
+          :aria-selected="activeNode === node.id"
+          :class="tabClass(activeNode === node.id)"
+          @click="onTabClick(node.id)"
         >
-          <span class="block h-3 w-3 leading-none text-muted-foreground">×</span>
-        </button>
-      </div>
-
-      <div
-        v-for="doc in otherDocuments"
-        :key="doc.uri"
-        role="tab"
-        tabindex="0"
-        :aria-selected="activeUri === doc.uri"
-        :class="tabClass(activeUri === doc.uri)"
-        @click="onOtherTabClick(doc.uri)"
-        @keydown.enter.prevent="onOtherTabClick(doc.uri)"
-        @keydown.space.prevent="onOtherTabClick(doc.uri)"
-      >
-        <span class="max-w-[120px] truncate">{{ labelForUri(doc.uri, doc.title) }}</span>
-        <button
-          type="button"
-          class="open-node-tab-close rounded p-0.5 opacity-0 transition-opacity hover:bg-base-300 focus-visible:outline-none focus-visible:ring-1 group-hover:opacity-100"
-          aria-label="Close"
-          @click="onOtherClose($event, doc.uri)"
+          <ObjectTypeIcon :type="node.iconType ?? ''" :size="14" class="flex-shrink-0" />
+          <span class="max-w-[120px] truncate">{{ node.label }}</span>
+          <button
+            type="button"
+            class="open-node-tab-close rounded p-0.5 opacity-0 transition-opacity hover:bg-base-300 focus-visible:outline-none group-hover:opacity-100"
+            :aria-label="`Close ${node.label}`"
+            @click="onClose($event, node.id)"
+          >
+            <span class="block h-3 w-3 leading-none text-muted-foreground">×</span>
+          </button>
+        </div>
+        <div
+          v-for="doc in otherDocuments"
+          :key="doc.uri"
+          role="tab"
+          tabindex="0"
+          :aria-selected="activeUri === doc.uri"
+          :class="tabClass(activeUri === doc.uri)"
+          @click="onOtherTabClick(doc.uri)"
         >
-          <span class="block h-3 w-3 leading-none text-muted-foreground">×</span>
-        </button>
-      </div>
+          <span class="max-w-[120px] truncate">{{ labelForUri(doc.uri, doc.title) }}</span>
+          <button
+            type="button"
+            class="open-node-tab-close rounded p-0.5 opacity-0 transition-opacity hover:bg-base-300 group-hover:opacity-100"
+            :aria-label="`Close ${doc.uri}`"
+            @click="onOtherClose($event, doc.uri)"
+          >
+            <span class="block h-3 w-3 leading-none text-muted-foreground">×</span>
+          </button>
+        </div>
       </div>
     </div>
-
     <EditorTabBarActions />
   </div>
 </template>
@@ -129,45 +120,5 @@ function onScrollWheel(e: WheelEvent) {
 <style scoped>
 .editor-tab-bar__scroll {
   overscroll-behavior-x: contain;
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-}
-
-.editor-tab-bar__scroll:hover {
-  scrollbar-color: hsl(var(--muted-foreground) / 0.35) transparent;
-}
-
-.editor-tab-bar__scroll::-webkit-scrollbar {
-  height: 3px;
-}
-
-.editor-tab-bar__scroll::-webkit-scrollbar-track {
-  margin-top: 2px;
-  background: transparent;
-  border-radius: 999px;
-}
-
-.editor-tab-bar__scroll::-webkit-scrollbar-thumb {
-  background: transparent;
-  border-radius: 999px;
-  transition: background 0.2s ease;
-}
-
-.editor-tab-bar__scroll:hover::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.35);
-}
-
-.editor-tab-bar__scroll::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.55);
-}
-
-/* No arrow buttons on the sides */
-.editor-tab-bar__scroll::-webkit-scrollbar-button,
-.editor-tab-bar__scroll::-webkit-scrollbar-button:single-button,
-.editor-tab-bar__scroll::-webkit-scrollbar-button:horizontal:decrement,
-.editor-tab-bar__scroll::-webkit-scrollbar-button:horizontal:increment {
-  display: none;
-  width: 0;
-  height: 0;
 }
 </style>

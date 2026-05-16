@@ -1,27 +1,24 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useIdeCore } from '@/composables/useIdeCore';
 import type { TreeNode } from '@ide-core';
+import { useEditorStore, useEditorSlice } from '@ide-core/vue';
 import SceneTreeNode from './SceneTreeNode.vue';
 
-const { viewModel, handleSelect, handleTabChange } = useIdeCore();
+const editor = useEditorStore();
+const scene = useEditorSlice('scene');
 
-const tree = computed(() => viewModel.value.tree);
-const selectedIds = computed(() => viewModel.value.selectedIds);
-
-function isSelected(id: string): boolean {
-  return selectedIds.value.includes(id);
-}
+const tree = computed(() => scene.value.tree);
+const selectedIds = computed(() => scene.value.selectedIds);
 
 function onNodeClick(node: TreeNode) {
   const ids = selectedIds.value.includes(node.id)
     ? selectedIds.value
     : [node.id];
-  handleSelect(ids);
+  editor.selectNodes(ids);
 }
 
 function onNodeDoubleClick(node: TreeNode) {
-  handleTabChange(node.id);
+  editor.openZObject(node.id);
 }
 </script>
 

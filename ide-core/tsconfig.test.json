@@ -1,13 +1,8 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
     "noEmit": true,
-    "declaration": false,
-    "declarationMap": false,
-    "outDir": "../.tmp/ide-core-test"
+    "rootDir": "."
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/core/**/*.ts", "src/vue/**/*.ts"]
 }

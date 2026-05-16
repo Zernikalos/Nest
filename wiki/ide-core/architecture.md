@@ -4,7 +4,7 @@
 
 `ide-core` is the editor engine for Zernikalos Studio V2. It is designed to be portable across UI frameworks by keeping state, domain logic, and extension contracts free of framework dependencies.
 
-The package centers around `createEditorRuntime()`, which composes several domain stores and services into a single public runtime API.
+The package centers around `createEditorRuntime()`, which composes domain editors and cross-cutting coordinators into a single public runtime API.
 
 ## Architectural Principles
 
@@ -20,84 +20,69 @@ Scene tree, documents, workbench layout, commands, and context keys live in the 
 
 Renderers consume plain data. The runtime does not return framework components or renderer-specific objects.
 
-### 4. Intents and Effects
+### 4. One file per domain (`editor/*`)
 
-State changes happen through explicit intents. Effects can be produced as runtime responses when adapters need to react to side effects.
+Each domain area extends `DomainEditorBase` (Zustand vanilla + Immer) and exposes a public editor class:
+
+- `editor/sceneTree.ts` — `SceneTreeEditor`
+- `editor/documents.ts` — `DocumentsEditor`
+- `editor/workbench.ts` — `WorkbenchEditor` (includes widget lifecycle)
+- `editor/project.ts` — `ProjectEditor`
+- `editor/engine.ts` — `EngineEditor`
+- `editor/assetConversion.ts` — `AssetConversionEditor`
+
+Domain methods use `patch()` / `patchSilent()` on Immer drafts. UI adapters call named methods (`openZObject`, `selectNodes`, `setPanelSizes`), not `dispatch()`.
+
+### 5. Single commit pipeline
+
+Each editor receives `onCommit` from `EditorRuntime` (session persist debounce + `EditorChangeNotifier`). `patch()` triggers commit; `patchSilent()` is used for orchestrator sync and session hydration batches.
+
+### 6. Snapshot bridge for UI
+
+`EditorRuntime.getSnapshot()` / `getSlice()` / `subscribeSlice()` aggregate and project view models. Vue adapters use `@ide-core/vue` (`useEditorStore`, `useEditorSnapshot`) in `src/vue/`; core lives in `src/core/`.
 
 ## Main Subsystems
 
 ### Contracts
 
-`src/contracts/index.ts` defines the runtime boundary:
+`src/core/contracts/index.ts` defines the runtime boundary:
 
-- `RuntimeIntent`
-- `RuntimeEffect`
-- `RuntimeStore`
-- `WidgetContribution`
-- `WidgetController`
+- `RuntimeEffect` (optional command handler payloads)
+- `WidgetContribution` / `WidgetController`
+- `EditorSnapshot`
 
-These contracts make the runtime extensible without binding it to a specific renderer.
+### Domain editors (`src/core/editor/`)
 
-### Kernel
+Immer-backed stores with imperative editor classes. Cross-cutting scene ↔ document rules live in `EditorOrchestrator`.
 
-The kernel contains low-level primitives such as:
+### Services (cross-cutting only)
 
-- `EventBus`
-- `createStore`
-
-These utilities support predictable state updates and subscriptions.
-
-### Domain Modules
-
-The domain layer is split by responsibility:
-
-- `SceneTreeModule` for tree structure, selection, focus, expansion, and tab-adjacent interactions
-- `DocumentModule` for opened documents, active document, dirty state, and view state
-- `WorkbenchModule` for widget layout, area placement, activation, and panel sizing
-
-The modules are coordinated inside `createEditorRuntime()` rather than exposing framework-specific behavior.
-
-### Services
-
-Core services include:
-
-- `CommandService` for command registration and execution
-- `ContextKeyService` for context-dependent behavior
-- `SessionService` for persistence and restoration of runtime state
-- `DocumentService` for document-oriented helpers
+- `CommandService`
+- `ContextKeyService`
+- `SessionService`
 
 ### Ports
 
-Ports define how the runtime interacts with the outside world while staying decoupled:
+- `StoragePort`, `ProjectPort`, `EngineSessionPort`, `AssetConversionPort`, etc.
 
-- `StoragePort`
-- `FileSystemPort`
-- `IpcPort`
-- `KeymapPort`
-- `TelemetryPort`
-
-Only the interface belongs in `ide-core`; implementations belong in adapters or hosts.
+Only interfaces belong in `ide-core`; implementations belong in adapters or hosts.
 
 ## Composition Root
 
-`src/createEditorRuntime.ts` is the composition root. It:
+`src/core/runtime/createEditorRuntime.ts` wires:
 
-- creates scene tree, document, and workbench stores
-- wires cross-module synchronization
-- exposes subscriptions and view model getters
-- registers widgets and commands
-- manages workspace-level information
-- coordinates session save/restore
-
-This file is the best place to understand how separate modules become one coherent editor runtime.
+- domain editors (`DomainEditorBase` + `onCommit`)
+- `EditorOrchestrator` (scene ↔ documents)
+- `SessionCoordinator` (persist / hydrate)
+- `EditorChangeNotifier`
 
 ## Intended Relationship with UI Packages
 
-Packages such as `reactui` and `vueui` should:
+Packages such as `vueui` should:
 
 - instantiate the runtime
-- subscribe to runtime outputs
-- dispatch intents
+- read `getSnapshot()` and subscribe with `onChange`
+- call editor methods on user input
 - provide host-specific ports
 
 They should not fork the domain logic that already exists here.
