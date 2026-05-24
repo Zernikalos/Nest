@@ -37,7 +37,6 @@ const options = {
         "!**/lerna.json",
         "!**/tsconfig*.json",
         "!**/vite.*.config.*",
-        "!**/webpack.*.config.*",
         "!**/electronapp/src/**/*",
         "!**/nestserver/src/**/*",
         "!**/packages/reactui/src/**/*",
