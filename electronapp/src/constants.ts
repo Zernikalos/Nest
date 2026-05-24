@@ -3,10 +3,8 @@ import {app, nativeImage} from "electron";
 import path from "path";
 import * as fs from "fs";
 
-const DEV_FRONTEND_URL = "http://localhost:5173";
 const DEFAULT_DEV_VUEUI_URL = "http://localhost:5174";
 const VITE_DEV_PORT_FILE = ".vite-dev-port";
-const MAIN_WINDOW_ENTRY = path.join(app.getAppPath(), 'packages', 'reactui', 'dist', 'index.html');
 const VUEUI_MAIN_ENTRY = path.join(app.getAppPath(), 'vueui', 'dist', 'index.html');
 const PRELOAD_SCRIPT_PATH = path.resolve(__dirname, '..', 'preload/preload.js');
 

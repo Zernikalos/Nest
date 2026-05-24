@@ -4,26 +4,39 @@
 Desktop application for asset management and debugging of Zernikalos Engine.
 
 ## Core Technologies
-- React
+- Vue 3
 - NestJS
 - TypeScript
 - Vite
 - Tailwind CSS v4
-- Zustand
+- Pinia
 - Electron (with electron-builder)
 
 ## Prerequisites
 - Node.js >= 24
 - pnpm >= 11
+- Access to GitHub Packages for `@zernikalos/*` scopes (see below)
 
 ## Installation
 ```bash
 # Clone the repository
 git clone <repository-url>
 
-# Install dependencies recursively
-pnpm i -r
+# Install dependencies
+pnpm install
 ```
+
+### GitHub Packages (`@zernikalos/zernikalos`, `@zernikalos/zkbuilder`)
+
+Private packages are hosted on GitHub Packages. Configure authentication before `pnpm install`, for example:
+
+```bash
+# .npmrc in your home directory or project root
+@zernikalos:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
+```
+
+Use a personal access token with `read:packages` scope.
 
 ## Running the Application
 
@@ -33,27 +46,47 @@ pnpm i -r
 pnpm dev
 ```
 
-### Generating distribution package
-```bash
-# Build the application
-pnpm build
+### Generating a Windows distribution
 
-# Generate the electron executable
+Run `build` first, then package:
+
+```bash
+pnpm build
 pnpm dist
 ```
 
+Artifacts are written to `out/`:
+
+| Command | Output (Windows) |
+|---------|------------------|
+| `pnpm dist` | NSIS installer and `.zip` (see below) |
+| `pnpm pack` | `out/win-unpacked/ZernikalosNest.exe` only (unpacked folder, fastest) |
+
+After `pnpm dist` on Windows you get:
+
+- `out/Zernikalos Nest Setup <version>.exe` — NSIS installer (per-user install)
+- `out/Zernikalos Nest-<version>-win.zip` — zip of the unpacked app
+- `out/win-unpacked/` — run `ZernikalosNest.exe` directly
+
+Other scripts: `pnpm dist:win` (force Windows targets), `pnpm dist:mac`, `pnpm dist:linux`.
+
+Windows packages are **unsigned** by default (`signAndEditExecutable: false`) so local `pnpm dist` works without code-signing tools or symlink privileges. SmartScreen may warn on first run; use a real certificate in CI/release when you ship publicly.
+
 ## Project Structure
 
-The project is organized into three main components:
+The project is organized into these main parts:
 
 ### 📱 electronapp
-The main Electron application that serves as the desktop application container. Handles window management, native dialogs, and IPC communication.
+Electron main process: window management, native dialogs, and IPC.
 
 ### 🖥️ nestserver
-A NestJS server implementation that handles internal functionalities of Zernikalos Nest. This component manages the core business logic, file operations, project management, and WebSocket communication for debugging.
+NestJS backend: file operations, project management, settings, and WebSocket debugging.
 
-### 🎨 reactui
-A React web application that provides the user interface for the application. Built with React 19, Vite, Tailwind CSS v4, and shadcn/ui components. Manages state using Zustand (local state) and TanStack Query (server state).
+### 🎨 vueui
+Vue 3 renderer (Vite + Tailwind). Primary UI; uses `ide-core` for editor domain logic.
+
+### 🧩 ide-core
+Framework-agnostic editor runtime and contracts (`@ide-core`, `@ide-core/vue`).
 
 ## Features
 
@@ -81,9 +114,11 @@ Customize the editor appearance and behavior:
 
 
 ## Available Scripts
-- `pnpm dev`: Starts the application in development mode
-- `pnpm build`: Builds the application for production
-- `pnpm start`: Runs the compiled application
+- `pnpm dev`: Development mode (Electron + Vite + Nest server watch)
+- `pnpm build`: Production build (ide-core, nestserver, vueui, electron main/preload)
+- `pnpm dist`: Package for the current OS (run `pnpm build` first)
+- `pnpm pack`: Unpacked app in `out/` (run `pnpm build` first)
+- `pnpm clean`: Remove `node_modules`, build outputs, and `out/`
 
 ## License
 This project is licensed under the Mozilla Public License 2.0 (MPL-2.0) - see the [LICENSE.txt](./LICENSE.txt) file for details.
