@@ -46,8 +46,9 @@
   --depth: 0;
   --noise: 0;
   /* Island-style layout: gap between panels and border radius for island components (sidebar stays straight) */
-  --island-gap: 6px;
-  --island-radius: 0.75rem;
+  --island-inset: 4px;
+  --island-gap: 4px;
+  --island-radius: 0.625rem;
 }
 
 .dark {
@@ -295,6 +296,14 @@
 }
 
 /* Island-style layout: use --island-radius for panel/card borders (sidebar excluded) */
+.island-main {
+  padding-left: var(--island-inset);
+}
+.island-inset {
+  padding-top: var(--island-inset);
+  padding-right: var(--island-inset);
+  padding-bottom: var(--island-inset);
+}
 .island-radius {
   border-radius: var(--island-radius);
 }

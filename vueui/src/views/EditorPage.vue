@@ -6,9 +6,9 @@ import EditorLayout from '@/components/editor/EditorLayout.vue';
 </script>
 
 <template>
-  <div class="p-3 flex flex-col h-full min-h-0">
+  <div class="island-inset flex flex-col h-full min-h-0">
     <NestEditorProvider>
-      <div class="flex min-h-0 flex-1 flex-col overflow-hidden island-radius">
+      <div class="flex min-h-0 flex-1 flex-col overflow-hidden">
         <EditorLayout>
           <RouterView />
         </EditorLayout>

@@ -64,9 +64,9 @@ function handleResize(payload: { panes?: { size: number }[] }) {
   overflow: hidden;
 }
 .resizable-pane-island-left {
-  border-radius: 0 var(--island-radius) var(--island-radius) 0;
+  border-radius: var(--island-radius);
 }
 .resizable-pane-island-right {
-  border-radius: var(--island-radius) 0 0 var(--island-radius);
+  border-radius: var(--island-radius);
 }
 </style>
