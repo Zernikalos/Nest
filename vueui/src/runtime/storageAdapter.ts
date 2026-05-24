@@ -42,23 +42,3 @@ export function isElectronStorageAvailable(): boolean {
   const api = window.NativeZernikalos;
   return Boolean(api?.storageGet && api?.storageSet && api?.storageDelete);
 }
-
-const PREFS_PREFIX = 'prefs:';
-
-/**
- * Wraps a StoragePort with a key prefix for preferences (e.g. prefs:).
- * Used so IDE session and app preferences can share the same storage.
- */
-export function createPreferencesPort(storage: StoragePort): StoragePort {
-  return {
-    async get(key: string): Promise<string | null> {
-      return storage.get(PREFS_PREFIX + key);
-    },
-    async set(key: string, value: string): Promise<void> {
-      await storage.set(PREFS_PREFIX + key, value);
-    },
-    async delete(key: string): Promise<void> {
-      await storage.delete(PREFS_PREFIX + key);
-    },
-  };
-}

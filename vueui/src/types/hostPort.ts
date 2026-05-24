@@ -14,6 +14,3 @@ export interface HostPort {
 }
 
 export const HOST_PORT_KEY = Symbol('hostPort') as symbol;
-
-/** Key for injecting the preferences storage port (StoragePort with prefs prefix). */
-export const PREFERENCES_PORT_KEY = Symbol('preferencesPort') as symbol;

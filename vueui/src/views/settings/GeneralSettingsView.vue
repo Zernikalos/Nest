@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted } from 'vue';
+import assign from 'lodash/assign';
 import { useSettingsStore } from '@/stores/settingsStore';
 import type { GeneralFormData } from '@/stores/settingsStore';
 import SettingsMainContainer from '@/components/settings/SettingsMainContainer.vue';
@@ -22,11 +23,11 @@ const form = reactive<GeneralFormData>({
 });
 
 onMounted(() => {
-  Object.assign(form, settingsStore.getGeneralSettings);
+  assign(form, settingsStore.general);
 });
 
 function handleSubmit() {
-  settingsStore.updateGeneralSettings(form);
+  settingsStore.patchSettings({ general: form });
   isSaved.value = true;
   setTimeout(() => (isSaved.value = false), 1500);
 }

@@ -19,6 +19,10 @@ declare global {
       storageGet?: (key: string) => Promise<string | null>;
       storageSet?: (key: string, value: string) => Promise<void>;
       storageDelete?: (key: string) => Promise<void>;
+      getAppSettings?: () => Promise<import('@app-settings').AppSettings>;
+      patchAppSettings?: (
+        partial: Partial<import('@app-settings').AppSettings>
+      ) => Promise<import('@app-settings').AppSettings>;
     };
   }
 }

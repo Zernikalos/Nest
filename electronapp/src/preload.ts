@@ -58,13 +58,7 @@ contextBridge.exposeInMainWorld('NativeZernikalos', {
     storageGet: (key: string) => ipcRenderer.invoke('ide-storage:get', key),
     storageSet: (key: string, value: string) => ipcRenderer.invoke('ide-storage:set', key, value),
     storageDelete: (key: string) => ipcRenderer.invoke('ide-storage:delete', key),
+    getAppSettings: () => ipcRenderer.invoke('userSettings:getAll'),
+    patchAppSettings: (partial: Record<string, unknown>) =>
+        ipcRenderer.invoke('userSettings:patch', partial),
 })
-
-contextBridge.exposeInMainWorld('userSettings', {
-    get: (key: string) => {
-        return ipcRenderer.invoke("userSettings:get", key)
-    },
-    set: (key: string, value: any) => {
-        return ipcRenderer.invoke("userSettings:set", key, value)
-    },
-});
