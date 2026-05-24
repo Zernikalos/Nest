@@ -7,7 +7,7 @@
   "license": "MPL-2.0",
   "scripts": {
     "commit": "git-cz",
-    "release": "lerna version --conventional-commits --no-push && pnpm run release:finalize",
+    "release": "lerna version --conventional-commits --no-push",
     "release:prepatch": "lerna version prepatch --conventional-commits --yes --preid alpha --no-push && pnpm run release:finalize",
     "release:preminor": "lerna version preminor --conventional-commits --yes --preid alpha --no-push && pnpm run release:finalize",
     "release:premajor": "lerna version premajor --conventional-commits --yes --preid alpha --no-push && pnpm run release:finalize",
