@@ -9,7 +9,7 @@ export function fromRoot(...segments) {
 }
 
 /**
- * Vite/webpack aliases. More specific `@ide-core/vue` must precede `@ide-core`.
+ * Vite resolve aliases. More specific `@ide-core/vue` must precede `@ide-core`.
  */
 export function createAppAliases(localSrcDir) {
     return [

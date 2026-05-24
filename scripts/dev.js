@@ -103,7 +103,7 @@ async function main() {
 
     // Build the Nest server once before watch. `nest build --watch` with deleteOutDir wipes
     // dist on startup, so waiting for stale dist files from a previous session races and
-    // breaks webpack's @zstudio-server alias (see electronapp.main.cjs).
+    // breaks Vite's @zstudio-server alias (see electronapp.main.config.mjs).
     runPnpmScriptSync('build:server');
     runPnpmScript('dev:server');
 
