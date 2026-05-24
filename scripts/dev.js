@@ -1,4 +1,4 @@
-const { spawn } = require('child_process');
+const { spawn, spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -31,6 +31,19 @@ function runPnpmScript(name, env = {}) {
     return child;
 }
 
+function runPnpmScriptSync(name) {
+    console.log(`[dev] running ${name} (sync)...`);
+    const result = spawnSync('pnpm', ['run', name], {
+        cwd: rootDir,
+        stdio: 'inherit',
+        shell: true,
+    });
+
+    if (result.status !== 0) {
+        process.exit(result.status || 1);
+    }
+}
+
 function waitForFile(filePath, timeoutMs = 120000) {
     return new Promise((resolve, reject) => {
         const startedAt = Date.now();
@@ -60,6 +73,12 @@ function waitForFile(filePath, timeoutMs = 120000) {
     });
 }
 
+function removeIfExists(filePath) {
+    if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+    }
+}
+
 function shutdown(code = 0) {
     if (shuttingDown) {
         return;
@@ -79,18 +98,25 @@ process.on('SIGINT', () => shutdown(0));
 process.on('SIGTERM', () => shutdown(0));
 
 async function main() {
-    runPnpmScript('dev:server');
     runPnpmScript('dev:ui');
-    runPnpmScript('dev:electron:main');
     runPnpmScript('dev:electron:preload');
 
+    // Build the Nest server once before watch. `nest build --watch` with deleteOutDir wipes
+    // dist on startup, so waiting for stale dist files from a previous session races and
+    // breaks webpack's @zstudio-server alias (see electronapp.main.cjs).
+    runPnpmScriptSync('build:server');
+    runPnpmScript('dev:server');
+
+    const electronMainOut = path.join(rootDir, 'electronapp', 'dist', 'main', 'index.js');
+    removeIfExists(electronMainOut);
+
+    runPnpmScript('dev:electron:main');
+
     await Promise.all([
-        waitForFile(path.join(rootDir, 'nestserver', 'dist', 'main.js')),
-        waitForFile(path.join(rootDir, 'electronapp', 'dist', 'main', 'index.js')),
+        waitForFile(electronMainOut),
         waitForFile(path.join(rootDir, 'electronapp', 'dist', 'preload', 'preload.js')),
     ]);
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
     console.log('[dev] launching electron via dev:main');
     runPnpmScript('dev:main', { DEBUG: 'true' });
 }
