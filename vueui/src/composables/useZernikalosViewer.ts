@@ -94,8 +94,6 @@ export function useZernikalosViewer(options: UseZernikalosViewerOptions) {
         };
       };
       if (cam.transform) {
-        cam.transform.rotate(180, 1, 0, 0);
-        cam.transform.rotate(180, 0, 1, 0);
         cam.transform.translate(-1, -7, -40);
       }
 

@@ -40,10 +40,10 @@ importers:
         version: 3.5.34
       '@zernikalos/zernikalos':
         specifier: latest
-        version: 0.9.0
+        version: 0.10.0
       '@zernikalos/zkbuilder':
         specifier: latest
-        version: 0.7.1(@zernikalos/zernikalos@0.9.0)
+        version: 0.7.1(@zernikalos/zernikalos@0.10.0)
       axios:
         specifier: 1.16.0
         version: 1.16.0
@@ -2724,8 +2724,8 @@ packages:
   '@yarnpkg/lockfile@1.1.0':
     resolution: {integrity: sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==}
 
-  '@zernikalos/zernikalos@0.9.0':
-    resolution: {integrity: sha512-vuZr2J1k9Gbd1hPTJKgxzHNGYoOK8B54+o8OjF/KFdWxnstlGM0/6As6TdUfj9+fPe3fvAtljiXw3BxTUSAa3g==, tarball: https://npm.pkg.github.com/download/@zernikalos/zernikalos/0.9.0/6d4eb3cb4312ee9e2320b1c2c22192e9584283dc}
+  '@zernikalos/zernikalos@0.10.0':
+    resolution: {integrity: sha512-C4091z3vgwgn4WSmqKwMPQLLaAcw89/ZuN+qMKwsGB4wlAOCY6yKbLJsmD1O/N/e4EtuoAsSqsBF9zIt1ebMxA==, tarball: https://npm.pkg.github.com/download/@zernikalos/zernikalos/0.10.0/bacc4ad260bbda99e9b36cdccee43774b8c1baee}
 
   '@zernikalos/zkbuilder@0.7.1':
     resolution: {integrity: sha512-Xds20BSCWTv/zTaCJ+pZRm/gTAbpOp3DdnZ04E//ci9CK0jRGEuteK8slGYbQ/JxuP7ESn1EPvGi04IFoXq95w==, tarball: https://npm.pkg.github.com/download/@zernikalos/zkbuilder/0.7.1/121bdb65703b53b3cc00cb1edec2e9bbece86974}
@@ -10278,12 +10278,12 @@ snapshots:
 
   '@yarnpkg/lockfile@1.1.0': {}
 
-  '@zernikalos/zernikalos@0.9.0': {}
+  '@zernikalos/zernikalos@0.10.0': {}
 
-  '@zernikalos/zkbuilder@0.7.1(@zernikalos/zernikalos@0.9.0)':
+  '@zernikalos/zkbuilder@0.7.1(@zernikalos/zernikalos@0.10.0)':
     dependencies:
       '@xmldom/xmldom': 0.9.9
-      '@zernikalos/zernikalos': 0.9.0
+      '@zernikalos/zernikalos': 0.10.0
       get-own-enumerable-property-symbols: 3.0.2
       image-size: 2.0.2
       is-obj: 3.0.0
