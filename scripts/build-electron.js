@@ -2,64 +2,103 @@
 
 const builder = require("electron-builder");
 const Platform = builder.Platform;
+const Arch = builder.Arch;
 const { options } = require("../electronapp/builder-options.cjs");
 
-// Build function
-async function build() {
-    const platformArg = process.argv.find(arg =>
-        arg === "mac" || arg === "darwin" ||
-        arg === "win" || arg === "win32" ||
-        arg === "linux" || arg === "all"
+/** Windows targets built one-by-one to avoid NSIS/zip racing on win-unpacked. */
+const WIN_TARGETS = ["nsis", "zip"];
+
+function resolvePlatformArg() {
+    return process.argv.find(
+        (arg) =>
+            arg === "mac" ||
+            arg === "darwin" ||
+            arg === "win" ||
+            arg === "win32" ||
+            arg === "linux" ||
+            arg === "all",
     );
+}
 
-    const isDirOnly = process.argv.includes("--dir");
-
-    let targets;
-    let config = { ...options };
-
+function isWindowsBuild(platformArg, isDirOnly) {
     if (isDirOnly) {
-        // Package only without creating installers
-        config.directories.output = "out";
+        return false;
     }
+    if (platformArg === "win" || platformArg === "win32") {
+        return true;
+    }
+    return !platformArg && process.platform === "win32";
+}
 
+function resolveTargets(platformArg, isDirOnly) {
     if (platformArg) {
         switch (platformArg) {
             case "mac":
             case "darwin":
-                targets = Platform.MAC.createTarget();
-                break;
+                return Platform.MAC.createTarget();
             case "win":
             case "win32":
-                targets = Platform.WINDOWS.createTarget();
-                break;
+                return Platform.WINDOWS.createTarget();
             case "linux":
-                targets = Platform.LINUX.createTarget();
-                break;
+                return Platform.LINUX.createTarget();
             case "all":
-                targets = [
+                return [
                     Platform.MAC.createTarget(),
                     Platform.WINDOWS.createTarget(),
-                    Platform.LINUX.createTarget()
+                    Platform.LINUX.createTarget(),
                 ];
-                break;
         }
-    } else {
-        // By default, build for current platform
-        targets = Platform.current().createTarget();
+    }
+    return Platform.current().createTarget();
+}
+
+function cloneConfig(config) {
+    return JSON.parse(JSON.stringify(config));
+}
+
+async function buildWindowsTargetsSequentially(baseConfig) {
+    const artifacts = [];
+    for (const targetName of WIN_TARGETS) {
+        console.log(`Building Windows target: ${targetName}...`);
+        const targetConfig = cloneConfig(baseConfig);
+        targetConfig.win.target = [{ target: targetName, arch: ["x64"] }];
+        const result = await builder.build({
+            targets: Platform.WINDOWS.createTarget(targetName, Arch.x64),
+            config: targetConfig,
+        });
+        artifacts.push(...result);
+    }
+    return artifacts;
+}
+
+async function build() {
+    // Skip code-sign discovery (local unsigned builds; avoids flaky sign/uninstaller steps).
+    process.env.CSC_IDENTITY_AUTO_DISCOVERY = "false";
+
+    const platformArg = resolvePlatformArg();
+    const isDirOnly = process.argv.includes("--dir");
+    const config = { ...options };
+
+    if (isDirOnly) {
+        config.directories = { ...config.directories, output: "out" };
     }
 
-    try {
-        const platformName = platformArg || process.platform;
-        console.log(`Building for: ${platformName}`);
+    const targets = resolveTargets(platformArg, isDirOnly);
+    const platformName = platformArg || process.platform;
+    const sequentialWindows = isWindowsBuild(platformArg, isDirOnly);
 
+    try {
+        console.log(`Building for: ${platformName}`);
         if (isDirOnly) {
             console.log("Packaging only (no installers)...");
         }
+        if (sequentialWindows) {
+            console.log("Windows: building nsis → zip sequentially...");
+        }
 
-        const result = await builder.build({
-            targets: targets,
-            config: config
-        });
+        const result = sequentialWindows
+            ? await buildWindowsTargetsSequentially(config)
+            : await builder.build({ targets, config });
 
         console.log("Build completed successfully!");
         console.log(JSON.stringify(result, null, 2));
@@ -69,9 +108,8 @@ async function build() {
     }
 }
 
-// Execute if called directly
 if (require.main === module) {
     build();
 }
 
-module.exports = { build, options };
+module.exports = { build, options, WIN_TARGETS };

@@ -17,7 +17,6 @@ const options = {
     },
     files: [
         "electronapp/dist/**/*",
-        "packages/reactui/dist/**/*",
         "vueui/dist/**/*",
         "nestserver/dist/**/*",
         "electronapp/assets/**/*",
@@ -39,7 +38,6 @@ const options = {
         "!**/vite.*.config.*",
         "!**/electronapp/src/**/*",
         "!**/nestserver/src/**/*",
-        "!**/packages/reactui/src/**/*",
         "!**/vueui/src/**/*"
     ],
     asar: false,
@@ -72,12 +70,21 @@ const options = {
                 target: "nsis",
                 arch: ["x64"],
             },
+            {
+                target: "zip",
+                arch: ["x64"],
+            },
         ],
+        executableName: "ZernikalosNest",
         icon: "electronapp/assets/icons/zklogo.png",
+        // Unsigned local builds: avoids winCodeSign extract (symlinks need admin/Developer Mode on Windows).
+        signAndEditExecutable: false,
     },
     nsis: {
         deleteAppDataOnUninstall: true,
-        perMachine: true,
+        perMachine: false,
+        installerIcon: "electronapp/assets/icons/zklogo.ico",
+        uninstallerIcon: "electronapp/assets/icons/zklogo.ico",
     },
     fileAssociations: [
         {
