@@ -1,6 +1,7 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { SettingsRepository, AppSettings } from './settings.repository';
-import * as _ from "lodash";
+import { AppearanceSettings, DEFAULT_APP_SETTINGS } from './app-settings';
+import * as _ from 'lodash';
 
 @Injectable()
 export class SettingsService {
@@ -14,8 +15,8 @@ export class SettingsService {
 
     async getWindowSize(): Promise<{ width: number; height: number }> {
         const settings = await this.settingsRepository.getSettings();
-        if (_.isNil(settings) || _.isNil(settings.windowSize)) {
-            return { width: 1280, height: 720 };
+        if (_.isNil(settings.windowSize)) {
+            return DEFAULT_APP_SETTINGS.windowSize!;
         }
         return settings.windowSize;
     }
@@ -24,17 +25,49 @@ export class SettingsService {
         await this.settingsRepository.updateSettings({ windowSize: { width, height } });
     }
 
-    async getTheme(): Promise<string | undefined> {
+    async getAppearance(): Promise<AppearanceSettings> {
         const settings = await this.settingsRepository.getSettings();
-        return settings.theme;
+        if (_.isNil(settings.appearance)) {
+            return DEFAULT_APP_SETTINGS.appearance!;
+        }
+        return settings.appearance;
+    }
+
+    async updateAppearance(partial: Partial<AppearanceSettings>): Promise<void> {
+        const appearance = { ...(await this.getAppearance()), ...partial };
+        await this.settingsRepository.updateSettings({ appearance });
+        if (!_.isNil(partial.theme)) {
+            this.logger.log(`Theme updated to ${partial.theme}`);
+        }
+        if (!_.isNil(partial.font)) {
+            this.logger.log(`Font updated to ${partial.font}`);
+        }
+    }
+
+    async getTheme(): Promise<string> {
+        return (await this.getAppearance()).theme;
     }
 
     async setTheme(theme: string): Promise<void> {
-        await this.settingsRepository.updateSettings({ theme });
-        this.logger.log(`Theme updated to ${theme}`);
+        await this.updateAppearance({ theme });
+    }
+
+    async getFont(): Promise<string> {
+        return (await this.getAppearance()).font;
+    }
+
+    async setFont(font: string): Promise<void> {
+        await this.updateAppearance({ font });
+    }
+
+    async setLastProjectPath(filePath: string | undefined): Promise<void> {
+        await this.settingsRepository.updateSettings({ lastProjectPath: filePath });
+        if (filePath) {
+            this.logger.log(`Last project path updated to ${filePath}`);
+        }
     }
 
     async updateSettings(partialSettings: Partial<AppSettings>): Promise<AppSettings> {
         return await this.settingsRepository.updateSettings(partialSettings);
     }
-} 
+}

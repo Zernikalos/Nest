@@ -1,5 +1,4 @@
 import { BrowserWindow, ipcMain } from "electron";
-import * as path from "node:path";
 import { MenuEvents, RendererMenuEvents } from "./menu/MenuEvents";
 import { createMenu } from "./menu/menu";
 import { DEFAULT_MENU_CONTEXT, type MenuContextSnapshot } from "./menu/MenuContext";
@@ -10,7 +9,7 @@ import * as fs from "node:fs/promises";
 import { Constants } from "./constants";
 import { loadZkoDialog } from "./dialogs/loadZkoDialog";
 import _ from "lodash";
-import { SettingsService } from "./nestServerAdapter";
+import { SettingsService, type AppSettings } from "./nestServerAdapter";
 import { createProjectDialog } from "./dialogs/createProjectDialog";
 import { openProjectDialog } from "./dialogs/openProjectDialog";
 
@@ -131,50 +130,12 @@ export function registerMainWindowIpcHandlers(
         return pathInfo?.filePath ?? null;
     });
 
-    ipcMain.handle("userSettings:get", async (_event, key: any) => {
-        const settings = await getSettings().getSettings();
-        // @ts-ignore
-        return settings[key];
-    });
+    ipcMain.handle("userSettings:getAll", async () => getSettings().getSettings());
 
-    ipcMain.handle("userSettings:set", (_event, key, value) => {
-        getSettings().updateSettings({ [key]: value });
-    });
+    ipcMain.handle("userSettings:patch", async (_event, partial: Partial<AppSettings>) =>
+        getSettings().updateSettings(partial));
 
     ipcMain.on("ide:menuContext", (_event, context: MenuContextSnapshot) => {
         createMenu(context);
-    });
-
-    const ideStoragePath = path.join(Constants.userDataPath, "ide-session.json");
-    ipcMain.handle("ide-storage:get", async (_event, key: string) => {
-        try {
-            const raw = await fs.readFile(ideStoragePath, "utf-8");
-            const data = JSON.parse(raw) as Record<string, string>;
-            return data[key] ?? null;
-        } catch {
-            return null;
-        }
-    });
-    ipcMain.handle("ide-storage:set", async (_event, key: string, value: string) => {
-        let data: Record<string, string> = {};
-        try {
-            const raw = await fs.readFile(ideStoragePath, "utf-8");
-            data = JSON.parse(raw) as Record<string, string>;
-        } catch {
-            // file missing or invalid
-        }
-        data[key] = value;
-        await fs.mkdir(path.dirname(ideStoragePath), { recursive: true });
-        await fs.writeFile(ideStoragePath, JSON.stringify(data), "utf-8");
-    });
-    ipcMain.handle("ide-storage:delete", async (_event, key: string) => {
-        try {
-            const raw = await fs.readFile(ideStoragePath, "utf-8");
-            const data = JSON.parse(raw) as Record<string, string>;
-            delete data[key];
-            await fs.writeFile(ideStoragePath, JSON.stringify(data), "utf-8");
-        } catch {
-            // ignore
-        }
     });
 }

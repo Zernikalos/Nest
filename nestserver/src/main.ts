@@ -10,6 +10,12 @@ import { ConfigService } from '@nestjs/config';
 import getPort, { portNumbers } from 'get-port';
 
 export { SettingsService };
+export type {
+    AppSettings,
+    AppearanceSettings,
+    GeneralSettings,
+    WindowSizeSettings,
+} from './settings/app-settings';
 
 export interface ZNestServer {
     settings: SettingsService;

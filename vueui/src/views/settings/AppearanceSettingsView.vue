@@ -29,7 +29,7 @@ watch(
   () => form.theme,
   (theme) => {
     appearanceStore.setTheme(theme);
-    settingsStore.updateAppearanceSettings({ theme });
+    settingsStore.patchSettings({ appearance: { theme } });
   }
 );
 
@@ -37,14 +37,14 @@ watch(
   () => form.font,
   (font) => {
     appearanceStore.setFont(font);
-    settingsStore.updateAppearanceSettings({ font });
+    settingsStore.patchSettings({ appearance: { font } });
   }
 );
 
 const isSaved = ref(false);
 
 function handleSave() {
-  settingsStore.updateAppearanceSettings({ theme: form.theme, font: form.font });
+  settingsStore.patchSettings({ appearance: { theme: form.theme, font: form.font } });
   isSaved.value = true;
   setTimeout(() => (isSaved.value = false), 1500);
 }

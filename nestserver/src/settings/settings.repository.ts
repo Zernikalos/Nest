@@ -2,56 +2,77 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import {merge, isEmpty} from 'lodash';
+import { merge, isEmpty } from 'lodash';
+import { AppSettings, mergeWithDefaults } from './app-settings';
 
-export interface AppSettings {
-    windowSize?: {
-        width: number;
-        height: number;
-    };
-    theme?: string;
-    font?: string;
-}
+export type {
+    AppSettings,
+    AppearanceSettings,
+    GeneralSettings,
+    WindowSizeSettings,
+} from './app-settings';
 
 @Injectable()
 export class SettingsRepository {
     private readonly logger = new Logger(SettingsRepository.name);
     private settings: AppSettings = {};
 
-    constructor(
-        private readonly configService: ConfigService
-    ) {
-
-    }
+    constructor(private readonly configService: ConfigService) {}
 
     async loadSettings(): Promise<AppSettings> {
-        const settingsPath = this.configService.get<string>('settingsPath');
-        this.logger.log(`Settings file path: ${settingsPath}`);
+        this.logger.log(`Settings file path: ${this.getSettingsPath()}`);
         try {
-            const data = await fs.readFile(settingsPath, 'utf-8');
-            this.settings = JSON.parse(data);
+            const parsed = await this.readSettingsFromDisk();
+            await this.bootstrapSettings(parsed);
             this.logger.log('Settings loaded successfully');
-        } catch (error) {
+        } catch {
             this.logger.warn('Settings file not found or invalid, using defaults');
-            this.settings = {};
+            await this.bootstrapSettings({});
         }
         return this.settings;
     }
 
-    async saveSettings(settings: AppSettings): Promise<void> {
-        const settingsPath = this.configService.get<string>('settingsPath');
+    async saveSettings(settings: AppSettings): Promise<AppSettings> {
         try {
-            // Ensure directory exists
-            const dir = path.dirname(settingsPath);
-            await fs.mkdir(dir, { recursive: true });
-            
-            // Save settings
-            await fs.writeFile(settingsPath, JSON.stringify(settings, null, 2));
-            this.settings = settings;
+            return await this.persistSettings(settings);
         } catch (error) {
             this.logger.error('Failed to save settings', error);
             throw error;
         }
+    }
+
+    private getSettingsPath(): string {
+        return this.configService.get<string>('settingsPath')!;
+    }
+
+    private async ensureSettingsDirectory(): Promise<void> {
+        await fs.mkdir(path.dirname(this.getSettingsPath()), { recursive: true });
+    }
+
+    private async readSettingsFromDisk(): Promise<unknown> {
+        const data = await fs.readFile(this.getSettingsPath(), 'utf-8');
+        return JSON.parse(data) as unknown;
+    }
+
+    /** Normalize partial/loaded data and persist so the file always matches the schema. */
+    private async bootstrapSettings(partial: unknown): Promise<void> {
+        await this.persistSettings(partial);
+    }
+
+    private async persistSettings(partial: Partial<AppSettings> | unknown): Promise<AppSettings> {
+        const normalized = mergeWithDefaults(partial);
+        await this.writeSettingsToDisk(normalized);
+        this.settings = normalized;
+        return normalized;
+    }
+
+    private async writeSettingsToDisk(settings: AppSettings): Promise<void> {
+        await this.ensureSettingsDirectory();
+        await fs.writeFile(
+            this.getSettingsPath(),
+            JSON.stringify(settings, null, 2),
+            'utf-8',
+        );
     }
 
     async getSettings(): Promise<AppSettings> {
@@ -63,8 +84,7 @@ export class SettingsRepository {
 
     async updateSettings(partialSettings: Partial<AppSettings>): Promise<AppSettings> {
         const currentSettings = await this.getSettings();
-        const updatedSettings = merge({}, currentSettings, partialSettings);
-        await this.saveSettings(updatedSettings);
-        return updatedSettings;
+        const updatedSettings = mergeWithDefaults(merge({}, currentSettings, partialSettings));
+        return this.saveSettings(updatedSettings);
     }
-} 
+}

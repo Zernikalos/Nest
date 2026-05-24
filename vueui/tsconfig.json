@@ -14,7 +14,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@ide-core": ["../ide-core/src/index.ts"],
-      "@ide-core/vue": ["../ide-core/src/vue/index.ts"]
+      "@ide-core/vue": ["../ide-core/src/vue/index.ts"],
+      "@app-settings": ["../nestserver/src/settings/app-settings.ts"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.vue"]

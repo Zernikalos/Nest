@@ -8,6 +8,7 @@ import { nestServerBootstrap, ZNestServer } from "./nestServerAdapter"
 
 import { createMenu } from "./menu"
 import { MainWindow, registerMainWindowIpcHandlers } from "./MainWindow"
+import { registerIdeStorageIpcHandlers } from "./storage/ideSessionStorage"
 import {desiredWindowSize, WindowSize} from "./tools/desiredWindowSize"
 import {Constants} from "./constants"
 
@@ -35,6 +36,7 @@ export class ZernikalosNest {
             () => this.mainWindow,
             () => this.nestServer.settings,
         )
+        registerIdeStorageIpcHandlers()
 
         const size = this.desiredSize
         await this.initializeWindow(size.width, size.height)

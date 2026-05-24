@@ -2,14 +2,14 @@ import { computed, inject, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useProjectUIStore } from '@/stores/projectUIStore';
 import type { IInputAsset } from '@/types/project';
-import { HOST_PORT_KEY, PREFERENCES_PORT_KEY, type HostPort } from '@/types/hostPort';
-import type { StoragePort } from '@ide-core';
+import { HOST_PORT_KEY, type HostPort } from '@/types/hostPort';
 import { useEditorStore, useEditorSlice } from '@ide-core/vue';
+import { useSettingsStore } from '@/stores/settingsStore';
 
 export function useProject() {
   const router = useRouter();
   const hostPort = inject<HostPort>(HOST_PORT_KEY);
-  const preferencesPort = inject<StoragePort | undefined>(PREFERENCES_PORT_KEY);
+  const settingsStore = useSettingsStore();
   const projectUIStore = useProjectUIStore();
   const editor = useEditorStore();
   const projectViewModel = useEditorSlice('project');
@@ -46,7 +46,7 @@ export function useProject() {
   async function openProject(filePath: string): Promise<void> {
     await editor.openProject(filePath);
     syncMenuContext(true);
-    await preferencesPort?.set('lastProjectPath', filePath);
+    await settingsStore.setLastProjectPath(filePath);
   }
 
   function closeProject(): void {

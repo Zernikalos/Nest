@@ -41,6 +41,10 @@ export class Constants {
         return path.join(Constants.userDataPath, 'nest', 'settings.json')
     }
 
+    public static get ideSessionPath(): string {
+        return path.join(Constants.userDataPath, 'nest', 'ide-session.json')
+    }
+
     public static get nestDbPath(): string {
         return path.join(Constants.userDataPath, 'nest.sqlite')
     }
