@@ -2,7 +2,7 @@ import {BrowserWindow, dialog} from "electron"
 import {cleanDialogReturnValue, PathInfo} from "./cleanDialogReturnValue";
 import OpenDialogOptions = Electron.OpenDialogOptions;
 import _ from "lodash";
-function buildFiltersFromFormat(format: "gltf" | "obj" | "fbx" | "collada") {
+function buildFiltersFromFormat(format: ImportFileFormat) {
     switch (format) {
         case "gltf":
             return { name: 'GLTF', extensions: ['gltf', 'glb'] }
@@ -17,7 +17,12 @@ function buildFiltersFromFormat(format: "gltf" | "obj" | "fbx" | "collada") {
 
 let lastPath: string | undefined = undefined
 
-export async function importFileDialog(browserWindow: BrowserWindow, format: "gltf" | "obj" | "fbx"): Promise<PathInfo | undefined> {
+export type ImportFileFormat = 'gltf' | 'obj' | 'fbx' | 'collada';
+
+export async function importFileDialog(
+    browserWindow: BrowserWindow,
+    format: ImportFileFormat,
+): Promise<PathInfo | undefined> {
     const filter = buildFiltersFromFormat(format)
     const config: OpenDialogOptions = {
         title: "Import file",

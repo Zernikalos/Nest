@@ -122,6 +122,10 @@ export const useEditorStore = defineStore('editor', () => {
         getRuntime().context.set(key, value);
     }
 
+    function evaluateContext(expr: string): boolean {
+        return getRuntime().context.evaluate(expr);
+    }
+
     return {
         getRuntime,
         selectNodes,
@@ -146,5 +150,6 @@ export const useEditorStore = defineStore('editor', () => {
         registerCommand,
         unregisterCommand,
         setContextKey,
+        evaluateContext,
     };
 });

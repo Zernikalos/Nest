@@ -73,6 +73,17 @@ export function createMenu(context: MenuContextSnapshot = DEFAULT_MENU_CONTEXT):
     ]
 
     const menu = Menu.buildFromTemplate(template)
-    Menu.setApplicationMenu(menu)
+    if (Constants.isMac) {
+        Menu.setApplicationMenu(menu)
+    } else {
+        Menu.setApplicationMenu(null)
+    }
     return menu
+}
+
+/** Clears native menu on platforms that use in-renderer chrome. */
+export function clearApplicationMenu(): void {
+    if (!Constants.isMac) {
+        Menu.setApplicationMenu(null)
+    }
 }

@@ -38,25 +38,25 @@ export function getFileMenuTemplate(context: MenuContextSnapshot): Electron.Menu
                     {
                         label: "Import GlTF (.gltf, .glb)",
                         click: () => {
-                            ipcMain.emit(MenuEvents.IMPORT_FILE, null, { format: "gltf" })
+                            ipcMain.emit(MenuEvents.IMPORT_FILE, { format: "gltf" })
                         }
                     },
                     {
                         label: "Import OBJ (.obj)",
                         click: () => {
-                            ipcMain.emit(MenuEvents.IMPORT_FILE, null, { format: "obj" })
+                            ipcMain.emit(MenuEvents.IMPORT_FILE, { format: "obj" })
                         }
                     },
                     {
                         label: "Import FBX (.fbx)",
                         click: () => {
-                            ipcMain.emit(MenuEvents.IMPORT_FILE, null, { format: "fbx" })
+                            ipcMain.emit(MenuEvents.IMPORT_FILE, { format: "fbx" })
                         }
                     },
                     {
                         label: "Import Collada (.dae)",
                         click: () => {
-                            ipcMain.emit(MenuEvents.IMPORT_FILE, null, { format: "collada" })
+                            ipcMain.emit(MenuEvents.IMPORT_FILE, { format: "collada" })
                         }
                     }
                 ],
