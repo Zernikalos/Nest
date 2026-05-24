@@ -1,9 +1,19 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const configDir = path.dirname(fileURLToPath(import.meta.url));
+
 /** @type {import('jest').Config} */
 export default {
+    rootDir: configDir,
     preset: 'ts-jest',
     testEnvironment: 'node',
     testMatch: ['**/*.test.ts'],
-    collectCoverageFrom: ['src/**/*.ts', '!src/**/*.test.ts', '!src/**/*.d.ts'],
+    collectCoverageFrom: [
+        'src/core/**/*.ts',
+        '!src/core/**/*.test.ts',
+        '!src/core/**/*.d.ts',
+    ],
     moduleFileExtensions: ['ts', 'js'],
     moduleNameMapper: {
         '^(\\.{1,2}/.*)\\.js$': '$1',
@@ -12,7 +22,7 @@ export default {
         '^.+\\.ts$': [
             'ts-jest',
             {
-                tsconfig: './tsconfig.test.json',
+                tsconfig: path.join(configDir, 'tsconfig.test.json'),
                 useESM: false,
             },
         ],

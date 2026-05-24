@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { provide, ref } from 'vue';
+import { ref, provide } from 'vue';
+import { getActivePinia } from 'pinia';
+import type { EditorRuntime } from '@ide-core';
 import { createEditorRuntime } from '@/runtime/createEditorRuntime';
 import {
   createLocalStorageStoragePort,
@@ -10,10 +12,10 @@ import {
 import { createProjectPort } from '@/runtime/projectAdapter';
 import { createAssetConversionPort } from '@/runtime/assetConversionAdapter';
 import { createEngineSessionPort } from '@/runtime/engineSessionAdapter';
-import { RUNTIME_KEY } from '@/composables/useIdeCore';
+import { provideEditorRuntime, installEditorStore } from '@ide-core/vue';
 import { PREFERENCES_PORT_KEY } from '@/types/hostPort';
 
-const runtimeRef = ref<ReturnType<typeof createEditorRuntime> | null>(null);
+const runtimeRef = ref<EditorRuntime | null>(null);
 let preferencesPort: ReturnType<typeof createPreferencesPort> | null = null;
 if (!runtimeRef.value) {
   const storage = isElectronStorageAvailable()
@@ -25,7 +27,13 @@ if (!runtimeRef.value) {
   const engineSession = createEngineSessionPort();
   runtimeRef.value = createEditorRuntime({ storage, project, assetConversion, engineSession });
 }
-provide(RUNTIME_KEY, runtimeRef.value);
+
+const runtime = runtimeRef.value as EditorRuntime;
+provideEditorRuntime(runtime);
+const pinia = getActivePinia();
+if (pinia) {
+  installEditorStore(pinia, runtime);
+}
 if (preferencesPort) {
   provide(PREFERENCES_PORT_KEY, preferencesPort);
 }

@@ -1,12 +1,19 @@
 <script setup lang="ts">
 defineOptions({ name: 'OpenNodesTabBar' });
 import { computed, ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
-import { useNestEditor } from '@/composables/useNestEditor';
+import { nodeIdToDocumentUri } from '@ide-core';
+import { useEditorStore, useEditorSlice } from '@ide-core/vue';
 import ObjectTypeIcon from '@/components/editor/ObjectTypeIcon.vue';
 import EditorTabBarActions from '@/components/editor/EditorTabBarActions.vue';
 import { cn } from '@/lib/utils';
+import {
+  saveEditorTabBarScrollLeft,
+  restoreEditorTabBarScroll,
+} from '@/composables/useEditorTabBarScroll';
 
-const editor = useNestEditor();
+const editor = useEditorStore();
+const scene = useEditorSlice('scene');
+const documents = useEditorSlice('documents');
 
 const tabsScrollEl = ref<HTMLElement | null>(null);
 const thumbWidthPx = ref(0);
@@ -14,6 +21,9 @@ const thumbOffsetPx = ref(0);
 const hasOverflow = ref(false);
 
 let resizeObserver: ResizeObserver | null = null;
+
+const openedNodes = computed(() => scene.value.openedNodes);
+const activeNode = computed(() => scene.value.activeNode);
 
 function syncThumb() {
   const el = tabsScrollEl.value;
@@ -31,165 +41,142 @@ function syncThumb() {
 
   const trackWidth = clientWidth;
   thumbWidthPx.value = Math.max(16, (clientWidth / scrollWidth) * trackWidth);
-
   const maxScroll = scrollWidth - clientWidth;
-  const maxThumbOffset = trackWidth - thumbWidthPx.value;
-  thumbOffsetPx.value = maxScroll > 0 ? (scrollLeft / maxScroll) * maxThumbOffset : 0;
+  const scrollRatio = maxScroll > 0 ? scrollLeft / maxScroll : 0;
+  thumbOffsetPx.value = scrollRatio * (trackWidth - thumbWidthPx.value);
 }
 
-const thumbStyle = computed(() => ({
-  width: `${thumbWidthPx.value}px`,
-  transform: `translateX(${thumbOffsetPx.value}px)`,
-}));
+function onTabClick(nodeId: string) {
+  editor.openZObject(nodeId);
+}
 
-/** Scroll tabs horizontally with the mouse wheel; TabBarActions stays fixed on the right. */
-function onTabsWheel(e: WheelEvent) {
-  const el = tabsScrollEl.value;
-  if (!el || el.scrollWidth <= el.clientWidth) return;
+function onClose(e: Event, nodeId: string) {
+  e.stopPropagation();
+  const uri = nodeIdToDocumentUri(nodeId);
+  const remaining = documents.value.openedDocuments.filter((d) => d.uri !== uri);
+  if (remaining.length === 0) return;
+  editor.closeDocument(uri);
+}
+
+const tabClass = (active: boolean) =>
+  cn(
+    'open-node-tab group inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 island-radius-t px-3 py-1.5 text-sm font-normal transition-colors duration-200',
+    'border-b-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+    active
+      ? 'border-primary bg-base-100 text-base-foreground shadow'
+      : 'border-transparent text-muted-foreground hover:bg-base-300 hover:text-base-foreground'
+  );
+
+function onScrollWheel(e: WheelEvent) {
+  const el = e.currentTarget as HTMLElement;
+  if (el.scrollWidth <= el.clientWidth) return;
   if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
   e.preventDefault();
   el.scrollLeft += e.deltaY;
 }
 
-const openedNodes = computed(() => editor?.openedNodes?.value ?? []);
-const activeNode = computed(() => editor?.activeNode?.value ?? null);
-
-watch(openedNodes, () => nextTick(syncThumb), { deep: true });
-
 onMounted(() => {
-  nextTick(() => {
-    syncThumb();
-    const el = tabsScrollEl.value;
-    if (!el) return;
-
-    resizeObserver = new ResizeObserver(() => syncThumb());
-    resizeObserver.observe(el);
-    const inner = el.firstElementChild;
-    if (inner) resizeObserver.observe(inner);
-  });
+  const el = tabsScrollEl.value;
+  if (!el) return;
+  restoreEditorTabBarScroll(el);
+  syncThumb();
+  el.addEventListener('scroll', syncThumb, { passive: true });
+  resizeObserver = new ResizeObserver(() => syncThumb());
+  resizeObserver.observe(el);
 });
 
 onBeforeUnmount(() => {
+  const el = tabsScrollEl.value;
+  if (el) {
+    saveEditorTabBarScrollLeft(el.scrollLeft);
+    el.removeEventListener('scroll', syncThumb);
+  }
   resizeObserver?.disconnect();
-  resizeObserver = null;
 });
 
-function onTabClick(nodeId: string) {
-  editor?.handleTabChange(nodeId);
-}
-
-function onClose(e: Event, nodeId: string) {
-  e.stopPropagation();
-  editor?.handleTabClose(nodeId);
-}
-
-function iconTypeFor(node: { iconType?: string }): string {
-  return node.iconType ?? '';
-}
+watch(openedNodes, () => nextTick(syncThumb));
 </script>
 
 <template>
   <div
-    v-if="editor"
-    class="open-nodes-tab-bar flex h-9 flex-shrink-0 border-b border-base-300 bg-base-200/80"
+    v-if="openedNodes.length > 0"
+    class="open-nodes-tab-bar editor-tab-bar flex min-h-9 w-full min-w-0 flex-shrink-0 items-stretch overflow-hidden border-b border-base-300 bg-base-200/80 island-radius-t"
     role="tablist"
-    aria-label="Open objects"
+    aria-label="Open editors"
   >
-    <div class="open-nodes-tab-bar__tabs-wrap flex-1 min-w-0">
-      <div
-        ref="tabsScrollEl"
-        class="open-nodes-tab-bar__tabs h-9"
-        @scroll="syncThumb"
-        @wheel="onTabsWheel"
-      >
-        <div class="open-nodes-tab-bar__tabs-inner flex h-9 w-max min-w-full items-stretch">
-          <div
-            v-for="node in openedNodes"
-            :key="node.id"
-            role="tab"
-            tabindex="0"
-            :aria-selected="activeNode === node.id"
-            :class="cn(
-              'open-node-tab group relative inline-flex flex-shrink-0 items-center gap-1.5 h-9 max-w-[180px] px-2.5 text-xs cursor-pointer',
-              'text-muted-foreground hover:text-base-foreground transition-colors duration-150',
-              'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-primary',
-              activeNode === node.id
-                ? 'bg-base-100 text-base-foreground'
-                : 'hover:bg-base-300/60'
-            )"
-            @click="onTabClick(node.id)"
-            @keydown.enter.prevent="onTabClick(node.id)"
-            @keydown.space.prevent="onTabClick(node.id)"
+    <div
+      ref="tabsScrollEl"
+      class="editor-tab-bar__scroll relative min-w-0 flex-1 overflow-x-auto overflow-y-hidden"
+      @wheel="onScrollWheel"
+    >
+      <div class="editor-tab-bar__track inline-flex items-center gap-0.5 px-1 pb-1 pt-1">
+        <div
+          v-for="node in openedNodes"
+          :key="node.id"
+          role="tab"
+          tabindex="0"
+          :aria-selected="activeNode === node.id"
+          :class="tabClass(activeNode === node.id)"
+          @click="onTabClick(node.id)"
+          @keydown.enter.prevent="onTabClick(node.id)"
+          @keydown.space.prevent="onTabClick(node.id)"
+        >
+          <ObjectTypeIcon :type="node.iconType ?? ''" :size="14" class="flex-shrink-0" />
+          <span class="max-w-[120px] truncate">{{ node.label }}</span>
+          <button
+            type="button"
+            class="open-node-tab-close rounded p-0.5 opacity-0 transition-opacity hover:bg-base-300 focus-visible:outline-none focus-visible:ring-1 group-hover:opacity-100"
+            :aria-label="`Close ${node.label}`"
+            @click="onClose($event, node.id)"
           >
-            <span
-              v-if="activeNode === node.id"
-              class="absolute inset-x-0 top-0 h-px bg-primary"
-              aria-hidden
-            />
-            <ObjectTypeIcon :type="iconTypeFor(node)" :size="14" />
-            <span class="truncate min-w-0">{{ node.label }}</span>
-            <button
-              type="button"
-              :class="cn(
-                'open-node-tab-close flex-shrink-0 rounded p-0.5 -mr-0.5',
-                'hover:bg-base-300 focus-visible:outline-none focus-visible:ring-1',
-                activeNode === node.id ? 'opacity-70 hover:opacity-100' : 'opacity-0 group-hover:opacity-70 group-hover:hover:opacity-100'
-              )"
-              :aria-label="`Close ${node.label}`"
-              @click="onClose($event, node.id)"
-            >
-              <span class="block w-3 h-3 leading-none text-muted-foreground hover:text-base-foreground">×</span>
-            </button>
-          </div>
+            <span class="block h-3 w-3 leading-none text-muted-foreground">×</span>
+          </button>
         </div>
       </div>
       <div
         v-if="hasOverflow"
-        class="open-nodes-tab-bar__scrollbar"
+        class="pointer-events-none absolute bottom-0 left-0 right-0 h-0.5 bg-base-300"
         aria-hidden="true"
       >
-        <div class="open-nodes-tab-bar__scrollbar-thumb" :style="thumbStyle" />
+        <div
+          class="absolute top-0 h-full rounded-full bg-primary/60 transition-[width,transform] duration-75"
+          :style="{ width: `${thumbWidthPx}px`, transform: `translateX(${thumbOffsetPx}px)` }"
+        />
       </div>
     </div>
+
     <EditorTabBarActions />
   </div>
 </template>
 
 <style scoped>
-.open-nodes-tab-bar__tabs-wrap {
-  position: relative;
+.editor-tab-bar__scroll {
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
 }
 
-/* Native scrollbar hidden (Windows arrow buttons cannot be removed reliably via CSS) */
-.open-nodes-tab-bar__tabs {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.open-nodes-tab-bar__tabs::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
+.editor-tab-bar__scroll:hover {
+  scrollbar-color: hsl(var(--muted-foreground) / 0.35) transparent;
 }
 
-/* Custom 2px thumb — visible only when hovering the tab strip */
-.open-nodes-tab-bar__scrollbar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.15s ease;
+.editor-tab-bar__scroll::-webkit-scrollbar {
+  height: 3px;
 }
-.open-nodes-tab-bar__tabs-wrap:hover .open-nodes-tab-bar__scrollbar {
-  opacity: 1;
-}
-.open-nodes-tab-bar__scrollbar-thumb {
-  height: 100%;
+
+.editor-tab-bar__scroll::-webkit-scrollbar-track {
+  margin-top: 2px;
+  background: transparent;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--base-300) 85%, transparent);
+}
+
+.editor-tab-bar__scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+
+.editor-tab-bar__scroll:hover::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.35);
 }
 </style>

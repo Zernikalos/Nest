@@ -1,7 +1,7 @@
-import { onMounted, onUnmounted, watch, nextTick, inject, ref } from 'vue';
+import { onMounted, onUnmounted, watch, nextTick, inject, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useElectronEvents } from '@/composables/useElectronEvents';
-import { useIdeCore } from '@/composables/useIdeCore';
+import { useEditorStore, useEditorSlice } from '@ide-core/vue';
 import { useProject } from '@/composables/useProject';
 import { useProjectUIStore } from '@/stores/projectUIStore';
 import {
@@ -13,96 +13,85 @@ import {
 } from '@/lib/commandIds';
 import type { AssetConversionData } from '@/types/project';
 import { HOST_PORT_KEY, type HostPort } from '@/types/hostPort';
-import { RUNTIME_KEY } from '@/composables/useIdeCore';
-import type { EditorRuntime } from '@ide-core';
 
 /**
  * Composable that integrates Electron IPC events with project/editor commands.
- * Registers commands with the runtime and wires window events to executeCommand.
- * Call once inside IdeCoreProvider (e.g. from App or a root layout).
  */
 export function useElectronProjectIntegration() {
   const router = useRouter();
   const hostPort = inject<HostPort>(HOST_PORT_KEY);
-  const runtime = inject<EditorRuntime | null>(RUNTIME_KEY, null);
   const electron = useElectronEvents();
-  const { executeCommand, registerCommand, unregisterCommand, contextKey } = useIdeCore();
+  const editor = useEditorStore();
+  const project = useEditorSlice('project');
+  const assets = useEditorSlice('assets');
   const { openProject } = useProject();
   const projectUIStore = useProjectUIStore();
 
-  const projectOpenRef = ref(false);
-  let unsubProject: (() => void) | null = null;
-  onMounted(() => {
-    if (runtime) {
-      unsubProject = runtime.subscribeProject(() => {
-        projectOpenRef.value = runtime.getProjectViewModel().isProjectOpen;
-      });
-      projectOpenRef.value = runtime.getProjectViewModel().isProjectOpen;
-    }
-  });
-  onUnmounted(() => {
-    unsubProject?.();
-  });
+  const projectOpen = computed(() => project.value.isProjectOpen);
 
   watch(
-    projectOpenRef,
-    (projectOpen) => {
-      contextKey?.set?.('projectOpen', projectOpen);
-      hostPort?.sendMenuContext?.({ projectOpen });
+    projectOpen,
+    (open) => {
+      editor.setContextKey('projectOpen', open);
+      hostPort?.sendMenuContext?.({ projectOpen: open });
     },
     { immediate: true }
   );
 
-  // Register command handlers
   onMounted(() => {
-    registerCommand(FILE_LOAD_ZKO, () => {
+    editor.registerCommand(FILE_LOAD_ZKO, () => {
       // Placeholder: no handler yet
     });
 
-    registerCommand(FILE_IMPORT_FILE, (payload?: unknown) => {
-      if (!runtime) return;
-      if (!runtime.getProjectViewModel().isProjectOpen) {
-        runtime.setProjectPersistWarning('Open or create a project before importing.');
+    editor.registerCommand(FILE_IMPORT_FILE, (payload?: unknown) => {
+      if (!project.value.isProjectOpen) {
+        editor.setProjectPersistWarning('Open or create a project before importing.');
         return;
       }
       const data = (payload || {}) as AssetConversionData;
       if (!data.path || !data.fileName || !data.format) return;
-      void runtime.convertAsset(data).then(async () => {
-        await nextTick();
-        await router.push('/editor/viewer');
-      }).catch(() => {
-        // Error is already in runtime asset conversion view model
-      });
+      void editor
+        .convertAsset(data)
+        .then(async () => {
+          await nextTick();
+          await router.push('/editor/viewer');
+        })
+        .catch(() => {
+          // Error is already in runtime asset conversion view model
+        });
     });
 
-    registerCommand(FILE_BUNDLE_SCENE, () => {
-      if (!runtime) return;
+    editor.registerCommand(FILE_BUNDLE_SCENE, () => {
       if (!electron.isElectron) return;
 
-      const proto = runtime.getAssetConversionViewModel().lastResult?.proto;
+      const proto = assets.value.lastResult?.proto;
       if (!proto) {
-        runtime.setProjectPersistWarning('No scene available to bundle. Import an asset first.');
+        editor.setProjectPersistWarning(
+          'No scene available to bundle. Import an asset first.'
+        );
         return;
       }
 
       const saveFile = window.NativeZernikalos?.actionSaveFile;
       if (!saveFile) {
         console.warn('[bundleScene] NativeZernikalos.actionSaveFile not available');
-        runtime.setProjectPersistWarning('Bundle scene is not available in this environment.');
+        editor.setProjectPersistWarning(
+          'Bundle scene is not available in this environment.'
+        );
         return;
       }
 
       void saveFile(proto).catch((err) => {
         console.error('Failed to save bundle scene', err);
-        runtime.setProjectPersistWarning('Failed to save bundle scene.');
+        editor.setProjectPersistWarning('Failed to save bundle scene.');
       });
     });
 
-    registerCommand(FILE_CREATE_PROJECT, () => {
+    editor.registerCommand(FILE_CREATE_PROJECT, () => {
       projectUIStore.setIsCreateDialogOpen(true);
     });
 
-    registerCommand(FILE_OPEN_PROJECT, (payload?: unknown) => {
+    editor.registerCommand(FILE_OPEN_PROJECT, (payload?: unknown) => {
       const { filePath } = (payload || {}) as { filePath: string };
       if (!filePath) return;
       openProject(filePath)
@@ -113,23 +102,22 @@ export function useElectronProjectIntegration() {
     });
   });
 
-  // Wire IPC events to commands when in Electron
   onMounted(() => {
     if (!electron.isElectron) return;
 
-    electron.onLoadZko((data) => executeCommand(FILE_LOAD_ZKO, data));
-    electron.onImportFile((data) => executeCommand(FILE_IMPORT_FILE, data));
-    electron.onBundleScene(() => executeCommand(FILE_BUNDLE_SCENE));
-    electron.onCreateProject(() => executeCommand(FILE_CREATE_PROJECT));
-    electron.onOpenProject((data) => executeCommand(FILE_OPEN_PROJECT, data));
+    electron.onLoadZko((data) => editor.executeCommand(FILE_LOAD_ZKO, data));
+    electron.onImportFile((data) => editor.executeCommand(FILE_IMPORT_FILE, data));
+    electron.onBundleScene(() => editor.executeCommand(FILE_BUNDLE_SCENE));
+    electron.onCreateProject(() => editor.executeCommand(FILE_CREATE_PROJECT));
+    electron.onOpenProject((data) => editor.executeCommand(FILE_OPEN_PROJECT, data));
   });
 
   onUnmounted(() => {
-    unregisterCommand?.(FILE_LOAD_ZKO);
-    unregisterCommand?.(FILE_IMPORT_FILE);
-    unregisterCommand?.(FILE_BUNDLE_SCENE);
-    unregisterCommand?.(FILE_CREATE_PROJECT);
-    unregisterCommand?.(FILE_OPEN_PROJECT);
+    editor.unregisterCommand(FILE_LOAD_ZKO);
+    editor.unregisterCommand(FILE_IMPORT_FILE);
+    editor.unregisterCommand(FILE_BUNDLE_SCENE);
+    editor.unregisterCommand(FILE_CREATE_PROJECT);
+    editor.unregisterCommand(FILE_OPEN_PROJECT);
     if (!electron.isElectron) return;
     electron.offLoadZko();
     electron.offImportFile();

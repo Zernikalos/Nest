@@ -1,35 +1,18 @@
-import { ref, watch, computed, inject, onMounted, onUnmounted } from 'vue';
+import { computed, inject, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useProjectUIStore } from '@/stores/projectUIStore';
 import type { IInputAsset } from '@/types/project';
 import { HOST_PORT_KEY, PREFERENCES_PORT_KEY, type HostPort } from '@/types/hostPort';
-import { RUNTIME_KEY } from '@/composables/useIdeCore';
-import type { EditorRuntime } from '@ide-core';
 import type { StoragePort } from '@ide-core';
+import { useEditorStore, useEditorSlice } from '@ide-core/vue';
 
 export function useProject() {
   const router = useRouter();
   const hostPort = inject<HostPort>(HOST_PORT_KEY);
   const preferencesPort = inject<StoragePort | undefined>(PREFERENCES_PORT_KEY);
-  const runtime = inject<EditorRuntime | null>(RUNTIME_KEY, null);
   const projectUIStore = useProjectUIStore();
-
-  const projectViewModel = ref(
-    runtime ? runtime.getProjectViewModel() : { projectFilePath: null, project: null, isLoading: false, error: null, isProjectOpen: false }
-  );
-
-  let unsubProject: (() => void) | null = null;
-  onMounted(() => {
-    if (runtime) {
-      unsubProject = runtime.subscribeProject(() => {
-        projectViewModel.value = runtime.getProjectViewModel();
-      });
-      projectViewModel.value = runtime.getProjectViewModel();
-    }
-  });
-  onUnmounted(() => {
-    unsubProject?.();
-  });
+  const editor = useEditorStore();
+  const projectViewModel = useEditorSlice('project');
 
   const projectFilePath = computed(() => projectViewModel.value.projectFilePath);
   const isProjectOpen = computed(() => projectViewModel.value.isProjectOpen);
@@ -50,9 +33,8 @@ export function useProject() {
   );
 
   async function createProject(name: string, filePath: string): Promise<void> {
-    if (!runtime) throw new Error('Runtime not available');
     try {
-      await runtime.createProject(name, filePath);
+      await editor.createProject(name, filePath);
       syncMenuContext(true);
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Failed to create project';
@@ -62,22 +44,20 @@ export function useProject() {
   }
 
   async function openProject(filePath: string): Promise<void> {
-    if (!runtime) throw new Error('Runtime not available');
-    await runtime.openProject(filePath);
+    await editor.openProject(filePath);
     syncMenuContext(true);
     await preferencesPort?.set('lastProjectPath', filePath);
   }
 
   function closeProject(): void {
-    runtime?.closeProject();
+    editor.closeProject();
     syncMenuContext(false);
   }
 
   async function addAssetToProject(
     asset: Omit<IInputAsset, 'id' | 'importedAt'>
   ): Promise<void> {
-    if (!runtime) throw new Error('Runtime not available');
-    await runtime.addAssetToProject(asset);
+    await editor.addAssetToProject(asset);
   }
 
   async function createProjectWithDialog(projectName: string): Promise<void> {

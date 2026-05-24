@@ -1,92 +1,124 @@
 <script setup lang="ts">
 defineOptions({ name: 'DocumentTabBar' });
 import { computed } from 'vue';
-import { useIdeCore } from '@/composables/useIdeCore';
+import { nodeIdToDocumentUri } from '@ide-core';
+import { useEditorStore, useEditorSlice } from '@ide-core/vue';
+import ObjectTypeIcon from '@/components/editor/ObjectTypeIcon.vue';
+import EditorTabBarActions from '@/components/editor/EditorTabBarActions.vue';
 import { cn } from '@/lib/utils';
 
-const {
-  documentViewModel,
-  handleSetActiveDocument,
-  handleCloseDocument,
-} = useIdeCore();
+const editor = useEditorStore();
+const scene = useEditorSlice('scene');
+const documents = useEditorSlice('documents');
 
-const openedDocuments = computed(() => documentViewModel.value.openedDocuments);
-const activeUri = computed(() => documentViewModel.value.activeUri);
+const openedNodes = computed(() => scene.value.openedNodes);
+const activeNode = computed(() => scene.value.activeNode);
+const activeUri = computed(() => documents.value.activeUri);
+
+const otherDocuments = computed(() =>
+  documents.value.openedDocuments.filter((doc) => !doc.uri.startsWith('zobject://'))
+);
+
+const tabClass = (active: boolean) =>
+  cn(
+    'open-node-tab group inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 island-radius-t px-3 py-1.5 text-sm font-normal transition-colors duration-200',
+    'border-b-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+    active
+      ? 'border-primary bg-base-100 text-base-foreground shadow'
+      : 'border-transparent text-muted-foreground hover:bg-base-300 hover:text-base-foreground'
+  );
+
+function onTabClick(nodeId: string) {
+  editor.openZObject(nodeId);
+}
+
+function onClose(e: Event, nodeId: string) {
+  e.stopPropagation();
+  editor.closeDocument(nodeIdToDocumentUri(nodeId));
+}
 
 function labelForUri(uri: string, title?: string): string {
   if (title) return title;
-  if (uri.startsWith('zobject://')) return uri.slice('zobject://'.length);
   return uri;
 }
 
-function onTabClick(uri: string) {
-  handleSetActiveDocument(uri);
+function onOtherTabClick(uri: string) {
+  editor.setActiveDocument(uri);
 }
 
-function onClose(e: Event, uri: string) {
+function onOtherClose(e: Event, uri: string) {
   e.stopPropagation();
-  handleCloseDocument(uri);
+  editor.closeDocument(uri);
+}
+
+function onScrollWheel(e: WheelEvent) {
+  const el = e.currentTarget as HTMLElement;
+  if (el.scrollWidth <= el.clientWidth) return;
+  if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+  e.preventDefault();
+  el.scrollLeft += e.deltaY;
 }
 </script>
 
 <template>
   <div
-    v-if="openedDocuments.length > 0"
-    class="document-tab-bar flex-shrink-0 mb-[var(--island-gap)] border border-base-300 island-radius overflow-hidden bg-base-200/80"
+    v-if="openedNodes.length > 0 || otherDocuments.length > 0"
+    class="open-nodes-tab-bar editor-tab-bar flex min-h-9 w-full min-w-0 flex-shrink-0 items-stretch overflow-hidden border-b border-base-300 bg-base-200/80 island-radius-t"
     role="tablist"
     aria-label="Open documents"
   >
-    <div class="document-tab-bar__scroll flex items-stretch overflow-x-auto min-h-9">
-      <div
-        v-for="doc in openedDocuments"
-        :key="doc.uri"
-        role="tab"
-        tabindex="0"
-        :aria-selected="activeUri === doc.uri"
-        :class="cn(
-          'document-tab group relative inline-flex items-center gap-1.5 h-9 max-w-[200px] flex-shrink-0 px-2.5 text-xs cursor-pointer',
-          'text-muted-foreground hover:text-base-foreground transition-colors duration-150',
-          'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-primary',
-          activeUri === doc.uri
-            ? 'bg-base-100 text-base-foreground'
-            : 'hover:bg-base-300/60'
-        )"
-        @click="onTabClick(doc.uri)"
-        @keydown.enter.prevent="onTabClick(doc.uri)"
-        @keydown.space.prevent="onTabClick(doc.uri)"
-      >
-        <span
-          v-if="activeUri === doc.uri"
-          class="absolute inset-x-0 top-0 h-px bg-primary"
-          aria-hidden
-        />
-        <span class="truncate min-w-0 font-medium">{{ labelForUri(doc.uri, doc.title) }}</span>
-        <button
-          type="button"
-          :class="cn(
-            'document-tab-close flex-shrink-0 rounded p-0.5 -mr-0.5',
-            'hover:bg-base-300 focus-visible:outline-none focus-visible:ring-1',
-            activeUri === doc.uri ? 'opacity-70 hover:opacity-100' : 'opacity-0 group-hover:opacity-70 group-hover:hover:opacity-100'
-          )"
-          aria-label="Close"
-          @click="onClose($event, doc.uri)"
+    <div
+      class="editor-tab-bar__scroll relative min-w-0 flex-1 overflow-x-auto overflow-y-hidden"
+      @wheel="onScrollWheel"
+    >
+      <div class="editor-tab-bar__track inline-flex items-center gap-0.5 px-1 pb-1 pt-1">
+        <div
+          v-for="node in openedNodes"
+          :key="node.id"
+          role="tab"
+          tabindex="0"
+          :aria-selected="activeNode === node.id"
+          :class="tabClass(activeNode === node.id)"
+          @click="onTabClick(node.id)"
         >
-          <span class="block w-3 h-3 leading-none text-muted-foreground hover:text-base-foreground">×</span>
-        </button>
+          <ObjectTypeIcon :type="node.iconType ?? ''" :size="14" class="flex-shrink-0" />
+          <span class="max-w-[120px] truncate">{{ node.label }}</span>
+          <button
+            type="button"
+            class="open-node-tab-close rounded p-0.5 opacity-0 transition-opacity hover:bg-base-300 focus-visible:outline-none group-hover:opacity-100"
+            :aria-label="`Close ${node.label}`"
+            @click="onClose($event, node.id)"
+          >
+            <span class="block h-3 w-3 leading-none text-muted-foreground">×</span>
+          </button>
+        </div>
+        <div
+          v-for="doc in otherDocuments"
+          :key="doc.uri"
+          role="tab"
+          tabindex="0"
+          :aria-selected="activeUri === doc.uri"
+          :class="tabClass(activeUri === doc.uri)"
+          @click="onOtherTabClick(doc.uri)"
+        >
+          <span class="max-w-[120px] truncate">{{ labelForUri(doc.uri, doc.title) }}</span>
+          <button
+            type="button"
+            class="open-node-tab-close rounded p-0.5 opacity-0 transition-opacity hover:bg-base-300 group-hover:opacity-100"
+            :aria-label="`Close ${doc.uri}`"
+            @click="onOtherClose($event, doc.uri)"
+          >
+            <span class="block h-3 w-3 leading-none text-muted-foreground">×</span>
+          </button>
+        </div>
       </div>
     </div>
+    <EditorTabBarActions />
   </div>
 </template>
 
 <style scoped>
-.document-tab-bar__scroll {
-  scrollbar-width: thin;
-}
-.document-tab-bar__scroll::-webkit-scrollbar {
-  height: 4px;
-}
-.document-tab-bar__scroll::-webkit-scrollbar-thumb {
-  background: var(--base-300, hsl(var(--muted)));
-  border-radius: 2px;
+.editor-tab-bar__scroll {
+  overscroll-behavior-x: contain;
 }
 </style>

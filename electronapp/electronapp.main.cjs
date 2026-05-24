@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const { fromRoot, createAppAliases } = require('../config/studio-paths.cjs');
+const { fromRoot, createWebpackAliases } = require('../config/studio-paths.cjs');
 
 module.exports = {
     context: fromRoot('electronapp'),
@@ -19,10 +19,9 @@ module.exports = {
     externals: {},
     resolve: {
         extensions: ['.ts', '.js', '.json'],
-        alias: {
-            ...createAppAliases(fromRoot('electronapp', 'src')),
+        alias: createWebpackAliases(fromRoot('electronapp', 'src'), {
             '@zstudio-server': fromRoot('nestserver', 'dist', 'main.js'),
-        },
+        }),
         mainFields: ['main', 'module', 'jsnext:main', 'jsnext'],
     },
     module: {
