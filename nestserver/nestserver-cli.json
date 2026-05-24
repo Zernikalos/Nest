@@ -4,6 +4,6 @@
   "sourceRoot": "../../nestserver/src",
   "compilerOptions": {
     "tsConfigPath": "nestserver/tsconfig.json",
-    "deleteOutDir": true
+    "deleteOutDir": false
   }
 }

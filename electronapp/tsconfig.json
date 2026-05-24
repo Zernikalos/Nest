@@ -16,7 +16,7 @@
     "rootDir": "src",
     "allowJs": true,
     "ignoreDeprecations": "6.0",
-    "baseUrl": "",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@ide-core": ["../ide-core/src/index.ts"],

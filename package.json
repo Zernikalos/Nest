@@ -17,7 +17,7 @@
     "dev": "node scripts/dev.js",
     "dev:main": "cross-env DEBUG=true electron electronapp/dist/main/index.js",
     "dev:ui": "vite --config vueui/vueui.config.ts",
-    "dev:server": "nest build --watch --config nestserver/nestserver-cli.json",
+    "dev:server": "nest build --watch --preserveWatchOutput --config nestserver/nestserver-cli.json",
     "dev:electron:main": "webpack --watch -c electronapp/electronapp.main.cjs",
     "dev:electron:preload": "vite build --watch -c electronapp/electronapp.preload.config.mjs",
     "build": "node scripts/build.js",
