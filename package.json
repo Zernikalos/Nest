@@ -1,6 +1,6 @@
 {
   "name": "zernikalos-nest",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Aarón Negrín <demenus.dev@gmail.com>",
   "description": "Desktop editor for asset management and debugging of Zernikalos Engine",
   "main": "electronapp/dist/main/index.js",

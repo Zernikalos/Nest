@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/Zernikalos/Nest/compare/v0.2.0...v0.3.0) (2026-05-24)
+
+
+### Bug Fixes
+
+* 🐛 Fix wrong settings file creation ([515ac2b](https://github.com/Zernikalos/Nest/commit/515ac2bd0b88871293bcd830a3ea44566936e9cf))
+* 🐛 Recover bundle scene behavior ([8ba2c56](https://github.com/Zernikalos/Nest/commit/8ba2c560fb1b276cfd910fe93e4f414d793a0f9c))
+* 🐛 Small fix for island gap sizing ([ac9fa70](https://github.com/Zernikalos/Nest/commit/ac9fa70bbd2ef44278edadcdd36ff4050ca01f35))
+
+
+### Features
+
+* 🎸 UI Improvements on tablist ([74353e8](https://github.com/Zernikalos/Nest/commit/74353e89cce46416e21077fe60cb3acca4e91b7a))
+* 🎸 UI menu improvements ([874fdec](https://github.com/Zernikalos/Nest/commit/874fdeca17c99f27f01d64fb15b98cbcb6f545c7))
+
+
+
+
+
+# [0.3.0](https://github.com/Zernikalos/Nest/compare/v0.2.0...v0.3.0) (2026-05-24)
+
+
+### Bug Fixes
+
+* 🐛 Fix wrong settings file creation ([515ac2b](https://github.com/Zernikalos/Nest/commit/515ac2bd0b88871293bcd830a3ea44566936e9cf))
+* 🐛 Recover bundle scene behavior ([8ba2c56](https://github.com/Zernikalos/Nest/commit/8ba2c560fb1b276cfd910fe93e4f414d793a0f9c))
+* 🐛 Small fix for island gap sizing ([ac9fa70](https://github.com/Zernikalos/Nest/commit/ac9fa70bbd2ef44278edadcdd36ff4050ca01f35))
+
+
+### Features
+
+* 🎸 UI Improvements on tablist ([74353e8](https://github.com/Zernikalos/Nest/commit/74353e89cce46416e21077fe60cb3acca4e91b7a))
+* 🎸 UI menu improvements ([874fdec](https://github.com/Zernikalos/Nest/commit/874fdeca17c99f27f01d64fb15b98cbcb6f545c7))
+
+
+
+
+
 # [0.2.0](https://github.com/Zernikalos/Nest/compare/v0.1.1...v0.2.0) (2026-04-06)
 
 
