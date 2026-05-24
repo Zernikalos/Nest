@@ -23,7 +23,7 @@ const keepAliveInclude = computed(() => {
 <template>
   <div class="flex h-screen overflow-hidden bg-base-100">
     <Sidebar />
-    <main class="flex-1 overflow-auto min-w-0 bg-base-100">
+    <main class="island-main flex-1 overflow-auto min-w-0 bg-base-100">
       <RouterView v-slot="{ Component, route: r }">
         <KeepAlive :include="keepAliveInclude">
           <component :is="Component" :key="r.path" />
