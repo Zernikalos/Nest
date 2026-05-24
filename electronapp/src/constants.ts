@@ -15,6 +15,42 @@ export class Constants {
         return process.platform === 'darwin'
     }
 
+    public static get isWin(): boolean {
+        return process.platform === 'win32'
+    }
+
+    public static get isLinux(): boolean {
+        return process.platform === 'linux'
+    }
+
+    /** Frameless window + in-renderer menu bar (Windows/Linux only). */
+    public static get useCustomChrome(): boolean {
+        return !Constants.isMac
+    }
+
+    /** Matches vueui base-100 for light themes. */
+    public static readonly windowBackgroundColorLight = '#ffffff'
+
+    /** Matches vueui base-100 for dark themes. */
+    public static readonly windowBackgroundColorDark = '#171717'
+
+    private static readonly darkThemeIds = new Set([
+        'dark',
+        'ocean',
+        'forest',
+        'sunset',
+        'purple',
+        'rose',
+        'gray',
+    ])
+
+    public static windowBackgroundForTheme(themeId: string | undefined): string {
+        if (themeId && Constants.darkThemeIds.has(themeId)) {
+            return Constants.windowBackgroundColorDark
+        }
+        return Constants.windowBackgroundColorLight
+    }
+
     private static _trayIcon: Electron.NativeImage
     public static get trayIcon(): Electron.NativeImage {
         if (_.isNil(Constants._trayIcon)) {

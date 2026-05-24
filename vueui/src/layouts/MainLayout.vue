@@ -21,7 +21,7 @@ const keepAliveInclude = computed(() => {
 </script>
 
 <template>
-  <div class="flex h-screen overflow-hidden bg-base-100">
+  <div class="flex h-full min-h-0 flex-1 overflow-hidden bg-base-100">
     <Sidebar />
     <main class="island-main flex-1 overflow-auto min-w-0 bg-base-100">
       <RouterView v-slot="{ Component, route: r }">

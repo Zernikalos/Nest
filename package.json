@@ -46,6 +46,7 @@
     "@nestjs/platform-ws": "11.1.21",
     "@nestjs/websockets": "11.1.21",
     "@vue/runtime-dom": "3.5.34",
+    "@vueuse/core": "^14.3.0",
     "@zernikalos/zernikalos": "latest",
     "@zernikalos/zkbuilder": "latest",
     "axios": "1.16.0",

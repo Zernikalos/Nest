@@ -38,9 +38,9 @@ function isActive(path: string): boolean {
   >
     <div class="flex flex-col h-full">
       <div class="flex-1">
-        <div class="align-middle p-1.5 h-10 flex items-center justify-center">
+        <!-- <div class="align-middle p-1.5 h-10 flex items-center justify-center">
           <img src="/zklogo.svg" alt="Zernikalos" class="h-8 w-8 select-none" width="32" height="32" />
-        </div>
+        </div> -->
         <SidebarItem path="/projects" name="Projects" :selected="isActive('/projects')">
           <template #icon><BIconFolder class="size-6" /></template>
         </SidebarItem>

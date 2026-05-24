@@ -21,7 +21,9 @@ export function useProject() {
   const error = computed(() => projectViewModel.value.error);
 
   function syncMenuContext(projectOpen: boolean) {
-    hostPort?.sendMenuContext?.({ projectOpen });
+    if (hostPort?.getPlatform?.() === 'darwin') {
+      hostPort.sendMenuContext?.({ projectOpen });
+    }
   }
 
   watch(

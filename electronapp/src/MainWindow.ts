@@ -1,17 +1,26 @@
 import { BrowserWindow, ipcMain } from "electron";
 import { MenuEvents, RendererMenuEvents } from "./menu/MenuEvents";
-import { createMenu } from "./menu/menu";
+import { createMenu, clearApplicationMenu } from "./menu/menu";
 import { DEFAULT_MENU_CONTEXT, type MenuContextSnapshot } from "./menu/MenuContext";
-import { importFileDialog } from "./dialogs/importFileDialog";
 import { bundleSceneDialog } from "./dialogs/bundleSceneDialog";
 import { NestEvents } from "./NestEvents";
 import * as fs from "node:fs/promises";
 import { Constants } from "./constants";
-import { loadZkoDialog } from "./dialogs/loadZkoDialog";
 import _ from "lodash";
 import { SettingsService, type AppSettings } from "./nestServerAdapter";
 import { createProjectDialog } from "./dialogs/createProjectDialog";
 import { openProjectDialog } from "./dialogs/openProjectDialog";
+import {
+    attachWindowMaximizeEvents,
+    MAXIMIZED_CHANGED,
+    registerWindowControlHandlers,
+} from "./window/windowControls";
+import {
+    runImportFileDialog,
+    runLoadZkoDialog,
+    runOpenProjectDialog,
+} from "./menu/menuActions";
+import type { ImportFileFormat } from "./dialogs/importFileDialog";
 
 export class MainWindow {
     private mainWindow!: BrowserWindow;
@@ -22,7 +31,7 @@ export class MainWindow {
         return this.mainWindow;
     }
 
-    public sendToRenderer(ev: RendererMenuEvents, payload?: any) {
+    public sendToRenderer(ev: RendererMenuEvents, payload?: unknown) {
         if (this.mainWindow && !this.mainWindow.isDestroyed()) {
             this.mainWindow.webContents.send(ev, payload);
         }
@@ -30,15 +39,33 @@ export class MainWindow {
 
     private async createWindow() {
         const { width, height } = await this.settings.getWindowSize();
+        const settings = await this.settings.getSettings();
+        const bgColor = Constants.windowBackgroundForTheme(settings.appearance?.theme);
+
         this.mainWindow = new BrowserWindow({
             icon: Constants.trayIcon,
             width: width,
             height: height,
             title: "Zernikalos Nest",
+            ...(Constants.useCustomChrome
+                ? {
+                      frame: false,
+                      backgroundColor: bgColor,
+                  }
+                : {}),
             webPreferences: {
                 preload: Constants.PreloadScriptPath,
+                contextIsolation: true,
             },
         });
+
+        if (Constants.useCustomChrome) {
+            attachWindowMaximizeEvents(this.mainWindow, (maximized) => {
+                if (!this.mainWindow.isDestroyed()) {
+                    this.mainWindow.webContents.send(MAXIMIZED_CHANGED, maximized);
+                }
+            });
+        }
     }
 
     public async load() {
@@ -47,7 +74,12 @@ export class MainWindow {
             const [width, heigt] = this.mainWindow.getSize();
             await this.settings.setWindowSize(width, heigt);
         });
-        createMenu(DEFAULT_MENU_CONTEXT);
+
+        if (Constants.isMac) {
+            createMenu(DEFAULT_MENU_CONTEXT);
+        } else {
+            clearApplicationMenu();
+        }
 
         if (Constants.isDebug) {
             await this.mainWindow.loadURL(Constants.MainWindowPath);
@@ -65,27 +97,42 @@ export function registerMainWindowIpcHandlers(
     getMainWindow: () => MainWindow | undefined,
     getSettings: () => SettingsService,
 ) {
+    const getBrowserWindow = () => getMainWindow()?.getBrowserWindow();
+
+    registerWindowControlHandlers(() => getBrowserWindow());
+
+    ipcMain.handle('menu:loadZko', async () => {
+        const win = getBrowserWindow();
+        if (!win) return null;
+        return runLoadZkoDialog(win);
+    });
+
+    ipcMain.handle('menu:importFile', async (_event, format: ImportFileFormat) => {
+        const win = getBrowserWindow();
+        if (!win) return null;
+        return runImportFileDialog(win, format);
+    });
+
+    ipcMain.handle('menu:openProject', async () => {
+        const win = getBrowserWindow();
+        if (!win) return null;
+        return runOpenProjectDialog(win);
+    });
+
     ipcMain.on(MenuEvents.LOAD_ZKO, async () => {
         const win = getMainWindow();
         if (!win) return;
-        const pathInfo = await loadZkoDialog(win.getBrowserWindow());
-        if (_.isNil(pathInfo)) return;
-        win.sendToRenderer(RendererMenuEvents.LOAD_ZKO, {
-            path: pathInfo.parsedPath.dir,
-            fileName: pathInfo.parsedPath.base,
-        });
+        const result = await runLoadZkoDialog(win.getBrowserWindow());
+        if (_.isNil(result)) return;
+        win.sendToRenderer(RendererMenuEvents.LOAD_ZKO, result);
     });
 
-    ipcMain.on(MenuEvents.IMPORT_FILE, async (_event, data: { format: "gltf" | "obj" | "fbx" }) => {
+    ipcMain.on(MenuEvents.IMPORT_FILE, async (_event, data: { format: ImportFileFormat }) => {
         const win = getMainWindow();
         if (!win) return;
-        const pathInfo = await importFileDialog(win.getBrowserWindow(), data.format);
-        if (_.isNil(pathInfo)) return;
-        win.sendToRenderer(RendererMenuEvents.IMPORT_FILE, {
-            path: pathInfo.parsedPath.dir,
-            fileName: pathInfo.parsedPath.base,
-            format: data.format,
-        });
+        const result = await runImportFileDialog(win.getBrowserWindow(), data.format);
+        if (_.isNil(result)) return;
+        win.sendToRenderer(RendererMenuEvents.IMPORT_FILE, result);
     });
 
     ipcMain.on(MenuEvents.BUNDLE_SCENE, async () => {
@@ -99,9 +146,9 @@ export function registerMainWindowIpcHandlers(
     ipcMain.on(MenuEvents.OPEN_PROJECT, async () => {
         const win = getMainWindow();
         if (!win) return;
-        const pathInfo = await openProjectDialog(win.getBrowserWindow());
-        if (_.isNil(pathInfo)) return;
-        win.sendToRenderer(RendererMenuEvents.OPEN_PROJECT, { filePath: pathInfo.filePath });
+        const filePath = await runOpenProjectDialog(win.getBrowserWindow());
+        if (_.isNil(filePath)) return;
+        win.sendToRenderer(RendererMenuEvents.OPEN_PROJECT, { filePath });
     });
 
     ipcMain.handle(NestEvents.SAVE_FILE, async (_ev, fileData: Uint8Array) => {
@@ -135,7 +182,9 @@ export function registerMainWindowIpcHandlers(
     ipcMain.handle("userSettings:patch", async (_event, partial: Partial<AppSettings>) =>
         getSettings().updateSettings(partial));
 
-    ipcMain.on("ide:menuContext", (_event, context: MenuContextSnapshot) => {
-        createMenu(context);
-    });
+    if (Constants.isMac) {
+        ipcMain.on("ide:menuContext", (_event, context: MenuContextSnapshot) => {
+            createMenu(context);
+        });
+    }
 }

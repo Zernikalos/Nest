@@ -129,6 +129,7 @@ export type { EngineSessionPort, EngineSessionStartOptions } from './ports/index
 export * from './ports/MockStoragePort.js';
 export * from './services/CommandService.js';
 export * from './services/ContextKeyService.js';
+export * from './menu/index.js';
 export { EditorOrchestrator } from './runtime/EditorOrchestrator.js';
 export { createSceneDocumentsEditors } from './runtime/createSceneDocumentsEditors.js';
 export {

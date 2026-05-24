@@ -2,11 +2,9 @@ import {
     app,
     BrowserWindow,
     ipcMain,
-    Menu,
 } from 'electron'
 import { nestServerBootstrap, ZNestServer } from "./nestServerAdapter"
 
-import { createMenu } from "./menu"
 import { MainWindow, registerMainWindowIpcHandlers } from "./MainWindow"
 import { registerIdeStorageIpcHandlers } from "./storage/ideSessionStorage"
 import {desiredWindowSize, WindowSize} from "./tools/desiredWindowSize"
@@ -15,7 +13,6 @@ import {Constants} from "./constants"
 export class ZernikalosNest {
 
     private mainWindow!: MainWindow
-    public menu?: Menu
     private nestServer!: ZNestServer
 
     public async initialize() {
@@ -28,8 +25,6 @@ export class ZernikalosNest {
         // initialization and is ready to create browser windows.
         // Some APIs can only be used after this event occurs.
         await app.whenReady()
-
-        this.initializeMenu()
 
         await this.initializeServer()
         registerMainWindowIpcHandlers(
@@ -48,11 +43,7 @@ export class ZernikalosNest {
         return desiredWindowSize()
     }
 
-    private initializeMenu() {
-        this.menu = createMenu()
-    }
-
-    private async initializeWindow(width: number, height: number) {
+    private async initializeWindow(_width: number, _height: number) {
         this.mainWindow = new MainWindow(this.nestServer.settings)
         // this.viewerWindow = new ViewerWindow(width, height)
 

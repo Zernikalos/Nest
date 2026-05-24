@@ -5,8 +5,10 @@ import { useElectronProjectIntegration } from '@/composables/useElectronProjectI
 import { useProject } from '@/composables/useProject';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { useAppearanceStore } from '@/stores/appearanceStore';
+import { useWindowBackgroundSync } from '@/composables/useWindowBackgroundSync';
 
 useElectronProjectIntegration();
+useWindowBackgroundSync();
 
 const router = useRouter();
 const { openProject } = useProject();

@@ -13,6 +13,7 @@ import {
 } from '@/lib/commandIds';
 import type { AssetConversionData } from '@/types/project';
 import { HOST_PORT_KEY, type HostPort } from '@/types/hostPort';
+import type { ImportFileFormat } from '@ide-core';
 
 /**
  * Composable that integrates Electron IPC events with project/editor commands.
@@ -28,19 +29,30 @@ export function useElectronProjectIntegration() {
   const projectUIStore = useProjectUIStore();
 
   const projectOpen = computed(() => project.value.isProjectOpen);
+  const isMac = computed(() => hostPort?.getPlatform?.() === 'darwin');
 
   watch(
     projectOpen,
     (open) => {
       editor.setContextKey('projectOpen', open);
-      hostPort?.sendMenuContext?.({ projectOpen: open });
+      if (isMac.value) {
+        hostPort?.sendMenuContext?.({ projectOpen: open });
+      }
     },
     { immediate: true }
   );
 
   onMounted(() => {
-    editor.registerCommand(FILE_LOAD_ZKO, () => {
-      // Placeholder: no handler yet
+    editor.registerCommand(FILE_LOAD_ZKO, (payload?: unknown) => {
+      const data = payload as AssetConversionData | undefined;
+      if (data?.path && data?.fileName) {
+        return;
+      }
+      void hostPort?.menuLoadZko?.().then((picked) => {
+        if (!picked) return;
+        // Handler body for load ZKO remains a placeholder until implemented
+        console.info('[loadZko] picked file', picked);
+      });
     });
 
     editor.registerCommand(FILE_IMPORT_FILE, (payload?: unknown) => {
@@ -48,17 +60,35 @@ export function useElectronProjectIntegration() {
         editor.setProjectPersistWarning('Open or create a project before importing.');
         return;
       }
-      const data = (payload || {}) as AssetConversionData;
-      if (!data.path || !data.fileName || !data.format) return;
-      void editor
-        .convertAsset(data)
-        .then(async () => {
-          await nextTick();
-          await router.push('/editor/viewer');
-        })
-        .catch(() => {
-          // Error is already in runtime asset conversion view model
+
+      const runImport = (data: AssetConversionData) => {
+        void editor
+          .convertAsset(data)
+          .then(async () => {
+            await nextTick();
+            await router.push('/editor/viewer');
+          })
+          .catch(() => {
+            // Error is already in runtime asset conversion view model
+          });
+      };
+
+      let data = (payload || {}) as AssetConversionData;
+      if (data.path && data.fileName) {
+        runImport(data);
+        return;
+      }
+
+      const format = data.format as ImportFileFormat | undefined;
+      if (!format) return;
+      void hostPort?.menuImportFile?.(format).then((picked) => {
+        if (!picked) return;
+        runImport({
+          path: picked.path,
+          fileName: picked.fileName,
+          format: picked.format as ImportFileFormat,
         });
+      });
     });
 
     editor.registerCommand(FILE_BUNDLE_SCENE, () => {
@@ -92,17 +122,21 @@ export function useElectronProjectIntegration() {
     });
 
     editor.registerCommand(FILE_OPEN_PROJECT, (payload?: unknown) => {
-      const { filePath } = (payload || {}) as { filePath: string };
-      if (!filePath) return;
-      openProject(filePath)
-        .then(() => {
-          router.push('/projects');
-        })
-        .catch((err) => console.error('Failed to open project:', err));
+      const fromPayload = (payload as { filePath?: string } | undefined)?.filePath;
+      if (fromPayload) {
+        void openProject(fromPayload)
+          .then(() => router.push('/projects'))
+          .catch((err) => console.error('Failed to open project:', err));
+        return;
+      }
+      void hostPort?.showOpenProjectDialog?.().then((filePath) => {
+        if (!filePath) return;
+        void openProject(filePath)
+          .then(() => router.push('/projects'))
+          .catch((err) => console.error('Failed to open project:', err));
+      });
     });
-  });
 
-  onMounted(() => {
     if (!electron.isElectron) return;
 
     electron.onLoadZko((data) => editor.executeCommand(FILE_LOAD_ZKO, data));

@@ -1,6 +1,9 @@
 import {contextBridge, ipcRenderer} from "electron"
-import {RendererMenuEvents, MenuEvents} from "./menu/MenuEvents";
+import {RendererMenuEvents} from "./menu/MenuEvents";
 import {NestEvents} from "./NestEvents";
+import type {ImportFileFormat} from "./dialogs/importFileDialog";
+
+type ElectronPlatform = 'darwin' | 'win32' | 'linux';
 
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
@@ -17,6 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 contextBridge.exposeInMainWorld('NativeZernikalos', {
     getApiBaseUrl: () => ipcRenderer.invoke('get-api-url') as Promise<string>,
+    getPlatform: (): ElectronPlatform => process.platform as ElectronPlatform,
     handleLoadZko: (callback: any) => {
         ipcRenderer.on(RendererMenuEvents.LOAD_ZKO, callback)
         return {
@@ -47,10 +51,27 @@ contextBridge.exposeInMainWorld('NativeZernikalos', {
             off: () => ipcRenderer.removeListener(RendererMenuEvents.OPEN_PROJECT, callback)
         }
     },
+    handleWindowMaximizedChanged: (callback: (ev: unknown, maximized: boolean) => void) => {
+        const channel = 'window:maximized-changed';
+        ipcRenderer.on(channel, callback);
+        return {
+            off: () => ipcRenderer.removeListener(channel, callback),
+        };
+    },
 
     sendMenuContext: (context: { projectOpen: boolean }) => {
         ipcRenderer.send('ide:menuContext', context)
     },
+
+    windowMinimize: () => ipcRenderer.invoke('window:minimize'),
+    windowMaximize: () => ipcRenderer.invoke('window:maximize'),
+    windowClose: () => ipcRenderer.invoke('window:close'),
+    windowIsMaximized: () => ipcRenderer.invoke('window:isMaximized') as Promise<boolean>,
+    windowSetBackgroundColor: (color: string) =>
+        ipcRenderer.invoke('window:setBackgroundColor', color),
+
+    menuLoadZko: () => ipcRenderer.invoke('menu:loadZko'),
+    menuImportFile: (format: ImportFileFormat) => ipcRenderer.invoke('menu:importFile', format),
 
     actionSaveFile: (fileData: Uint8Array) => ipcRenderer.invoke(NestEvents.SAVE_FILE, fileData),
     showSaveProjectDialog: (projectName: string) => ipcRenderer.invoke(NestEvents.SHOW_SAVE_PROJECT_DIALOG, projectName),
