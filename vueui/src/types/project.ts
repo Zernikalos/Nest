@@ -1,45 +1,31 @@
 /**
- * Minimal project types for API responses and store state.
- * Matches the shape returned by the nestserver projects API.
+ * Project types shared with ide-core (Nest API shape).
  */
+export type {
+    AssetFormat,
+    AssetConversionInput,
+    AssetConversionResult,
+    IInputAsset,
+    Project,
+} from '@ide-core';
 
-export interface IInputAsset {
-  id: string;
-  path: string;
-  fileName: string;
-  format: 'obj' | 'gltf' | 'fbx' | 'collada';
-  importedAt: string;
-}
-
-export interface Project {
-  name: string;
-  version: string;
-  createdAt: string;
-  lastModified: string;
-  zkBuilderVersion?: string;
-  assets?: IInputAsset[];
-}
+/** Alias used by vueui composables for asset conversion requests. */
+export type AssetConversionData = import('@ide-core').AssetConversionInput;
 
 export interface CreateProjectDTO {
-  name: string;
-  filePath: string;
-}
-
-export interface AssetConversionData {
-  path: string;
-  fileName: string;
-  format: 'obj' | 'gltf' | 'fbx' | 'collada';
+    name: string;
+    filePath: string;
 }
 
 /**
  * Minimal ZkResult shape for zkoStore (editor phase will extend).
  */
 export interface ZkResultExtended {
-  zko: unknown;
-  filePath: string;
-  proto: Uint8Array;
-  /** Exported objects from conversion (for Code tab editable JSON). */
-  exported?: {
-    objects: Array<{ refId: string; toJSON?: () => unknown; [key: string]: unknown }>;
-  };
+    zko: unknown;
+    filePath: string;
+    proto: Uint8Array;
+    /** Exported objects from conversion (for Code tab editable JSON). */
+    exported?: {
+        objects: Array<{ refId: string; toJSON?: () => unknown; [key: string]: unknown }>;
+    };
 }

@@ -152,9 +152,9 @@ This document describes the complete flow of project creation in Zernikalos Stud
 
 **Entry Point B: Menu Selection**
 - User selects "File → New Project..." from Electron menu
-- `MenuEvents.CREATE_PROJECT` is emitted in main process
-- Event is sent to renderer via `RendererMenuEvents.CREATE_PROJECT`
-- `useElectronProjectIntegration` listens via `onCreateProject()` callback
+- Main process emits `ide:executeCommand` with `{ commandId: 'file.createProject' }`
+- Renderer receives it via `window.NativeZernikalos.onExecuteCommand(...)`
+- `useElectronProjectIntegration` forwards it into `CommandService.executeCommand()`
 - `setIsCreateDialogOpen(true)` is called
 - `CreateProjectDialog` opens
 

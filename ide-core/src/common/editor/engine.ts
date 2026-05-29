@@ -5,27 +5,35 @@ import { withDerived } from '../domain/viewProjection.js';
 import type { EngineSessionPort } from '../ports/index.js';
 import { DomainEditorBase, type DomainCommitHandler } from './DomainEditorBase.js';
 
-export type EngineSessionStatus = 'idle' | 'starting' | 'running' | 'stopping' | 'failed';
+export enum EngineSessionStatus {
+    Idle = 'idle',
+    Starting = 'starting',
+    Running = 'running',
+    Stopping = 'stopping',
+    Failed = 'failed',
+}
 
 export interface EngineSessionState {
     status: EngineSessionStatus;
     error: string | null;
 }
 
-export type EngineSessionViewModel = EngineSessionState & {
+export interface EngineSessionViewModel extends EngineSessionState {
     isRunning: boolean;
     isBusy: boolean;
-};
+}
 
 const initialState: EngineSessionState = {
-    status: 'idle',
+    status: EngineSessionStatus.Idle,
     error: null,
 };
 
 export function getEngineSessionViewModel(state: EngineSessionState): EngineSessionViewModel {
     return withDerived(state, (s) => ({
-        isRunning: s.status === 'running',
-        isBusy: s.status === 'starting' || s.status === 'stopping',
+        isRunning: s.status === EngineSessionStatus.Running,
+        isBusy:
+            s.status === EngineSessionStatus.Starting ||
+            s.status === EngineSessionStatus.Stopping,
     }));
 }
 
@@ -41,7 +49,7 @@ export class EngineEditor extends DomainEditorBase<EngineSessionState> {
     async start(): Promise<void> {
         if (!this.port) return;
         this.patch((d) => {
-            d.status = 'starting';
+            d.status = EngineSessionStatus.Starting;
             d.error = null;
         });
         try {
@@ -49,13 +57,13 @@ export class EngineEditor extends DomainEditorBase<EngineSessionState> {
                 projectPath: this.getProjectPath() ?? undefined,
             });
             this.patch((d) => {
-                d.status = 'running';
+                d.status = EngineSessionStatus.Running;
             });
         } catch (e) {
             const message = e instanceof Error ? e.message : String(e);
             this.patch((d) => {
                 d.error = message;
-                d.status = 'failed';
+                d.status = EngineSessionStatus.Failed;
             });
             throw e;
         }
@@ -64,18 +72,18 @@ export class EngineEditor extends DomainEditorBase<EngineSessionState> {
     async stop(): Promise<void> {
         if (!this.port) return;
         this.patch((d) => {
-            d.status = 'stopping';
+            d.status = EngineSessionStatus.Stopping;
         });
         try {
             await this.port.stopEngineSession();
             this.patch((d) => {
-                d.status = 'idle';
+                d.status = EngineSessionStatus.Idle;
             });
         } catch (e) {
             const message = e instanceof Error ? e.message : String(e);
             this.patch((d) => {
                 d.error = message;
-                d.status = 'failed';
+                d.status = EngineSessionStatus.Failed;
             });
             throw e;
         }
@@ -84,18 +92,18 @@ export class EngineEditor extends DomainEditorBase<EngineSessionState> {
     async restart(): Promise<void> {
         if (!this.port) return;
         this.patch((d) => {
-            d.status = 'stopping';
+            d.status = EngineSessionStatus.Stopping;
         });
         try {
             await this.port.restartEngineSession();
             this.patch((d) => {
-                d.status = 'running';
+                d.status = EngineSessionStatus.Running;
             });
         } catch (e) {
             const message = e instanceof Error ? e.message : String(e);
             this.patch((d) => {
                 d.error = message;
-                d.status = 'failed';
+                d.status = EngineSessionStatus.Failed;
             });
             throw e;
         }

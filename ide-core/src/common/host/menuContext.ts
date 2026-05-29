@@ -1,6 +1,6 @@
 /**
- * Snapshot of runtime context keys sent from renderer to main
- * for dynamic menu enable/disable (Phase 4).
+ * Snapshot of runtime context keys sent from renderer to host
+ * for dynamic menu enable/disable.
  */
 export interface MenuContextSnapshot {
     projectOpen: boolean;

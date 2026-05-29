@@ -14,42 +14,45 @@ function off(name: string) {
 }
 
 function onLoadZko(cb: (data: unknown) => void) {
-  if (!isElectron || subscriptions.has('loadZko')) return;
-  const sub = window.NativeZernikalos?.handleLoadZko?.((_ev, data) => cb(data));
-  if (sub) subscriptions.set('loadZko', sub);
+  // Deprecated: kept for compatibility during transition.
+  if (!isElectron) return;
 }
 
 function onImportFile(cb: (data: unknown) => void) {
-  if (!isElectron || subscriptions.has('importFile')) return;
-  const sub = window.NativeZernikalos?.handleShowImport?.((_ev, data) => cb(data));
-  if (sub) subscriptions.set('importFile', sub);
+  // Deprecated: kept for compatibility during transition.
+  if (!isElectron) return;
 }
 
 function onBundleScene(cb: () => void) {
-  if (!isElectron || subscriptions.has('bundleScene')) return;
-  const sub = window.NativeZernikalos?.handleBundleScene?.(() => cb());
-  if (sub) subscriptions.set('bundleScene', sub);
+  // Deprecated: kept for compatibility during transition.
+  if (!isElectron) return;
 }
 
 function onCreateProject(cb: () => void) {
-  if (!isElectron || subscriptions.has('createProject')) return;
-  const sub = window.NativeZernikalos?.handleCreateProject?.(() => cb());
-  if (sub) subscriptions.set('createProject', sub);
+  // Deprecated: kept for compatibility during transition.
+  if (!isElectron) return;
 }
 
 function onOpenProject(cb: (data: { filePath: string }) => void) {
-  if (!isElectron || subscriptions.has('openProject')) return;
-  const sub = window.NativeZernikalos?.handleOpenProject?.((_ev, data: { filePath: string }) => cb(data));
-  if (sub) subscriptions.set('openProject', sub);
+  // Deprecated: kept for compatibility during transition.
+  if (!isElectron) return;
+}
+
+function onExecuteCommand(cb: (data: { commandId: string; payload?: unknown }) => void) {
+  if (!isElectron || subscriptions.has('executeCommand')) return;
+  const sub = window.NativeZernikalos?.onExecuteCommand?.((_ev, data) => cb(data));
+  if (sub) subscriptions.set('executeCommand', sub);
 }
 
 const api = ref({
   isElectron,
+  onExecuteCommand,
   onLoadZko,
   onImportFile,
   onBundleScene,
   onCreateProject,
   onOpenProject,
+  offExecuteCommand: () => off('executeCommand'),
   offLoadZko: () => off('loadZko'),
   offImportFile: () => off('importFile'),
   offBundleScene: () => off('bundleScene'),

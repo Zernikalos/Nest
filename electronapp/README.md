@@ -15,8 +15,13 @@ On **macOS**, the system window frame and native application menu are kept.
 | `window:maximized-changed` | Event pushed to renderer |
 | `window:setBackgroundColor` | Sync frameless background with UI theme |
 | `menu:loadZko` / `menu:importFile` / `menu:openProject` | File dialogs for in-renderer menu |
-| `ide:menuContext` | **macOS only** — rebuild native menu when `projectOpen` changes |
+| `IDE_IPC_CHANNELS.menuContext` (`ide:menuContext`) | Sync native application menu enablement (main no-ops on non-native platforms) |
+| `IDE_IPC_CHANNELS.executeCommand` (`ide:executeCommand`) | Main → renderer: execute a `commandId` with optional payload |
+
+Channel constants are defined in `@ide-core/electron` (`IDE_IPC_CHANNELS`).
 
 ### Menu commands
 
-Command IDs live in **ide-core** (`APP_MENU_MANIFEST`, `commandIds.ts`). The renderer executes them via `CommandService`; macOS native menu still forwards over `RendererMenuEvents` IPC.
+Command IDs live in **ide-core** (`@ide-core`: `APP_MENU_MANIFEST`, `commandIds.ts`). The renderer executes them via `CommandService`; the native macOS menu emits `menu:command` on `mainBus` (`eventemitter3`, see `src/events/mainBus.ts`) and the main process forwards them to the renderer via `IDE_IPC_CHANNELS.executeCommand`.
+
+Import rule: use `@ide-core` and `@ide-core/electron` only — not deep paths under `ide-core/src/`.

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { provide, watch, computed, onMounted, onUnmounted } from 'vue';
-import type { ZObjectLike, IInputAsset } from '@ide-core';
+import { WorkbenchArea, type ZObjectLike, type IInputAsset } from '@ide-core';
 import { nodeIdToDocumentUri } from '@ide-core';
 import { useEditorStore, useEditorSlice } from '@ide-core/vue';
 import { useZObjectState } from '@/composables/useZObjectState';
@@ -52,7 +52,7 @@ function dismissProjectPersistWarning() {
 }
 
 onMounted(() => {
-  editor.setupSceneTreePanel(SCENE_TREE_WIDGET_ID, 'left');
+  editor.setupSceneTreePanel(SCENE_TREE_WIDGET_ID, WorkbenchArea.Left);
   void tryRehydrateFromLastAsset();
 });
 

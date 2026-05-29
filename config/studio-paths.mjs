@@ -18,6 +18,14 @@ export function createAppAliases(localSrcDir) {
             find: '@ide-core/vue',
             replacement: fromRoot('ide-core', 'src', 'vue', 'index.ts'),
         },
+        {
+            find: '@ide-core/electron',
+            replacement: fromRoot('ide-core', 'src', 'electron', 'index.ts'),
+        },
+        {
+            find: '@ide-core/browser',
+            replacement: fromRoot('ide-core', 'src', 'browser', 'index.ts'),
+        },
         { find: '@ide-core', replacement: fromRoot('ide-core', 'src', 'index.ts') },
         { find: '@electronapp', replacement: fromRoot('electronapp', 'src') },
         { find: '@zstudio-server', replacement: fromRoot('nestserver', 'src', 'main.ts') },

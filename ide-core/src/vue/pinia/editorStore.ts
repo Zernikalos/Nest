@@ -1,15 +1,15 @@
 import { defineStore } from 'pinia';
-import type { EditorRuntime } from '../../core/runtime/EditorRuntime.js';
+import type { EditorRuntime } from '../../common/runtime/EditorRuntime.js';
+import { WorkbenchArea } from '../../common/domain/enums.js';
 import type {
     AssetConversionInput,
     IInputAsset,
     TreeNode,
-    WorkbenchArea,
     ZObjectLike,
-} from '../../core/domain/types.js';
-import type { WidgetContribution } from '../../core/contracts/index.js';
-import type { RuntimeEffect } from '../../core/contracts/index.js';
-import type { CommandHandler } from '../../core/services/CommandService.js';
+} from '../../common/domain/types.js';
+import type { WidgetContribution } from '../../common/contracts/index.js';
+import type { RuntimeEffect } from '../../common/contracts/index.js';
+import type { CommandHandler } from '../../common/services/CommandService.js';
 import { setupSceneTreePanel as registerSceneTreePanel } from '../setupSceneTreePanel.js';
 
 let editorStoreRuntime: EditorRuntime | null = null;
@@ -72,7 +72,10 @@ export const useEditorStore = defineStore('editor', () => {
         getRuntime().workbench.unregister(id);
     }
 
-    function setupSceneTreePanel(widgetId = 'scene-tree', area: WorkbenchArea = 'left'): void {
+    function setupSceneTreePanel(
+        widgetId = 'scene-tree',
+        area: WorkbenchArea = WorkbenchArea.Left
+    ): void {
         registerSceneTreePanel(getRuntime(), widgetId, area);
     }
 

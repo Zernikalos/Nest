@@ -1,26 +1,18 @@
-import type { ImportFileFormat } from './commandIds.js';
-
-/** Clipboard / window role handled by the shell, not CommandService. */
-export type MenuItemRole =
-    | 'copy'
-    | 'cut'
-    | 'paste'
-    | 'selectAll'
-    | 'quit'
-    | 'close';
+import type { AssetFormat } from '../domain/enums.js';
+import type { CommandId, MenuItemRole, MenuItemKind } from './enums.js';
 
 export interface MenuItemDescriptor {
     id: string;
     label: string;
     /** Command executed via CommandService when the item is activated. */
-    commandId?: string;
+    commandId?: CommandId;
     /** Payload passed to executeCommand (e.g. import format). */
-    commandPayload?: { format: ImportFileFormat };
+    commandPayload?: { format: AssetFormat };
     /** Shell role for clipboard / app exit (no commandId). */
     role?: MenuItemRole;
     /** ContextKeyService expression; omit for always enabled. */
     when?: string;
-    type?: 'separator';
+    type?: MenuItemKind.Separator;
     submenu?: MenuItemDescriptor[];
 }
 

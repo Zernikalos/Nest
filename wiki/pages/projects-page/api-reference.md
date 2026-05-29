@@ -141,33 +141,35 @@ if (filePath) {
 - Remembers last used directory
 - Returns `null` if user cancels
 
-### `window.NativeZernikalos.handleCreateProject`
+### `window.NativeZernikalos.onExecuteCommand`
 
 **Location:** `electronapp/src/preload.ts`
 
 **Signature:**
 ```typescript
-handleCreateProject(callback: () => void): { off: () => void }
+onExecuteCommand(
+  callback: (data: { commandId: string; payload?: unknown }) => void
+): { off: () => void }
 ```
 
 **Parameters:**
-- `callback: () => void` - Function called when menu item is selected
+- `callback` - Called when the main process requests a command execution in the renderer
 
 **Returns:**
 - Object with `off()` method to unsubscribe
 
 **Usage:**
 ```typescript
-const subscription = window.NativeZernikalos?.handleCreateProject(() => {
-    console.log("Create project menu item clicked")
-})
+const subscription = window.NativeZernikalos?.onExecuteCommand?.((data) => {
+    console.log("execute command", data.commandId, data.payload)
+});
 
 // Later, to unsubscribe:
 subscription?.off()
 ```
 
 **Events:**
-- Triggered when user selects "File → New Project..." from menu
+- Triggered for native menu actions on macOS (and any future main-driven commands)
 
 ## 🗄️ Zustand Stores API
 
@@ -427,13 +429,13 @@ interface InputAsset {
 ```
 File Menu Click
     ↓
-MenuEvents.CREATE_PROJECT (main process)
+mainBus.emit('menu:command', { commandId: 'file.createProject' }) (main process)
     ↓
-ipcMain.emit()
+MainWindow.sendOnChannel('ide:executeCommand', { commandId: 'file.createProject' })
     ↓
-RendererMenuEvents.CREATE_PROJECT (renderer)
+window.NativeZernikalos.onExecuteCommand(...) (renderer)
     ↓
-useElectronProjectIntegration.onCreateProject()
+useElectronProjectIntegration.onExecuteCommand()
     ↓
 useProjectUIStore.setIsCreateDialogOpen(true)
     ↓

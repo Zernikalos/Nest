@@ -1,8 +1,10 @@
-import { ipcMain } from "electron"
-import { MenuEvents } from "./MenuEvents"
-import type { MenuContextSnapshot } from "./MenuContext"
+import { CommandId } from '@ide-core';
+import type { MenuContextSnapshot } from '@ide-core/electron';
+import { emitMenuCommand } from './nativeMenuBus';
 
-export function getSceneMenuTemplate(context: MenuContextSnapshot): Electron.MenuItemConstructorOptions {
+export function getSceneMenuTemplate(
+    context: MenuContextSnapshot,
+): Electron.MenuItemConstructorOptions {
     return {
         label: 'Scene',
         submenu: [
@@ -10,9 +12,9 @@ export function getSceneMenuTemplate(context: MenuContextSnapshot): Electron.Men
                 label: 'Bundle Scene',
                 enabled: context.projectOpen,
                 click: () => {
-                    ipcMain.emit(MenuEvents.BUNDLE_SCENE)
-                }
+                    emitMenuCommand(CommandId.FILE_BUNDLE_SCENE);
+                },
             },
-        ]
-    }
+        ],
+    };
 }

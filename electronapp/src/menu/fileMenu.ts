@@ -1,68 +1,81 @@
-import {Constants} from "../constants"
-import {MenuEvents} from "./MenuEvents"
-import {ipcMain} from "electron"
-import type { MenuContextSnapshot } from "./MenuContext"
+import type { MenuContextSnapshot } from '@ide-core/electron';
+import { AssetFormat, CommandId } from '@ide-core';
+import { emitMenuCommand } from './nativeMenuBus';
+import { ExitMenuRole, getPlatformProfile } from '../platform/platformProfile';
 
-export function getFileMenuTemplate(context: MenuContextSnapshot): Electron.MenuItemConstructorOptions {
-    const projectOpen = context.projectOpen
+export function getFileMenuTemplate(
+    context: MenuContextSnapshot,
+): Electron.MenuItemConstructorOptions {
+    const projectOpen = context.projectOpen;
+    const profile = getPlatformProfile();
     return {
         label: 'File',
         submenu: [
             {
-                label: "New Project...",
+                label: 'New Project...',
                 enabled: true,
                 click: () => {
-                    ipcMain.emit(MenuEvents.CREATE_PROJECT)
-                }
+                    emitMenuCommand(CommandId.FILE_CREATE_PROJECT);
+                },
             },
             {
-                label: "Open Project...",
+                label: 'Open Project...',
                 enabled: true,
                 click: () => {
-                    ipcMain.emit(MenuEvents.OPEN_PROJECT)
-                }
+                    emitMenuCommand(CommandId.FILE_OPEN_PROJECT);
+                },
             },
-            { type: "separator" },
+            { type: 'separator' },
             {
-                label: "Load Zko file",
+                label: 'Load Zko file',
                 enabled: projectOpen,
                 click: () => {
-                    ipcMain.emit(MenuEvents.LOAD_ZKO)
-                }
+                    emitMenuCommand(CommandId.FILE_LOAD_ZKO);
+                },
             },
-            { type: "separator" },
+            { type: 'separator' },
             {
-                label: "Import file...",
+                label: 'Import file...',
                 enabled: projectOpen,
                 submenu: [
                     {
-                        label: "Import GlTF (.gltf, .glb)",
+                        label: 'Import GlTF (.gltf, .glb)',
                         click: () => {
-                            ipcMain.emit(MenuEvents.IMPORT_FILE, { format: "gltf" })
-                        }
+                            emitMenuCommand(CommandId.FILE_IMPORT_FILE, {
+                                format: AssetFormat.Gltf,
+                            });
+                        },
                     },
                     {
-                        label: "Import OBJ (.obj)",
+                        label: 'Import OBJ (.obj)',
                         click: () => {
-                            ipcMain.emit(MenuEvents.IMPORT_FILE, { format: "obj" })
-                        }
+                            emitMenuCommand(CommandId.FILE_IMPORT_FILE, {
+                                format: AssetFormat.Obj,
+                            });
+                        },
                     },
                     {
-                        label: "Import FBX (.fbx)",
+                        label: 'Import FBX (.fbx)',
                         click: () => {
-                            ipcMain.emit(MenuEvents.IMPORT_FILE, { format: "fbx" })
-                        }
+                            emitMenuCommand(CommandId.FILE_IMPORT_FILE, {
+                                format: AssetFormat.Fbx,
+                            });
+                        },
                     },
                     {
-                        label: "Import Collada (.dae)",
+                        label: 'Import Collada (.dae)',
                         click: () => {
-                            ipcMain.emit(MenuEvents.IMPORT_FILE, { format: "collada" })
-                        }
-                    }
+                            emitMenuCommand(CommandId.FILE_IMPORT_FILE, {
+                                format: AssetFormat.Collada,
+                            });
+                        },
+                    },
                 ],
             },
             { type: 'separator' },
-            Constants.isMac ? { role: 'close' as const } : { role: 'quit' as const },
-        ]
-    }
+            profile.exitMenuRole === ExitMenuRole.Close
+                ? { role: 'close' as const }
+                : { role: 'quit' as const },
+        ],
+    };
 }

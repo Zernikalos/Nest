@@ -1,10 +1,12 @@
 import type { WidgetContribution, WidgetController } from '../contracts/index.js';
+import { WorkbenchArea } from '../domain/enums.js';
 import type { SceneTreeEditor, SceneTreeViewModel } from '../editor/sceneTree.js';
 
-export type SceneTreeWidgetViewModel = Pick<
-    SceneTreeViewModel,
-    'tree' | 'selectedIds' | 'activeNode' | 'expandedNodeIds' | 'focusedNodeId' | 'openedNodes'
->;
+export interface SceneTreeWidgetViewModel
+    extends Pick<
+        SceneTreeViewModel,
+        'tree' | 'selectedIds' | 'activeNode' | 'expandedNodeIds' | 'focusedNodeId' | 'openedNodes'
+    > {}
 
 export class SceneTreeWidgetController implements WidgetController {
     constructor(
@@ -54,7 +56,7 @@ export function createSceneTreeWidgetContribution(
     return {
         id: 'scene-tree',
         title: 'Scene Tree',
-        defaultArea: 'left',
+        defaultArea: WorkbenchArea.Left,
         closable: false,
         createController: () =>
             new SceneTreeWidgetController(scene, getSceneViewModel),

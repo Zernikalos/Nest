@@ -1,19 +1,20 @@
 import type { BrowserWindow } from 'electron';
+import { AssetFormat } from '@ide-core';
 import { loadZkoDialog } from '../dialogs/loadZkoDialog';
-import { importFileDialog, type ImportFileFormat } from '../dialogs/importFileDialog';
+import { importFileDialog } from '../dialogs/importFileDialog';
 import { openProjectDialog } from '../dialogs/openProjectDialog';
 import _ from 'lodash';
 
-export type MenuActionLoadZkoResult = {
+export interface MenuActionLoadZkoResult {
     path: string;
     fileName: string;
-};
+}
 
-export type MenuActionImportResult = {
+export interface MenuActionImportResult {
     path: string;
     fileName: string;
-    format: ImportFileFormat;
-};
+    format: AssetFormat;
+}
 
 export async function runLoadZkoDialog(
     browserWindow: BrowserWindow,
@@ -28,7 +29,7 @@ export async function runLoadZkoDialog(
 
 export async function runImportFileDialog(
     browserWindow: BrowserWindow,
-    format: ImportFileFormat,
+    format: AssetFormat,
 ): Promise<MenuActionImportResult | null> {
     const pathInfo = await importFileDialog(browserWindow, format);
     if (_.isNil(pathInfo)) return null;
