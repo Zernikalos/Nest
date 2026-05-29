@@ -33,7 +33,7 @@ function isActive(path: string): boolean {
 <template>
   <aside
     :class="cn(
-      'shadow-md pl-0 bg-base-200 w-[56px] flex-shrink-0 h-screen border-r border-base-300'
+      'shadow-md pl-0 bg-base-200 w-[56px] flex-shrink-0 h-full min-h-0 border-r border-base-300'
     )"
   >
     <div class="flex flex-col h-full">

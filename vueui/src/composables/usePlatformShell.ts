@@ -15,13 +15,26 @@ export function usePlatformShell() {
 
   const isMac = computed(() => platform.value === 'darwin');
 
-  const showCustomChrome = computed(() => isElectron.value && !isMac.value);
+  /** Whether to render the custom in-renderer title bar (any Electron platform). */
+  const showCustomChrome = computed(() => isElectron.value);
+
+  /** Whether to render the in-renderer menu bar inside the title bar (Windows/Linux only). */
+  const showInRendererMenuBar = computed(() => isElectron.value && !isMac.value);
+
+  /** Whether to render the HTML min/max/close buttons (Windows/Linux only; Mac uses native traffic lights). */
+  const showWindowControlButtons = computed(() => isElectron.value && !isMac.value);
+
+  /** Whether the title bar must reserve space for the native macOS traffic lights. */
+  const reservesTrafficLightSpace = computed(() => isMac.value);
 
   return {
     platform,
     isElectron,
     isMac,
     showCustomChrome,
+    showInRendererMenuBar,
+    showWindowControlButtons,
+    reservesTrafficLightSpace,
   };
 }
 

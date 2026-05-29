@@ -31,56 +31,87 @@ export class MainWindow {
         return this.mainWindow;
     }
 
-    public sendToRenderer(ev: RendererMenuEvents, payload?: unknown) {
-        if (this.mainWindow && !this.mainWindow.isDestroyed()) {
-            this.mainWindow.webContents.send(ev, payload);
-        }
+    public sendToRenderer(ev: RendererMenuEvents, payload?: unknown): void {
+        this.sendOnChannel(ev, payload);
     }
 
-    private async createWindow() {
+    public async load(): Promise<void> {
+        await this.createWindow();
+        this.registerWindowListeners();
+        this.initApplicationMenu();
+        await this.loadRendererContent();
+    }
+
+    private async createWindow(): Promise<void> {
         const { width, height } = await this.settings.getWindowSize();
-        const settings = await this.settings.getSettings();
-        const bgColor = Constants.windowBackgroundForTheme(settings.appearance?.theme);
+        const bgColor = await this.resolveBackgroundColor();
 
         this.mainWindow = new BrowserWindow({
             icon: Constants.trayIcon,
-            width: width,
-            height: height,
+            width,
+            height,
             title: "Zernikalos Nest",
-            ...(Constants.useCustomChrome
-                ? {
-                      frame: false,
-                      backgroundColor: bgColor,
-                  }
-                : {}),
+            ...this.resolveChromeOptions(bgColor),
             webPreferences: {
                 preload: Constants.PreloadScriptPath,
                 contextIsolation: true,
             },
         });
+    }
 
-        if (Constants.useCustomChrome) {
-            attachWindowMaximizeEvents(this.mainWindow, (maximized) => {
-                if (!this.mainWindow.isDestroyed()) {
-                    this.mainWindow.webContents.send(MAXIMIZED_CHANGED, maximized);
-                }
-            });
+    private async resolveBackgroundColor(): Promise<string> {
+        const settings = await this.settings.getSettings();
+        return Constants.windowBackgroundForTheme(settings.appearance?.theme);
+    }
+
+    private resolveChromeOptions(bgColor: string): Partial<Electron.BrowserWindowConstructorOptions> {
+        if (Constants.isMac) {
+            return {
+                titleBarStyle: 'hiddenInset',
+                trafficLightPosition: { x: 12, y: 10 },
+                backgroundColor: bgColor,
+            };
+        }
+        return {
+            frame: false,
+            backgroundColor: bgColor,
+        };
+    }
+
+    private registerWindowListeners(): void {
+        this.mainWindow.on("resize", () => {
+            void this.persistWindowSize();
+        });
+
+        attachWindowMaximizeEvents(this.mainWindow, (maximized) => {
+            this.broadcastMaximizedState(maximized);
+        });
+    }
+
+    private async persistWindowSize(): Promise<void> {
+        const [width, height] = this.mainWindow.getSize();
+        await this.settings.setWindowSize(width, height);
+    }
+
+    private broadcastMaximizedState(maximized: boolean): void {
+        this.sendOnChannel(MAXIMIZED_CHANGED, maximized);
+    }
+
+    private sendOnChannel(channel: string, payload?: unknown): void {
+        if (this.mainWindow && !this.mainWindow.isDestroyed()) {
+            this.mainWindow.webContents.send(channel, payload);
         }
     }
 
-    public async load() {
-        await this.createWindow();
-        this.mainWindow.on("resize", async () => {
-            const [width, heigt] = this.mainWindow.getSize();
-            await this.settings.setWindowSize(width, heigt);
-        });
-
+    private initApplicationMenu(): void {
         if (Constants.isMac) {
             createMenu(DEFAULT_MENU_CONTEXT);
         } else {
             clearApplicationMenu();
         }
+    }
 
+    private async loadRendererContent(): Promise<void> {
         if (Constants.isDebug) {
             await this.mainWindow.loadURL(Constants.MainWindowPath);
         } else {
