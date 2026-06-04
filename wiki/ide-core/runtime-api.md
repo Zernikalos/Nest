@@ -2,7 +2,7 @@
 
 ## Entry Point
 
-`createEditorRuntime()` from `src/core/runtime/createEditorRuntime.ts` (import `@ide-core`).
+`createEditorRuntime()` from `src/common/runtime/createEditorRuntime.ts` (import `@ide-core`).
 
 ## Snapshot and subscriptions
 

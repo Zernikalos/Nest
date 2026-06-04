@@ -39,7 +39,7 @@
  *         └─────────────────────│ WidgetCtrl  │
  *                               └─────────────┘
  *
- * Companion layer (same package): `src/vue` — `@ide-core/vue`
+ * Companion layers (same package): `@ide-core/vue`, `@ide-core/electron`, `@ide-core/browser`
  *   • useEditorStore (actions), useEditorRuntime, useEditorSlice (reactive reads)
  *   • provideEditorRuntime / installEditorStore
  *
@@ -83,6 +83,7 @@
 export * from './contracts/index.js';
 export type { SubscribableEditor } from './contracts/store.js';
 export * from './domain/types.js';
+export { HostPlatform } from '../browser/hostEnums.js';
 export {
     convertZObjectToTreeNode,
     findNodeById,
@@ -106,10 +107,10 @@ export type {
     AssetConversionState,
     AssetConversionViewModel,
 } from './editor/assetConversion.js';
-export type {
-    EngineSessionState,
+export {
     EngineSessionStatus,
-    EngineSessionViewModel,
+    type EngineSessionState,
+    type EngineSessionViewModel,
 } from './editor/engine.js';
 export { getEngineSessionViewModel } from './editor/engine.js';
 
@@ -130,6 +131,10 @@ export * from './ports/MockStoragePort.js';
 export * from './services/CommandService.js';
 export * from './services/ContextKeyService.js';
 export * from './menu/index.js';
+export {
+    DEFAULT_MENU_CONTEXT,
+    type MenuContextSnapshot,
+} from './host/menuContext.js';
 export { EditorOrchestrator } from './runtime/EditorOrchestrator.js';
 export { createSceneDocumentsEditors } from './runtime/createSceneDocumentsEditors.js';
 export {

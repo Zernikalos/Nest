@@ -16,5 +16,29 @@
   "rules": {
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/ban-ts-comment": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["electronapp/**/*.ts"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              {
+                "name": "@ide-core/vue",
+                "message": "electronapp must not import @ide-core/vue"
+              }
+            ],
+            "patterns": [
+              {
+                "group": ["**/ide-core/src/**", "../ide-core/src/**", "../../ide-core/src/**"],
+                "message": "Import from @ide-core or @ide-core/electron instead of ide-core internal paths"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
 }

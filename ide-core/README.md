@@ -4,14 +4,25 @@ Framework-agnostic IDE runtime for Zernikalos Studio V2.
 
 ## Layout
 
-| Path | Role | Imports |
-|------|------|---------|
-| `src/core/` | Domain, runtime, ports (no Vue) | `@ide-core` |
+| Path | Role | Entry |
+|------|------|--------|
+| `src/common/` | Domain, runtime, ports, menu (no UI framework) | `@ide-core` |
 | `src/vue/` | Pinia store + composables | `@ide-core/vue` |
+| `src/electron/` | Main/preload IPC contracts (no `electron` import) | `@ide-core/electron` |
+| `src/browser/` | Renderer host port types + no-op factory | `@ide-core/browser` |
+
+## Import boundaries
+
+| Consumer | Allowed entries |
+|----------|-----------------|
+| `electronapp` | `@ide-core`, `@ide-core/electron` |
+| `vueui` | `@ide-core`, `@ide-core/vue`, `@ide-core/browser`, `@ide-core/electron` (types only if needed) |
+
+Do not import `ide-core/src/...` internal paths.
 
 ## Principles
 
-- **Core has no UI framework imports** in `src/core`
+- **Common has no UI framework imports**
 - **Serializable view models** via `getSnapshot()` / `getSlice()`
 - **Domain editors**: Zustand (vanilla) + Immer via `DomainEditorBase`
 
@@ -36,17 +47,19 @@ import {
   useEditorStore,
   useEditorSlice,
 } from '@ide-core/vue';
+```
 
-const runtime = createEditorRuntime({ storage });
-provideEditorRuntime(runtime);
-installEditorStore(pinia, runtime);
+## Usage (Electron main)
 
-// In components:
-const editor = useEditorStore();
-editor.openZObject('node-id');
+```ts
+import { FILE_OPEN_PROJECT } from '@ide-core';
+import { IDE_IPC_CHANNELS, DEFAULT_MENU_CONTEXT } from '@ide-core/electron';
+```
 
-// Finer subscriptions in SFCs (fewer re-renders):
-const assets = useEditorSlice('assets');
+## Usage (browser host)
+
+```ts
+import { createNoOpHostPort, type HostPort } from '@ide-core/browser';
 ```
 
 ## Tests
@@ -55,4 +68,4 @@ const assets = useEditorSlice('assets');
 pnpm exec jest --config ide-core/jest.config.js
 ```
 
-Tests run without DOM or Electron (core only).
+Tests run without DOM or Electron (common layer only).

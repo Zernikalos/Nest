@@ -10,9 +10,9 @@ export default {
     testEnvironment: 'node',
     testMatch: ['**/*.test.ts'],
     collectCoverageFrom: [
-        'src/core/**/*.ts',
-        '!src/core/**/*.test.ts',
-        '!src/core/**/*.d.ts',
+        'src/common/**/*.ts',
+        '!src/common/**/*.test.ts',
+        '!src/common/**/*.d.ts',
     ],
     moduleFileExtensions: ['ts', 'js'],
     moduleNameMapper: {

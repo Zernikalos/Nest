@@ -14,7 +14,9 @@ export interface ProjectState {
     error: Error | null;
 }
 
-export type ProjectViewModel = ProjectState & { isProjectOpen: boolean };
+export interface ProjectViewModel extends ProjectState {
+    isProjectOpen: boolean;
+}
 
 const initialState: ProjectState = {
     projectFilePath: null,

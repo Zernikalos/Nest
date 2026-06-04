@@ -296,9 +296,9 @@ Components Update
 ```
 Electron Menu Event (Bundle Scene)
     ↓
-MainWindow.sendToRenderer(RendererMenuEvents.BUNDLE_SCENE)
+MainWindow.sendOnChannel('ide:executeCommand', { commandId: 'file.bundleScene' })
     ↓
-ElectronProvider.onBundleScene() callback
+ElectronProvider.onExecuteCommand() callback
     ↓
 useElectronProjectIntegration handler (ignores undefined data)
     ↓

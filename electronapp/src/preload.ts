@@ -1,55 +1,31 @@
-import {contextBridge, ipcRenderer} from "electron"
-import {RendererMenuEvents} from "./menu/MenuEvents";
-import {NestEvents} from "./NestEvents";
-import type {ImportFileFormat} from "./dialogs/importFileDialog";
-
-type ElectronPlatform = 'darwin' | 'win32' | 'linux';
+import { contextBridge, ipcRenderer } from 'electron';
+import { AssetFormat, HostPlatform } from '@ide-core';
+import { IdeIpcChannel } from '@ide-core/electron';
+import type { MenuContextSnapshot } from '@ide-core/electron';
+import { NestEvents } from './NestEvents';
 
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
 window.addEventListener('DOMContentLoaded', () => {
-    const replaceText = (selector:any, text:any) => {
-        const element = document.getElementById(selector)
-        if (element) element.innerText = text
-    }
+    const replaceText = (selector: any, text: any) => {
+        const element = document.getElementById(selector);
+        if (element) element.innerText = text;
+    };
 
     for (const dependency of ['chrome', 'node', 'electron']) {
-        replaceText(`${dependency}-version`, process.versions[dependency])
+        replaceText(`${dependency}-version`, process.versions[dependency]);
     }
-})
+});
 
 contextBridge.exposeInMainWorld('NativeZernikalos', {
     getApiBaseUrl: () => ipcRenderer.invoke('get-api-url') as Promise<string>,
-    getPlatform: (): ElectronPlatform => process.platform as ElectronPlatform,
-    handleLoadZko: (callback: any) => {
-        ipcRenderer.on(RendererMenuEvents.LOAD_ZKO, callback)
+    getPlatform: (): HostPlatform => process.platform as HostPlatform,
+    onExecuteCommand: (callback: any) => {
+        const channel = IdeIpcChannel.ExecuteCommand;
+        ipcRenderer.on(channel, callback);
         return {
-            off: () => ipcRenderer.removeListener(RendererMenuEvents.LOAD_ZKO, callback)
-        }
-    },
-    handleShowImport: (callback: any) => {
-        ipcRenderer.on(RendererMenuEvents.IMPORT_FILE, callback)
-        return {
-            off: () => ipcRenderer.removeListener(RendererMenuEvents.IMPORT_FILE, callback)
-        }
-    },
-    handleBundleScene: (callback: any) => {
-        ipcRenderer.on(RendererMenuEvents.BUNDLE_SCENE, callback)
-        return {
-            off: () => ipcRenderer.removeListener(RendererMenuEvents.BUNDLE_SCENE, callback)
-        }
-    },
-    handleCreateProject: (callback: any) => {
-        ipcRenderer.on(RendererMenuEvents.CREATE_PROJECT, callback)
-        return {
-            off: () => ipcRenderer.removeListener(RendererMenuEvents.CREATE_PROJECT, callback)
-        }
-    },
-    handleOpenProject: (callback: any) => {
-        ipcRenderer.on(RendererMenuEvents.OPEN_PROJECT, callback)
-        return {
-            off: () => ipcRenderer.removeListener(RendererMenuEvents.OPEN_PROJECT, callback)
-        }
+            off: () => ipcRenderer.removeListener(channel, callback),
+        };
     },
     handleWindowMaximizedChanged: (callback: (ev: unknown, maximized: boolean) => void) => {
         const channel = 'window:maximized-changed';
@@ -59,8 +35,8 @@ contextBridge.exposeInMainWorld('NativeZernikalos', {
         };
     },
 
-    sendMenuContext: (context: { projectOpen: boolean }) => {
-        ipcRenderer.send('ide:menuContext', context)
+    sendMenuContext: (context: MenuContextSnapshot) => {
+        ipcRenderer.send(IdeIpcChannel.MenuContext, context);
     },
 
     windowMinimize: () => ipcRenderer.invoke('window:minimize'),
@@ -71,10 +47,11 @@ contextBridge.exposeInMainWorld('NativeZernikalos', {
         ipcRenderer.invoke('window:setBackgroundColor', color),
 
     menuLoadZko: () => ipcRenderer.invoke('menu:loadZko'),
-    menuImportFile: (format: ImportFileFormat) => ipcRenderer.invoke('menu:importFile', format),
+    menuImportFile: (format: AssetFormat) => ipcRenderer.invoke('menu:importFile', format),
 
     actionSaveFile: (fileData: Uint8Array) => ipcRenderer.invoke(NestEvents.SAVE_FILE, fileData),
-    showSaveProjectDialog: (projectName: string) => ipcRenderer.invoke(NestEvents.SHOW_SAVE_PROJECT_DIALOG, projectName),
+    showSaveProjectDialog: (projectName: string) =>
+        ipcRenderer.invoke(NestEvents.SHOW_SAVE_PROJECT_DIALOG, projectName),
     showOpenProjectDialog: () => ipcRenderer.invoke(NestEvents.SHOW_OPEN_PROJECT_DIALOG),
     storageGet: (key: string) => ipcRenderer.invoke('ide-storage:get', key),
     storageSet: (key: string, value: string) => ipcRenderer.invoke('ide-storage:set', key, value),
@@ -82,4 +59,4 @@ contextBridge.exposeInMainWorld('NativeZernikalos', {
     getAppSettings: () => ipcRenderer.invoke('userSettings:getAll'),
     patchAppSettings: (partial: Record<string, unknown>) =>
         ipcRenderer.invoke('userSettings:patch', partial),
-})
+});

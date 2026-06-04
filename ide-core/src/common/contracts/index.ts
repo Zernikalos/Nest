@@ -5,6 +5,8 @@
  * Adapters use EditorRuntime snapshots and domain editor methods; they never hold canonical state.
  */
 
+import type { WorkbenchArea } from '../domain/enums.js';
+
 /** Optional payload returned by command handlers for platform adapters. */
 export interface RuntimeEffect {
     type: string;
@@ -23,7 +25,7 @@ export interface WidgetRuntimeContext {
 export interface WidgetContribution {
     id: string;
     title: string;
-    defaultArea: 'left' | 'right' | 'bottom' | 'center';
+    defaultArea: WorkbenchArea;
     closable: boolean;
     createController(ctx: WidgetRuntimeContext): WidgetController;
 }

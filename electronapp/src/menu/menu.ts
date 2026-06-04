@@ -1,14 +1,15 @@
 import { app, Menu } from "electron"
-import { Constants } from "../constants"
+import { getPlatformProfile, MenuPresentation } from "../platform/platformProfile"
 import { getFileMenuTemplate } from "./fileMenu"
 import { getSceneMenuTemplate } from "./sceneMenu"
 import { editMenu } from "./editMenu"
-import { DEFAULT_MENU_CONTEXT, type MenuContextSnapshot } from "./MenuContext"
+import { DEFAULT_MENU_CONTEXT, type MenuContextSnapshot } from '@ide-core/electron';
 
 export function createMenu(context: MenuContextSnapshot = DEFAULT_MENU_CONTEXT): Electron.Menu {
     const ctx = context ?? DEFAULT_MENU_CONTEXT
+    const profile = getPlatformProfile()
     const template: (Electron.MenuItemConstructorOptions | Electron.MenuItem)[] = [
-        ...(Constants.isMac
+        ...(profile.menuPresentation === MenuPresentation.Native
             ? [{
                 label: app.name,
                 submenu: [
@@ -46,7 +47,7 @@ export function createMenu(context: MenuContextSnapshot = DEFAULT_MENU_CONTEXT):
             submenu: [
                 { role: 'minimize' as const },
                 { role: 'zoom' as const },
-                ...(Constants.isMac
+                ...(profile.menuPresentation === MenuPresentation.Native
                     ? [
                         { type: 'separator' as const },
                         { role: 'front' as const },
@@ -73,7 +74,7 @@ export function createMenu(context: MenuContextSnapshot = DEFAULT_MENU_CONTEXT):
     ]
 
     const menu = Menu.buildFromTemplate(template)
-    if (Constants.isMac) {
+    if (profile.menuPresentation === MenuPresentation.Native) {
         Menu.setApplicationMenu(menu)
     } else {
         Menu.setApplicationMenu(null)
@@ -83,7 +84,7 @@ export function createMenu(context: MenuContextSnapshot = DEFAULT_MENU_CONTEXT):
 
 /** Clears native menu on platforms that use in-renderer chrome. */
 export function clearApplicationMenu(): void {
-    if (!Constants.isMac) {
+    if (getPlatformProfile().menuPresentation !== MenuPresentation.Native) {
         Menu.setApplicationMenu(null)
     }
 }

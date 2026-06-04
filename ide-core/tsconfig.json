@@ -19,6 +19,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": ["src/core", "src/vue"],
+  "include": ["src/common", "src/vue", "src/electron", "src/browser"],
   "exclude": ["node_modules", "dist", "src/**/*.test.ts"]
 }

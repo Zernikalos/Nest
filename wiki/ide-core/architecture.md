@@ -39,19 +39,19 @@ Each editor receives `onCommit` from `EditorRuntime` (session persist debounce +
 
 ### 6. Snapshot bridge for UI
 
-`EditorRuntime.getSnapshot()` / `getSlice()` / `subscribeSlice()` aggregate and project view models. Vue adapters use `@ide-core/vue` (`useEditorStore`, `useEditorSnapshot`) in `src/vue/`; core lives in `src/core/`.
+`EditorRuntime.getSnapshot()` / `getSlice()` / `subscribeSlice()` aggregate and project view models. Vue adapters use `@ide-core/vue` (`useEditorStore`, `useEditorSnapshot`) in `src/vue/`; the runtime lives in `src/common/`.
 
 ## Main Subsystems
 
 ### Contracts
 
-`src/core/contracts/index.ts` defines the runtime boundary:
+`src/common/contracts/index.ts` defines the runtime boundary:
 
 - `RuntimeEffect` (optional command handler payloads)
 - `WidgetContribution` / `WidgetController`
 - `EditorSnapshot`
 
-### Domain editors (`src/core/editor/`)
+### Domain editors (`src/common/editor/`)
 
 Immer-backed stores with imperative editor classes. Cross-cutting scene ↔ document rules live in `EditorOrchestrator`.
 
@@ -69,7 +69,7 @@ Only interfaces belong in `ide-core`; implementations belong in adapters or host
 
 ## Composition Root
 
-`src/core/runtime/createEditorRuntime.ts` wires:
+`src/common/runtime/createEditorRuntime.ts` wires:
 
 - domain editors (`DomainEditorBase` + `onCommit`)
 - `EditorOrchestrator` (scene ↔ documents)

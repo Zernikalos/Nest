@@ -20,6 +20,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@ide-core": ["../ide-core/src/index.ts"],
+      "@ide-core/electron": ["../ide-core/src/electron/index.ts"],
       "@electronapp/*": ["./src/*"],
       "@zstudio-server": ["../nestserver/dist/main.d.ts"]
     }

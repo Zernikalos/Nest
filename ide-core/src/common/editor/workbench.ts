@@ -3,7 +3,7 @@
  */
 import type { WritableDraft } from 'immer';
 import type { WidgetContribution, WidgetController } from '../contracts/index.js';
-import type { WorkbenchArea } from '../domain/types.js';
+import { WorkbenchArea } from '../domain/enums.js';
 import { DomainEditorBase, type DomainCommitHandler } from './DomainEditorBase.js';
 
 export interface WorkbenchWidgetDescriptor {
@@ -31,10 +31,10 @@ const initialState: WorkbenchState = {
     panelSizes: {},
     registeredWidgets: {},
     areas: {
-        left: [],
-        right: [],
-        bottom: [],
-        center: [],
+        [WorkbenchArea.Left]: [],
+        [WorkbenchArea.Right]: [],
+        [WorkbenchArea.Bottom]: [],
+        [WorkbenchArea.Center]: [],
     },
     widgetAreaById: {},
     activeWidgetId: null,
@@ -100,7 +100,7 @@ export class WorkbenchEditor extends DomainEditorBase<WorkbenchState> {
         this.applyWorkbenchChange((d) => {
             const descriptor = d.registeredWidgets[id];
             const targetArea =
-                area ?? descriptor?.defaultArea ?? d.widgetAreaById[id] ?? 'center';
+                area ?? descriptor?.defaultArea ?? d.widgetAreaById[id] ?? WorkbenchArea.Center;
             const existingArea = d.widgetAreaById[id];
             if (existingArea) {
                 d.areas[existingArea] = d.areas[existingArea].filter((widgetId) => widgetId !== id);

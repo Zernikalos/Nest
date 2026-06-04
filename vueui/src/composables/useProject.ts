@@ -1,4 +1,4 @@
-import { computed, inject, watch } from 'vue';
+import { computed, inject } from 'vue';
 import { useRouter } from 'vue-router';
 import { useProjectUIStore } from '@/stores/projectUIStore';
 import type { IInputAsset } from '@/types/project';
@@ -21,18 +21,8 @@ export function useProject() {
   const error = computed(() => projectViewModel.value.error);
 
   function syncMenuContext(projectOpen: boolean) {
-    if (hostPort?.getPlatform?.() === 'darwin') {
-      hostPort.sendMenuContext?.({ projectOpen });
-    }
+    hostPort?.sendMenuContext?.({ projectOpen });
   }
-
-  watch(
-    () => projectViewModel.value.isProjectOpen,
-    (projectOpen) => {
-      syncMenuContext(projectOpen);
-    },
-    { immediate: true }
-  );
 
   async function createProject(name: string, filePath: string): Promise<void> {
     try {

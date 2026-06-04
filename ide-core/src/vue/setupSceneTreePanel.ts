@@ -1,11 +1,11 @@
-import type { WorkbenchArea } from '../core/domain/types.js';
-import type { EditorRuntime } from '../core/runtime/EditorRuntime.js';
-import { createSceneTreeWidgetContribution } from '../core/widgets/SceneTreeWidgetController.js';
+import { WorkbenchArea } from '../common/domain/enums.js';
+import type { EditorRuntime } from '../common/runtime/EditorRuntime.js';
+import { createSceneTreeWidgetContribution } from '../common/widgets/SceneTreeWidgetController.js';
 
 export function setupSceneTreePanel(
     runtime: EditorRuntime,
     widgetId = 'scene-tree',
-    area: WorkbenchArea = 'left'
+    area: WorkbenchArea = WorkbenchArea.Left
 ): void {
     const contribution = createSceneTreeWidgetContribution(
         runtime.scene,

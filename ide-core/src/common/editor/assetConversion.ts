@@ -13,7 +13,7 @@ export interface AssetConversionState {
     projectPersistWarning: string | null;
 }
 
-export type AssetConversionViewModel = AssetConversionState;
+export interface AssetConversionViewModel extends AssetConversionState {}
 
 const initialState: AssetConversionState = {
     isConverting: false,

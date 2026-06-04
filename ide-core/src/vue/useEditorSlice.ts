@@ -1,6 +1,6 @@
 import { shallowRef, onScopeDispose, computed, type ComputedRef } from 'vue';
-import type { EditorSnapshot } from '../core/contracts/snapshot.js';
-import type { EditorSnapshotKey } from '../core/runtime/EditorRuntime.js';
+import type { EditorSnapshot } from '../common/contracts/snapshot.js';
+import type { EditorSnapshotKey } from '../common/runtime/EditorRuntime.js';
 import { useEditorRuntime } from './useEditorRuntime.js';
 
 /**

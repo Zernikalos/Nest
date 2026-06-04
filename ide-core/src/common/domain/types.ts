@@ -3,12 +3,16 @@
  * No ReactNode or framework-specific types; icons are type identifiers (e.g. "SCENE") resolved by the renderer.
  */
 
+import type { AssetFormat, ZObjectType } from './enums.js';
+
+export { AssetFormat, WorkbenchArea, ZObjectType } from './enums.js';
+
 /** Tree node shape used by the scene tree view model. Safe to serialize for session/store. */
 export interface TreeNode {
     id: string;
     label: string;
-    /** Object type for icon resolution (e.g. "SCENE", "MODEL", "GROUP") */
-    iconType?: string;
+    /** Object type for icon resolution (e.g. SCENE, MODEL, GROUP). */
+    iconType?: ZObjectType | string;
     children?: TreeNode[];
     expanded?: boolean;
 }
@@ -21,12 +25,6 @@ export interface ZObjectLike {
     type?: string | { name: string };
     children?: ZObjectLike[];
 }
-
-/** Workbench panel area. Layout is defined by the runtime; the UI projects it. */
-export type WorkbenchArea = 'left' | 'right' | 'bottom' | 'center';
-
-/** Input asset format for project asset list (matches Nest API shape). */
-export type AssetFormat = 'obj' | 'gltf' | 'fbx' | 'collada';
 
 /** Input asset record as returned by project API. */
 export interface IInputAsset {

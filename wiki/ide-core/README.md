@@ -14,10 +14,19 @@ Not responsible for: Vue/DOM, Electron APIs, routing.
 
 ```text
 ide-core/src/
-  index.ts       → @ide-core (re-exports core)
-  core/          → domain, runtime, ports, services (no Vue)
+  index.ts       → @ide-core (re-exports common)
+  common/        → domain, runtime, ports, services (no Vue)
   vue/           → @ide-core/vue (Pinia + composables)
+  electron/      → @ide-core/electron (IPC + menu context contracts)
+  browser/       → @ide-core/browser (HostPort + createNoOpHostPort)
 ```
+
+## Import matrix
+
+| Consumer | Entries |
+|----------|---------|
+| `electronapp` | `@ide-core`, `@ide-core/electron` |
+| `vueui` | `@ide-core`, `@ide-core/vue`, `@ide-core/browser` |
 
 ## Core idea
 

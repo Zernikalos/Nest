@@ -37,7 +37,21 @@ Current examples in the package include:
 - host-facing event composables
 - renderer-side type definitions for native APIs
 
-The architectural goal is straightforward: `vueui` may know how to call the host, but `ide-core` should not know that Electron exists.
+The architectural goal is straightforward: `vueui` may know how to call the host, but `ide-core` common/runtime must not import Electron.
+
+Host contracts live in ide-core entries:
+
+- `@ide-core/browser` — `HostPort`, `MenuContextSnapshot`, `createNoOpHostPort`
+- `@ide-core/electron` — `IDE_IPC_CHANNELS`, `ExecuteCommandMessage` (used by electronapp main/preload)
+
+`vueui` re-exports `HostPort` from `@ide-core/browser` via `src/types/hostPort.ts` and keeps Vue-only `HOST_PORT_KEY` locally.
+
+## ide-core import matrix
+
+| Package | Allowed `@ide-core/*` entries |
+|---------|------------------------------|
+| `vueui` | `@ide-core`, `@ide-core/vue`, `@ide-core/browser` |
+| `electronapp` | `@ide-core`, `@ide-core/electron` (not `@ide-core/vue`) |
 
 ## Boundary 3: `vueui` and Backend APIs
 
