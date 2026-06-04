@@ -10,6 +10,7 @@ The goal is a better architecture without rewriting the product: same concepts (
 
 - `architecture-improvements.md` — DI container, contribution points, composition by modules
 - `frontend-backend-boundary.md` — RPC layer, services as the glue between renderer and Electron/Nest
+- `menu-and-host-integration.md` — Single menu manifest, unified dialog routing, HostPort adapter, post-refactor cleanup
 
 ## Scope
 
