@@ -41,10 +41,10 @@ The architectural goal is straightforward: `vueui` may know how to call the host
 
 Host contracts live in ide-core entries:
 
-- `@ide-core/browser` — `HostPort`, `MenuContextSnapshot`, `createNoOpHostPort`
-- `@ide-core/electron` — `IDE_IPC_CHANNELS`, `ExecuteCommandMessage` (used by electronapp main/preload)
+- `@ide-core/browser` — `HostPort`, `HostDialogsPort`, `MenuContextSnapshot`, `createNoOpHostPort`
+- `@ide-core/electron` — `IdeIpcChannel`, `HostDialogIpcChannel`, `createHostDialogsPreloadBridge`, `ExecuteCommandMessage`
 
-`vueui` re-exports `HostPort` from `@ide-core/browser` via `src/types/hostPort.ts` and keeps Vue-only `HOST_PORT_KEY` locally.
+`vueui` maps preload APIs via `src/adapters/createElectronHostPort.ts` and re-exports `HostPort` from `@ide-core/browser` via `src/types/hostPort.ts`.
 
 ## ide-core import matrix
 

@@ -13,7 +13,7 @@ const hostPort = inject<HostPort>(HOST_PORT_KEY);
 
 async function handleOpen() {
   try {
-    const filePath = await hostPort?.showOpenProjectDialog?.();
+    const filePath = await hostPort?.openProject?.();
     if (!filePath) return;
     await openProject(filePath);
   } catch (e) {

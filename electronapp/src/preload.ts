@@ -1,26 +1,31 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import { AssetFormat, HostPlatform } from '@ide-core';
-import { IdeIpcChannel } from '@ide-core/electron';
-import type { MenuContextSnapshot } from '@ide-core/electron';
-import { NestEvents } from './NestEvents';
+import { HostPlatform } from '@ide-core';
+import {
+    createHostDialogsPreloadBridge,
+    IdeIpcChannel,
+    type MenuContextSnapshot,
+} from '@ide-core/electron';
 
-// All of the Node.js APIs are available in the preload process.
-// It has the same sandbox as a Chrome extension.
 window.addEventListener('DOMContentLoaded', () => {
-    const replaceText = (selector: any, text: any) => {
+    const replaceText = (selector: string, text: string) => {
         const element = document.getElementById(selector);
         if (element) element.innerText = text;
     };
 
     for (const dependency of ['chrome', 'node', 'electron']) {
-        replaceText(`${dependency}-version`, process.versions[dependency]);
+        replaceText(`${dependency}-version`, process.versions[dependency] ?? '');
     }
 });
 
+const hostDialogs = createHostDialogsPreloadBridge((channel, ...args) =>
+    ipcRenderer.invoke(channel, ...args),
+);
+
 contextBridge.exposeInMainWorld('NativeZernikalos', {
+    ...hostDialogs,
     getApiBaseUrl: () => ipcRenderer.invoke('get-api-url') as Promise<string>,
     getPlatform: (): HostPlatform => process.platform as HostPlatform,
-    onExecuteCommand: (callback: any) => {
+    onExecuteCommand: (callback: (...args: unknown[]) => void) => {
         const channel = IdeIpcChannel.ExecuteCommand;
         ipcRenderer.on(channel, callback);
         return {
@@ -34,25 +39,15 @@ contextBridge.exposeInMainWorld('NativeZernikalos', {
             off: () => ipcRenderer.removeListener(channel, callback),
         };
     },
-
     sendMenuContext: (context: MenuContextSnapshot) => {
         ipcRenderer.send(IdeIpcChannel.MenuContext, context);
     },
-
     windowMinimize: () => ipcRenderer.invoke('window:minimize'),
     windowMaximize: () => ipcRenderer.invoke('window:maximize'),
     windowClose: () => ipcRenderer.invoke('window:close'),
     windowIsMaximized: () => ipcRenderer.invoke('window:isMaximized') as Promise<boolean>,
     windowSetBackgroundColor: (color: string) =>
         ipcRenderer.invoke('window:setBackgroundColor', color),
-
-    menuLoadZko: () => ipcRenderer.invoke('menu:loadZko'),
-    menuImportFile: (format: AssetFormat) => ipcRenderer.invoke('menu:importFile', format),
-
-    actionSaveFile: (fileData: Uint8Array) => ipcRenderer.invoke(NestEvents.SAVE_FILE, fileData),
-    showSaveProjectDialog: (projectName: string) =>
-        ipcRenderer.invoke(NestEvents.SHOW_SAVE_PROJECT_DIALOG, projectName),
-    showOpenProjectDialog: () => ipcRenderer.invoke(NestEvents.SHOW_OPEN_PROJECT_DIALOG),
     storageGet: (key: string) => ipcRenderer.invoke('ide-storage:get', key),
     storageSet: (key: string, value: string) => ipcRenderer.invoke('ide-storage:set', key, value),
     storageDelete: (key: string) => ipcRenderer.invoke('ide-storage:delete', key),

@@ -1,7 +1,17 @@
 /**
- * Vue / Pinia integration for @zstudio/ide-core.
- * Framework-agnostic domain remains in `../core`.
+ * Vue / Pinia integration and renderer host contracts for @zstudio/ide-core.
+ * Framework-agnostic domain remains in `../common`.
  */
+
+export type {
+    HostPort,
+    HostDialogsPort,
+    MenuContextSnapshot,
+    LoadZkoDialogResult,
+    ImportFileDialogResult,
+} from './host/hostPort.js';
+export { HostPlatform } from './host/hostPort.js';
+export { createEmptyHostPort } from './host/emptyHostPort.js';
 
 export { EDITOR_RUNTIME_KEY } from './keys.js';
 export { provideEditorRuntime } from './provideEditorRuntime.js';

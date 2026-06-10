@@ -1,10 +1,7 @@
 import { AssetFormat } from '../domain/enums.js';
-import {
-    CommandId,
-    MenuItemKind,
-    MenuItemRole,
-} from './enums.js';
-import type { MenuGroupDescriptor } from './types.js';
+import { CommandId } from './commandId.js';
+import { MenuItemKind, MenuItemRole } from './core/index.js';
+import type { MenuGroupDescriptor } from './core/index.js';
 
 /**
  * Application menu structure for in-renderer menu bar (Windows/Linux).
@@ -25,14 +22,14 @@ export const APP_MENU_MANIFEST: MenuGroupDescriptor[] = [
                 label: 'Open Project…',
                 commandId: CommandId.FILE_OPEN_PROJECT,
             },
-            { id: 'file.sep1', label: '', type: MenuItemKind.Separator },
+            { id: 'file.sep1', label: '', kind: MenuItemKind.Separator },
             {
                 id: 'file.loadZko',
                 label: 'Load Zko file',
                 commandId: CommandId.FILE_LOAD_ZKO,
                 when: 'projectOpen',
             },
-            { id: 'file.sep2', label: '', type: MenuItemKind.Separator },
+            { id: 'file.sep2', label: '', kind: MenuItemKind.Separator },
             {
                 id: 'file.import',
                 label: 'Import file…',
@@ -68,7 +65,7 @@ export const APP_MENU_MANIFEST: MenuGroupDescriptor[] = [
                     },
                 ],
             },
-            { id: 'file.sep3', label: '', type: MenuItemKind.Separator },
+            { id: 'file.sep3', label: '', kind: MenuItemKind.Separator },
             { id: 'file.quit', label: 'Exit', role: MenuItemRole.Quit },
         ],
     },

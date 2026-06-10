@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
-import { APP_MENU_MANIFEST } from '@ide-core';
 import {
   DropdownMenuRoot,
   DropdownMenuTrigger,
@@ -16,7 +15,7 @@ import { cn } from '@/lib/utils';
 
 defineOptions({ name: 'AppMenuBar' });
 
-const { openGroupId, isMenuOpen, onTriggerClick, onTriggerHover, closeMenuBar } =
+const { openGroupId, isMenuOpen, resolvedMenu, onTriggerClick, onTriggerHover, closeMenuBar } =
   provideAppMenuBar();
 
 const menuBarRef = ref<HTMLElement | null>(null);
@@ -34,7 +33,7 @@ function setTriggerRef(groupId: string, el: unknown): void {
 const { anchorStyle, updateAnchorPosition } = useMenuAnchorPosition(openGroupId, triggerRefs);
 
 const activeGroup = computed(() =>
-  APP_MENU_MANIFEST.find((g) => g.id === openGroupId.value) ?? null
+  resolvedMenu.value.find((g) => g.id === openGroupId.value) ?? null
 );
 
 function onRootOpenChange(open: boolean): void {
@@ -50,18 +49,33 @@ function onTriggerMouseEnter(groupId: string): void {
 
 onClickOutside(
   menuBarRef,
-  () => {
+  (event) => {
+    const target = event.target as Element | null;
+    if (target?.closest('[role="menu"]')) return;
     if (isMenuOpen.value) closeMenuBar();
   },
   { ignore: [menuPanelRef] }
 );
+
+function onPointerDownOutside(event: { preventDefault: () => void; detail?: { originalEvent?: Event } }): void {
+  const target =
+    event.detail?.originalEvent && 'target' in event.detail.originalEvent
+      ? (event.detail.originalEvent.target as Element | null)
+      : null;
+  // Submenus render in a separate portal; clicks there are "outside" the root panel.
+  if (target?.closest('[role="menu"]')) {
+    event.preventDefault();
+    return;
+  }
+  closeMenuBar();
+}
 </script>
 
 <template>
   <div ref="menuBarRef" class="app-menu-bar-root flex items-stretch">
     <nav class="app-menu-bar flex items-stretch" aria-label="Application menu">
       <button
-        v-for="group in APP_MENU_MANIFEST"
+        v-for="group in resolvedMenu"
         :key="group.id"
         :ref="(el) => setTriggerRef(group.id, el)"
         type="button"
@@ -88,8 +102,8 @@ onClickOutside(
       <DropdownMenuTrigger as-child>
         <div
           :style="anchorStyle"
-          aria-hidden="true"
           tabindex="-1"
+          role="presentation"
         />
       </DropdownMenuTrigger>
       <DropdownMenuPortal>
@@ -97,7 +111,7 @@ onClickOutside(
           ref="menuPanelRef"
           :class="menuContentClass"
           :side-offset="4"
-          @pointer-down-outside="closeMenuBar"
+          @pointer-down-outside="onPointerDownOutside"
           @escape-key-down="closeMenuBar"
         >
           <template v-if="activeGroup">

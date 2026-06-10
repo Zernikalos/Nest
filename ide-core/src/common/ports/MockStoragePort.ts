@@ -1,4 +1,4 @@
-import type { StoragePort } from './index.js';
+import type { StoragePort } from './StoragePort.js';
 
 /**
  * In-memory StoragePort implementation for tests and non-persistent scenarios.

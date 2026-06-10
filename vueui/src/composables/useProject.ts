@@ -20,14 +20,9 @@ export function useProject() {
   const isLoading = computed(() => projectViewModel.value.isLoading);
   const error = computed(() => projectViewModel.value.error);
 
-  function syncMenuContext(projectOpen: boolean) {
-    hostPort?.sendMenuContext?.({ projectOpen });
-  }
-
   async function createProject(name: string, filePath: string): Promise<void> {
     try {
       await editor.createProject(name, filePath);
-      syncMenuContext(true);
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Failed to create project';
       projectUIStore.setCreationError(message);
@@ -37,13 +32,11 @@ export function useProject() {
 
   async function openProject(filePath: string): Promise<void> {
     await editor.openProject(filePath);
-    syncMenuContext(true);
     await settingsStore.setLastProjectPath(filePath);
   }
 
   function closeProject(): void {
     editor.closeProject();
-    syncMenuContext(false);
   }
 
   async function addAssetToProject(
@@ -56,7 +49,7 @@ export function useProject() {
     projectUIStore.setCreating(true);
     projectUIStore.setCreationError(null);
     try {
-      const filePath = await hostPort?.showSaveProjectDialog?.(projectName);
+      const filePath = await hostPort?.saveProject?.(projectName);
       if (!filePath) {
         projectUIStore.setCreating(false);
         return;

@@ -38,6 +38,16 @@ describe('SceneTreeEditor', () => {
         expect(vm.focusedNodeId).toBe('2');
     });
 
+    it('toggleExpanded opens and closes nodes', () => {
+        const { scene: editor } = createSceneDocumentsEditors(() => {});
+
+        editor.toggleExpanded('1');
+        expect(getSceneTreeViewModel(editor.getState()).expandedNodeIds).toEqual(['1']);
+
+        editor.toggleExpanded('1');
+        expect(getSceneTreeViewModel(editor.getState()).expandedNodeIds).toEqual([]);
+    });
+
     it('getSceneTreeViewModel derives openedNodes from documents', () => {
         const { scene, documents } = createSceneDocumentsEditors(() => {});
         const tree: TreeNode[] = [

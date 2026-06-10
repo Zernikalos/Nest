@@ -14,14 +14,20 @@ On **macOS**, the system window frame and native application menu are kept.
 | `window:isMaximized` | Maximized state for title bar icon |
 | `window:maximized-changed` | Event pushed to renderer |
 | `window:setBackgroundColor` | Sync frameless background with UI theme |
-| `menu:loadZko` / `menu:importFile` / `menu:openProject` | File dialogs for in-renderer menu |
-| `IDE_IPC_CHANNELS.menuContext` (`ide:menuContext`) | Sync native application menu enablement (main no-ops on non-native platforms) |
-| `IDE_IPC_CHANNELS.executeCommand` (`ide:executeCommand`) | Main → renderer: execute a `commandId` with optional payload |
+| `host:dialog:*` (`HostDialogIpcChannel`) | File dialogs via `HostDialogsPort` |
+| `IdeIpcChannel.MenuContext` (`ide:menuContext`) | Sync native application menu enablement (main no-ops on non-native platforms) |
+| `IdeIpcChannel.ExecuteCommand` (`ide:executeCommand`) | Main → renderer: execute a `commandId` with optional payload |
 
-Channel constants are defined in `@ide-core/electron` (`IDE_IPC_CHANNELS`).
+Channel constants are defined in `@ide-core/electron` (`IdeIpcChannel`, `HostDialogIpcChannel`).
+
+### Host dialogs
+
+Main implements `HostDialogsPort` in `src/host/electronDialogHost.ts`. Preload exposes the same API via `createHostDialogsPreloadBridge` from `@ide-core/electron`.
 
 ### Menu commands
 
-Command IDs live in **ide-core** (`@ide-core`: `APP_MENU_MANIFEST`, `commandIds.ts`). The renderer executes them via `CommandService`; the native macOS menu emits `menu:command` on `mainBus` (`eventemitter3`, see `src/events/mainBus.ts`) and the main process forwards them to the renderer via `IDE_IPC_CHANNELS.executeCommand`.
+Command IDs and menu structure live in **ide-core** (`APP_MENU_MANIFEST`, `CommandId`). macOS builds the native menu from `resolveMenuManifest` + `manifestAdapter.ts`; Win/Linux use `AppMenuBar` in vueui.
+
+Native macOS menu clicks call `emitMenuCommand` in `menuCommandForward.ts`, which forwards to the renderer via `IdeIpcChannel.ExecuteCommand` (B1 routing: dialogs run in renderer via `HostPort`).
 
 Import rule: use `@ide-core` and `@ide-core/electron` only — not deep paths under `ide-core/src/`.

@@ -7,7 +7,8 @@ import {
   DropdownMenuSubContent,
   DropdownMenuPortal,
 } from 'radix-vue';
-import type { MenuItemDescriptor } from '@ide-core';
+import type { ResolvedMenuItem } from '@ide-core';
+import { hasMenuItemSubmenuChildren, isMenuItemSeparator } from '@ide-core';
 import { useAppMenuBarContext } from './useAppMenuBar';
 import {
   menuItemClass,
@@ -19,15 +20,15 @@ import {
 defineOptions({ name: 'AppMenuItemNode' });
 
 defineProps<{
-  item: MenuItemDescriptor;
+  item: ResolvedMenuItem;
 }>();
 
 const { isItemEnabled, activateItem } = useAppMenuBarContext();
 </script>
 
 <template>
-  <DropdownMenuSeparator v-if="item.type === 'separator'" :class="menuSeparatorClass" />
-  <DropdownMenuSub v-else-if="item.submenu?.length">
+  <DropdownMenuSeparator v-if="isMenuItemSeparator(item)" :class="menuSeparatorClass" />
+  <DropdownMenuSub v-else-if="hasMenuItemSubmenuChildren(item)">
     <DropdownMenuSubTrigger
       :disabled="!isItemEnabled(item)"
       :class="menuSubTriggerClass"
@@ -37,7 +38,7 @@ const { isItemEnabled, activateItem } = useAppMenuBarContext();
     <DropdownMenuPortal>
       <DropdownMenuSubContent :class="menuSubContentClass" :side-offset="8">
         <AppMenuItemNode
-          v-for="sub in item.submenu"
+          v-for="sub in item.children"
           :key="sub.id"
           :item="sub"
         />

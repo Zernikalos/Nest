@@ -39,7 +39,7 @@
  *         └─────────────────────│ WidgetCtrl  │
  *                               └─────────────┘
  *
- * Companion layers (same package): `@ide-core/vue`, `@ide-core/electron`, `@ide-core/browser`
+ * Companion layers (same package): `@ide-core/vue`, `@ide-core/electron`
  *   • useEditorStore (actions), useEditorRuntime, useEditorSlice (reactive reads)
  *   • provideEditorRuntime / installEditorStore
  *
@@ -83,7 +83,7 @@
 export * from './contracts/index.js';
 export type { SubscribableEditor } from './contracts/store.js';
 export * from './domain/types.js';
-export { HostPlatform } from '../browser/hostEnums.js';
+export { HostPlatform } from './host/enums.js';
 export {
     convertZObjectToTreeNode,
     findNodeById,
@@ -126,7 +126,6 @@ export type { DomainCommitHandler } from './editor/DomainEditorBase.js';
 export { SessionService } from './services/SessionService.js';
 export type { SessionData } from './services/SessionService.js';
 export * from './ports/index.js';
-export type { EngineSessionPort, EngineSessionStartOptions } from './ports/index.js';
 export * from './ports/MockStoragePort.js';
 export * from './services/CommandService.js';
 export * from './services/ContextKeyService.js';
@@ -135,6 +134,8 @@ export {
     DEFAULT_MENU_CONTEXT,
     type MenuContextSnapshot,
 } from './host/menuContext.js';
+export type { LoadZkoDialogResult, ImportFileDialogResult } from './host/dialogTypes.js';
+export type { HostDialogsPort } from './host/hostDialogsPort.js';
 export { EditorOrchestrator } from './runtime/EditorOrchestrator.js';
 export { createSceneDocumentsEditors } from './runtime/createSceneDocumentsEditors.js';
 export {

@@ -1,6 +1,7 @@
 import { BrowserWindow, dialog } from 'electron';
 import { AssetFormat } from '@ide-core';
 import { cleanDialogReturnValue, PathInfo } from './cleanDialogReturnValue';
+import { prepareWindowForDialog } from './prepareWindowForDialog';
 import OpenDialogOptions = Electron.OpenDialogOptions;
 import _ from 'lodash';
 
@@ -14,6 +15,8 @@ function buildFiltersFromFormat(format: AssetFormat) {
             return { name: 'FBX', extensions: ['fbx'] };
         case AssetFormat.Collada:
             return { name: 'Collada', extensions: ['dae'] };
+        default:
+            return { name: 'All Files', extensions: ['*'] };
     }
 }
 
@@ -34,6 +37,7 @@ export async function importFileDialog(
         config.defaultPath = lastPath;
     }
 
+    await prepareWindowForDialog(browserWindow);
     const dialogReturnValue = await dialog.showOpenDialog(browserWindow, config);
     const cleanedValue = cleanDialogReturnValue(dialogReturnValue);
     if (cleanedValue) {

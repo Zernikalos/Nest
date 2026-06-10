@@ -1,6 +1,6 @@
 import type { AssetFormat } from '@ide-core';
-import { HostPlatform } from '@ide-core/browser';
-import type { MenuContextSnapshot } from '@ide-core/browser';
+import { HostPlatform } from '@ide-core/vue';
+import type { MenuContextSnapshot } from '@ide-core/vue';
 
 export type { MenuContextSnapshot };
 export { HostPlatform };
@@ -26,13 +26,13 @@ declare global {
             windowClose?: () => Promise<void>;
             windowIsMaximized?: () => Promise<boolean>;
             windowSetBackgroundColor?: (color: string) => Promise<void>;
-            menuLoadZko?: () => Promise<{ path: string; fileName: string } | null>;
-            menuImportFile?: (
+            loadZko?: () => Promise<{ path: string; fileName: string } | null>;
+            importFile?: (
                 format: AssetFormat
             ) => Promise<{ path: string; fileName: string; format: AssetFormat } | null>;
-            actionSaveFile?: (fileData: Uint8Array) => Promise<void>;
-            showSaveProjectDialog?: (projectName: string) => Promise<string | null | undefined>;
-            showOpenProjectDialog?: () => Promise<string | null | undefined>;
+            openProject?: () => Promise<string | null | undefined>;
+            saveProject?: (projectName: string) => Promise<string | null | undefined>;
+            saveBundledScene?: (fileData: Uint8Array) => Promise<void>;
             storageGet?: (key: string) => Promise<string | null>;
             storageSet?: (key: string, value: string) => Promise<void>;
             storageDelete?: (key: string) => Promise<void>;
