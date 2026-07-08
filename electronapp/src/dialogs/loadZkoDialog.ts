@@ -1,5 +1,6 @@
 import {BrowserWindow, dialog} from "electron";
 import {cleanDialogReturnValue, PathInfo} from "./cleanDialogReturnValue";
+import { prepareWindowForDialog } from "./prepareWindowForDialog";
 import OpenDialogOptions = Electron.OpenDialogOptions;
 import _ from "lodash";
 
@@ -19,7 +20,8 @@ export async function loadZkoDialog(browserWindow: BrowserWindow): Promise<PathI
         config.defaultPath = lastPath
     }
 
-    const dialogReturnValue = await dialog.showOpenDialog(browserWindow,)
+    await prepareWindowForDialog(browserWindow);
+    const dialogReturnValue = await dialog.showOpenDialog(browserWindow, config)
     const cleanedValue=  cleanDialogReturnValue(dialogReturnValue)
     if (cleanedValue) {
         lastPath = cleanedValue.filePath

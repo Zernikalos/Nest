@@ -1,31 +1,21 @@
 import { BrowserWindow, ipcMain } from "electron";
-import { registerMenuCommandHandlers } from "./menu/registerMenuCommandHandlers";
+import { registerMenuCommandForward } from "./menu/menuCommandForward";
 import { createMenu, clearApplicationMenu } from "./menu/menu";
-import { AssetFormat } from '@ide-core';
 import {
     DEFAULT_MENU_CONTEXT,
     IdeIpcChannel,
     type MenuContextSnapshot,
 } from '@ide-core/electron';
-import { bundleSceneDialog } from "./dialogs/bundleSceneDialog";
-import { NestEvents } from "./NestEvents";
-import * as fs from "node:fs/promises";
 import { Constants } from "./constants";
-import _ from "lodash";
 import { SettingsService, type AppSettings } from "./nestServerAdapter";
-import { createProjectDialog } from "./dialogs/createProjectDialog";
-import { openProjectDialog } from "./dialogs/openProjectDialog";
 import { getPlatformProfile, MenuPresentation } from "./platform/platformProfile";
+import { attachDevToolsShortcut } from "./window/devToolsShortcut";
 import {
     attachWindowMaximizeEvents,
     MAXIMIZED_CHANGED,
     registerWindowControlHandlers,
 } from "./window/windowControls";
-import {
-    runImportFileDialog,
-    runLoadZkoDialog,
-    runOpenProjectDialog,
-} from "./menu/menuActions";
+import { registerHostDialogIpcHandlers } from "./host/registerHostDialogIpc";
 
 export class MainWindow {
     private mainWindow!: BrowserWindow;
@@ -91,6 +81,8 @@ export class MainWindow {
             void this.persistWindowSize();
         });
 
+        attachDevToolsShortcut(this.mainWindow);
+
         attachWindowMaximizeEvents(this.mainWindow, (maximized) => {
             this.broadcastMaximizedState(maximized);
         });
@@ -133,52 +125,8 @@ export function registerMainWindowIpcHandlers(
     const getBrowserWindow = () => getMainWindow()?.getBrowserWindow();
 
     registerWindowControlHandlers(() => getBrowserWindow());
-
-    ipcMain.handle('menu:loadZko', async () => {
-        const win = getBrowserWindow();
-        if (!win) return null;
-        return runLoadZkoDialog(win);
-    });
-
-    ipcMain.handle('menu:importFile', async (_event, format: AssetFormat) => {
-        const win = getBrowserWindow();
-        if (!win) return null;
-        return runImportFileDialog(win, format);
-    });
-
-    ipcMain.handle('menu:openProject', async () => {
-        const win = getBrowserWindow();
-        if (!win) return null;
-        return runOpenProjectDialog(win);
-    });
-
-    registerMenuCommandHandlers(getMainWindow);
-
-    ipcMain.handle(NestEvents.SAVE_FILE, async (_ev, fileData: Uint8Array) => {
-        const win = getMainWindow();
-        if (!win) return;
-        const pathInfo = await bundleSceneDialog(win.getBrowserWindow());
-        if (_.isNil(pathInfo)) return;
-        try {
-            await fs.writeFile(pathInfo.filePath, fileData);
-        } catch (e) {
-            console.log(`Unable to write file to ${pathInfo.filePath}. Error: ${e}`);
-        }
-    });
-
-    ipcMain.handle(NestEvents.SHOW_SAVE_PROJECT_DIALOG, async (_ev, projectName: string) => {
-        const win = getMainWindow();
-        if (!win) return null;
-        const pathInfo = await createProjectDialog(win.getBrowserWindow(), projectName);
-        return pathInfo?.filePath ?? null;
-    });
-
-    ipcMain.handle(NestEvents.SHOW_OPEN_PROJECT_DIALOG, async () => {
-        const win = getMainWindow();
-        if (!win) return null;
-        const pathInfo = await openProjectDialog(win.getBrowserWindow());
-        return pathInfo?.filePath ?? null;
-    });
+    registerHostDialogIpcHandlers(getBrowserWindow);
+    registerMenuCommandForward(getMainWindow);
 
     ipcMain.handle("userSettings:getAll", async () => getSettings().getSettings());
 

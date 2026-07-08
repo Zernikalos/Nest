@@ -1,5 +1,6 @@
-import type { AssetFormat } from '../domain/enums.js';
-import type { CommandId, MenuItemRole, MenuItemKind } from './enums.js';
+import type { CommandId } from '../commandId.js';
+import type { MenuItemKind } from './menuItemKind.js';
+import type { MenuItemRole } from './menuItemRole.js';
 
 export interface MenuItemDescriptor {
     id: string;
@@ -7,17 +8,12 @@ export interface MenuItemDescriptor {
     /** Command executed via CommandService when the item is activated. */
     commandId?: CommandId;
     /** Payload passed to executeCommand (e.g. import format). */
-    commandPayload?: { format: AssetFormat };
+    commandPayload?: unknown;
     /** Shell role for clipboard / app exit (no commandId). */
     role?: MenuItemRole;
     /** ContextKeyService expression; omit for always enabled. */
     when?: string;
-    type?: MenuItemKind.Separator;
+    /** Explicit kind; only separators set this in the manifest (others are inferred). */
+    kind?: MenuItemKind;
     submenu?: MenuItemDescriptor[];
-}
-
-export interface MenuGroupDescriptor {
-    id: string;
-    label: string;
-    items: MenuItemDescriptor[];
 }

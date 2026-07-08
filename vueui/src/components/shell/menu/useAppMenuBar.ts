@@ -1,16 +1,25 @@
 import { computed, inject, provide, ref, type ComputedRef, type InjectionKey, type Ref } from 'vue';
-import type { MenuItemDescriptor } from '@ide-core';
+import {
+  APP_MENU_MANIFEST,
+  activateMenuItem,
+  isMenuItemEnabled,
+  menuContextToKeys,
+  resolveMenuManifest,
+  MenuItemRole,
+} from '@ide-core';
+import type { ResolvedMenuGroup, ResolvedMenuItem } from '@ide-core';
 import { useEditorStore, useEditorSlice } from '@ide-core/vue';
 import { HOST_PORT_KEY, type HostPort } from '@/types/hostPort';
 
 export interface AppMenuBarContext {
   openGroupId: Ref<string | null>;
   isMenuOpen: ComputedRef<boolean>;
+  resolvedMenu: ComputedRef<ResolvedMenuGroup[]>;
   onTriggerClick: (groupId: string) => void;
   onTriggerHover: (groupId: string) => void;
   closeMenuBar: () => void;
-  isItemEnabled: (item: MenuItemDescriptor) => boolean;
-  activateItem: (item: MenuItemDescriptor) => void;
+  isItemEnabled: (item: ResolvedMenuItem) => boolean;
+  activateItem: (item: ResolvedMenuItem) => void;
 }
 
 export const APP_MENU_BAR_KEY: InjectionKey<AppMenuBarContext> = Symbol('appMenuBar');
@@ -18,10 +27,17 @@ export const APP_MENU_BAR_KEY: InjectionKey<AppMenuBarContext> = Symbol('appMenu
 export function useAppMenuBar(): AppMenuBarContext {
   const hostPort = inject<HostPort>(HOST_PORT_KEY);
   const editor = useEditorStore();
-  useEditorSlice('project');
+  const project = useEditorSlice('project');
 
   const openGroupId = ref<string | null>(null);
   const isMenuOpen = computed(() => openGroupId.value !== null);
+
+  const resolvedMenu = computed(() =>
+    resolveMenuManifest(
+      APP_MENU_MANIFEST,
+      menuContextToKeys({ projectOpen: project.value.isProjectOpen })
+    )
+  );
 
   function onTriggerClick(groupId: string): void {
     openGroupId.value = groupId;
@@ -38,55 +54,44 @@ export function useAppMenuBar(): AppMenuBarContext {
     openGroupId.value = null;
   }
 
-  function isItemEnabled(item: MenuItemDescriptor): boolean {
-    if (item.type === 'separator') return false;
-    if (!item.when) return true;
-    return editor.evaluateContext(item.when);
+  function isItemEnabled(item: ResolvedMenuItem): boolean {
+    return isMenuItemEnabled(item);
   }
 
-  function runEditRole(role: NonNullable<MenuItemDescriptor['role']>): void {
+  function runEditRole(role: MenuItemRole): void {
     switch (role) {
-      case 'copy':
+      case MenuItemRole.Copy:
         document.execCommand('copy');
         break;
-      case 'cut':
+      case MenuItemRole.Cut:
         document.execCommand('cut');
         break;
-      case 'paste':
+      case MenuItemRole.Paste:
         document.execCommand('paste');
         break;
-      case 'selectAll':
+      case MenuItemRole.SelectAll:
         document.execCommand('selectAll');
         break;
-      case 'quit':
-      case 'close':
+      case MenuItemRole.Quit:
+      case MenuItemRole.Close:
         hostPort?.closeWindow?.();
         break;
     }
   }
 
-  function activateItem(item: MenuItemDescriptor): void {
-    if (item.type === 'separator' || !isItemEnabled(item)) return;
-
-    if (
-      item.role &&
-      ['copy', 'cut', 'paste', 'selectAll', 'quit', 'close'].includes(item.role)
-    ) {
-      runEditRole(item.role);
-      closeMenuBar();
-      return;
-    }
-
-    if (!item.commandId) return;
-
-    const payload = item.commandPayload ?? undefined;
-    editor.executeCommand(item.commandId, payload);
+  function activateItem(item: ResolvedMenuItem): void {
+    activateMenuItem(item, {
+      executeCommand: (commandId, payload) => editor.executeCommand(commandId, payload),
+      closeWindow: () => hostPort?.closeWindow?.(),
+      runEditRole,
+    });
     closeMenuBar();
   }
 
   return {
     openGroupId,
     isMenuOpen,
+    resolvedMenu,
     onTriggerClick,
     onTriggerHover,
     closeMenuBar,

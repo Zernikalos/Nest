@@ -1,5 +1,6 @@
 import {BrowserWindow, dialog} from "electron";
 import {cleanDialogReturnValue, PathInfo} from "./cleanDialogReturnValue";
+import { prepareWindowForDialog } from "./prepareWindowForDialog";
 import SaveDialogOptions = Electron.SaveDialogOptions;
 import _ from "lodash";
 
@@ -20,6 +21,7 @@ export async function bundleSceneDialog(browserWindow: BrowserWindow): Promise<P
         config.defaultPath = lastPath
     }
 
+    await prepareWindowForDialog(browserWindow);
     const dialogReturnValue = await dialog.showSaveDialog(browserWindow,config)
     const cleanedValue = cleanDialogReturnValue(dialogReturnValue)
     if (cleanedValue) {

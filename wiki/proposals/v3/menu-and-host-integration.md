@@ -2,7 +2,7 @@
 
 ## Status
 
-Draft. Follows the menu refactoring commit (command IDs, `APP_MENU_MANIFEST`, `HostPort`, `ide-core/common` layout).
+Implemented (Options A, B1, C from this proposal). See `ide-core/src/common/host/`, `ide-core/src/common/menu/resolveMenuManifest.ts`, `electronapp/src/host/`, `electronapp/src/menu/manifestAdapter.ts`, and `vueui/src/adapters/createElectronHostPort.ts`.
 
 ## Context
 

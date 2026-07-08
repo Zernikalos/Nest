@@ -26,6 +26,12 @@ Do not import `ide-core/src/...` internal paths.
 - **Serializable view models** via `getSnapshot()` / `getSlice()`
 - **Domain editors**: Zustand (vanilla) + Immer via `DomainEditorBase`
 
+## Host dialogs and menu
+
+- **`HostDialogsPort`** (`common/host/hostDialogsPort.ts`) — unified file/system dialog API
+- **`HostDialogIpcChannel`** + **`createHostDialogsPreloadBridge`** (`@ide-core/electron`) — IPC protocol and preload bridge
+- **`APP_MENU_MANIFEST`** — single menu tree; use **`resolveMenuManifest`** and **`activateMenuItem`** for platform adapters
+
 ## Usage (core)
 
 ```ts
@@ -52,14 +58,14 @@ import {
 ## Usage (Electron main)
 
 ```ts
-import { FILE_OPEN_PROJECT } from '@ide-core';
-import { IDE_IPC_CHANNELS, DEFAULT_MENU_CONTEXT } from '@ide-core/electron';
+import { CommandId } from '@ide-core';
+import { IdeIpcChannel, HostDialogIpcChannel, DEFAULT_MENU_CONTEXT } from '@ide-core/electron';
 ```
 
 ## Usage (browser host)
 
 ```ts
-import { createNoOpHostPort, type HostPort } from '@ide-core/browser';
+import { createNoOpHostPort, type HostPort, type HostDialogsPort } from '@ide-core/browser';
 ```
 
 ## Tests

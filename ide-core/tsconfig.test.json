@@ -4,5 +4,5 @@
     "noEmit": true,
     "rootDir": "."
   },
-  "include": ["src/common/**/*.ts", "src/vue/**/*.ts", "src/electron/**/*.ts", "src/browser/**/*.ts"]
+  "include": ["src/common/**/*.ts", "src/vue/**/*.ts", "src/electron/**/*.ts"]
 }

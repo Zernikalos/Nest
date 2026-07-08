@@ -13,31 +13,6 @@ function off(name: string) {
   subscriptions.delete(name);
 }
 
-function onLoadZko(cb: (data: unknown) => void) {
-  // Deprecated: kept for compatibility during transition.
-  if (!isElectron) return;
-}
-
-function onImportFile(cb: (data: unknown) => void) {
-  // Deprecated: kept for compatibility during transition.
-  if (!isElectron) return;
-}
-
-function onBundleScene(cb: () => void) {
-  // Deprecated: kept for compatibility during transition.
-  if (!isElectron) return;
-}
-
-function onCreateProject(cb: () => void) {
-  // Deprecated: kept for compatibility during transition.
-  if (!isElectron) return;
-}
-
-function onOpenProject(cb: (data: { filePath: string }) => void) {
-  // Deprecated: kept for compatibility during transition.
-  if (!isElectron) return;
-}
-
 function onExecuteCommand(cb: (data: { commandId: string; payload?: unknown }) => void) {
   if (!isElectron || subscriptions.has('executeCommand')) return;
   const sub = window.NativeZernikalos?.onExecuteCommand?.((_ev, data) => cb(data));
@@ -47,27 +22,13 @@ function onExecuteCommand(cb: (data: { commandId: string; payload?: unknown }) =
 const api = ref({
   isElectron,
   onExecuteCommand,
-  onLoadZko,
-  onImportFile,
-  onBundleScene,
-  onCreateProject,
-  onOpenProject,
   offExecuteCommand: () => off('executeCommand'),
-  offLoadZko: () => off('loadZko'),
-  offImportFile: () => off('importFile'),
-  offBundleScene: () => off('bundleScene'),
-  offCreateProject: () => off('createProject'),
-  offOpenProject: () => off('openProject'),
 });
 
 provide('electron', api);
 
 onUnmounted(() => {
-  off('loadZko');
-  off('importFile');
-  off('bundleScene');
-  off('createProject');
-  off('openProject');
+  off('executeCommand');
 });
 </script>
 

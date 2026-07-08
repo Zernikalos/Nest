@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { HostPlatform } from '@ide-core/browser';
+import { HostPlatform } from '@ide-core/vue';
 
 export { HostPlatform };
 

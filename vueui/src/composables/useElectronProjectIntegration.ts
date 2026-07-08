@@ -38,7 +38,7 @@ export function useElectronProjectIntegration() {
             if (data?.path && data?.fileName) {
                 return;
             }
-            void hostPort?.menuLoadZko?.().then((picked) => {
+            void hostPort?.loadZko?.().then((picked) => {
                 if (!picked) return;
                 // Handler body for load ZKO remains a placeholder until implemented
                 console.info('[loadZko] picked file', picked);
@@ -71,14 +71,19 @@ export function useElectronProjectIntegration() {
 
             const format = data.format as AssetFormat | undefined;
             if (!format) return;
-            void hostPort?.menuImportFile?.(format).then((picked) => {
-                if (!picked) return;
-                runImport({
-                    path: picked.path,
-                    fileName: picked.fileName,
-                    format: picked.format,
+            void hostPort?.importFile?.(format)
+                .then((picked) => {
+                    if (!picked) return;
+                    runImport({
+                        path: picked.path,
+                        fileName: picked.fileName,
+                        format: picked.format,
+                    });
+                })
+                .catch((err) => {
+                    console.error('[importFile] dialog failed:', err);
+                    editor.setProjectPersistWarning('Could not open the import file dialog.');
                 });
-            });
         });
 
         editor.registerCommand(CommandId.FILE_BUNDLE_SCENE, () => {
@@ -92,16 +97,15 @@ export function useElectronProjectIntegration() {
                 return;
             }
 
-            const saveFile = window.NativeZernikalos?.actionSaveFile;
-            if (!saveFile) {
-                console.warn('[bundleScene] NativeZernikalos.actionSaveFile not available');
+            if (!hostPort?.saveBundledScene) {
+                console.warn('[bundleScene] hostPort.saveBundledScene not available');
                 editor.setProjectPersistWarning(
                     'Bundle scene is not available in this environment.'
                 );
                 return;
             }
 
-            void saveFile(proto).catch((err) => {
+            void hostPort.saveBundledScene(proto).catch((err) => {
                 console.error('Failed to save bundle scene', err);
                 editor.setProjectPersistWarning('Failed to save bundle scene.');
             });
@@ -119,7 +123,7 @@ export function useElectronProjectIntegration() {
                     .catch((err) => console.error('Failed to open project:', err));
                 return;
             }
-            void hostPort?.showOpenProjectDialog?.().then((filePath) => {
+            void hostPort?.openProject?.().then((filePath) => {
                 if (!filePath) return;
                 void openProject(filePath)
                     .then(() => router.push('/projects'))

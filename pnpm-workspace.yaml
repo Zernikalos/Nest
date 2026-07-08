@@ -4,17 +4,29 @@ packages:
   - 'nestserver'
   - 'vueui'
 
+managePackageManagerVersions: true
+
 # Flat node_modules (matches CI); avoids Rolldown failing to resolve @vue/* with pnpm isolated layout
 nodeLinker: hoisted
 
+# Supply chain protection (pnpm 11 defaults; explicit for clarity)
+minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - '@zernikalos/*'
 
 # Transitive deps must resolve from registry / workspace / trusted sources only
 # (blocks git+, tarball URLs, etc. in subdependencies)
 blockExoticSubdeps: true
+strictDepBuilds: true
 
-# Explicit lifecycle-script allowlist (strictDepBuilds defaults to true)
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - '@zernikalos/*'
+trustPolicyIgnoreAfter: 10080
+
+verifyDepsBeforeRun: install
+
+# Explicit lifecycle-script allowlist
 allowBuilds:
   simple-git-hooks: true
   esbuild: false
@@ -28,3 +40,19 @@ allowBuilds:
 
 hoist-pattern:
   - '!*electron*'
+
+peerDependencyRules:
+  allowedVersions:
+    # Published @zernikalos/zkbuilder@0.7.1 metadata still asks for 0.9.0,
+    # while the local source for the same version has moved to 0.10.0.
+    "@zernikalos/zkbuilder>@zernikalos/zernikalos": "0.10.0"
+
+# Temporary: force patched transitive deps from lerna / electron-builder trees.
+# Remove once upstream dependency trees no longer resolve vulnerable versions.
+overrides:
+  "tmp@<0.2.6": ">=0.2.6"
+  "form-data@<4.0.6": ">=4.0.6"
+  "undici@<7.28.0": ">=7.28.0"
+  "protobufjs@<=7.6.0": ">=7.6.1"
+  "@xmldom/xmldom@>=0.9.0 <0.9.10": ">=0.9.10"
+  "multer@>=1.0.0 <2.2.0": ">=2.2.0"
