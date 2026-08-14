@@ -41,18 +41,34 @@ allowBuilds:
 hoist-pattern:
   - '!*electron*'
 
-peerDependencyRules:
-  allowedVersions:
-    # Published @zernikalos/zkbuilder@0.7.1 metadata still asks for 0.9.0,
-    # while the local source for the same version has moved to 0.10.0.
-    "@zernikalos/zkbuilder>@zernikalos/zernikalos": "0.10.0"
-
-# Temporary: force patched transitive deps from lerna / electron-builder trees.
+# Temporary: force patched transitive deps from lerna / electron-builder / vue-router trees.
+# Pin exact versions per major so ">=x" does not jump to the next breaking line.
 # Remove once upstream dependency trees no longer resolve vulnerable versions.
 overrides:
   "tmp@<0.2.6": ">=0.2.6"
   "form-data@<4.0.6": ">=4.0.6"
-  "undici@<7.28.0": ">=7.28.0"
+  "undici@<8": "7.29.0"
+  "undici@>=8 <9": "8.10.0"
   "protobufjs@<=7.6.0": ">=7.6.1"
   "@xmldom/xmldom@>=0.9.0 <0.9.10": ">=0.9.10"
   "multer@>=1.0.0 <2.2.0": ">=2.2.0"
+  "brace-expansion@<2": "1.1.18"
+  "brace-expansion@>=2 <4": "2.1.4"
+  "brace-expansion@>=4": "5.0.9"
+  "fast-uri@>=3 <4": "3.1.5"
+  "ip-address@<=10.3.0": "10.5.0"
+  "js-yaml@>=3 <4": "3.15.1"
+  "js-yaml@>=4 <5": "4.3.1"
+  "nanoid@>=3 <4": "3.3.18"
+  "nanoid@>=4 <6": "5.1.16"
+  "postcss@<=8.5.22": "8.5.26"
+  "tar@<=7.5.20": "7.5.22"
+  "dompurify@<=3.4.12": "3.4.13"
+  "conventional-commits-parser@<7.1.2": "7.1.2"
+
+# image-size@2.0.3 is not published yet (latest is 2.0.2, via @zernikalos/zkbuilder).
+# Drop these ignores once image-size ships a patch and zkbuilder bumps it.
+auditConfig:
+  ignoreGhsas:
+    - GHSA-w3rx-r6r6-pgpr
+    - GHSA-5p2g-fcmc-qvqq
