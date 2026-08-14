@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/Zernikalos/Nest/compare/v0.3.0...v0.3.1) (2026-08-14)
+
+### Bug Fixes
+
+* 🐛 UI fix for Mac OS new frame ([ed7414f](https://github.com/Zernikalos/Nest/commit/ed7414fb72b78497c9d5c298928079d327f7cb20))
+
+
+## [0.3.1](https://github.com/Zernikalos/Nest/compare/v0.3.0...v0.3.1) (2026-08-14)
+
+### Bug Fixes
+
+* 🐛 UI fix for Mac OS new frame ([ed7414f](https://github.com/Zernikalos/Nest/commit/ed7414fb72b78497c9d5c298928079d327f7cb20))
+
+
 # [0.3.0](https://github.com/Zernikalos/Nest/compare/v0.2.0...v0.3.0) (2026-05-24)
 
 
